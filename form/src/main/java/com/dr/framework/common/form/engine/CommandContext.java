@@ -1,6 +1,7 @@
 package com.dr.framework.common.form.engine;
 
 import com.dr.framework.common.dao.CommonMapper;
+import org.springframework.context.ApplicationContext;
 
 /**
  * 命令上下文，用来给命令提供上下文参数
@@ -21,5 +22,12 @@ public interface CommandContext {
      * @return
      */
     CommandExecutor getExecutor();
+
+    /**
+     * 获取spring上下文
+     *
+     * @return
+     */
+    ApplicationContext getApplicationContext();
 
 }

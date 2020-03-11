@@ -7,6 +7,8 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import javax.cache.CacheManager;
+
 /**
  * @author dr
  */
@@ -32,6 +34,11 @@ public class StandCommandContext implements CommandContext, ApplicationContextAw
     @Override
     public ApplicationContext getApplicationContext() {
         return applicationContext;
+    }
+
+    @Override
+    public CacheManager getCacheManager() {
+        return null;
     }
 
     public void setExecutor(CommandExecutor executor) {

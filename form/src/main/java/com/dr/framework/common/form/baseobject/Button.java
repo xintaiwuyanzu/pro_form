@@ -1,12 +1,23 @@
-package com.dr.framework.form.definition.baseobject;
+package com.dr.framework.common.form.baseobject;
 
-public interface FormExtend {
+/**
+ * @author caor
+ * @date 2019/12/10 15:02
+ */
+public interface Button {
     /**
-     * 获取key
+     * 获取编码
      *
      * @return
      */
-    String getKey();
+    String getCode();
+
+    /**
+     * 获取方法
+     *
+     * @return
+     */
+    String getMethod();
 
     /**
      * 获取名称
@@ -16,11 +27,11 @@ public interface FormExtend {
     String getName();
 
     /**
-     * 获取值
+     * 获取链接
      *
      * @return
      */
-    String getValue();
+    String getUrl();
 
     /**
      * 获取类型
@@ -28,6 +39,13 @@ public interface FormExtend {
      * @return
      */
     String getType();
+
+    /**
+     * 获取顺序号
+     *
+     * @return
+     */
+    String getOrder();
 
     /**
      * 获取状态
@@ -42,13 +60,6 @@ public interface FormExtend {
      * @return
      */
     String getDataobjectId();
-
-    /**
-     * 获取顺序号
-     *
-     * @return
-     */
-    int getOrder();
 
     /**
      * 获取描述

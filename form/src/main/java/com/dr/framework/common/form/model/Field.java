@@ -1,29 +1,34 @@
-package com.dr.framework.form.definition.baseobject;
+package com.dr.framework.common.form.model;
 
-public interface FieldExtend {
+/**
+ * 字段
+ *
+ * @author caor
+ */
+public interface Field {
     /**
-     * 获取key
+     * 获取字段编码
      *
      * @return
      */
-    String getKey();
+    String getCode();
 
     /**
-     * 获取名称
+     * 获取字段名称
      *
      * @return
      */
     String getName();
 
     /**
-     * 获取值
+     * 获取字段值
      *
      * @return
      */
-    String getValue();
+    Object getValue();
 
     /**
-     * 获取类型
+     * 获取字段类型
      *
      * @return
      */
@@ -37,6 +42,27 @@ public interface FieldExtend {
     String getState();
 
     /**
+     * 获取字段描述
+     *
+     * @return
+     */
+    String getDescription();
+
+    /**
+     * 获取字段顺序号
+     *
+     * @return
+     */
+    int getOrder();
+
+    /**
+     * 获取字段长度
+     *
+     * @return
+     */
+    int getLength();
+
+    /**
      * 获取数据权限
      *
      * @return
@@ -44,28 +70,14 @@ public interface FieldExtend {
     String getDataobjectId();
 
     /**
-     * 获取顺序号
-     *
-     * @return
-     */
-    int getOrder();
-
-    /**
-     * 获取描述
-     *
-     * @return
-     */
-    String getDescription();
-
-    /**
-     * 是否启用历史版本
+     * 是否使用历史版本
      *
      * @return
      */
     boolean historyVersion();
 
     /**
-     * 获取版本
+     * 获取版本号
      *
      * @return
      */

@@ -1,4 +1,4 @@
-package com.dr.framework.form.definition.baseobject;
+package com.dr.framework.common.form.baseobject;
 
 /**
  * 表单的显示方案

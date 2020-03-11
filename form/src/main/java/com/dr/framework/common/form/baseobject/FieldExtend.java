@@ -1,32 +1,29 @@
-package com.dr.framework.form.definition.baseobject;
+package com.dr.framework.common.form.baseobject;
 
-/**
- * 表单
- */
-public interface Form {
+public interface FieldExtend {
     /**
-     * 获取表单ID
+     * 获取key
      *
      * @return
      */
-    String getId();
+    String getKey();
 
     /**
-     * 获取表单编码
-     *
-     * @return
-     */
-    String getCode();
-
-    /**
-     * 获取表单名称
+     * 获取名称
      *
      * @return
      */
     String getName();
 
     /**
-     * 获取表单类型
+     * 获取值
+     *
+     * @return
+     */
+    String getValue();
+
+    /**
+     * 获取类型
      *
      * @return
      */
@@ -40,32 +37,25 @@ public interface Form {
     String getState();
 
     /**
-     * 获取数据库表名
+     * 获取数据权限
      *
      * @return
      */
-    String getTable();
+    String getDataobjectId();
 
     /**
-     * 获取表单描述
-     *
-     * @return
-     */
-    String getDescription();
-
-    /**
-     * 获取表单顺序号
+     * 获取顺序号
      *
      * @return
      */
     int getOrder();
 
     /**
-     * 获取数据权限
+     * 获取描述
      *
      * @return
      */
-    String getDataobjectId();
+    String getDescription();
 
     /**
      * 是否启用历史版本
@@ -75,7 +65,7 @@ public interface Form {
     boolean historyVersion();
 
     /**
-     * 获取表单版本
+     * 获取版本
      *
      * @return
      */

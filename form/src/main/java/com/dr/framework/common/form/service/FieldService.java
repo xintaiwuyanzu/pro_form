@@ -1,7 +1,7 @@
-package com.dr.framework.form.definition.service;
+package com.dr.framework.common.form.service;
 
-import com.dr.framework.form.definition.baseobject.Field;
-import com.dr.framework.form.definition.baseobject.FieldDisplay;
+import com.dr.framework.common.form.baseobject.FieldDisplay;
+import com.dr.framework.common.form.model.Field;
 
 import java.util.List;
 

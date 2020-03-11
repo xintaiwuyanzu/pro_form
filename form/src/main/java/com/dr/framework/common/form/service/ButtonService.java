@@ -1,4 +1,4 @@
-package com.dr.framework.form.definition.service;
+package com.dr.framework.common.form.service;
 
 /**
  * @author caor

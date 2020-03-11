@@ -1,34 +1,32 @@
-package com.dr.framework.form.definition.baseobject;
+package com.dr.framework.common.form.model;
 
 /**
- * 字段
- *
- * @author caor
+ * 表单
  */
-public interface Field {
+public interface Form {
     /**
-     * 获取字段编码
+     * 获取表单ID
+     *
+     * @return
+     */
+    String getId();
+
+    /**
+     * 获取表单编码
      *
      * @return
      */
     String getCode();
 
     /**
-     * 获取字段名称
+     * 获取表单名称
      *
      * @return
      */
     String getName();
 
     /**
-     * 获取字段值
-     *
-     * @return
-     */
-    Object getValue();
-
-    /**
-     * 获取字段类型
+     * 获取表单类型
      *
      * @return
      */
@@ -42,25 +40,25 @@ public interface Field {
     String getState();
 
     /**
-     * 获取字段描述
+     * 获取数据库表名
+     *
+     * @return
+     */
+    String getTable();
+
+    /**
+     * 获取表单描述
      *
      * @return
      */
     String getDescription();
 
     /**
-     * 获取字段顺序号
+     * 获取表单顺序号
      *
      * @return
      */
     int getOrder();
-
-    /**
-     * 获取字段长度
-     *
-     * @return
-     */
-    int getLength();
 
     /**
      * 获取数据权限
@@ -70,14 +68,14 @@ public interface Field {
     String getDataobjectId();
 
     /**
-     * 是否使用历史版本
+     * 是否启用历史版本
      *
      * @return
      */
     boolean historyVersion();
 
     /**
-     * 获取版本号
+     * 获取表单版本
      *
      * @return
      */

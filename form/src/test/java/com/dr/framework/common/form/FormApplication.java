@@ -20,4 +20,5 @@ public class FormApplication {
     CommandContextFactory commandContextFactory() {
         return new StandCommandContextFactory();
     }
+
 }

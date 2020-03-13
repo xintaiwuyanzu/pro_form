@@ -5,14 +5,13 @@ import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.engine.CommandExecutor;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 
 import javax.cache.CacheManager;
 
 /**
  * @author dr
  */
-public class StandCommandContext implements CommandContext, ApplicationContextAware {
+public class StandCommandContext implements CommandContext {
     private CommonMapper mapper;
     private CommandExecutor executor;
     private ApplicationContext applicationContext;
@@ -45,8 +44,8 @@ public class StandCommandContext implements CommandContext, ApplicationContextAw
         this.executor = executor;
     }
 
-    @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
+
 }

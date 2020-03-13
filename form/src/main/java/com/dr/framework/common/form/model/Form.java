@@ -16,35 +16,35 @@ public interface Form {
      *
      * @return
      */
-    String getCode();
+    String getFormCode();
 
     /**
      * 获取表单名称
      *
      * @return
      */
-    String getName();
+    String getFormName();
 
     /**
      * 获取表单类型
      *
      * @return
      */
-    String getType();
+    String getFormType();
 
     /**
      * 获取状态
      *
      * @return
      */
-    String getState();
+    String getFormState();
 
     /**
      * 获取数据库表名
      *
      * @return
      */
-    String getTable();
+    String getFormTable();
 
     /**
      * 获取表单描述
@@ -58,14 +58,14 @@ public interface Form {
      *
      * @return
      */
-    int getOrder();
+    int getFormOrder();
 
     /**
      * 获取数据权限
      *
      * @return
      */
-    String getDataobjectId();
+    String getDataObjectId();
 
     /**
      * 是否启用历史版本

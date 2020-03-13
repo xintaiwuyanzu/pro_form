@@ -11,35 +11,35 @@ public interface Field {
      *
      * @return
      */
-    String getCode();
+    String getFieldCode();
 
     /**
      * 获取字段名称
      *
      * @return
      */
-    String getName();
+    String getFieldName();
 
     /**
      * 获取字段值
      *
      * @return
      */
-    Object getValue();
+    Object getFieldValue();
 
     /**
      * 获取字段类型
      *
      * @return
      */
-    String getType();
+    String getFieldType();
 
     /**
      * 获取状态
      *
      * @return
      */
-    String getState();
+    String getFieldState();
 
     /**
      * 获取字段描述
@@ -53,21 +53,21 @@ public interface Field {
      *
      * @return
      */
-    int getOrder();
+    int getFieldOrder();
 
     /**
      * 获取字段长度
      *
      * @return
      */
-    int getLength();
+    int getFieldLength();
 
     /**
      * 获取数据权限
      *
      * @return
      */
-    String getDataobjectId();
+    String getDataObjectId();
 
     /**
      * 是否使用历史版本

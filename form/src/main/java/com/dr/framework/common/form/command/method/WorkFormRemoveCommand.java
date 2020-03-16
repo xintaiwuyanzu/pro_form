@@ -47,4 +47,5 @@ public class WorkFormRemoveCommand implements Command {
         DataBaseService dataBaseService = context.getApplicationContext().getBean(DataBaseService.class);
         dataBaseService.dropTable(tableName, Constans.MODULE_NAME);
     }
+
 }

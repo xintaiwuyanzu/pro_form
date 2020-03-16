@@ -8,6 +8,7 @@ import com.dr.framework.common.form.model.Form;
 import com.dr.framework.common.form.util.Constans;
 import com.dr.framework.common.service.DataBaseService;
 import com.dr.framework.core.orm.jdbc.Column;
+import com.dr.framework.core.orm.jdbc.TrueOrFalse;
 import com.dr.framework.core.orm.module.ConfigedRelation;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -70,9 +71,9 @@ public class WorkFormInsertCommand implements Command<Form> {
         //是否生成表
         DataBaseService dataBaseService = context.getApplicationContext().getBean(DataBaseService.class);
         ConfigedRelation configedRelation = new ConfigedRelation(generate);
-        //configedRelation.setId(formData.getId());
+        configedRelation.setId(formData.getId());
         configedRelation.addPrimaryKey("pk", "id", 0);
-        //todo 修改获取表名，为按规则生成！
+        //TODO 修改获取表名，为按规则生成！
         configedRelation.setName(formData.getFormTable());
         configedRelation.setModule(Constans.MODULE_NAME);
         List<FormField> list = formData.getFormFieldList();
@@ -82,7 +83,7 @@ public class WorkFormInsertCommand implements Command<Form> {
             column.setTableName(formData.getFormTable());
             column.setType(Types.VARCHAR);
             column.setSize(formField.getFieldLength());
-            //column.setNullAble();
+            column.setNullAble(TrueOrFalse.FALSE);
             configedRelation.addColumn(column);
         }
         dataBaseService.updateTable(configedRelation);

@@ -28,8 +28,6 @@ public class FormDisplaySchemeCommand implements Command<FormDisplayScheme> {
         if (StringUtils.isEmpty(formDisplayScheme.getId())) {
             formDisplayScheme.setId(UUID.randomUUID().toString());
         }
-        //先保存显示方案主表信息
-        context.getMapper().insert(formDisplayScheme);
         if (fieldDisplayList.size() > 0) {
             for (FieldDisplayScheme fieldDisplayScheme : fieldDisplayList) {
                 fieldDisplayScheme.setFormDisplayId(formDisplayScheme.getId());
@@ -37,8 +35,11 @@ public class FormDisplaySchemeCommand implements Command<FormDisplayScheme> {
                 if (StringUtils.isEmpty(fieldDisplayScheme.getId())) {
                     fieldDisplayScheme.setId(UUID.randomUUID().toString());
                 }
+                //先保存各字段的显示信息
                 context.getMapper().insert(fieldDisplayScheme);
             }
+            //再保存显示方案主表信息
+            context.getMapper().insert(formDisplayScheme);
             //将各字段显示信息保存在主表显示方案中
             formDisplayScheme.setFieldDisplayList(fieldDisplayList);
         }

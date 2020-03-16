@@ -1,8 +1,11 @@
 package com.dr.framework.common.form.command.entity;
 
 import com.dr.framework.common.entity.BaseStatusEntity;
+import com.dr.framework.common.form.util.Constans;
 import com.dr.framework.core.orm.annotations.Column;
+import com.dr.framework.core.orm.annotations.Table;
 
+@Table(name = Constans.TABLE_PREFIX + "FieldDisplayScheme", module = Constans.MODULE_NAME, comment = "表单字段显示方案")
 public class FieldDisplayScheme extends BaseStatusEntity<String> {
 
     @Column(name = "formId", comment = "表单id")
@@ -20,8 +23,8 @@ public class FieldDisplayScheme extends BaseStatusEntity<String> {
     @Column(name = "display", comment = "显示方案")
     private String display;
 
-    @Column(name = "nullAble", comment = "是否为空")
-    private boolean nullAble;
+    @Column(name = "isNotNull", comment = "是否为空")
+    private boolean isNotNull;
 
     @Column(name = "defaultEnable", comment = "默认启用")
     private boolean defaultEnable;
@@ -72,12 +75,12 @@ public class FieldDisplayScheme extends BaseStatusEntity<String> {
         this.display = display;
     }
 
-    public boolean isNullAble() {
-        return nullAble;
+    public boolean isNotNull() {
+        return isNotNull;
     }
 
-    public void setNullAble(boolean nullAble) {
-        this.nullAble = nullAble;
+    public void setNotNull(boolean notNull) {
+        isNotNull = notNull;
     }
 
     public boolean isDefaultEnable() {

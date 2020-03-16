@@ -43,8 +43,6 @@ public class WorkFormInsertCommand implements Command<Form> {
         if (StringUtils.isEmpty(formData.getId())) {
             formData.setId(UUID.randomUUID().toString());
         }
-        //先保存表单的数据
-        context.getMapper().insert(formData);
         //再遍历表单中的字段，将formId插入到字段表中
         if (formFieldList.size() > 0) {
             List<FormField> list = new ArrayList<FormField>();
@@ -57,6 +55,8 @@ public class WorkFormInsertCommand implements Command<Form> {
                 context.getMapper().insert(formField);
                 list.add(formField);
             }
+            //再保存表单的数据
+            context.getMapper().insert(formData);
             //将字段信息和表单数据返回；
             formData.setFormFieldList(list);
         }

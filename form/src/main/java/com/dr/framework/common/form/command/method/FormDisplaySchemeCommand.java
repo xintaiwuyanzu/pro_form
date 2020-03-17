@@ -21,6 +21,12 @@ public class FormDisplaySchemeCommand implements Command<FormDisplayScheme> {
         this.fieldDisplayList = fieldDisplayList;
     }
 
+    /**
+     * 保存显示方案
+     *
+     * @param context
+     * @return
+     */
     @Override
     public FormDisplayScheme execute(CommandContext context) {
         Assert.notNull(formDisplayScheme, "显示方案不能为空");

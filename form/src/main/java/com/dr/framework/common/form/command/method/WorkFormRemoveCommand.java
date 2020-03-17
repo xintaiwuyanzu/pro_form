@@ -12,7 +12,7 @@ import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-public class WorkFormRemoveCommand implements Command {
+public class WorkFormRemoveCommand implements Command<Long> {
 
     private String formId;
 
@@ -23,8 +23,14 @@ public class WorkFormRemoveCommand implements Command {
         this.retain = retain;
     }
 
+    /**
+     * 删除表单数据，表单定义
+     *
+     * @param context
+     * @return long
+     */
     @Override
-    public Object execute(CommandContext context) {
+    public Long execute(CommandContext context) {
         Assert.isTrue(!StringUtils.isEmpty(formId), "请选择需要删除的表单");
         //根据表单Id查询表单主表数据
         WorkForm workForm = context.getMapper().selectById(WorkForm.class, formId);

@@ -10,7 +10,7 @@ import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
-public class FormDisplayRemoveCommand implements Command {
+public class FormDisplayRemoveCommand implements Command<Long> {
 
     private String formDisplayId;
 
@@ -18,10 +18,15 @@ public class FormDisplayRemoveCommand implements Command {
         this.formDisplayId = formDisplayId;
     }
 
+    /**
+     * 删除显示方案
+     *
+     * @param context
+     * @return long
+     */
     @Override
-    public Object execute(CommandContext context) {
+    public Long execute(CommandContext context) {
         Assert.isTrue(StringUtils.isNotEmpty(formDisplayId), "显示方案主键不能为空");
-
         //根据显示方案主键删除各字段显示方案设定的值
         context.getMapper().deleteByQuery(SqlQuery.from(FieldDisplayScheme.class).equal(FieldDisplaySchemeInfo.FORMDISPLAYID, formDisplayId));
         //然后删除主表信息

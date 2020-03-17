@@ -1,44 +1,61 @@
 package com.dr.framework.common.form.command.method;
 
+import com.dr.framework.common.form.command.entity.FormField;
+import com.dr.framework.common.form.command.entity.FormFieldInfo;
 import com.dr.framework.common.form.command.entity.WorkForm;
 import com.dr.framework.common.form.command.entity.WorkFormInfo;
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
-import com.dr.framework.common.form.model.Form;
-import com.dr.framework.common.form.util.Constans;
-import com.dr.framework.common.service.DataBaseService;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.Assert;
 
-public class WorkFormSelectCommand implements Command<Form> {
+import java.util.ArrayList;
+import java.util.List;
+
+public class WorkFormSelectCommand implements Command<List> {
     private String formId;
-    private String formDataId;
+    private String formCode;
+    private String formType;
+    private String formName;
 
-    public WorkFormSelectCommand(String formId, String formDataId) {
+    public WorkFormSelectCommand(String formId, String formCode, String formType, String formName) {
         this.formId = formId;
-        this.formDataId = formDataId;
+        this.formCode = formCode;
+        this.formType = formType;
+        this.formName = formName;
     }
-
 
     /**
-     * 查询单个表单的实例数据
+     * 多条件查询表单定义
      *
      * @param context
-     * @return
+     * @return List
      */
     @Override
-    public Form execute(CommandContext context) {
-        Assert.isTrue(StringUtils.isNotEmpty(formId), "表单id不能为空");
-        Assert.isTrue(StringUtils.isNotEmpty(formDataId), "表单实例id不能为空");
-        SqlQuery<WorkForm> sqlQuery = SqlQuery.from(WorkForm.class).equal(WorkFormInfo.ID, formId);
-        WorkForm workForm = context.getMapper().selectOneByQuery(sqlQuery);
-        Assert.notNull(workForm, "系统未发现该表单");
-        //判断表是否存在
-        DataBaseService dataBaseService = context.getApplicationContext().getBean(DataBaseService.class);
-        Assert.isTrue(dataBaseService.tableExist(workForm.getFormTable(), Constans.MODULE_NAME), "未发现数据实例表");
-        //todo 如果存在则查询表单实例数据
-        return null;
+    public List<WorkForm> execute(CommandContext context) {
+        List<WorkForm> listForm = new ArrayList<>();
+        SqlQuery sqlQuery = SqlQuery.from(WorkForm.class);
+        if (StringUtils.isNotEmpty(formId)) {
+            sqlQuery.equal(WorkFormInfo.ID, formId);
+        }
+        if (StringUtils.isNotEmpty(formCode)) {
+            sqlQuery.equal(WorkFormInfo.FORMCODE, formCode);
+        }
+        if (StringUtils.isNotEmpty(formType)) {
+            sqlQuery.equal(WorkFormInfo.FORMTYPE, formType);
+        }
+        if (StringUtils.isNotEmpty(formName)) {
+            sqlQuery.equal(WorkFormInfo.FORMNAME, formName);
+        }
+        //根据条件查询表单定义数据
+        List<WorkForm> list = context.getMapper().selectByQuery(sqlQuery);
+        if (list.size() > 0) {
+            for (WorkForm workForm : list) {
+                List<FormField> listFiled = context.getMapper().selectByQuery(SqlQuery.from(FormField.class).equal(FormFieldInfo.FORMID, workForm.getId()));
+                workForm.setFormFieldList(listFiled);
+                listForm.add(workForm);
+            }
+        }
+        return listForm;
     }
-
 }

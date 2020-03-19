@@ -2,6 +2,7 @@ package com.dr.framework.common.form.command.method;
 
 import com.dr.framework.common.form.command.entity.FormField;
 import com.dr.framework.common.form.command.entity.WorkForm;
+import com.dr.framework.common.form.command.method.plugin.CreateWorkFormPlugin;
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.model.Form;
@@ -16,6 +17,7 @@ import org.springframework.util.StringUtils;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class WorkFormInsertCommand implements Command<Form> {
@@ -85,6 +87,14 @@ public class WorkFormInsertCommand implements Command<Form> {
             column.setSize(formField.getFieldLength());
             column.setNullAble(TrueOrFalse.FALSE);
             configedRelation.addColumn(column);
+        }
+        //通过插件拦截创建表结构行为
+        Map<String, CreateWorkFormPlugin> workFormPluginMap = context.getApplicationContext().getBeansOfType(CreateWorkFormPlugin.class);
+        for (String beanName : workFormPluginMap.keySet()) {
+            CreateWorkFormPlugin plugin = workFormPluginMap.get(beanName);
+            if (formData.getFormType().equals(plugin.formType())) {
+                plugin.beforeCreate(configedRelation);
+            }
         }
         dataBaseService.updateTable(configedRelation);
     }

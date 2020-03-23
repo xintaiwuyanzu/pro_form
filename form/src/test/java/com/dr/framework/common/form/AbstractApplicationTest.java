@@ -1,9 +1,9 @@
 package com.dr.framework.common.form;
 
-import com.dr.framework.common.form.command.entity.FormField;
-import com.dr.framework.common.form.command.entity.WorkForm;
-import com.dr.framework.common.form.command.method.WorkFormInsertCommand;
-import com.dr.framework.common.form.command.method.WorkFormRemoveCommand;
+import com.dr.framework.common.form.core.entity.FormField;
+import com.dr.framework.common.form.core.entity.WorkForm;
+import com.dr.framework.common.form.core.command.WorkFormInsertCommand;
+import com.dr.framework.common.form.core.command.WorkFormRemoveCommand;
 import com.dr.framework.common.form.engine.CommandExecutor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -55,7 +55,7 @@ public class AbstractApplicationTest {
         formField1.setFieldState("0");
         formField1.setFieldValue("ceshi");
         list.add(formField1);
-        commandExecutor.execute(new WorkFormInsertCommand(workForm, list, true));
+        commandExecutor.execute(new WorkFormInsertCommand(workForm, list, true, nameGenerator));
     }
 
     @Test

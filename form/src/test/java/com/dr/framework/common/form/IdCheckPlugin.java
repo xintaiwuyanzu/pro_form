@@ -1,14 +1,11 @@
 package com.dr.framework.common.form;
 
-import com.dr.framework.common.form.command.method.plugin.CreateWorkFormPlugin;
-import com.dr.framework.common.form.engine.Plugin;
+import com.dr.framework.common.form.core.plugin.CreateWorkFormPlugin;
 import com.dr.framework.core.orm.jdbc.Column;
 import com.dr.framework.core.orm.jdbc.Relation;
 import com.dr.framework.core.orm.jdbc.TrueOrFalse;
 
 import java.sql.Types;
-import java.util.ArrayList;
-import java.util.List;
 
 public class IdCheckPlugin implements CreateWorkFormPlugin {
     @Override
@@ -23,7 +20,7 @@ public class IdCheckPlugin implements CreateWorkFormPlugin {
     }
 
     @Override
-    public String formType() {
+    public String type() {
         return "gongWen";
     }
 

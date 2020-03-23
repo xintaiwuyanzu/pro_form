@@ -3,7 +3,6 @@ package com.dr.framework.common.form.engine.impl;
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContextFactory;
 import com.dr.framework.common.form.engine.CommandExecutor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 默认标准命令执行器
@@ -12,8 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class StandCommandExecutor implements CommandExecutor {
 
-    @Autowired
     private CommandContextFactory commandContextFactory;
+
+    public StandCommandExecutor(CommandContextFactory commandContextFactory) {
+        setCommandContextFactory(commandContextFactory);
+    }
 
     @Override
     public <T> T execute(Command<T> command) {

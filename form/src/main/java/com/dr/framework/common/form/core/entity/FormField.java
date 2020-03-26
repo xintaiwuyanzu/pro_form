@@ -6,7 +6,7 @@ import com.dr.framework.common.form.util.Constans;
 import com.dr.framework.core.orm.annotations.Column;
 import com.dr.framework.core.orm.annotations.Table;
 
-@Table(name = Constans.TABLE_PREFIX +"formField",module = Constans.MODULE_NAME, comment = "表单字段")
+@Table(name = Constans.TABLE_PREFIX + "formField", module = Constans.MODULE_NAME, comment = "表单字段")
 public class FormField extends BaseStatusEntity<String> implements Field {
 
     @Column(name = "formId", comment = "表单ID")

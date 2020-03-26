@@ -1,6 +1,7 @@
 package com.dr.framework.common.form.core.command;
 
 import com.dr.framework.common.dao.CommonMapper;
+import com.dr.framework.common.form.command.entity.WorkFormInfo;
 import com.dr.framework.common.form.core.entity.FormField;
 import com.dr.framework.common.form.core.entity.WorkForm;
 import com.dr.framework.common.form.core.model.Field;
@@ -12,13 +13,15 @@ import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.util.Constans;
 import com.dr.framework.common.service.DataBaseService;
 import com.dr.framework.core.orm.jdbc.Column;
+import com.dr.framework.core.orm.jdbc.Relation;
 import com.dr.framework.core.orm.jdbc.TrueOrFalse;
 import com.dr.framework.core.orm.module.ConfigedRelation;
+import com.dr.framework.core.orm.sql.support.SqlQuery;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
 import java.sql.Types;
-import java.util.Collection;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 创建表单定义
@@ -67,15 +70,15 @@ public class WorkFormInsertCommand implements Command<Form> {
     @Override
     public Form execute(CommandContext context) {
         //根据参数创建workform对象
-        WorkForm workForm = getWorkForm();
+        WorkForm workForm = getWorkForm(context);
         //根据参数获取fieldList参数
         Collection<FormField> fields = getFormFields(workForm);
         //保存定义数据
         CommonMapper mapper = context.getMapper();
-        mapper.insert(workForm);
         for (FormField formField : fields) {
             mapper.insert(formField);
         }
+        mapper.insert(workForm);
         //是否生成数据库表 true:生成； false:不生成
         if (generate) {
             workForm.setFormFieldList(fields);
@@ -83,18 +86,32 @@ public class WorkFormInsertCommand implements Command<Form> {
         }
         //如果需要复制数据 并且是更新表定义，则执行数据复制
         if (copyData && workForm.getId().equalsIgnoreCase(formData.getId())) {
-            copyData(formData, workForm);
+            copyData(context, formData, workForm);
         }
         return formData;
     }
 
     /**
-     * TOdo 从老表复制数据到新表
+     * 从老表复制数据到新表
      *
      * @param formData 老表结构定义
      * @param workForm 新表结构定义
      */
-    protected void copyData(Form formData, WorkForm workForm) {
+    protected void copyData(CommandContext context, Form formData, WorkForm workForm) {
+        //先根据旧的表定义确定旧表单的数据库是那张表
+        String tableName = formData.getFormTable();
+        //查出来旧表结构定义对象
+        DataBaseService dataBaseService = context.getApplicationContext().getBean(DataBaseService.class);
+        Relation relation = dataBaseService.getTableInfo(tableName, Constans.MODULE_NAME);
+        //获取这张表内的所有数据
+        SqlQuery sqlQueryObj = SqlQuery.from(relation).equal(relation.getColumn("formId"), formData.getId());
+        List<Object> list = context.getMapper().selectByQuery(sqlQueryObj);
+        //将所有的数据，全部复制到新的数据库表中
+        if (list.size() > 0) {
+            for (Object obj : list) {
+                //todo 将一条条旧数据插入到新生成的数据库表中
+            }
+        }
     }
 
     /**
@@ -104,17 +121,71 @@ public class WorkFormInsertCommand implements Command<Form> {
      * @return
      */
     protected Collection<FormField> getFormFields(WorkForm workForm) {
-        //todo
-        return null;
+        Collection<FormField> fields = new ArrayList<>();
+        if (formFieldList.size() > 0) {
+            for (Field field : formFieldList) {
+                FormField formField = new FormField();
+                formField.setDataObjectId(field.getDataObjectId());
+                formField.setDescription(field.getDescription());
+                formField.setFieldCode(field.getFieldCode());
+                formField.setFieldLength(field.getFieldLength());
+                formField.setFieldName(field.getFieldName());
+                formField.setFieldOrder(field.getFieldOrder());
+                formField.setFieldState(field.getFieldState());
+                formField.setFieldType(field.getFieldType());
+                formField.setFieldValue(field.getFieldValue() + "");
+                formField.setFormId(workForm.getId());
+                formField.setHistoryVersion(field.historyVersion());
+                formField.setVersion(field.getVersion());
+                formField.setCreateDate(System.currentTimeMillis());
+                formField.setId(UUID.randomUUID().toString());
+                fields.add(formField);
+            }
+        }
+        return fields;
     }
 
-    protected WorkForm getWorkForm() {
-        //TODO
+    protected WorkForm getWorkForm(CommandContext context) {
+        WorkForm workForm = new WorkForm();
         //1、根据 formData全局变量id判断：如果有id，则查询表单定义，能查询到说明之前定义过，新的表单定义需要更改表单版本号
-        //2、根据传进来的 formData创建workForm对象
-        return null;
+        if (StringUtils.isNotEmpty(formData.getId())) {
+            //todo 进行数据比对， 没更新则不处理表定义
+
+            workForm = context.getMapper().selectOneByQuery(SqlQuery.from(WorkForm.class).equal(WorkFormInfo.ID, formData.getId()));
+            double version = Integer.valueOf(workForm.getVersion()) + 0.1;
+            workForm.setVersion(version + "");
+            workForm.setId(UUID.randomUUID().toString());
+            workForm = oneWorkForm(formData, workForm);
+        } else {
+            //2、根据传进来的 formData创建workForm对象
+            workForm.setId(UUID.randomUUID().toString());
+            workForm = oneWorkForm(formData, workForm);
+        }
+        return workForm;
     }
 
+    public WorkForm oneWorkForm(Form formData, WorkForm workForm) {
+        workForm.setDataObjectId(formData.getDataObjectId());
+        workForm.setDescription(formData.getDescription());
+        workForm.setFormCode(formData.getFormCode());
+        workForm.setFormName(formData.getFormName());
+        workForm.setFormOrder(formData.getFormOrder());
+        workForm.setFormState(formData.getFormState());
+        workForm.setFormTable(formData.getFormTable());
+        workForm.setFormType(formData.getFormType());
+        workForm.setHistoryVersion(formData.historyVersion());
+        workForm.setVersion(formData.getVersion());
+        workForm.setCreateDate(System.currentTimeMillis());
+        workForm.setOrder(formData.getFormOrder());
+        return workForm;
+    }
+
+    /**
+     * 创建数据库表
+     *
+     * @param context
+     * @param formData
+     */
     protected void createTable(CommandContext context, WorkForm formData) {
         if (CollectionUtils.isEmpty(formData.getFormFieldList())) {
             return;
@@ -123,21 +194,18 @@ public class WorkFormInsertCommand implements Command<Form> {
         DataBaseService dataBaseService = context.getApplicationContext().getBean(DataBaseService.class);
         //表名称生成器
         FormNameGenerator formNameGenerator = context.getApplicationContext().getBean(FormNameGenerator.class);
-
         ConfigedRelation configedRelation = new ConfigedRelation(true);
         configedRelation.setId(formData.getId());
-        //TODO 用nameGener生成主键名称
-        configedRelation.addPrimaryKey("pk", "id", 0);
-
         configedRelation.setName(formNameGenerator.genTableName(formData));
         configedRelation.setModule(Constans.MODULE_NAME);
-
         formData.getFormFieldList()
                 .stream()
                 .forEach(field -> {
                     Column column = newColumn(formData, field, formNameGenerator);
+                    if ("pk".equals(field.getFieldType())) {
+                        configedRelation.addPrimaryKey("pk", field.getFieldCode(), 0);
+                    }
                     configedRelation.addColumn(column);
-                    //TODO 字段其他属性，用来控制 主键，索引等等
                 });
         //通过插件拦截创建表结构行为
         Map<String, CreateWorkFormPlugin> workFormPluginMap = context.getApplicationContext().getBeansOfType(CreateWorkFormPlugin.class);

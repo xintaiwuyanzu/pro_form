@@ -1,9 +1,9 @@
 package com.dr.framework.common.form.core.command;
 
+import com.dr.framework.common.form.command.entity.FormFieldInfo;
+import com.dr.framework.common.form.command.entity.WorkFormInfo;
 import com.dr.framework.common.form.core.entity.FormField;
-import com.dr.framework.common.form.core.entity.FormFieldInfo;
 import com.dr.framework.common.form.core.entity.WorkForm;
-import com.dr.framework.common.form.core.entity.WorkFormInfo;
 import com.dr.framework.common.form.core.model.Form;
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;

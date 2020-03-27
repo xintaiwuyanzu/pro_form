@@ -1,11 +1,13 @@
 package com.dr.framework.common.form.core.model;
 
+import java.util.HashMap;
+
 /**
  * 表单数据对象
  *
  * @author dr
  */
-public class FormData {
+public class FormData extends HashMap<String, Object> {
     private String formDefinitionId;
     private String formDataId;
 

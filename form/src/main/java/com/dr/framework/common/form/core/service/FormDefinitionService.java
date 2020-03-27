@@ -2,6 +2,7 @@ package com.dr.framework.common.form.core.service;
 
 import com.dr.framework.common.form.core.model.Field;
 import com.dr.framework.common.form.core.model.Form;
+import com.dr.framework.common.page.Page;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,9 +22,56 @@ public interface FormDefinitionService {
      * @param createTable 是否创建表结构
      */
     Form addFormDefinition(Form form, Collection<Field> fields, boolean createTable);
-    //更新表单定义 TODO
-    //查询表单定义 TODO
-    //删除表单定义 TODO
+
+    /**
+     * 更新表单定义
+     *
+     * @param form
+     * @param fields
+     * @param createTable
+     * @return
+     */
+    Form updateFormDefinition(Form form, Collection<Field> fields, boolean createTable);
+
+    /**
+     * 查询表单定义
+     *
+     * @param formId
+     * @param formCode
+     * @param formType
+     * @param formName
+     * @return
+     */
+    List<Form> selectFormDefinition(String formId, String formCode, String formType, String formName);
+
+    /**
+     * 分页查询表单定义数据
+     *
+     * @param form
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    Page<Form> selectPageFormDefinition(Form form, int pageIndex, int pageSize);
+
+    /**
+     * 查询单个表单实例
+     *
+     * @param formId
+     * @param formDtaId
+     * @return
+     */
+    Form selectOneFormDefinition(String formId, String formDtaId);
+
+    /**
+     * 删除表单定义
+     *
+     * @param formId
+     * @param retain
+     * @return
+     */
+    Long removeFormDefinition(String formId, boolean retain);
+
     /**
      * =========================================
      * 下面都是之前写的方法，先留着

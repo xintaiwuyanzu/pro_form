@@ -16,5 +16,7 @@ public class FormData extends HashMap<String, Object> {
         this.formDataId = formDataId;
     }
 
-
+    public String getFormDefinitionId() {
+        return formDefinitionId;
+    }
 }

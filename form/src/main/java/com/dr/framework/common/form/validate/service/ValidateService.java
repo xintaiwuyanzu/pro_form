@@ -1,5 +1,6 @@
 package com.dr.framework.common.form.validate.service;
 
+import com.dr.framework.common.form.core.model.FormData;
 import com.dr.framework.common.form.validate.model.ValidateResults;
 
 /**
@@ -16,5 +17,5 @@ public interface ValidateService {
      * @param <T>
      * @return
      */
-    <T> ValidateResults<T> validate(String validateDefinitionId, T formData);
+    <T extends FormData> ValidateResults<T> validate(String validateDefinitionId, T formData);
 }

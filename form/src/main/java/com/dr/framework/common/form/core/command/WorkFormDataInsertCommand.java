@@ -44,4 +44,8 @@ public class WorkFormDataInsertCommand implements Command<FormData> {
         context.getMapper().insertByQuery(sqlQuery);
         return formData;
     }
+
+    public FormData getFormData() {
+        return formData;
+    }
 }

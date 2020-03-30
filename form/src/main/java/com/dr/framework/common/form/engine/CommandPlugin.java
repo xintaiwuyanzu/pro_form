@@ -1,5 +1,7 @@
 package com.dr.framework.common.form.engine;
 
+import com.dr.framework.common.form.validate.model.ValidateException;
+
 /**
  * 用来拦截命令执行
  *
@@ -9,17 +11,19 @@ public interface CommandPlugin extends Plugin {
     /**
      * 是否能够处理指定的命令
      *
+     * @param context
      * @param command
      * @return
      */
-    boolean accept(Command command);
+    boolean accept(CommandContext context, Command command);
 
     /**
      * 拦截处理指定的命令
      *
+     * @param context
      * @param command
      * @return
      */
-    Command handle(Command command);
+    Command handle(CommandContext context, Command command) throws ValidateException;
 
 }

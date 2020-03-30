@@ -2,6 +2,7 @@ package com.dr.framework.common.form.validate.model;
 
 import com.dr.framework.common.form.core.model.Field;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,15 @@ public class ValidateResults<T> {
      * 所有字段校验结果
      */
     private List<ValidateResult> results;
+
+    public ValidateResults(T data) {
+        this.data = data;
+        results = new ArrayList<>();
+    }
+
+    public void addValidateResult(ValidateResult result) {
+        results.add(result);
+    }
 
     /**
      * 是否校验通过
@@ -46,6 +56,7 @@ public class ValidateResults<T> {
                 .filter(r -> r.getField().equals(field))
                 .collect(Collectors.toList());
     }
+
 
     public T getData() {
         return data;

@@ -1,9 +1,6 @@
 package com.dr.framework.common.form.core.service.impl;
 
-import com.dr.framework.common.form.core.command.WorkFormInsertCommand;
-import com.dr.framework.common.form.core.command.WorkFormRemoveCommand;
-import com.dr.framework.common.form.core.command.WorkFormSelectCommand;
-import com.dr.framework.common.form.core.command.WorkFormSelectOneCommand;
+import com.dr.framework.common.form.core.command.*;
 import com.dr.framework.common.form.core.model.Field;
 import com.dr.framework.common.form.core.model.Form;
 import com.dr.framework.common.form.core.service.FormDefinitionService;
@@ -72,12 +69,12 @@ public class FormDefinitionServiceImpl implements FormDefinitionService {
      */
     @Override
     public Page<Form> selectPageFormDefinition(Form form, int pageIndex, int pageSize) {
-        return null;
+        return executor.execute(new WorkFormSelectPageCommand(form, pageIndex, pageSize));
     }
 
     @Override
     public Form selectOneFormDefinition(String formId, String formDtaId) {
-        return executor.execute(new WorkFormSelectOneCommand(formId,formDtaId));
+        return executor.execute(new WorkFormSelectOneCommand(formId, formDtaId));
     }
 
     /**

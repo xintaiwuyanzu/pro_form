@@ -1,9 +1,9 @@
 package com.dr.framework.common.form.core.service;
 
 import com.dr.framework.common.form.core.model.FormData;
+import com.dr.framework.common.page.Page;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 表单数据service，用来操作定义表的增删改查
@@ -18,7 +18,7 @@ public interface FormDataService {
      * @param formData
      * @return
      */
-    Map<String, Object> addFormData(FormData formData);
+    FormData addFormData(FormData formData);
 
     /**
      * 更新表单实例数据
@@ -26,16 +26,16 @@ public interface FormDataService {
      * @param formData
      * @return
      */
-    Map<String, Object> updateFormData(FormData formData);
+    FormData updateFormData(FormData formData);
 
 
     /**
      * 多条件查询表单实例数据
      *
-     * @param formDataId
+     * @param formId
      * @return
      */
-    List<Map<String, Object>> selectFormData(String formDataId, String formId);
+    List<FormData> selectFormData(String formId);
 
     /**
      * 查询表单单个实例数据
@@ -43,16 +43,27 @@ public interface FormDataService {
      * @param formDataId
      * @return
      */
-    Map<String, Object> selectOneFormData(String formDataId, String formId);
+    FormData selectOneFormData(String formId, String formDataId);
+
+
+    /**
+     * 分页查询表单实例数据
+     *
+     * @param formData
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    Page<FormData> selectPageFormDefinition(FormData formData, int pageIndex, int pageSize);
 
     /**
      * 删除表单实例数据
      *
-     * @param formDataId
      * @param formId
+     * @param formDataId
      * @return
      */
-    Long removeFormData(String formDataId, String formId);
+    Long removeFormData(String formId, String formDataId);
 
 
 }

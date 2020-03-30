@@ -1,47 +1,50 @@
 package com.dr.framework.common.form.core.service.impl;
 
-import com.dr.framework.common.form.core.command.WorkFormDataSelectCommand;
-import com.dr.framework.common.form.core.model.Form;
+import com.dr.framework.common.form.core.command.*;
 import com.dr.framework.common.form.core.model.FormData;
 import com.dr.framework.common.form.core.service.FormDataService;
-import com.dr.framework.common.form.core.service.FormDefinitionService;
 import com.dr.framework.common.form.engine.CommandExecutor;
-import org.apache.commons.lang3.StringUtils;
+import com.dr.framework.common.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.Assert;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class FormDataServiceImpl implements FormDataService {
-    @Autowired
-    protected FormDefinitionService FormDefinitionService;
+
     @Autowired
     protected CommandExecutor executor;
 
-
+    /**
+     * 插入表单实例数据
+     *
+     * @param formData
+     * @return
+     */
     @Override
-    public Map<String, Object> addFormData(FormData formData) {
-        Assert.isTrue(StringUtils.isNotEmpty(formData.get("formDefinitionId").toString()), "表单定义Id不能为空");
-        Form form = FormDefinitionService.selectOneFormDefinition(formData.get("formDefinitionId") + "", formData.get("formDataId") + "");
-        //todo 将formData中的数据保存在form查出来表结构里面
-
-        return null;
+    public FormData addFormData(FormData formData) {
+        return executor.execute(new WorkFormDataInsertCommand(formData));
     }
 
+    /**
+     * 更新表单实例数据
+     *
+     * @param formData
+     * @return
+     */
     @Override
-    public Map<String, Object> updateFormData(FormData formData) {
+    public FormData updateFormData(FormData formData) {
         return addFormData(formData);
     }
 
+    /**
+     * 查询表单数据
+     *
+     * @param formId
+     * @return list
+     */
     @Override
-    public List<Map<String, Object>> selectFormData(String formDataId, String formId) {
-        Form form = FormDefinitionService.selectOneFormDefinition(formId, formDataId);
-        String tableName = form.getFormTable();
-        //TODO 查询这个表单的所有数据 返回List
-
-        return null;
+    public List<FormData> selectFormData(String formId) {
+        return executor.execute(new WorkFormDataSelectCommand(formId));
     }
 
     /**
@@ -51,19 +54,32 @@ public class FormDataServiceImpl implements FormDataService {
      * @return
      */
     @Override
-    public Map<String, Object> selectOneFormData(String formDataId, String formId) {
-        Map<String, Object> map = new HashMap<>();
-        Object object = executor.execute(new WorkFormDataSelectCommand(formId, formDataId));
-        map.put("FormData", object);
-        return map;
+    public FormData selectOneFormData(String formId, String formDataId) {
+        return executor.execute(new WorkFormDataSelectOneCommand(formId, formDataId));
     }
 
+    /**
+     * 分页查询表单实例数据
+     *
+     * @param formData
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
     @Override
-    public Long removeFormData(String formDataId, String formId) {
-        Form form = FormDefinitionService.selectOneFormDefinition(formId, formDataId);
-        String tableName = form.getFormTable();
-        //TODO 删除这个表单的 这条实例数据
+    public Page<FormData> selectPageFormDefinition(FormData formData, int pageIndex, int pageSize) {
+        return executor.execute(new WorkFormDataSelectPageCommand(formData, pageIndex, pageSize));
+    }
 
-        return null;
+    /**
+     * 删除表单实例数据
+     *
+     * @param formId
+     * @param formDataId
+     * @return
+     */
+    @Override
+    public Long removeFormData(String formId, String formDataId) {
+        return executor.execute(new WorkFormDataRemoveCommand(formId, formDataId));
     }
 }

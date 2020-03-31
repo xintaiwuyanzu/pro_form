@@ -3,8 +3,11 @@ package com.dr.framework.common.form.validate.entity;
 import com.dr.framework.common.entity.BaseStatusEntity;
 import com.dr.framework.common.form.util.Constans;
 import com.dr.framework.common.form.validate.model.ValidateDefinition;
+import com.dr.framework.common.form.validate.model.ValidateDefinitionField;
 import com.dr.framework.core.orm.annotations.Column;
 import com.dr.framework.core.orm.annotations.Table;
+
+import java.util.Collection;
 
 @Table(name = Constans.TABLE_PREFIX + "ValidateDefinitionForm", module = Constans.MODULE_NAME, comment = "表单校验")
 public class ValidateDefinitionForm extends BaseStatusEntity<String> implements ValidateDefinition {
@@ -32,6 +35,11 @@ public class ValidateDefinitionForm extends BaseStatusEntity<String> implements 
 
     @Column(name = "version", comment = "版本号")
     private String version;
+
+    /**
+     * 字段校验属性
+     */
+    private Collection<ValidateDefinitionField> ValidateDefinitionFieldList;
 
     @Override
     public String getFormDefinitionId() {
@@ -100,5 +108,13 @@ public class ValidateDefinitionForm extends BaseStatusEntity<String> implements 
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public Collection<ValidateDefinitionField> getValidateDefinitionFieldList() {
+        return ValidateDefinitionFieldList;
+    }
+
+    public void setValidateDefinitionFieldList(Collection<ValidateDefinitionField> validateDefinitionFieldList) {
+        ValidateDefinitionFieldList = validateDefinitionFieldList;
     }
 }

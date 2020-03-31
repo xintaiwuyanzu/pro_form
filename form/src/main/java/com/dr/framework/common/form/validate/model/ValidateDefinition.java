@@ -28,6 +28,9 @@ public interface ValidateDefinition {
      */
     String getFormDefinitionId();
 
+
+    String getValidateName();
+
     /**
      * 获取设置校验主表类型
      *
@@ -56,5 +59,7 @@ public interface ValidateDefinition {
      */
     int getValidateOrder();
 
+
+    String getVersion();
 
 }

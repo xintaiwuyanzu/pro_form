@@ -25,7 +25,7 @@ public class ProcessType extends BaseStatusEntity<String> {
     private int typeOrder;
 
     @Column(name = "typeBuiltIn", comment = "是否内置")
-    private boolean  typeBuiltIn;
+    private boolean typeBuiltIn;
 
     @Column(name = "remarks", comment = "备注")
     private String remarks;

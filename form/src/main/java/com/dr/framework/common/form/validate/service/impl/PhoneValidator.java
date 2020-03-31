@@ -25,7 +25,7 @@ public class PhoneValidator implements Validator {
     @Override
     public <T> ValidateResult validate(Field field, ValidateDefinition definition, T data) {
         try {
-            Assert.isTrue(isChinaPhoneLegal(String.valueOf(data))||isHKPhoneLegal(String.valueOf(data)),"手机号码错误");
+            Assert.isTrue(isChinaPhoneLegal(String.valueOf(data)) || isHKPhoneLegal(String.valueOf(data)), "手机号码错误");
             return ValidateResult.success(field);
         } catch (Exception e) {
             return ValidateResult.fail("身份证号不正确", field);

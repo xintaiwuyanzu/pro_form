@@ -5,8 +5,8 @@ import com.dr.framework.common.form.util.Constans;
 import com.dr.framework.core.orm.annotations.Column;
 import com.dr.framework.core.orm.annotations.Table;
 
-@Table(name = Constans.TABLE_PREFIX+"FieldDefaultValue",module = Constans.MODULE_NAME,comment = "字段默认值")
-public class FieldDefaultValue  extends BaseStatusEntity<String> {
+@Table(name = Constans.TABLE_PREFIX + "FieldDefaultValue", module = Constans.MODULE_NAME, comment = "字段默认值")
+public class FieldDefaultValue extends BaseStatusEntity<String> {
     @Column(name = "formId", comment = "表单id")
     private String formId;
 
@@ -83,4 +83,5 @@ public class FieldDefaultValue  extends BaseStatusEntity<String> {
     public void setRemarks(String remarks) {
         this.remarks = remarks;
     }
+
 }

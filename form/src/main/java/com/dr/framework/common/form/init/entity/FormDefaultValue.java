@@ -7,7 +7,7 @@ import com.dr.framework.core.orm.annotations.Table;
 
 import java.util.List;
 
-@Table(name = Constans.TABLE_PREFIX+"FormDefaultValue",module = Constans.MODULE_NAME,comment = "表单默认值")
+@Table(name = Constans.TABLE_PREFIX + "FormDefaultValue", module = Constans.MODULE_NAME, comment = "表单默认值")
 public class FormDefaultValue extends BaseStatusEntity<String> {
 
     @Column(name = "formId", comment = "表单id")

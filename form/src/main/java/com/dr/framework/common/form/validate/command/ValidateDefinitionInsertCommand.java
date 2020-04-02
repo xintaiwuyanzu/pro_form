@@ -46,9 +46,9 @@ public class ValidateDefinitionInsertCommand implements Command<ValidateDefiniti
                 mapper.insert(validateDefinitionField);
             }
         }
+        validateDefinitionForm.setValidateDefinitionFieldList(ValidateDefinitionFields);
         //保存主表数据
         mapper.insert(validateDefinitionForm);
-        validateDefinitionForm.setValidateDefinitionFieldList(ValidateDefinitionFieldList);
         return validateDefinitionForm;
     }
 

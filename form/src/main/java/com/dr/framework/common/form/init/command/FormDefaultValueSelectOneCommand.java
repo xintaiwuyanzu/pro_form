@@ -1,11 +1,11 @@
 package com.dr.framework.common.form.init.command;
 
-import com.dr.framework.common.form.command.entity.FieldDefaultValueInfo;
-import com.dr.framework.common.form.command.entity.FormDefaultValueInfo;
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.init.entity.FieldDefaultValue;
+import com.dr.framework.common.form.init.entity.FieldDefaultValueInfo;
 import com.dr.framework.common.form.init.entity.FormDefaultValue;
+import com.dr.framework.common.form.init.entity.FormDefaultValueInfo;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
@@ -45,7 +45,8 @@ public class FormDefaultValueSelectOneCommand implements Command<FormDefaultValu
         FormDefaultValue formDefaultValue = context.getMapper().selectOneByQuery(sqlQuery);
         Assert.notNull(formDefaultValue, "查询的默认值方案不存在");
         List<FieldDefaultValue> fieldDefaultValueList = context.getMapper().selectByQuery(SqlQuery.from(FieldDefaultValue.class).equal(FieldDefaultValueInfo.FORMDEFAULTVALUEID, formDefaultValue.getId()));
-        formDefaultValue.setFieldDefaultValueList(fieldDefaultValueList);
+        formDefaultValue.setFieldDefaultList(fieldDefaultValueList);
         return formDefaultValue;
     }
+
 }

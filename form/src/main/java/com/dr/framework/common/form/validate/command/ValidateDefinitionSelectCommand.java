@@ -2,9 +2,9 @@ package com.dr.framework.common.form.validate.command;
 
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
-import com.dr.framework.common.form.validate.entity.ValidateDefinitionFormField;
-import com.dr.framework.common.form.validate.entity.ValidateDefinitionFieldInfo;
 import com.dr.framework.common.form.validate.entity.ValidateDefinitionForm;
+import com.dr.framework.common.form.validate.entity.ValidateDefinitionFormField;
+import com.dr.framework.common.form.validate.entity.ValidateDefinitionFormFieldInfo;
 import com.dr.framework.common.form.validate.entity.ValidateDefinitionFormInfo;
 import com.dr.framework.common.form.validate.model.ValidateDefinition;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
@@ -51,7 +51,7 @@ public class ValidateDefinitionSelectCommand implements Command<List<ValidateDef
         List<ValidateDefinitionForm> list = context.getMapper().selectByQuery(sqlQuery);
         if (list.size() > 0) {
             for (ValidateDefinitionForm validateDefinitionForm : list) {
-                List<ValidateDefinitionFormField> listValidateDefinitionField = context.getMapper().selectByQuery(SqlQuery.from(ValidateDefinitionFormField.class).equal(ValidateDefinitionFieldInfo.VALIDATEFORMID, validateDefinitionForm.getId()));
+                List<ValidateDefinitionFormField> listValidateDefinitionField = context.getMapper().selectByQuery(SqlQuery.from(ValidateDefinitionFormField.class).equal(ValidateDefinitionFormFieldInfo.VALIDATEFORMID, validateDefinitionForm.getId()));
                 validateDefinitionForm.setValidateDefinitionFieldList(listValidateDefinitionField);
                 listValidate.add(validateDefinitionForm);
             }

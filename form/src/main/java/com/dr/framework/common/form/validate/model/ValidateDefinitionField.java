@@ -2,6 +2,11 @@ package com.dr.framework.common.form.validate.model;
 
 public interface ValidateDefinitionField {
 
+    /**
+     * 获取校验字段主键
+     *
+     * @return
+     */
     String getId();
 
     String getFormDefinitionId();

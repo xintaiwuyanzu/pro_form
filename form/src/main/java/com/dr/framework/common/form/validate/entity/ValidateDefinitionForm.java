@@ -39,7 +39,7 @@ public class ValidateDefinitionForm extends BaseStatusEntity<String> implements 
     /**
      * 字段校验属性
      */
-    private Collection<ValidateDefinitionField> ValidateDefinitionFieldList;
+    private Collection<ValidateDefinitionFormField> ValidateDefinitionFieldList;
 
     @Override
     public String getFormDefinitionId() {
@@ -110,11 +110,11 @@ public class ValidateDefinitionForm extends BaseStatusEntity<String> implements 
         this.version = version;
     }
 
-    public Collection<ValidateDefinitionField> getValidateDefinitionFieldList() {
+    public Collection<ValidateDefinitionFormField> getValidateDefinitionFieldList() {
         return ValidateDefinitionFieldList;
     }
 
-    public void setValidateDefinitionFieldList(Collection<ValidateDefinitionField> validateDefinitionFieldList) {
+    public void setValidateDefinitionFieldList(Collection<ValidateDefinitionFormField> validateDefinitionFieldList) {
         ValidateDefinitionFieldList = validateDefinitionFieldList;
     }
 }

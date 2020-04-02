@@ -28,7 +28,11 @@ public interface ValidateDefinition {
      */
     String getFormDefinitionId();
 
-
+    /**
+     * 校验名称
+     *
+     * @return
+     */
     String getValidateName();
 
     /**
@@ -59,7 +63,11 @@ public interface ValidateDefinition {
      */
     int getValidateOrder();
 
-
+    /**
+     * 版本号
+     *
+     * @return
+     */
     String getVersion();
 
 }

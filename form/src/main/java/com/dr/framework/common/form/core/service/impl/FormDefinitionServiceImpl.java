@@ -72,9 +72,15 @@ public class FormDefinitionServiceImpl implements FormDefinitionService {
         return executor.execute(new FormDefinitionSelectPageCommand(form, pageIndex, pageSize));
     }
 
+    /**
+     * 查询单一表单定义数据
+     *
+     * @param formId
+     * @return
+     */
     @Override
-    public Form selectOneFormDefinition(String formId, String formDtaId) {
-        return executor.execute(new FormDefinitionSelectOneCommand(formId, formDtaId));
+    public Form selectOneFormDefinition(String formId) {
+        return executor.execute(new FormDefinitionSelectOneCommand(formId));
     }
 
     /**

@@ -18,7 +18,7 @@ public class FormDefinitionSelectOneCommand implements Command<Form> {
     private String formCode;
 
     public FormDefinitionSelectOneCommand(String formDefinitionId) {
-       this(formDefinitionId,null);
+        this(formDefinitionId, null);
     }
 
     public FormDefinitionSelectOneCommand(String formDefinitionId, String formCode) {
@@ -41,10 +41,10 @@ public class FormDefinitionSelectOneCommand implements Command<Form> {
         if (StringUtils.isNotEmpty(formCode)) {
             sqlQuery.equal(FormDefinitionInfo.FORMCODE, formCode);
         }
-        FormDefinition workForm = context.getMapper().selectOneByQuery(sqlQuery);
-        Assert.notNull(workForm, "查询的表单定义不存在");
-        List<FormField> listFiled = context.getMapper().selectByQuery(SqlQuery.from(FormField.class).equal(FormFieldInfo.FORMDEFINITIONID, workForm.getId()));
-        workForm.setFormFieldList(listFiled);
-        return workForm;
+        FormDefinition formDefinition = context.getMapper().selectOneByQuery(sqlQuery);
+        Assert.notNull(formDefinition, "查询的表单定义不存在");
+        List<FormField> listFiled = context.getMapper().selectByQuery(SqlQuery.from(FormField.class).equal(FormFieldInfo.FORMDEFINITIONID, formDefinition.getId()));
+        formDefinition.setFormFieldList(listFiled);
+        return formDefinition;
     }
 }

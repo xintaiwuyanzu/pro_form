@@ -55,13 +55,12 @@ public interface FormDefinitionService {
     Page<Form> selectPageFormDefinition(Form form, int pageIndex, int pageSize);
 
     /**
-     * 查询单个表单实例
+     * 查询单一表单定义数据
      *
      * @param formId
-     * @param formDtaId
      * @return
      */
-    Form selectOneFormDefinition(String formId, String formDtaId);
+    Form selectOneFormDefinition(String formId);
 
     /**
      * 删除表单定义

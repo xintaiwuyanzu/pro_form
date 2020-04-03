@@ -17,7 +17,7 @@ public class FormDefaultValueInsertCommand implements Command<FormDefault> {
     private FormDefault formDefault;
     private Collection<FieldDefault> fieldDefaultList;
 
-    public FormDefaultValueInsertCommand(FormDefault formDefault, List<FieldDefault> fieldDefaultList) {
+    public FormDefaultValueInsertCommand(FormDefault formDefault, Collection<FieldDefault> fieldDefaultList) {
         this.formDefault = formDefault;
         this.fieldDefaultList = fieldDefaultList;
     }

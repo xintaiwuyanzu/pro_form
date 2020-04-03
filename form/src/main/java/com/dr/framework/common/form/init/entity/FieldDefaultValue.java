@@ -8,14 +8,18 @@ import com.dr.framework.core.orm.annotations.Table;
 
 @Table(name = Constans.TABLE_PREFIX + "FieldDefaultValue", module = Constans.MODULE_NAME, comment = "字段默认值")
 public class FieldDefaultValue extends BaseStatusEntity<String> implements FieldDefault {
-    @Column(name = "formId", comment = "表单id")
-    private String formId;
+
+    @Column(name = "formDefinitionId", comment = "表单定义id")
+    private String formDefinitionId;
 
     @Column(name = "formDefaultValueId", comment = "表单默认值Id")
     private String formDefaultValueId;
 
     @Column(name = "fieldName", comment = "字段名称")
     private String fieldName;
+
+    @Column(name = "fieldCode", comment = "字段编码")
+    private String fieldCode;
 
     @Column(name = "fieldType", comment = "字段类型")
     private String fieldType;
@@ -29,12 +33,12 @@ public class FieldDefaultValue extends BaseStatusEntity<String> implements Field
     @Column(name = "remarks", comment = "备注")
     private String remarks;
 
-    public String getFormId() {
-        return formId;
+    public String getFormDefinitionId() {
+        return formDefinitionId;
     }
 
-    public void setFormId(String formId) {
-        this.formId = formId;
+    public void setFormDefinitionId(String formDefinitionId) {
+        this.formDefinitionId = formDefinitionId;
     }
 
     public String getFormDefaultValueId() {
@@ -51,6 +55,15 @@ public class FieldDefaultValue extends BaseStatusEntity<String> implements Field
 
     public void setFieldName(String fieldName) {
         this.fieldName = fieldName;
+    }
+
+    @Override
+    public String getFieldCode() {
+        return fieldCode;
+    }
+
+    public void setFieldCode(String fieldCode) {
+        this.fieldCode = fieldCode;
     }
 
     public String getFieldType() {

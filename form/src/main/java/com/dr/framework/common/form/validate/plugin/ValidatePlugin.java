@@ -1,6 +1,6 @@
 package com.dr.framework.common.form.validate.plugin;
 
-import com.dr.framework.common.form.core.command.WorkFormDataInsertCommand;
+import com.dr.framework.common.form.core.command.FormDataInsertCommand;
 import com.dr.framework.common.form.core.model.FormData;
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
@@ -25,12 +25,12 @@ public class ValidatePlugin implements CommandPlugin {
     @Override
     public boolean accept(CommandContext context, Command command) {
         //拦截表单数据保存命令
-        return command instanceof WorkFormDataInsertCommand;
+        return command instanceof FormDataInsertCommand;
     }
 
     @Override
     public Command handle(CommandContext context, Command command) throws ValidateException {
-        WorkFormDataInsertCommand insertCommand = (WorkFormDataInsertCommand) command;
+        FormDataInsertCommand insertCommand = (FormDataInsertCommand) command;
         //获取需要保存的数据
         FormData data = insertCommand.getFormData();
         //从上下文中获取校验定义规则

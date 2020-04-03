@@ -18,6 +18,9 @@ public class ValidateDefinitionFormField extends BaseStatusEntity<String> implem
     @Column(name = "fieldName", comment = "字段名称")
     private String fieldName;
 
+    @Column(name = "fieldCode", comment = "字段编码")
+    private String fieldCode;
+
     @Column(name = "fieldType", comment = "字段类型")
     private String fieldType;
 
@@ -70,6 +73,14 @@ public class ValidateDefinitionFormField extends BaseStatusEntity<String> implem
 
     public void setFieldName(String fieldName) {
         this.fieldName = fieldName;
+    }
+
+    public String getFieldCode() {
+        return fieldCode;
+    }
+
+    public void setFieldCode(String fieldCode) {
+        this.fieldCode = fieldCode;
     }
 
     public String getFieldType() {

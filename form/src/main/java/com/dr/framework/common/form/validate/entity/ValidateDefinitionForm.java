@@ -117,4 +117,6 @@ public class ValidateDefinitionForm extends BaseStatusEntity<String> implements 
     public void setValidateDefinitionFieldList(Collection<ValidateDefinitionFormField> validateDefinitionFieldList) {
         ValidateDefinitionFieldList = validateDefinitionFieldList;
     }
+
+
 }

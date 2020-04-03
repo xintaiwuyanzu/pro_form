@@ -26,4 +26,6 @@ public class InitPlugin implements CommandPlugin {
     public String description() {
         return null;
     }
+
+
 }

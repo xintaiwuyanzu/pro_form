@@ -1,9 +1,9 @@
 package com.dr.framework.common.form.display.command;
 
-import com.dr.framework.common.form.command.entity.FieldDisplaySchemeInfo;
-import com.dr.framework.common.form.command.entity.FormDisplaySchemeInfo;
 import com.dr.framework.common.form.display.entity.FieldDisplayScheme;
+import com.dr.framework.common.form.display.entity.FieldDisplaySchemeInfo;
 import com.dr.framework.common.form.display.entity.FormDisplayScheme;
+import com.dr.framework.common.form.display.entity.FormDisplaySchemeInfo;
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.core.orm.sql.support.SqlQuery;

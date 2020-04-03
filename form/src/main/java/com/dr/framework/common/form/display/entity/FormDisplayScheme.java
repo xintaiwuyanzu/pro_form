@@ -10,8 +10,8 @@ import java.util.List;
 @Table(name = Constans.TABLE_PREFIX + "FormDisplayScheme", module = Constans.MODULE_NAME, comment = "表单显示方案")
 public class FormDisplayScheme extends BaseStatusEntity<String> {
 
-    @Column(name = "formId", comment = "表单id")
-    private String formId;
+    @Column(name = "formDefinitionId", comment = "表单定义id")
+    private String formDefinitionId;
 
     @Column(name = "schemeName", comment = "名称")
     private String schemeName;
@@ -24,12 +24,12 @@ public class FormDisplayScheme extends BaseStatusEntity<String> {
 
     private List<FieldDisplayScheme> fieldDisplayList;
 
-    public String getFormId() {
-        return formId;
+    public String getFormDefinitionId() {
+        return formDefinitionId;
     }
 
-    public void setFormId(String formId) {
-        this.formId = formId;
+    public void setFormDefinitionId(String formDefinitionId) {
+        this.formDefinitionId = formDefinitionId;
     }
 
     public String getSchemeName() {

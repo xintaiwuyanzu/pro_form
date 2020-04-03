@@ -1,9 +1,9 @@
 package com.dr.framework.common.form.display.command;
 
-import com.dr.framework.common.form.command.entity.FieldDisplaySchemeInfo;
-import com.dr.framework.common.form.command.entity.FormDisplaySchemeInfo;
 import com.dr.framework.common.form.display.entity.FieldDisplayScheme;
+import com.dr.framework.common.form.display.entity.FieldDisplaySchemeInfo;
 import com.dr.framework.common.form.display.entity.FormDisplayScheme;
+import com.dr.framework.common.form.display.entity.FormDisplaySchemeInfo;
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
@@ -13,12 +13,12 @@ import org.springframework.util.Assert;
 import java.util.List;
 
 public class FormDisplaySelectOneCommand implements Command<FormDisplayScheme> {
-    private String formId;
+    private String formDefinitionId;
     private String formDisplayId;
     private String schemeCode;
 
-    public FormDisplaySelectOneCommand(String formId, String formDisplayId, String schemeCode) {
-        this.formId = formId;
+    public FormDisplaySelectOneCommand(String formDefinitionId, String formDisplayId, String schemeCode) {
+        this.formDefinitionId = formDefinitionId;
         this.formDisplayId = formDisplayId;
         this.schemeCode = schemeCode;
     }
@@ -33,8 +33,8 @@ public class FormDisplaySelectOneCommand implements Command<FormDisplayScheme> {
     public FormDisplayScheme execute(CommandContext context) {
         Assert.isTrue(StringUtils.isNotEmpty(formDisplayId) || StringUtils.isNotEmpty(schemeCode), "显示方案主鍵和编码不能全为空");
         SqlQuery<FormDisplayScheme> sqlQuery = SqlQuery.from(FormDisplayScheme.class);
-        if (StringUtils.isNotEmpty(formId)) {
-            sqlQuery.equal(FormDisplaySchemeInfo.FORMID, formId);
+        if (StringUtils.isNotEmpty(formDefinitionId)) {
+            sqlQuery.equal(FormDisplaySchemeInfo.FORMDEFINITIONID, formDefinitionId);
         }
         if (StringUtils.isNotEmpty(formDisplayId)) {
             sqlQuery.equal(FormDisplaySchemeInfo.ID, formDisplayId);

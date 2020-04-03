@@ -8,8 +8,8 @@ import com.dr.framework.core.orm.annotations.Table;
 @Table(name = Constans.TABLE_PREFIX + "FieldDisplayScheme", module = Constans.MODULE_NAME, comment = "表单字段显示方案")
 public class FieldDisplayScheme extends BaseStatusEntity<String> {
 
-    @Column(name = "formId", comment = "表单id")
-    private String formId;
+    @Column(name = "formDefinitionId", comment = "表单定义id")
+    private String formDefinitionId;
 
     @Column(name = "formDisplayId", comment = "表单显示方案ID")
     private String formDisplayId;
@@ -35,12 +35,12 @@ public class FieldDisplayScheme extends BaseStatusEntity<String> {
     @Column(name = "remarks", comment = "备注")
     private String remarks;
 
-    public String getFormId() {
-        return formId;
+    public String getFormDefinitionId() {
+        return formDefinitionId;
     }
 
-    public void setFormId(String formId) {
-        this.formId = formId;
+    public void setFormDefinitionId(String formDefinitionId) {
+        this.formDefinitionId = formDefinitionId;
     }
 
     public String getFormDisplayId() {

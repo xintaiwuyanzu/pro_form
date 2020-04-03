@@ -1,9 +1,9 @@
 package com.dr.framework.common.form.core.command;
 
 import com.dr.framework.common.dao.CommonMapper;
-import com.dr.framework.common.form.command.entity.WorkFormInfo;
+import com.dr.framework.common.form.core.entity.FormDefinition;
+import com.dr.framework.common.form.core.entity.FormDefinitionInfo;
 import com.dr.framework.common.form.core.entity.FormField;
-import com.dr.framework.common.form.core.entity.WorkForm;
 import com.dr.framework.common.form.core.model.Field;
 import com.dr.framework.common.form.core.model.Form;
 import com.dr.framework.common.form.core.plugin.CreateWorkFormPlugin;
@@ -29,7 +29,7 @@ import java.util.*;
  * @author dr
  * @author lich
  */
-public class WorkFormInsertCommand implements Command<Form> {
+public class FormDefinitionInsertCommand implements Command<Form> {
     /**
      * 表单定义
      */
@@ -47,14 +47,14 @@ public class WorkFormInsertCommand implements Command<Form> {
      */
     private boolean copyData = true;
 
-    public WorkFormInsertCommand(Form formData, Collection<Field> formFieldList, boolean generate, boolean copyData) {
+    public FormDefinitionInsertCommand(Form formData, Collection<Field> formFieldList, boolean generate, boolean copyData) {
         this.formData = formData;
         this.formFieldList = formFieldList;
         this.generate = generate;
         this.copyData = copyData;
     }
 
-    public WorkFormInsertCommand(Form formData, Collection<Field> formFieldList, boolean generate) {
+    public FormDefinitionInsertCommand(Form formData, Collection<Field> formFieldList, boolean generate) {
         this.formData = formData;
         this.formFieldList = formFieldList;
         this.generate = generate;
@@ -70,23 +70,23 @@ public class WorkFormInsertCommand implements Command<Form> {
     @Override
     public Form execute(CommandContext context) {
         //根据参数创建workform对象
-        WorkForm workForm = getWorkForm(context);
+        FormDefinition formDefinition = getWorkForm(context);
         //根据参数获取fieldList参数
-        Collection<FormField> fields = getFormFields(workForm);
+        Collection<FormField> fields = getFormFields(formDefinition);
         //保存定义数据
         CommonMapper mapper = context.getMapper();
         for (FormField formField : fields) {
             mapper.insert(formField);
         }
-        mapper.insert(workForm);
+        mapper.insert(formDefinition);
         //是否生成数据库表 true:生成； false:不生成
         if (generate) {
-            workForm.setFormFieldList(fields);
-            createTable(context, workForm);
+            formDefinition.setFormFieldList(fields);
+            createTable(context, formDefinition);
         }
         //如果需要复制数据 并且是更新表定义，则执行数据复制
-        if (copyData && workForm.getId().equalsIgnoreCase(formData.getId())) {
-            copyData(context, formData, workForm);
+        if (copyData && formDefinition.getId().equalsIgnoreCase(formData.getId())) {
+            copyData(context, formData, formDefinition);
         }
         return formData;
     }
@@ -95,9 +95,9 @@ public class WorkFormInsertCommand implements Command<Form> {
      * 从老表复制数据到新表
      *
      * @param formData 老表结构定义
-     * @param workForm 新表结构定义
+     * @param formDefinition 新表结构定义
      */
-    protected void copyData(CommandContext context, Form formData, WorkForm workForm) {
+    protected void copyData(CommandContext context, Form formData, FormDefinition formDefinition) {
         //先根据旧的表定义确定旧表单的数据库是那张表
         String tableName = formData.getFormTable();
         //查出来旧表结构定义对象
@@ -117,10 +117,10 @@ public class WorkFormInsertCommand implements Command<Form> {
     /**
      * 根据新的workform和传进来的全局formFieldList创建新的表单字段定义信息
      *
-     * @param workForm
+     * @param formDefinition
      * @return
      */
-    protected Collection<FormField> getFormFields(WorkForm workForm) {
+    protected Collection<FormField> getFormFields(FormDefinition formDefinition) {
         Collection<FormField> fields = new ArrayList<>();
         if (formFieldList.size() > 0) {
             for (Field field : formFieldList) {
@@ -134,7 +134,7 @@ public class WorkFormInsertCommand implements Command<Form> {
                 formField.setFieldState(field.getFieldState());
                 formField.setFieldType(field.getFieldType());
                 formField.setFieldValue(field.getFieldValue() + "");
-                formField.setFormId(workForm.getId());
+                formField.setFormDefinitionId(formDefinition.getId());
                 formField.setHistoryVersion(field.historyVersion());
                 formField.setVersion(field.getVersion());
                 formField.setCreateDate(System.currentTimeMillis());
@@ -145,39 +145,39 @@ public class WorkFormInsertCommand implements Command<Form> {
         return fields;
     }
 
-    protected WorkForm getWorkForm(CommandContext context) {
-        WorkForm workForm = new WorkForm();
+    protected FormDefinition getWorkForm(CommandContext context) {
+        FormDefinition formDefinition = new FormDefinition();
         //1、根据 formData全局变量id判断：如果有id，则查询表单定义，能查询到说明之前定义过，新的表单定义需要更改表单版本号
         if (StringUtils.isNotEmpty(formData.getId())) {
             //todo 进行数据比对， 没更新则不处理表定义
 
-            workForm = context.getMapper().selectOneByQuery(SqlQuery.from(WorkForm.class).equal(WorkFormInfo.ID, formData.getId()));
-            double version = Integer.valueOf(workForm.getVersion()) + 0.1;
-            workForm.setVersion(version + "");
-            workForm.setId(UUID.randomUUID().toString());
-            workForm = oneWorkForm(formData, workForm);
+            formDefinition = context.getMapper().selectOneByQuery(SqlQuery.from(FormDefinition.class).equal(FormDefinitionInfo.ID, formData.getId()));
+            double version = Integer.valueOf(formDefinition.getVersion()) + 0.1;
+            formDefinition.setVersion(version + "");
+            formDefinition.setId(UUID.randomUUID().toString());
+            formDefinition = oneWorkForm(formData, formDefinition);
         } else {
             //2、根据传进来的 formData创建workForm对象
-            workForm.setId(UUID.randomUUID().toString());
-            workForm = oneWorkForm(formData, workForm);
+            formDefinition.setId(UUID.randomUUID().toString());
+            formDefinition = oneWorkForm(formData, formDefinition);
         }
-        return workForm;
+        return formDefinition;
     }
 
-    public WorkForm oneWorkForm(Form formData, WorkForm workForm) {
-        workForm.setDataObjectId(formData.getDataObjectId());
-        workForm.setDescription(formData.getDescription());
-        workForm.setFormCode(formData.getFormCode());
-        workForm.setFormName(formData.getFormName());
-        workForm.setFormOrder(formData.getFormOrder());
-        workForm.setFormState(formData.getFormState());
-        workForm.setFormTable(formData.getFormTable());
-        workForm.setFormType(formData.getFormType());
-        workForm.setHistoryVersion(formData.historyVersion());
-        workForm.setVersion(formData.getVersion());
-        workForm.setCreateDate(System.currentTimeMillis());
-        workForm.setOrder(formData.getFormOrder());
-        return workForm;
+    public FormDefinition oneWorkForm(Form formData, FormDefinition formDefinition) {
+        formDefinition.setDataObjectId(formData.getDataObjectId());
+        formDefinition.setDescription(formData.getDescription());
+        formDefinition.setFormCode(formData.getFormCode());
+        formDefinition.setFormName(formData.getFormName());
+        formDefinition.setFormOrder(formData.getFormOrder());
+        formDefinition.setFormState(formData.getFormState());
+        formDefinition.setFormTable(formData.getFormTable());
+        formDefinition.setFormType(formData.getFormType());
+        formDefinition.setHistoryVersion(formData.historyVersion());
+        formDefinition.setVersion(formData.getVersion());
+        formDefinition.setCreateDate(System.currentTimeMillis());
+        formDefinition.setOrder(formData.getFormOrder());
+        return formDefinition;
     }
 
     /**
@@ -186,7 +186,7 @@ public class WorkFormInsertCommand implements Command<Form> {
      * @param context
      * @param formData
      */
-    protected void createTable(CommandContext context, WorkForm formData) {
+    protected void createTable(CommandContext context, FormDefinition formData) {
         if (CollectionUtils.isEmpty(formData.getFormFieldList())) {
             return;
         }
@@ -226,7 +226,7 @@ public class WorkFormInsertCommand implements Command<Form> {
      * @param generate
      * @return
      */
-    private Column newColumn(WorkForm formData, FormField field, FormNameGenerator generate) {
+    private Column newColumn(FormDefinition formData, FormField field, FormNameGenerator generate) {
         Column column = new Column(formData.getFormTable(), field.getFieldCode(), "");
         column.setName(generate.genFieldName(formData, field));
         column.setTableName(generate.genTableName(formData));

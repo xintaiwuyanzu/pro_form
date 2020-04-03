@@ -1,6 +1,7 @@
 package com.dr.framework.common.form.core.entity;
 
 import com.dr.framework.common.entity.BaseStatusEntity;
+import com.dr.framework.common.form.core.model.Field;
 import com.dr.framework.common.form.core.model.Form;
 import com.dr.framework.common.form.util.Constans;
 import com.dr.framework.core.orm.annotations.Column;
@@ -8,8 +9,8 @@ import com.dr.framework.core.orm.annotations.Table;
 
 import java.util.Collection;
 
-@Table(name = Constans.TABLE_PREFIX + "WorkForm", module = Constans.MODULE_NAME, comment = "表单数据")
-public class WorkForm extends BaseStatusEntity<String> implements Form {
+@Table(name = Constans.TABLE_PREFIX + "FormDefinition", module = Constans.MODULE_NAME, comment = "表单数据")
+public class FormDefinition extends BaseStatusEntity<String> implements Form {
 
     @Column(name = "organiseId", comment = "组织id")
     private String organiseId;
@@ -150,6 +151,15 @@ public class WorkForm extends BaseStatusEntity<String> implements Form {
 
     public Collection<FormField> getFormFieldList() {
         return formFieldList;
+    }
+
+    public Field getFieldByCode(String code) {
+        for (FormField formField : formFieldList) {
+            if (formField.getFieldCode().equals(code)) {
+                return formField;
+            }
+        }
+        return null;
     }
 
     public void setFormFieldList(Collection<FormField> formFieldList) {

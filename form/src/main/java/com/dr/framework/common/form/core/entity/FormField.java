@@ -9,8 +9,8 @@ import com.dr.framework.core.orm.annotations.Table;
 @Table(name = Constans.TABLE_PREFIX + "formField", module = Constans.MODULE_NAME, comment = "表单字段")
 public class FormField extends BaseStatusEntity<String> implements Field {
 
-    @Column(name = "formId", comment = "表单ID")
-    private String formId;
+    @Column(name = "formDefinitionId", comment = "表单定义id")
+    private String formDefinitionId;
 
     @Column(name = "fieldCode", comment = "字段编码")
     private String fieldCode;
@@ -45,12 +45,12 @@ public class FormField extends BaseStatusEntity<String> implements Field {
     @Column(name = "version", comment = "版本号")
     private String version;
 
-    public String getFormId() {
-        return formId;
+    public String getFormDefinitionId() {
+        return formDefinitionId;
     }
 
-    public void setFormId(String formId) {
-        this.formId = formId;
+    public void setFormDefinitionId(String formDefinitionId) {
+        this.formDefinitionId = formDefinitionId;
     }
 
     @Override

@@ -29,7 +29,7 @@ public class FormDefinitionServiceImpl implements FormDefinitionService {
      */
     @Override
     public Form addFormDefinition(Form form, Collection<Field> fields, boolean createTable) {
-        return executor.execute(new WorkFormInsertCommand(form, fields, createTable));
+        return executor.execute(new FormDefinitionInsertCommand(form, fields, createTable));
     }
 
     /**
@@ -42,7 +42,7 @@ public class FormDefinitionServiceImpl implements FormDefinitionService {
      */
     @Override
     public Form updateFormDefinition(Form form, Collection<Field> fields, boolean createTable) {
-        return executor.execute(new WorkFormInsertCommand(form, fields, createTable));
+        return executor.execute(new FormDefinitionInsertCommand(form, fields, createTable));
     }
 
     /**
@@ -56,7 +56,7 @@ public class FormDefinitionServiceImpl implements FormDefinitionService {
      */
     @Override
     public List<Form> selectFormDefinition(String formId, String formCode, String formType, String formName) {
-        return executor.execute(new WorkFormSelectCommand(formId, formCode, formType, formName));
+        return executor.execute(new FormDefinitionSelectCommand(formId, formCode, formType, formName));
     }
 
     /**
@@ -69,12 +69,12 @@ public class FormDefinitionServiceImpl implements FormDefinitionService {
      */
     @Override
     public Page<Form> selectPageFormDefinition(Form form, int pageIndex, int pageSize) {
-        return executor.execute(new WorkFormSelectPageCommand(form, pageIndex, pageSize));
+        return executor.execute(new FormDefinitionSelectPageCommand(form, pageIndex, pageSize));
     }
 
     @Override
     public Form selectOneFormDefinition(String formId, String formDtaId) {
-        return executor.execute(new WorkFormSelectOneCommand(formId, formDtaId));
+        return executor.execute(new FormDefinitionSelectOneCommand(formId, formDtaId));
     }
 
     /**
@@ -86,7 +86,7 @@ public class FormDefinitionServiceImpl implements FormDefinitionService {
      */
     @Override
     public Long removeFormDefinition(String formId, boolean retain) {
-        return executor.execute(new WorkFormRemoveCommand(formId, retain));
+        return executor.execute(new FormDefinitionRemoveCommand(formId, retain));
     }
 
     @Override

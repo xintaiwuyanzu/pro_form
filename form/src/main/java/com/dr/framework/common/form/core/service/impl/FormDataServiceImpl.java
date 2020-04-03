@@ -22,7 +22,7 @@ public class FormDataServiceImpl implements FormDataService {
      */
     @Override
     public FormData addFormData(FormData formData) {
-        return executor.execute(new WorkFormDataInsertCommand(formData));
+        return executor.execute(new FormDataInsertCommand(formData));
     }
 
     /**
@@ -44,7 +44,7 @@ public class FormDataServiceImpl implements FormDataService {
      */
     @Override
     public List<FormData> selectFormData(String formId) {
-        return executor.execute(new WorkFormDataSelectCommand(formId));
+        return executor.execute(new FormDataSelectCommand(formId));
     }
 
     /**
@@ -55,7 +55,7 @@ public class FormDataServiceImpl implements FormDataService {
      */
     @Override
     public FormData selectOneFormData(String formId, String formDataId) {
-        return executor.execute(new WorkFormDataSelectOneCommand(formId, formDataId));
+        return executor.execute(new FormDataSelectOneCommand(formId, formDataId));
     }
 
     /**
@@ -68,7 +68,7 @@ public class FormDataServiceImpl implements FormDataService {
      */
     @Override
     public Page<FormData> selectPageFormDefinition(FormData formData, int pageIndex, int pageSize) {
-        return executor.execute(new WorkFormDataSelectPageCommand(formData, pageIndex, pageSize));
+        return executor.execute(new FormDataSelectPageCommand(formData, pageIndex, pageSize));
     }
 
     /**
@@ -80,6 +80,6 @@ public class FormDataServiceImpl implements FormDataService {
      */
     @Override
     public Long removeFormData(String formId, String formDataId) {
-        return executor.execute(new WorkFormDataRemoveCommand(formId, formDataId));
+        return executor.execute(new FormDataRemoveCommand(formId, formDataId));
     }
 }

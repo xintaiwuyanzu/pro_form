@@ -16,20 +16,20 @@ import java.util.List;
 
 public class FormDefaultSelectPageCommand implements Command<Page> {
 
-    private String formId;
+    private String formDefinitionId;
     private int pageIndex;
     private int pageSize;
 
-    public FormDefaultSelectPageCommand(String formId, int pageIndex, int pageSize) {
-        this.formId = formId;
+    public FormDefaultSelectPageCommand(String formDefinitionId, int pageIndex, int pageSize) {
+        this.formDefinitionId = formDefinitionId;
         this.pageIndex = pageIndex;
         this.pageSize = pageSize;
     }
 
     @Override
     public Page execute(CommandContext context) {
-        Assert.isTrue(StringUtils.isNotEmpty(formId), "表单定义id不能为空");
-        SqlQuery sqlQuery = SqlQuery.from(FormDefaultValue.class).equal(FormDefaultValueInfo.FORMID, formId);
+        Assert.isTrue(StringUtils.isNotEmpty(formDefinitionId), "表单定义id不能为空");
+        SqlQuery sqlQuery = SqlQuery.from(FormDefaultValue.class).equal(FormDefaultValueInfo.FORMDEFINITIONID, formDefinitionId);
         Page page = context.getMapper().selectPageByQuery(sqlQuery, pageIndex * pageSize, (pageIndex + 1) * pageSize);
         List<FormDefaultValue> list = page.getData();
         if (list.size() > 0) {

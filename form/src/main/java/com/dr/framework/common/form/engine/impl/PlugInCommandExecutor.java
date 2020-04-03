@@ -21,6 +21,7 @@ public class PlugInCommandExecutor implements CommandExecutor {
      * 真正的执行器
      */
     private CommandExecutor delegate;
+
     /**
      * 拦截的插件
      */

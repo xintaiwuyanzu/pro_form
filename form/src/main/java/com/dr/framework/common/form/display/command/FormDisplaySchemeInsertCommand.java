@@ -10,13 +10,13 @@ import org.springframework.util.Assert;
 import java.util.List;
 import java.util.UUID;
 
-public class FormDisplaySchemeCommand implements Command<FormDisplayScheme> {
+public class FormDisplaySchemeInsertCommand implements Command<FormDisplayScheme> {
 
     private FormDisplayScheme formDisplayScheme;
 
     private List<FieldDisplayScheme> fieldDisplayList;
 
-    public FormDisplaySchemeCommand(FormDisplayScheme formDisplayScheme, List<FieldDisplayScheme> fieldDisplayList) {
+    public FormDisplaySchemeInsertCommand(FormDisplayScheme formDisplayScheme, List<FieldDisplayScheme> fieldDisplayList) {
         this.formDisplayScheme = formDisplayScheme;
         this.fieldDisplayList = fieldDisplayList;
     }
@@ -30,14 +30,14 @@ public class FormDisplaySchemeCommand implements Command<FormDisplayScheme> {
     @Override
     public FormDisplayScheme execute(CommandContext context) {
         Assert.notNull(formDisplayScheme, "显示方案不能为空");
-        Assert.isTrue(StringUtils.isNotEmpty(formDisplayScheme.getFormId()), "formId不能为空");
+        Assert.isTrue(StringUtils.isNotEmpty(formDisplayScheme.getFormDefinitionId()), "formId不能为空");
         if (StringUtils.isEmpty(formDisplayScheme.getId())) {
             formDisplayScheme.setId(UUID.randomUUID().toString());
         }
         if (fieldDisplayList.size() > 0) {
             for (FieldDisplayScheme fieldDisplayScheme : fieldDisplayList) {
                 fieldDisplayScheme.setFormDisplayId(formDisplayScheme.getId());
-                fieldDisplayScheme.setFormId(formDisplayScheme.getFormId());
+                fieldDisplayScheme.setFormDefinitionId(formDisplayScheme.getFormDefinitionId());
                 if (StringUtils.isEmpty(fieldDisplayScheme.getId())) {
                     fieldDisplayScheme.setId(UUID.randomUUID().toString());
                 }

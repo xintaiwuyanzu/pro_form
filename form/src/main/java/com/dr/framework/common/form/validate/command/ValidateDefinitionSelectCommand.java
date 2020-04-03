@@ -30,9 +30,18 @@ public class ValidateDefinitionSelectCommand implements Command<List<ValidateDef
      */
     private String validateName;
 
+    public ValidateDefinitionSelectCommand(String formDefinitionId) {
+        this(formDefinitionId, null, null);
+    }
+
+    public ValidateDefinitionSelectCommand(String formDefinitionId, String validateType) {
+        this(formDefinitionId, validateType, null);
+    }
+
     public ValidateDefinitionSelectCommand(String formDefinitionId, String validateType, String validateName) {
         this.formDefinitionId = formDefinitionId;
         this.validateType = validateType;
+        this.validateName = validateName;
     }
 
     @Override

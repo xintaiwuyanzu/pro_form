@@ -31,7 +31,7 @@ public class FormDefaultValueInsertCommand implements Command<FormDefault> {
     @Override
     public FormDefault execute(CommandContext context) {
         Assert.notNull(formDefault, "默认值设置不能为空");
-        Assert.isTrue(StringUtils.isNotEmpty(formDefault.getFormId()), "formId不能为空");
+        Assert.isTrue(StringUtils.isNotEmpty(formDefault.getFormDefinitionId()), "formId不能为空");
         FormDefaultValue formDefaultValue = getFormDefaultValue(formDefault);
         Collection<FieldDefaultValue> fieldDefaultValueList = getFormFieldDefault(formDefaultValue);
         if (fieldDefaultValueList.size() > 0) {
@@ -48,7 +48,7 @@ public class FormDefaultValueInsertCommand implements Command<FormDefault> {
 
     public FormDefaultValue getFormDefaultValue(FormDefault formDefault) {
         FormDefaultValue formDefaultValue = new FormDefaultValue();
-        formDefaultValue.setFormId(formDefault.getFormId());
+        formDefaultValue.setFormDefinitionId(formDefault.getFormDefinitionId());
         formDefaultValue.setDefaultType(formDefault.getDefaultType());
         formDefaultValue.setLinkCode(formDefault.getLinkCode());
         formDefaultValue.setLinkName(formDefault.getLinkName());
@@ -67,7 +67,7 @@ public class FormDefaultValueInsertCommand implements Command<FormDefault> {
                 fieldDefaultValue.setFieldName(fieldDefault.getFieldName());
                 fieldDefaultValue.setFieldType(fieldDefault.getFieldType());
                 fieldDefaultValue.setFormDefaultValueId(formDefaultValue.getId());
-                fieldDefaultValue.setFormId(fieldDefault.getFormId());
+                fieldDefaultValue.setFormDefinitionId(fieldDefault.getFormDefaultValueId());
                 fieldDefaultValue.setCreateDate(System.currentTimeMillis());
                 fieldDefaultValues.add(fieldDefaultValue);
             }

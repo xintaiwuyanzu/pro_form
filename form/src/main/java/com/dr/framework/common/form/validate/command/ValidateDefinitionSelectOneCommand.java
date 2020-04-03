@@ -2,9 +2,9 @@ package com.dr.framework.common.form.validate.command;
 
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
-import com.dr.framework.common.form.validate.entity.ValidateDefinitionFormField;
-import com.dr.framework.common.form.validate.entity.ValidateDefinitionFieldInfo;
 import com.dr.framework.common.form.validate.entity.ValidateDefinitionForm;
+import com.dr.framework.common.form.validate.entity.ValidateDefinitionFormField;
+import com.dr.framework.common.form.validate.entity.ValidateDefinitionFormFieldInfo;
 import com.dr.framework.common.form.validate.entity.ValidateDefinitionFormInfo;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +17,10 @@ public class ValidateDefinitionSelectOneCommand implements Command<ValidateDefin
     private String validateId;
 
     private String validateCode;
+
+    public ValidateDefinitionSelectOneCommand(String validateId) {
+        this(validateId, "default");
+    }
 
     public ValidateDefinitionSelectOneCommand(String validateId, String validateCode) {
         this.validateId = validateId;
@@ -34,7 +38,7 @@ public class ValidateDefinitionSelectOneCommand implements Command<ValidateDefin
         }
         ValidateDefinitionForm validateDefinitionForm = context.getMapper().selectOneByQuery(sqlQuery);
         Assert.notNull(validateDefinitionForm, "校验不存在");
-        List<ValidateDefinitionFormField> listValidateDefinitionField = context.getMapper().selectByQuery(SqlQuery.from(ValidateDefinitionFormField.class).equal(ValidateDefinitionFieldInfo.VALIDATEFORMID, validateDefinitionForm.getId()));
+        List<ValidateDefinitionFormField> listValidateDefinitionField = context.getMapper().selectByQuery(SqlQuery.from(ValidateDefinitionFormField.class).equal(ValidateDefinitionFormFieldInfo.VALIDATEFORMID, validateDefinitionForm.getId()));
         validateDefinitionForm.setValidateDefinitionFieldList(listValidateDefinitionField);
         return validateDefinitionForm;
     }

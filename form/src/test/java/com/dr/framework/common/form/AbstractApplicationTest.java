@@ -1,9 +1,10 @@
 package com.dr.framework.common.form;
 
+import com.dr.framework.common.form.core.command.FormDefinitionInsertCommand;
+import com.dr.framework.common.form.core.command.FormDefinitionRemoveCommand;
+import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormField;
-import com.dr.framework.common.form.core.entity.WorkForm;
-import com.dr.framework.common.form.core.command.WorkFormInsertCommand;
-import com.dr.framework.common.form.core.command.WorkFormRemoveCommand;
+import com.dr.framework.common.form.core.model.Field;
 import com.dr.framework.common.form.engine.CommandExecutor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 @SpringBootTest(classes = FormApplication.class)
 @RunWith(SpringRunner.class)
@@ -31,14 +32,14 @@ public class AbstractApplicationTest {
 
     @Test
     public void addDataTest() {
-        WorkForm workForm = new WorkForm();
-        workForm.setFormCode("fist");
-        workForm.setFormName("456");
-        workForm.setFormOrder(1);
-        workForm.setFormTable("FistFrom");
-        workForm.setFormState("0");
-        workForm.setFormType("gongWen");
-        List<FormField> list = new ArrayList<FormField>();
+        FormDefinition formDefinition = new FormDefinition();
+        formDefinition.setFormCode("fist");
+        formDefinition.setFormName("456");
+        formDefinition.setFormOrder(1);
+        formDefinition.setFormTable("FistFrom");
+        formDefinition.setFormState("0");
+        formDefinition.setFormType("gongWen");
+        Collection<Field> list = new ArrayList<Field>();
         FormField formField = new FormField();
         formField.setFieldCode("text001");
         formField.setFieldName("ceshi");
@@ -55,12 +56,12 @@ public class AbstractApplicationTest {
         formField1.setFieldState("0");
         formField1.setFieldValue("ceshi");
         list.add(formField1);
-        commandExecutor.execute(new WorkFormInsertCommand(workForm, list, true, nameGenerator));
+        commandExecutor.execute(new FormDefinitionInsertCommand(formDefinition, list, true, true));
     }
 
     @Test
-    public void revomeDataTest(){
+    public void revomeDataTest() {
         String formId = "00a905ac-8e85-46a1-b699-9ef330e96131";
-        commandExecutor.execute(new WorkFormRemoveCommand(formId,true));
+        commandExecutor.execute(new FormDefinitionRemoveCommand(formId, true));
     }
 }

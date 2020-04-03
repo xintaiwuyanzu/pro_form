@@ -4,6 +4,7 @@ import com.dr.framework.common.form.core.model.Field;
 import com.dr.framework.common.form.core.model.FieldType;
 import com.dr.framework.common.form.engine.TypeObject;
 import com.dr.framework.common.form.validate.model.ValidateDefinition;
+import com.dr.framework.common.form.validate.model.ValidateDefinitionField;
 import com.dr.framework.common.form.validate.model.ValidateResult;
 
 import java.util.Collection;
@@ -30,5 +31,5 @@ public interface Validator extends TypeObject {
      * @param <T>
      * @return
      */
-    <T> ValidateResult validate(Field field, ValidateDefinition definition, T data);
+    <T> ValidateResult validate(Field field, ValidateDefinitionField definition, T data);
 }

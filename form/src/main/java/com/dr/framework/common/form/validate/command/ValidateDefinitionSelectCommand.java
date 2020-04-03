@@ -31,7 +31,7 @@ public class ValidateDefinitionSelectCommand implements Command<List<ValidateDef
     private String validateName;
 
     public ValidateDefinitionSelectCommand(String formDefinitionId) {
-        this(formDefinitionId, null, null);
+        this(formDefinitionId, "default", null);
     }
 
     public ValidateDefinitionSelectCommand(String formDefinitionId, String validateType) {

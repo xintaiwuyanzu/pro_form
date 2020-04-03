@@ -2,7 +2,7 @@ package com.dr.framework.common.form.validate.service.impl;
 
 import com.dr.framework.common.form.core.model.Field;
 import com.dr.framework.common.form.core.model.FieldType;
-import com.dr.framework.common.form.validate.model.ValidateDefinition;
+import com.dr.framework.common.form.validate.model.ValidateDefinitionField;
 import com.dr.framework.common.form.validate.model.ValidateResult;
 import com.dr.framework.common.form.validate.service.Validator;
 import com.dr.framework.common.util.IDNo;
@@ -24,7 +24,7 @@ public class IdNoValidator implements Validator {
     }
 
     @Override
-    public <T> ValidateResult validate(Field field, ValidateDefinition definition, T data) {
+    public <T> ValidateResult validate(Field field, ValidateDefinitionField definition, T data) {
         try {
             IDNo.from(String.valueOf(data));
             return ValidateResult.success(field);

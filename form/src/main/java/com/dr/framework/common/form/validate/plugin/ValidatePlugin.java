@@ -43,4 +43,5 @@ public class ValidatePlugin implements CommandPlugin {
             throw new ValidateException(results);
         }
     }
+
 }

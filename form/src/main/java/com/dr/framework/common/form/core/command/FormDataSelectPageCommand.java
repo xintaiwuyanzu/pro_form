@@ -1,7 +1,9 @@
 package com.dr.framework.common.form.core.command;
 
+import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.model.Form;
 import com.dr.framework.common.form.core.model.FormData;
+import com.dr.framework.common.form.core.service.FormDefinitionService;
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.util.Constans;
@@ -10,9 +12,13 @@ import com.dr.framework.common.service.DataBaseService;
 import com.dr.framework.core.orm.jdbc.Relation;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
 public class FormDataSelectPageCommand implements Command<Page> {
+
+    @Autowired
+    FormDefinitionService formDefinitionService;
 
     private FormData formData;
     private int pageIndex;
@@ -33,7 +39,7 @@ public class FormDataSelectPageCommand implements Command<Page> {
     @Override
     public Page execute(CommandContext context) {
         Assert.isTrue(StringUtils.isNotEmpty(formData.get("formDefinitionId") + ""), "表单id不能为空");
-        Form form = new FormDefinitionSelectOneCommand(formData.get("formDefinitionId") + "", null).execute(context);
+        Form form = formDefinitionService.selectOneFormDefinition(formData.get("formDefinitionId") + "");
         Assert.notNull(form, "系统未发现该表单定义");
         //判断表是否存在
         DataBaseService dataBaseService = context.getApplicationContext().getBean(DataBaseService.class);

@@ -50,10 +50,10 @@ public class FormDefinitionSelectCommand implements Command<List> {
         //根据条件查询表单定义数据
         List<FormDefinition> list = context.getMapper().selectByQuery(sqlQuery);
         if (list.size() > 0) {
-            for (FormDefinition workForm : list) {
-                List<FormField> listFiled = context.getMapper().selectByQuery(SqlQuery.from(FormField.class).equal(FormFieldInfo.FORMDEFINITIONID, workForm.getId()));
-                workForm.setFormFieldList(listFiled);
-                listForm.add(workForm);
+            for (FormDefinition formDefinition : list) {
+                List<FormField> listFiled = context.getMapper().selectByQuery(SqlQuery.from(FormField.class).equal(FormFieldInfo.FORMDEFINITIONID, formDefinition.getId()));
+                formDefinition.setFormFieldList(listFiled);
+                listForm.add(formDefinition);
             }
         }
         return listForm;

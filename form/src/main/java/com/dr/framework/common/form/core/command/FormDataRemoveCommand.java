@@ -1,6 +1,7 @@
 package com.dr.framework.common.form.core.command;
 
 import com.dr.framework.common.form.core.model.Form;
+import com.dr.framework.common.form.core.service.FormDefinitionService;
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.util.Constans;
@@ -8,9 +9,13 @@ import com.dr.framework.common.service.DataBaseService;
 import com.dr.framework.core.orm.jdbc.Relation;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
 public class FormDataRemoveCommand implements Command<Long> {
+
+    @Autowired
+    FormDefinitionService formDefinitionService;
 
     private String formId;
     private String formDataId;
@@ -24,7 +29,7 @@ public class FormDataRemoveCommand implements Command<Long> {
     public Long execute(CommandContext context) {
         Assert.isTrue(StringUtils.isNotEmpty(formId), "表单id不能为空");
         Assert.isTrue(StringUtils.isNotEmpty(formDataId), "表单实例id不能为空");
-        Form form = new FormDefinitionSelectOneCommand(formId, null).execute(context);
+        Form form = formDefinitionService.selectOneFormDefinition(formId);
         Assert.notNull(form, "系统未发现该表单");
         //判断表是否存在
         DataBaseService dataBaseService = context.getApplicationContext().getBean(DataBaseService.class);

@@ -45,10 +45,10 @@ public class FormDefinitionSelectPageCommand implements Command<Page> {
         List<FormDefinition> list = page.getData();
         if (list.size() > 0) {
             List<FormDefinition> listForm = new ArrayList<>();
-            for (FormDefinition workForm : list) {
-                List<FormField> listFiled = context.getMapper().selectByQuery(SqlQuery.from(FormField.class).equal(FormFieldInfo.FORMDEFINITIONID, workForm.getId()));
-                workForm.setFormFieldList(listFiled);
-                listForm.add(workForm);
+            for (FormDefinition formDefinition : list) {
+                List<FormField> listFiled = context.getMapper().selectByQuery(SqlQuery.from(FormField.class).equal(FormFieldInfo.FORMDEFINITIONID, formDefinition.getId()));
+                formDefinition.setFormFieldList(listFiled);
+                listForm.add(formDefinition);
             }
             page.setData(listForm);
         }

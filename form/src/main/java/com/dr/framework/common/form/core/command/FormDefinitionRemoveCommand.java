@@ -34,13 +34,13 @@ public class FormDefinitionRemoveCommand implements Command<Long> {
     public Long execute(CommandContext context) {
         Assert.isTrue(!StringUtils.isEmpty(formDefinitionId), "请选择需要删除的表单");
         //根据表单Id查询表单主表数据
-        FormDefinition workForm = context.getMapper().selectById(FormDefinition.class, formDefinitionId);
-        Assert.notNull(workForm, "你选择的表单数据不存在");
-        if (!StringUtils.isEmpty(workForm.getFormTable())) {
+        FormDefinition formDefinition = context.getMapper().selectById(FormDefinition.class, formDefinitionId);
+        Assert.notNull(formDefinition, "你选择的表单数据不存在");
+        if (!StringUtils.isEmpty(formDefinition.getFormTable())) {
             //是否直接删除表 true: 删  false: 不删
             if (retain) {
                 //刪除生成的表
-                removeTable(context, workForm.getFormTable());
+                removeTable(context, formDefinition.getFormTable());
             }
         }
         //根据表单数据删除表单数据中的所有字段数据

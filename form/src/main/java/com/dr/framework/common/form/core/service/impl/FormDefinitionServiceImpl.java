@@ -139,4 +139,17 @@ public class FormDefinitionServiceImpl implements FormDefinitionService {
     public int deleteFieldByFormId(String formId, Field field) {
         return 0;
     }
+
+
+    /**
+     * 根据表单定义Id 和字段编码 查询字段信息
+     *
+     * @param formDefinitionId
+     * @param fieldCode
+     * @return
+     */
+    @Override
+    public Field selectFieldByFieldCode(String formDefinitionId, String fieldCode) {
+        return executor.execute(new FieldDataSelectOneCommand(formDefinitionId, fieldCode));
+    }
 }

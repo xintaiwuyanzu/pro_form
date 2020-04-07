@@ -151,4 +151,13 @@ public interface FormDefinitionService {
      */
     int deleteFieldByFormId(String formId, Field field);
 
+    /**
+     * 根据表单定义Id 和字段编码 查询字段信息
+     *
+     * @param formDefinitionId
+     * @param fieldCode
+     * @return
+     */
+    Field selectFieldByFieldCode(String formDefinitionId, String fieldCode);
+
 }

@@ -4,7 +4,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-public class Constans {
+/**
+ * 表单用到的常量类
+ *
+ * @author dr
+ */
+public class Constants {
 
     /**
      * 模块名称
@@ -15,6 +20,10 @@ public class Constans {
      * 表前缀
      */
     public static final String TABLE_PREFIX = "";
+    /**
+     * 默认版本编码
+     */
+    public static final String DEFAULT_VERSION = "default";
 
     /**
      * 大陆手机号码11位数，匹配格式：前三位固定格式+后8位任意数

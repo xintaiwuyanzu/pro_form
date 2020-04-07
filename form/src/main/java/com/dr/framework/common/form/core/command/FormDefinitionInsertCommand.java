@@ -10,7 +10,7 @@ import com.dr.framework.common.form.core.plugin.CreateWorkFormPlugin;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
-import com.dr.framework.common.form.util.Constans;
+import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.common.service.DataBaseService;
 import com.dr.framework.core.orm.jdbc.Column;
 import com.dr.framework.core.orm.jdbc.Relation;
@@ -102,7 +102,7 @@ public class FormDefinitionInsertCommand implements Command<Form> {
         String tableName = formData.getFormTable();
         //查出来旧表结构定义对象
         DataBaseService dataBaseService = context.getApplicationContext().getBean(DataBaseService.class);
-        Relation relation = dataBaseService.getTableInfo(tableName, Constans.MODULE_NAME);
+        Relation relation = dataBaseService.getTableInfo(tableName, Constants.MODULE_NAME);
         //获取这张表内的所有数据
         SqlQuery sqlQueryObj = SqlQuery.from(relation).equal(relation.getColumn("formId"), formData.getId());
         List<Object> list = context.getMapper().selectByQuery(sqlQueryObj);
@@ -197,7 +197,7 @@ public class FormDefinitionInsertCommand implements Command<Form> {
         ConfigedRelation configedRelation = new ConfigedRelation(true);
         configedRelation.setId(formData.getId());
         configedRelation.setName(formNameGenerator.genTableName(formData));
-        configedRelation.setModule(Constans.MODULE_NAME);
+        configedRelation.setModule(Constants.MODULE_NAME);
         formData.getFormFieldList()
                 .stream()
                 .forEach(field -> {

@@ -15,6 +15,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * 默认校验实现类
+ *
+ * @author dr
+ */
 public class DefaultValidateService implements ValidateService {
 
     @Autowired
@@ -25,7 +30,7 @@ public class DefaultValidateService implements ValidateService {
             new PhoneValidator()
     );
 
-    @Autowired
+    @Autowired(required = false)
     List<Validator> validators;
 
     /**

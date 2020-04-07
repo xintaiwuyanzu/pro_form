@@ -4,6 +4,8 @@ import com.dr.framework.common.form.core.model.Field;
 import com.dr.framework.common.form.init.model.FieldDefault;
 import com.dr.framework.common.form.init.service.FieldDefaultManager;
 
+import java.io.Serializable;
+
 public class FieldDefaultManagerImpl implements FieldDefaultManager {
 
     /**
@@ -14,7 +16,7 @@ public class FieldDefaultManagerImpl implements FieldDefaultManager {
      * @return
      */
     @Override
-    public Object getDefaultValue(Field field, FieldDefault fieldDefault) {
+    public Serializable getDefaultValue(Field field, FieldDefault fieldDefault) {
         //TODO
         return null;
     }

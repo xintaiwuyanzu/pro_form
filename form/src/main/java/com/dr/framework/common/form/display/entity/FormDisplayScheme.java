@@ -1,13 +1,13 @@
 package com.dr.framework.common.form.display.entity;
 
 import com.dr.framework.common.entity.BaseStatusEntity;
-import com.dr.framework.common.form.util.Constans;
+import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.core.orm.annotations.Column;
 import com.dr.framework.core.orm.annotations.Table;
 
 import java.util.List;
 
-@Table(name = Constans.TABLE_PREFIX + "FormDisplayScheme", module = Constans.MODULE_NAME, comment = "表单显示方案")
+@Table(name = Constants.TABLE_PREFIX + "FormDisplayScheme", module = Constants.MODULE_NAME, comment = "表单显示方案")
 public class FormDisplayScheme extends BaseStatusEntity<String> {
 
     @Column(name = "formDefinitionId", comment = "表单定义id")

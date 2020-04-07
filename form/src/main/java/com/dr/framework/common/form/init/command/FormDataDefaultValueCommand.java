@@ -13,6 +13,8 @@ import com.dr.framework.common.form.init.service.FieldDefaultManager;
 import com.dr.framework.common.form.init.service.FormDefaultValueService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.Serializable;
+
 public class FormDataDefaultValueCommand implements Command<FormData> {
 
     @Autowired
@@ -52,13 +54,13 @@ public class FormDataDefaultValueCommand implements Command<FormData> {
         for (FieldDefault fieldDefault : formDefault.getFieldDefaultList()) {
             //获取所设置的默认值所对应的的字段定义
             Field field = form.getFieldByCode(fieldDefault.getFieldCode());
-            Object fieldDefaultValue = getFieldDefaultValue(context, field, fieldDefault);
+            Serializable fieldDefaultValue = getFieldDefaultValue(context, field, fieldDefault);
             data.put(field.getFieldName(), fieldDefaultValue);
         }
         return data;
     }
 
-    private Object getFieldDefaultValue(CommandContext context, Field field, FieldDefault fieldDefault) {
+    private Serializable getFieldDefaultValue(CommandContext context, Field field, FieldDefault fieldDefault) {
         FieldDefaultManager manager = context.getApplicationContext().getBean(FieldDefaultManager.class);
         return manager.getDefaultValue(field, fieldDefault);
     }

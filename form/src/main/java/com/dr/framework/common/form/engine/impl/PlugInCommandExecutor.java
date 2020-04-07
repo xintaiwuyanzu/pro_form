@@ -1,9 +1,6 @@
 package com.dr.framework.common.form.engine.impl;
 
-import com.dr.framework.common.form.engine.Command;
-import com.dr.framework.common.form.engine.CommandExecutor;
-import com.dr.framework.common.form.engine.CommandPlugin;
-import com.dr.framework.common.form.engine.TypeObject;
+import com.dr.framework.common.form.engine.*;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -27,8 +24,13 @@ public class PlugInCommandExecutor implements CommandExecutor {
      */
     private List<CommandPlugin> plugins;
 
-    public PlugInCommandExecutor(CommandExecutor delegate, List<CommandPlugin> plugins) {
+
+    private CommandContextFactory commandContextFactory;
+
+
+    public PlugInCommandExecutor(CommandExecutor delegate, List<CommandPlugin> plugins, CommandContextFactory commandContextFactory) {
         this.delegate = delegate;
+        this.commandContextFactory = commandContextFactory;
         this.plugins = Optional.ofNullable(plugins)
                 .orElseGet(Collections::emptyList)
                 .stream()
@@ -38,10 +40,15 @@ public class PlugInCommandExecutor implements CommandExecutor {
 
     @Override
     public <T> T execute(Command<T> command) {
+        CommandContext commandContext = commandContextFactory.createCommandContext();
         //遍历所有的插件，依次修改命令的行为
         for (CommandPlugin plugin : plugins) {
-            if (plugin.accept(command)) {
-                command = plugin.handle(command);
+            if (plugin.accept(commandContext, command)) {
+                try {
+                    command = plugin.handle(commandContext, command);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
         return delegate.execute(command);

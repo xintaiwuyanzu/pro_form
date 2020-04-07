@@ -1,15 +1,14 @@
 package com.dr.framework.common.form.validate.entity;
 
 import com.dr.framework.common.entity.BaseStatusEntity;
-import com.dr.framework.common.form.util.Constans;
+import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.common.form.validate.model.ValidateDefinition;
-import com.dr.framework.common.form.validate.model.ValidateDefinitionField;
 import com.dr.framework.core.orm.annotations.Column;
 import com.dr.framework.core.orm.annotations.Table;
 
 import java.util.Collection;
 
-@Table(name = Constans.TABLE_PREFIX + "ValidateDefinitionForm", module = Constans.MODULE_NAME, comment = "表单校验")
+@Table(name = Constants.TABLE_PREFIX + "ValidateDefinitionForm", module = Constants.MODULE_NAME, comment = "表单校验")
 public class ValidateDefinitionForm extends BaseStatusEntity<String> implements ValidateDefinition {
 
     @Column(name = "formDefinitionId", comment = "表单定义id")

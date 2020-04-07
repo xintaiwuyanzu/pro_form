@@ -7,7 +7,7 @@ import com.dr.framework.common.form.core.entity.FormField;
 import com.dr.framework.common.form.core.entity.FormFieldInfo;
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
-import com.dr.framework.common.form.util.Constans;
+import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.common.service.DataBaseService;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.springframework.util.Assert;
@@ -52,7 +52,7 @@ public class FormDefinitionRemoveCommand implements Command<Long> {
     protected void removeTable(CommandContext context, String tableName) {
         //是否生成表
         DataBaseService dataBaseService = context.getApplicationContext().getBean(DataBaseService.class);
-        dataBaseService.dropTable(tableName, Constans.MODULE_NAME);
+        dataBaseService.dropTable(tableName, Constants.MODULE_NAME);
     }
 
 }

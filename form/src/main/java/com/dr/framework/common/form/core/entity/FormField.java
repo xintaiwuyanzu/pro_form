@@ -2,11 +2,11 @@ package com.dr.framework.common.form.core.entity;
 
 import com.dr.framework.common.entity.BaseStatusEntity;
 import com.dr.framework.common.form.core.model.Field;
-import com.dr.framework.common.form.util.Constans;
+import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.core.orm.annotations.Column;
 import com.dr.framework.core.orm.annotations.Table;
 
-@Table(name = Constans.TABLE_PREFIX + "formField", module = Constans.MODULE_NAME, comment = "表单字段")
+@Table(name = Constants.TABLE_PREFIX + "formField", module = Constants.MODULE_NAME, comment = "表单字段")
 public class FormField extends BaseStatusEntity<String> implements Field {
 
     @Column(name = "formDefinitionId", comment = "表单定义id")

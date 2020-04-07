@@ -2,11 +2,11 @@ package com.dr.framework.common.form.init.entity;
 
 
 import com.dr.framework.common.entity.BaseStatusEntity;
-import com.dr.framework.common.form.util.Constans;
+import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.core.orm.annotations.Column;
 import com.dr.framework.core.orm.annotations.Table;
 
-@Table(name = Constans.TABLE_PREFIX + "ProcessType", module = Constans.MODULE_NAME, comment = "流程类型")
+@Table(name = Constants.TABLE_PREFIX + "ProcessType", module = Constants.MODULE_NAME, comment = "流程类型")
 public class ProcessType extends BaseStatusEntity<String> {
 
     @Column(name = "organiseId", comment = "组织id")

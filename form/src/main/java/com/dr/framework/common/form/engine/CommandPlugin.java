@@ -1,7 +1,5 @@
 package com.dr.framework.common.form.engine;
 
-import com.dr.framework.common.form.validate.model.ValidateException;
-
 /**
  * 用来拦截命令执行
  *
@@ -24,6 +22,6 @@ public interface CommandPlugin extends Plugin {
      * @param command
      * @return
      */
-    Command handle(CommandContext context, Command command) throws ValidateException;
+    Command handle(CommandContext context, Command command) throws Exception;
 
 }

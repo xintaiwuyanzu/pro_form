@@ -3,6 +3,8 @@ package com.dr.framework.common.form.init.service;
 import com.dr.framework.common.form.core.model.Field;
 import com.dr.framework.common.form.init.model.FieldDefault;
 
+import java.io.Serializable;
+
 public interface FieldDefaultManager {
 
     /**
@@ -12,6 +14,6 @@ public interface FieldDefaultManager {
      * @param fieldDefault
      * @return
      */
-    Object getDefaultValue(Field field, FieldDefault fieldDefault);
+    Serializable getDefaultValue(Field field, FieldDefault fieldDefault);
 
 }

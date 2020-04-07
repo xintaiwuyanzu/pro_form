@@ -1,5 +1,6 @@
 package com.dr.framework.common.form.core.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -7,7 +8,7 @@ import java.util.HashMap;
  *
  * @author dr
  */
-public class FormData extends HashMap<String, Object> {
+public class FormData extends HashMap<String, Serializable> {
     private String formDefinitionId;
     private String formDataId;
     private String fieldName;

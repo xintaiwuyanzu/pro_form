@@ -2,11 +2,11 @@ package com.dr.framework.common.form.child.entity;
 
 import com.dr.framework.common.entity.BaseStatusEntity;
 import com.dr.framework.common.form.child.model.SubField;
-import com.dr.framework.common.form.util.Constans;
+import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.core.orm.annotations.Column;
 import com.dr.framework.core.orm.annotations.Table;
 
-@Table(name = Constans.TABLE_PREFIX + "SubFormField", module = Constans.MODULE_NAME, comment = "子表单字段")
+@Table(name = Constants.TABLE_PREFIX + "SubFormField", module = Constants.MODULE_NAME, comment = "子表单字段")
 public class SubFormField extends BaseStatusEntity<String> implements SubField {
 
     @Column(name = "formDefinitionId", comment = "表单定义Id")

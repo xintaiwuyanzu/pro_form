@@ -3,13 +3,17 @@ package com.dr.framework.common.form.core.command;
 import com.dr.framework.common.form.core.entity.FormField;
 import com.dr.framework.common.form.core.entity.FormFieldInfo;
 import com.dr.framework.common.form.core.model.Field;
-import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
-public class FieldDataSelectOneCommand implements Command<Field> {
+/**
+ * 根据字段编码获取单个字段信息
+ *
+ * @author dr
+ */
+public class FieldDataSelectOneCommand extends AbstractVersionCommand<Field> {
 
     private String formDefinitionId;
     private String fieldCode;
@@ -20,10 +24,19 @@ public class FieldDataSelectOneCommand implements Command<Field> {
     }
 
     public FieldDataSelectOneCommand(String formDefinitionId, String fieldCode, String fieldName) {
+        super();
         this.formDefinitionId = formDefinitionId;
         this.fieldCode = fieldCode;
         this.fieldName = fieldName;
     }
+
+    public FieldDataSelectOneCommand(String version, String formDefinitionId, String fieldCode, String fieldName) {
+        super(version);
+        this.formDefinitionId = formDefinitionId;
+        this.fieldCode = fieldCode;
+        this.fieldName = fieldName;
+    }
+
 
     @Override
     public Field execute(CommandContext context) {
@@ -39,6 +52,8 @@ public class FieldDataSelectOneCommand implements Command<Field> {
         if (StringUtils.isNotEmpty(fieldName)) {
             sqlQuery.equal(FormFieldInfo.FIELDNAME, fieldName);
         }
+        sqlQuery.equal(FormFieldInfo.VERSION, getVersion());
+
         FormField formField = context.getMapper().selectOneByQuery(sqlQuery);
         return formField;
     }

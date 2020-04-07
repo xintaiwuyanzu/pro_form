@@ -10,8 +10,8 @@ import org.springframework.util.Assert;
 import java.util.Arrays;
 import java.util.Collection;
 
-import static com.dr.framework.common.form.util.Constans.isChinaPhoneLegal;
-import static com.dr.framework.common.form.util.Constans.isHKPhoneLegal;
+import static com.dr.framework.common.form.util.Constants.isChinaPhoneLegal;
+import static com.dr.framework.common.form.util.Constants.isHKPhoneLegal;
 
 public class PhoneValidator implements Validator {
 

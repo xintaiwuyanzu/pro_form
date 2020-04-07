@@ -2,11 +2,11 @@ package com.dr.framework.common.form.init.entity;
 
 import com.dr.framework.common.entity.BaseStatusEntity;
 import com.dr.framework.common.form.init.model.FieldDefault;
-import com.dr.framework.common.form.util.Constans;
+import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.core.orm.annotations.Column;
 import com.dr.framework.core.orm.annotations.Table;
 
-@Table(name = Constans.TABLE_PREFIX + "FieldDefaultValue", module = Constans.MODULE_NAME, comment = "字段默认值")
+@Table(name = Constants.TABLE_PREFIX + "FieldDefaultValue", module = Constants.MODULE_NAME, comment = "字段默认值")
 public class FieldDefaultValue extends BaseStatusEntity<String> implements FieldDefault {
 
     @Column(name = "formDefinitionId", comment = "表单定义id")

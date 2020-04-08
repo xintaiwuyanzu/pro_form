@@ -14,16 +14,29 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
-public class FormDataSelectPageCommand implements Command<Page> {
+public class FormDataSelectPageCommand extends AbstractFormDefinitionIdCommand<Page> {
 
-    @Autowired
-    FormDefinitionService formDefinitionService;
 
     private FormData formData;
     private int pageIndex;
     private int pageSize;
 
     public FormDataSelectPageCommand(FormData formData, int pageIndex, int pageSize) {
+        super();
+        this.formData = formData;
+        this.pageIndex = pageIndex;
+        this.pageSize = pageSize;
+    }
+
+    public FormDataSelectPageCommand(String formDefinitionId, FormData formData, int pageIndex, int pageSize) {
+        super(formDefinitionId);
+        this.formData = formData;
+        this.pageIndex = pageIndex;
+        this.pageSize = pageSize;
+    }
+
+    public FormDataSelectPageCommand(String version, String formDefinitionId, FormData formData, int pageIndex, int pageSize) {
+        super(version, formDefinitionId);
         this.formData = formData;
         this.pageIndex = pageIndex;
         this.pageSize = pageSize;
@@ -38,7 +51,7 @@ public class FormDataSelectPageCommand implements Command<Page> {
     @Override
     public Page execute(CommandContext context) {
         Assert.isTrue(StringUtils.isNotEmpty(formData.get("formDefinitionId") + ""), "表单id不能为空");
-        Form form = formDefinitionService.selectOneFormDefinition(formData.get("formDefinitionId") + "");
+        Form form = context.getFormDefinitionService().selectOneFormDefinition(formData.get("formDefinitionId") + "");
         Assert.notNull(form, "系统未发现该表单定义");
         //判断表是否存在
         DataBaseService dataBaseService = context.getApplicationContext().getBean(DataBaseService.class);

@@ -1,5 +1,6 @@
 package com.dr.framework.common.form.init.command;
 
+import com.dr.framework.common.form.core.command.AbstractFormDefinitionIdCommand;
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.init.entity.FieldDefaultValue;
@@ -10,10 +11,20 @@ import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
-public class FormDefaultValueRemoveCommand implements Command<Long> {
+public class FormDefaultValueRemoveCommand extends AbstractFormDefinitionIdCommand<Long> {
     private String formDefaultValueId;
 
     public FormDefaultValueRemoveCommand(String formDefaultValueId) {
+        this.formDefaultValueId = formDefaultValueId;
+    }
+
+    public FormDefaultValueRemoveCommand(String version, String formDefaultValueId) {
+        super(version, null);
+        this.formDefaultValueId = formDefaultValueId;
+    }
+
+    public FormDefaultValueRemoveCommand(String version, String formDefinitionId, String formDefaultValueId) {
+        super(version, formDefinitionId);
         this.formDefaultValueId = formDefaultValueId;
     }
 

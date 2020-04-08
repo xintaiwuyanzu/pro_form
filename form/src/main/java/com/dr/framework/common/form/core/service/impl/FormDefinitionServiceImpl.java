@@ -95,52 +95,6 @@ public class FormDefinitionServiceImpl implements FormDefinitionService {
         return executor.execute(new FormDefinitionRemoveCommand(formId, retain));
     }
 
-    @Override
-    public List<Field> getFieldListByTabId(String tabId) {
-        return null;
-    }
-
-    @Override
-    public List<Field> getFieldListByTabCode(String tabCode) {
-        return null;
-    }
-
-    @Override
-    public List<Field> getTabListByTabId(String tabId) {
-        return null;
-    }
-
-    @Override
-    public List<Field> getFieldList() {
-        return null;
-    }
-
-    @Override
-    public List<Field> getFieldListByFormId(String formId) {
-        return null;
-    }
-
-    @Override
-    public List<Field> getFieldListByFormCode(String formCode) {
-        return null;
-    }
-
-    @Override
-    public int addFieldByFormId(String formId, Field field) {
-        return 0;
-    }
-
-    @Override
-    public int updateFieldByFormId(String formId, Field field) {
-        return 0;
-    }
-
-    @Override
-    public int deleteFieldByFormId(String formId, Field field) {
-        return 0;
-    }
-
-
     /**
      * 根据表单定义Id 和字段编码 查询字段信息
      *
@@ -152,4 +106,5 @@ public class FormDefinitionServiceImpl implements FormDefinitionService {
     public Field selectFieldByFieldCode(String formDefinitionId, String fieldCode) {
         return executor.execute(new FieldDataSelectOneCommand(formDefinitionId, fieldCode));
     }
+
 }

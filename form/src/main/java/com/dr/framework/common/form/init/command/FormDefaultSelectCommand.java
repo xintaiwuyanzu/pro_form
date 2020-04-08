@@ -1,6 +1,6 @@
 package com.dr.framework.common.form.init.command;
 
-import com.dr.framework.common.form.engine.Command;
+import com.dr.framework.common.form.core.command.AbstractFormDefinitionIdCommand;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.init.entity.FieldDefaultValue;
 import com.dr.framework.common.form.init.entity.FieldDefaultValueInfo;
@@ -14,21 +14,23 @@ import org.springframework.util.Assert;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FormDefaultSelectCommand implements Command<List<FormDefault>> {
-
-    private String formDefinitionId;
+public class FormDefaultSelectCommand extends AbstractFormDefinitionIdCommand<List<FormDefault>> {
 
     public FormDefaultSelectCommand(String formDefinitionId) {
-        this.formDefinitionId = formDefinitionId;
+        super(formDefinitionId);
+    }
+
+    public FormDefaultSelectCommand(String version, String formDefinitionId) {
+        super(version, formDefinitionId);
     }
 
     @Override
     public List<FormDefault> execute(CommandContext context) {
-        Assert.isTrue(StringUtils.isNotEmpty(formDefinitionId), "表单定义Id不能全为空");
+        Assert.isTrue(StringUtils.isNotEmpty(getFormDefinitionId()), "表单定义Id不能全为空");
         List<FormDefault> listFormDefaultValues = new ArrayList<>();
         SqlQuery sqlQuery = SqlQuery.from(FormDefaultValue.class);
-        if (StringUtils.isNotEmpty(formDefinitionId)) {
-            sqlQuery.equal(FormDefaultValueInfo.FORMDEFINITIONID, formDefinitionId);
+        if (StringUtils.isNotEmpty(getFormDefinitionId())) {
+            sqlQuery.equal(FormDefaultValueInfo.FORMDEFINITIONID, getFormDefinitionId());
         }
         List<FormDefaultValue> list = context.getMapper().selectByQuery(sqlQuery);
         if (list.size() > 0) {
@@ -40,6 +42,5 @@ public class FormDefaultSelectCommand implements Command<List<FormDefault>> {
         }
         return listFormDefaultValues;
     }
-
 
 }

@@ -1,6 +1,6 @@
 package com.dr.framework.common.form.init.command;
 
-import com.dr.framework.common.form.engine.Command;
+import com.dr.framework.common.form.core.command.AbstractFormDefinitionIdCommand;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.init.entity.FieldDefaultValue;
 import com.dr.framework.common.form.init.entity.FieldDefaultValueInfo;
@@ -13,18 +13,24 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 
-public class FormDefaultValueSelectOneCommand implements Command<FormDefault> {
-    private String formDefinitionId;
+public class FormDefaultValueSelectOneCommand extends AbstractFormDefinitionIdCommand<FormDefault> {
     private String formDefaultValueId;
     private String linkCode;
 
     public FormDefaultValueSelectOneCommand(String formDefinitionId, String formDefaultValueId) {
-        this(formDefinitionId, formDefaultValueId, null);
+        super(formDefinitionId);
+        this.formDefaultValueId = formDefaultValueId;
     }
 
     public FormDefaultValueSelectOneCommand(String formDefinitionId, String formDefaultValueId, String linkCode) {
+        super(formDefinitionId);
         this.formDefaultValueId = formDefaultValueId;
-        this.formDefinitionId = formDefinitionId;
+        this.linkCode = linkCode;
+    }
+
+    public FormDefaultValueSelectOneCommand(String version, String formDefinitionId, String formDefaultValueId, String linkCode) {
+        super(version, formDefinitionId);
+        this.formDefaultValueId = formDefaultValueId;
         this.linkCode = linkCode;
     }
 
@@ -38,8 +44,8 @@ public class FormDefaultValueSelectOneCommand implements Command<FormDefault> {
     public FormDefault execute(CommandContext context) {
         Assert.isTrue(StringUtils.isNotEmpty(formDefaultValueId) || StringUtils.isNotEmpty(linkCode), "默认值主键和编码不能全为空");
         SqlQuery<FormDefaultValue> sqlQuery = SqlQuery.from(FormDefaultValue.class);
-        if (StringUtils.isNotEmpty(formDefinitionId)) {
-            sqlQuery.equal(FormDefaultValueInfo.FORMDEFINITIONID, formDefinitionId);
+        if (StringUtils.isNotEmpty(getFormDefinitionId())) {
+            sqlQuery.equal(FormDefaultValueInfo.FORMDEFINITIONID, getFormDefinitionId());
         }
         if (StringUtils.isNotEmpty(formDefaultValueId)) {
             sqlQuery.equal(FormDefaultValueInfo.ID, formDefaultValueId);

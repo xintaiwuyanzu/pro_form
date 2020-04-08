@@ -18,9 +18,6 @@ import java.util.Collection;
 
 public class FormDataInsertCommand implements Command<FormData> {
 
-    @Autowired
-    FormDefinitionService formDefinitionService;
-
     private FormData formData;
 
     public FormDataInsertCommand(FormData formData) {
@@ -30,7 +27,7 @@ public class FormDataInsertCommand implements Command<FormData> {
     @Override
     public FormData execute(CommandContext context) {
         Assert.isTrue(StringUtils.isNotEmpty(formData.get("formDefinitionId") + ""), "表单定义Id不能为空！");
-        FormDefinition formDefinition = (FormDefinition) formDefinitionService.selectOneFormDefinition(formData.get("formDefinitionId") + "");
+        FormDefinition formDefinition = (FormDefinition) context.getFormDefinitionService().selectOneFormDefinition(formData.get("formDefinitionId") + "");
         Assert.notNull(formDefinition, "系统未发现该表单");
         //判断表是否存在
         DataBaseService dataBaseService = context.getApplicationContext().getBean(DataBaseService.class);

@@ -1,7 +1,11 @@
 package com.dr.framework.common.form.autoconfig;
 
+import com.dr.framework.common.form.core.service.FormDataService;
+import com.dr.framework.common.form.core.service.FormDefinitionService;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
 import com.dr.framework.common.form.core.service.impl.DefaultFormNameGenerator;
+import com.dr.framework.common.form.core.service.impl.FormDataServiceImpl;
+import com.dr.framework.common.form.core.service.impl.FormDefinitionServiceImpl;
 import com.dr.framework.common.form.engine.CommandContextFactory;
 import com.dr.framework.common.form.engine.CommandExecutor;
 import com.dr.framework.common.form.engine.CommandPlugin;
@@ -60,6 +64,28 @@ public class CoreFormAutoConfig {
     @ConditionalOnMissingBean
     protected FormNameGenerator formNameGenerator() {
         return new DefaultFormNameGenerator();
+    }
+
+    /**
+     * 注入默认的表单定义service
+     *
+     * @return
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    protected FormDefinitionService formDefinitionService() {
+        return new FormDefinitionServiceImpl();
+    }
+
+    /**
+     * 注入默认的表单实例service
+     *
+     * @return
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    protected FormDataService formDataService() {
+        return new FormDataServiceImpl();
     }
 
 

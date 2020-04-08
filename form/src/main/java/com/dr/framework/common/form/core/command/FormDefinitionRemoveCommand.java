@@ -13,14 +13,22 @@ import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-public class FormDefinitionRemoveCommand implements Command<Long> {
-
-    private String formDefinitionId;
+/**
+ * 删除表单定义数据
+ *
+ * @author dr
+ */
+public class FormDefinitionRemoveCommand extends AbstractFormDefinitionIdCommand<Long> {
 
     private boolean retain;
 
     public FormDefinitionRemoveCommand(String formDefinitionId, boolean retain) {
-        this.formDefinitionId = formDefinitionId;
+        super(formDefinitionId);
+        this.retain = retain;
+    }
+
+    public FormDefinitionRemoveCommand(String version, String formDefinitionId, boolean retain) {
+        super(version, formDefinitionId);
         this.retain = retain;
     }
 
@@ -32,9 +40,9 @@ public class FormDefinitionRemoveCommand implements Command<Long> {
      */
     @Override
     public Long execute(CommandContext context) {
-        Assert.isTrue(!StringUtils.isEmpty(formDefinitionId), "请选择需要删除的表单");
+        Assert.isTrue(!StringUtils.isEmpty(getFormDefinitionId()), "请选择需要删除的表单");
         //根据表单Id查询表单主表数据
-        FormDefinition formDefinition = context.getMapper().selectById(FormDefinition.class, formDefinitionId);
+        FormDefinition formDefinition = context.getMapper().selectById(FormDefinition.class, getFormDefinitionId());
         Assert.notNull(formDefinition, "你选择的表单数据不存在");
         if (!StringUtils.isEmpty(formDefinition.getFormTable())) {
             //是否直接删除表 true: 删  false: 不删
@@ -44,9 +52,9 @@ public class FormDefinitionRemoveCommand implements Command<Long> {
             }
         }
         //根据表单数据删除表单数据中的所有字段数据
-        context.getMapper().deleteByQuery(SqlQuery.from(FormField.class).equal(FormFieldInfo.FORMDEFINITIONID, formDefinitionId));
+        context.getMapper().deleteByQuery(SqlQuery.from(FormField.class).equal(FormFieldInfo.FORMDEFINITIONID, getFormDefinitionId()));
         //最后删除表单定义表中的这条数据
-        return context.getMapper().deleteByQuery(SqlQuery.from(FormDefinition.class).equal(FormDefinitionInfo.ID, formDefinitionId));
+        return context.getMapper().deleteByQuery(SqlQuery.from(FormDefinition.class).equal(FormDefinitionInfo.ID, getFormDefinitionId()));
     }
 
     protected void removeTable(CommandContext context, String tableName) {

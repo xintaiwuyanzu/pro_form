@@ -22,12 +22,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class FormDataValidateCommand implements Command<ValidateResults<FormData>> {
-
-    @Autowired
-    ValidateService validateService;
-    @Autowired
-    FormDefinitionService formDefinitionService;
-
     private String validateDefinitionId;
     private List<Validator> validators;
     private FormData formData;
@@ -47,9 +41,9 @@ public class FormDataValidateCommand implements Command<ValidateResults<FormData
         CommandExecutor executor = context.getExecutor();
         ValidateResults<FormData> validateResults = new ValidateResults<>(formData);
         //根据校验定义id查询所有对应的字段校验
-        ValidateDefinitionForm validateDefinitionForm = (ValidateDefinitionForm) validateService.SelectOneValidateDefinitionForm(validateDefinitionId);
+        ValidateDefinitionForm validateDefinitionForm = (ValidateDefinitionForm) context.getValidateDefaultService().SelectOneValidateDefinitionForm(validateDefinitionId);
         //根据表单数据查询表单定义
-        FormDefinition formDefinition = (FormDefinition) formDefinitionService.selectOneFormDefinition(validateDefinitionForm.getFormDefinitionId());
+        FormDefinition formDefinition = (FormDefinition) context.getFormDefinitionService().selectOneFormDefinition(validateDefinitionForm.getFormDefinitionId());
         //遍历这一套校验的字段
         for (ValidateDefinitionField validateField : validateDefinitionForm.getValidateDefinitionFieldList()) {
             //获取这个字段的全部属性

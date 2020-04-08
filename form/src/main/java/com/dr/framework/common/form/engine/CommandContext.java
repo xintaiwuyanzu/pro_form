@@ -3,6 +3,8 @@ package com.dr.framework.common.form.engine;
 import com.dr.framework.common.dao.CommonMapper;
 import com.dr.framework.common.form.core.service.FormDataService;
 import com.dr.framework.common.form.core.service.FormDefinitionService;
+import com.dr.framework.common.form.init.service.FormDefaultValueService;
+import com.dr.framework.common.form.validate.service.ValidateDefaultService;
 import com.dr.framework.common.form.validate.service.ValidateService;
 import org.springframework.context.ApplicationContext;
 
@@ -72,8 +74,26 @@ public interface CommandContext {
      *
      * @return
      */
+    default ValidateDefaultService getValidateDefaultService() {
+        return getApplicationContext().getBean(ValidateDefaultService.class);
+    }
+
+    /**
+     * 获取校验服务
+     *
+     * @return
+     */
     default ValidateService getValidateService() {
         return getApplicationContext().getBean(ValidateService.class);
+    }
+
+    /**
+     * 获取默认值服务
+     *
+     * @return
+     */
+    default FormDefaultValueService getFormDefaultValueService() {
+        return getApplicationContext().getBean(FormDefaultValueService.class);
     }
 
 }

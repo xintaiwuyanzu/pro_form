@@ -15,15 +15,15 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 
-public class FormDataSelectCommand implements Command<List> {
+public class FormDataSelectCommand extends AbstractFormDefinitionIdCommand<List> {
 
-    @Autowired
-    FormDefinitionService formDefinitionService;
 
-    private String formId;
+    public FormDataSelectCommand(String formDefinitionId) {
+        super(formDefinitionId);
+    }
 
-    public FormDataSelectCommand(String formId) {
-        this.formId = formId;
+    public FormDataSelectCommand(String version, String formDefinitionId) {
+        super(version, formDefinitionId);
     }
 
     /**
@@ -34,8 +34,8 @@ public class FormDataSelectCommand implements Command<List> {
      */
     @Override
     public List<FormData> execute(CommandContext context) {
-        Assert.isTrue(StringUtils.isNotEmpty(formId), "表单id不能为空");
-        Form form = formDefinitionService.selectOneFormDefinition(formId);
+        Assert.isTrue(StringUtils.isNotEmpty(getFormDefinitionId()), "表单id不能为空");
+        Form form = context.getFormDefinitionService().selectOneFormDefinition(getFormDefinitionId());
         Assert.notNull(form, "系统未发现该表单定义");
         //判断表是否存在
         DataBaseService dataBaseService = context.getApplicationContext().getBean(DataBaseService.class);
@@ -43,7 +43,7 @@ public class FormDataSelectCommand implements Command<List> {
         //先查出来表结构定义对象
         Relation relation = dataBaseService.getTableInfo(form.getFormTable(), Constants.MODULE_NAME);
         //拼写查询条件
-        SqlQuery sqlQueryObj = SqlQuery.from(relation).equal(relation.getColumn("formId"), formId);
+        SqlQuery sqlQueryObj = SqlQuery.from(relation).equal(relation.getColumn("formDefinitionId"), getFormDefinitionId());
         //执行查询语句
         return context.getMapper().selectByQuery(sqlQueryObj);
     }

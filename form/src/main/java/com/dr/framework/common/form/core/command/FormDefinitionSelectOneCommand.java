@@ -13,16 +13,20 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 
-public class FormDefinitionSelectOneCommand implements Command<Form> {
-    private String formDefinitionId;
+public class FormDefinitionSelectOneCommand extends AbstractFormDefinitionIdCommand<Form> {
     private String formCode;
 
     public FormDefinitionSelectOneCommand(String formDefinitionId) {
-        this(formDefinitionId, null);
+        super(formDefinitionId);
     }
 
     public FormDefinitionSelectOneCommand(String formDefinitionId, String formCode) {
-        this.formDefinitionId = formDefinitionId;
+        super(formDefinitionId);
+        this.formCode = formCode;
+    }
+
+    public FormDefinitionSelectOneCommand(String version, String formDefinitionId, String formCode) {
+        super(version, formDefinitionId);
         this.formCode = formCode;
     }
 
@@ -35,8 +39,8 @@ public class FormDefinitionSelectOneCommand implements Command<Form> {
     @Override
     public Form execute(CommandContext context) {
         SqlQuery<FormDefinition> sqlQuery = SqlQuery.from(FormDefinition.class);
-        if (StringUtils.isNotEmpty(formDefinitionId)) {
-            sqlQuery.equal(FormDefinitionInfo.ID, formDefinitionId);
+        if (StringUtils.isNotEmpty(getFormDefinitionId())) {
+            sqlQuery.equal(FormDefinitionInfo.ID, getFormDefinitionId());
         }
         if (StringUtils.isNotEmpty(formCode)) {
             sqlQuery.equal(FormDefinitionInfo.FORMCODE, formCode);
@@ -46,5 +50,9 @@ public class FormDefinitionSelectOneCommand implements Command<Form> {
         List<FormField> listFiled = context.getMapper().selectByQuery(SqlQuery.from(FormField.class).equal(FormFieldInfo.FORMDEFINITIONID, formDefinition.getId()));
         formDefinition.setFormFieldList(listFiled);
         return formDefinition;
+    }
+
+    public String getFormCode() {
+        return formCode;
     }
 }

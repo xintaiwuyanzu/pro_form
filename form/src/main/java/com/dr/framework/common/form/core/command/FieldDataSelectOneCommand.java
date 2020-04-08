@@ -13,38 +13,35 @@ import org.springframework.util.Assert;
  *
  * @author dr
  */
-public class FieldDataSelectOneCommand extends AbstractVersionCommand<Field> {
+public class FieldDataSelectOneCommand extends AbstractFormDefinitionIdCommand<Field> {
 
-    private String formDefinitionId;
     private String fieldCode;
     private String fieldName;
 
     public FieldDataSelectOneCommand(String formDefinitionId, String fieldCode) {
-        this(formDefinitionId, fieldCode, null);
+        super(formDefinitionId);
+        this.fieldCode = fieldCode;
     }
 
     public FieldDataSelectOneCommand(String formDefinitionId, String fieldCode, String fieldName) {
-        super();
-        this.formDefinitionId = formDefinitionId;
+        super(formDefinitionId);
         this.fieldCode = fieldCode;
         this.fieldName = fieldName;
     }
 
     public FieldDataSelectOneCommand(String version, String formDefinitionId, String fieldCode, String fieldName) {
-        super(version);
-        this.formDefinitionId = formDefinitionId;
+        super(version, formDefinitionId);
         this.fieldCode = fieldCode;
         this.fieldName = fieldName;
     }
 
-
     @Override
     public Field execute(CommandContext context) {
-        Assert.isTrue(StringUtils.isNotEmpty(formDefinitionId), "表单定义Id不能为空");
+        Assert.isTrue(StringUtils.isNotEmpty(getFormDefinitionId()), "表单定义Id不能为空");
         Assert.isTrue(StringUtils.isNotEmpty(fieldCode), "表单定义Id不能为空");
         SqlQuery<FormField> sqlQuery = SqlQuery.from(FormField.class);
-        if (StringUtils.isNotEmpty(formDefinitionId)) {
-            sqlQuery.equal(FormFieldInfo.FORMDEFINITIONID, formDefinitionId);
+        if (StringUtils.isNotEmpty(getFormDefinitionId())) {
+            sqlQuery.equal(FormFieldInfo.FORMDEFINITIONID, getFormDefinitionId());
         }
         if (StringUtils.isNotEmpty(fieldCode)) {
             sqlQuery.equal(FormFieldInfo.FIELDCODE, fieldCode);
@@ -58,4 +55,11 @@ public class FieldDataSelectOneCommand extends AbstractVersionCommand<Field> {
         return formField;
     }
 
+    public String getFieldCode() {
+        return fieldCode;
+    }
+
+    public String getFieldName() {
+        return fieldName;
+    }
 }

@@ -19,13 +19,12 @@ public class InitPlugin implements CommandPlugin {
 
     @Override
     public String type() {
-        return null;
+        return "init";
     }
 
     @Override
     public String description() {
-        return null;
+        return "默认值";
     }
-
 
 }

@@ -19,7 +19,7 @@ public class DefaultFormNameGenerator implements FormNameGenerator {
     public String genFieldName(Form form, Field field) {
         return String.join("_",
                 "c",
-                field.getFieldType(),
+                field.getFieldCode(),
                 String.valueOf(form.getFormOrder()));
     }
 }

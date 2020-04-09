@@ -10,6 +10,7 @@ import com.dr.framework.common.form.validate.model.ValidateResults;
 import com.dr.framework.common.form.validate.service.ValidateService;
 
 public class ValidatePlugin implements CommandPlugin {
+
     ValidateService validateService;
 
     @Override

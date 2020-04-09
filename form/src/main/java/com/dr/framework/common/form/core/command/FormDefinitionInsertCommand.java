@@ -230,7 +230,7 @@ public class FormDefinitionInsertCommand implements Command<Form> {
      */
     private Column newColumn(FormDefinition formData, FormField field, FormNameGenerator generate) {
         Column column = new Column(formData.getFormTable(), field.getFieldCode(), "");
-        column.setName(generate.genFieldName(formData, field));
+        column.setName(field.getFieldCode());
         column.setTableName(generate.genTableName(formData));
         column.setType(Types.VARCHAR);
         column.setSize(field.getFieldLength());

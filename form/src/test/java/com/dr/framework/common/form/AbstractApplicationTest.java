@@ -43,10 +43,12 @@ public class AbstractApplicationTest {
         formDefinition.setFormTable("FistFrom");
         formDefinition.setFormState("0");
         formDefinition.setFormType("gongWen");
+        formDefinition.setVersion("1");
         Collection<Field> list = new ArrayList<Field>();
         FormField formField = new FormField();
         formField.setFieldCode("text001");
         formField.setFieldName("ceshi");
+        formField.setFieldType("varchar");
         formField.setFieldLength(300);
         formField.setFieldOrder(1);
         formField.setFieldState("0");
@@ -55,6 +57,7 @@ public class AbstractApplicationTest {
         FormField formField1 = new FormField();
         formField1.setFieldCode("id");
         formField1.setFieldName("text");
+        formField1.setFieldType("pk");
         formField1.setFieldLength(50);
         formField1.setFieldOrder(1);
         formField1.setFieldState("0");

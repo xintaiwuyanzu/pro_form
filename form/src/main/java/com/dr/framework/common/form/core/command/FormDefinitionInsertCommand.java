@@ -76,8 +76,10 @@ public class FormDefinitionInsertCommand implements Command<Form> {
         //保存定义数据
         CommonMapper mapper = context.getMapper();
         for (FormField formField : fields) {
+            //先保存字段数据
             mapper.insert(formField);
         }
+        //保存定义数据
         mapper.insert(formDefinition);
         //是否生成数据库表 true:生成； false:不生成
         if (generate) {

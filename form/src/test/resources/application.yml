@@ -4,4 +4,4 @@ spring:
     password: root
     url: jdbc:mysql://192.168.200.244:3306/drform?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     includeModules: sys,common,form
-    autoDDl: update
+    autoDDl: none

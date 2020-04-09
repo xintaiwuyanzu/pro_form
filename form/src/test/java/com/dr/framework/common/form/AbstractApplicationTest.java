@@ -5,6 +5,7 @@ import com.dr.framework.common.form.core.command.FormDefinitionRemoveCommand;
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormField;
 import com.dr.framework.common.form.core.model.Field;
+import com.dr.framework.common.form.core.service.FormDefinitionService;
 import com.dr.framework.common.form.engine.CommandExecutor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,6 +25,9 @@ public class AbstractApplicationTest {
 
     @Autowired
     CommandExecutor commandExecutor;
+
+    @Autowired
+    FormDefinitionService formDefinitionService;
 
     @Test
     public void testInit() {
@@ -56,7 +60,7 @@ public class AbstractApplicationTest {
         formField1.setFieldState("0");
         formField1.setFieldValue("ceshi");
         list.add(formField1);
-        commandExecutor.execute(new FormDefinitionInsertCommand(formDefinition, list, true, true));
+        formDefinitionService.addFormDefinition(formDefinition,list,true);
     }
 
     @Test
@@ -64,4 +68,6 @@ public class AbstractApplicationTest {
         String formId = "00a905ac-8e85-46a1-b699-9ef330e96131";
         commandExecutor.execute(new FormDefinitionRemoveCommand(formId, true));
     }
+
+
 }

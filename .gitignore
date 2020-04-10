@@ -1,4 +1,8 @@
 /.idea/
 /form/target
 /form/transaction-logs
+/transaction-logs/
 *.iml
+*/yarn.lock
+*/node_modules
+/web/dist

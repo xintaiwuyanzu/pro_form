@@ -1,0 +1,105 @@
+<template>
+    <section>
+        <img src="../assets/logo.png"
+             height="50px"
+             style="margin-top: 10px"/>
+        <section class="section" style="float: right;margin-top: 15px;">
+            <el-tag effect="dark" style="margin-right: 20px;height:30px;padding: 4px;float: left;">
+                {{$store.state.user.userName}}
+            </el-tag>
+            <el-button circle size="mini" style="margin-right: 10px;height:30px;padding: 4px;float: left"
+                       @click="getChange($store.state.user)">
+                <icon icon="user" style="width: 20px"/>
+            </el-button>
+            <el-button circle size="mini" style="margin-right: 15px;height:30px;padding: 4px;float: left"
+                       @click="logout()">
+                <icon icon="delete" style="width: 20px"/>
+            </el-button>
+            <el-select v-model="sysId" ref="sysSelect"
+                       style=" display: inline-block;width: 160px;"
+                       @change="loadMenu">
+                <el-option-group label="业务子系统">
+                    <el-option v-for="item in options" :key="item.id" :value="item.id" :label="item.sysName">
+                        <span style="float: left">{{ item.sysName }}</span>
+                        <span style="float: right; color: #8492a6; font-size: 13px">{{ item.sysDescription }}</span>
+                    </el-option>
+                </el-option-group>
+            </el-select>
+            <change-form ref="changeform"/>
+            <changepwd-form ref="changepwdform"/>
+        </section>
+    </section>
+</template>
+<script>
+    import changeForm from './changeForm'
+    import changepwdForm from './changePwdForm'
+
+    export default {
+        components: {changeForm, changepwdForm},
+        data() {
+            return {
+                baseUrl: process.env.BASE_URL + 'imgs/',
+                sysId: 'default',
+                options: [],
+            }
+        },
+        computed: {
+            subSys() {
+                let sys = this.options.find(d => d.id == this.sysId)
+                return sys ? sys : {}
+            }
+        },
+        methods: {
+            download: url => url ? window.open(url) : '',
+            loadMenu(id, remain) {
+                if (id === 'user') {
+                    this.$store.commit('logout')
+                } else {
+                    let sys = this.subSys
+                    if (sys.homeAddress) {
+                        window.open(sys.homeAddress)
+                    } else {
+                        sessionStorage.setItem('sysId', id)
+                        if (!remain) {
+                            this.$router.push('/main/')
+                        }
+                        this.$nextTick(() => {
+                            this.$store.dispatch('loadMenu', {sysId: id, all: false})
+                        })
+                    }
+                }
+            },
+            $init() {
+                this.$http.post('/subsys/page?page=false')
+                    .then(({data}) => {
+                        if (data.success) {
+                            this.options = data.data.sort((a, b) => a.order - b.order)
+                            if (sessionStorage.getItem('sysId')) {
+                                this.sysId = sessionStorage.getItem('sysId')
+                            } else {
+                                this.sysId = 'default'
+                            }
+                            this.loadMenu(this.sysId, true)
+                        }
+                    })
+            },
+            logout() {
+                this.$store.commit('logout');
+            },
+            getChange(row) {
+                this.$refs.changeform.editForm(row)
+            },
+            changePwds() {
+                this.$refs.changepwdform.editForm()
+            },
+
+        }
+    }
+</script>
+<style type="scss">
+    .section {
+        .el-tag {
+            color: #F8F8FF;
+        }
+    }
+</style>

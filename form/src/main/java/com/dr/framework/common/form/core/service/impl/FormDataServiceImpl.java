@@ -3,6 +3,7 @@ package com.dr.framework.common.form.core.service.impl;
 import com.dr.framework.common.form.core.command.*;
 import com.dr.framework.common.form.core.model.FormData;
 import com.dr.framework.common.form.core.service.FormDataService;
+import com.dr.framework.common.form.core.service.SqlBuilder;
 import com.dr.framework.common.form.engine.CommandExecutor;
 import com.dr.framework.common.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,12 +40,12 @@ public class FormDataServiceImpl implements FormDataService {
     /**
      * 查询表单数据
      *
-     * @param formId
+     * @param sqlBuilder
      * @return list
      */
     @Override
-    public List<FormData> selectFormData(String formId) {
-        return executor.execute(new FormDataSelectCommand(formId));
+    public List<FormData> selectFormData(SqlBuilder sqlBuilder) {
+        return executor.execute(new FormDataSelectCommand(sqlBuilder));
     }
 
     /**

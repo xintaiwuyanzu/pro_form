@@ -12,7 +12,6 @@ import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,7 +36,9 @@ public class FormDataText extends AbstractApplicationTest {
 
     @Test
     public void select() {
-        List<FormData> formData = formDataService.selectFormData("e363023d-29f5-4d2a-a4ef-6f2c14b62fd1");
+        List<FormData> formData = formDataService.selectFormData((sqlQuery, relation) -> {
+            sqlQuery.equal(relation.getColumn("FORMDEFINITIONID"),"29eba72e-e041-4b3a-90e2-1b49b8bc302e");
+        });
         System.out.println(formData);
     }
 

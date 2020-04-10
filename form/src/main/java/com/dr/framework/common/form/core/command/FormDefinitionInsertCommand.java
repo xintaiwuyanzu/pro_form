@@ -205,7 +205,7 @@ public class FormDefinitionInsertCommand implements Command<Form> {
                 .forEach(field -> {
                     Column column = newColumn(formData, field, formNameGenerator);
                     if ("pk".equals(field.getFieldType())) {
-                        configedRelation.addPrimaryKey("pk", field.getFieldCode(), 0);
+                        configedRelation.addPrimaryKey("pk", formNameGenerator.genFieldName(formData,field), 0);
                     }
                     configedRelation.addColumn(column);
                 });
@@ -230,7 +230,7 @@ public class FormDefinitionInsertCommand implements Command<Form> {
      */
     private Column newColumn(FormDefinition formData, FormField field, FormNameGenerator generate) {
         Column column = new Column(formData.getFormTable(), field.getFieldCode(), "");
-        column.setName(field.getFieldCode());
+        column.setName(generate.genFieldName(formData, field));
         column.setTableName(generate.genTableName(formData));
         column.setType(Types.VARCHAR);
         column.setSize(field.getFieldLength());

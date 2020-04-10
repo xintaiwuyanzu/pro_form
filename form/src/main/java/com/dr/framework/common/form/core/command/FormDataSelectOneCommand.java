@@ -1,7 +1,8 @@
 package com.dr.framework.common.form.core.command;
 
-import com.dr.framework.common.form.core.model.Form;
+import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.model.FormData;
+import com.dr.framework.common.form.core.service.FormNameGenerator;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.common.service.DataBaseService;
@@ -34,13 +35,22 @@ public class FormDataSelectOneCommand extends AbstractFormDefinitionIdCommand<Fo
     public FormData execute(CommandContext context) {
         Assert.isTrue(StringUtils.isNotEmpty(getFormDefinitionId()), "表单id不能为空");
         Assert.isTrue(StringUtils.isNotEmpty(formDataId), "表单实例id不能为空");
-        Form form = context.getFormDefinitionService().selectOneFormDefinition(getFormDefinitionId());
+        FormDefinition form = (FormDefinition) context.getFormDefinitionService().selectOneFormDefinition(getFormDefinitionId());
         Assert.notNull(form, "系统未发现该表单");
         //判断表是否存在
         DataBaseService dataBaseService = context.getApplicationContext().getBean(DataBaseService.class);
-        Assert.isTrue(dataBaseService.tableExist(form.getFormTable(), Constants.MODULE_NAME), "未发现数据实例表");
+        FormNameGenerator formNameGenerator = context.getApplicationContext().getBean(FormNameGenerator.class);
+        Assert.isTrue(dataBaseService.tableExist(formNameGenerator.genTableName(form), Constants.MODULE_NAME), "未发现数据实例表");
         //先查出来表结构定义对象
-        Relation relation = dataBaseService.getTableInfo(form.getFormTable(), Constants.MODULE_NAME);
+        Relation relation = dataBaseService.getTableInfo(formNameGenerator.genTableName(form), Constants.MODULE_NAME);
+        /*Collection<FormField> fields=form.getFormFieldList();
+        Collection<Column> fields = form.getFormFieldList()
+                .stream()
+                .map(formField ->
+                        relation.getColumn(formNameGenerator.genFieldName(form, formField))
+                                .alias(formField.getFieldCode())
+                )
+                .collect(Collectors.toList());*/
         //拼写查询条件
         SqlQuery sqlQueryObj = SqlQuery.from(relation).equal(relation.getColumn("ID"), formDataId);
         //执行查询语句

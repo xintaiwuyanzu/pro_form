@@ -12,6 +12,9 @@ import com.dr.framework.common.form.engine.CommandPlugin;
 import com.dr.framework.common.form.engine.impl.PlugInCommandExecutor;
 import com.dr.framework.common.form.engine.impl.StandCommandContextFactory;
 import com.dr.framework.common.form.engine.impl.StandCommandExecutor;
+import com.dr.framework.common.form.util.Constants;
+import com.dr.framework.common.service.DataBaseService;
+import com.dr.framework.core.orm.database.Dialect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -62,8 +65,9 @@ public class CoreFormAutoConfig {
      */
     @Bean
     @ConditionalOnMissingBean
-    protected FormNameGenerator formNameGenerator() {
-        return new DefaultFormNameGenerator();
+    protected FormNameGenerator formNameGenerator(DataBaseService dataBaseService) {
+        Dialect dialect=dataBaseService.getDataBaseMetaDataByModuleName(Constants.MODULE_NAME).getDialect();
+        return new DefaultFormNameGenerator(dialect);
     }
 
     /**

@@ -4,12 +4,12 @@ import com.dr.framework.common.form.core.model.Form;
 import com.dr.framework.common.form.core.model.FormData;
 import com.dr.framework.common.form.core.service.FormDefinitionService;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
+import com.dr.framework.common.form.core.service.SqlBuilder;
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.common.service.DataBaseService;
 import com.dr.framework.core.orm.jdbc.Relation;
-import com.dr.framework.core.orm.sql.Column;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +19,20 @@ import java.util.List;
 
 public class FormDataSelectCommand extends AbstractFormDefinitionIdCommand<List> {
 
+    private SqlBuilder sqlBuilder;
 
-    public FormDataSelectCommand(String formDefinitionId) {
-        super(formDefinitionId);
+    public FormDataSelectCommand(SqlBuilder sqlBuilder) {
+        this.sqlBuilder = sqlBuilder;
     }
 
-    public FormDataSelectCommand(String version, String formDefinitionId) {
+    public FormDataSelectCommand(String formDefinitionId, SqlBuilder sqlBuilder) {
+        super(formDefinitionId);
+        this.sqlBuilder = sqlBuilder;
+    }
+
+    public FormDataSelectCommand(String version, String formDefinitionId, SqlBuilder sqlBuilder) {
         super(version, formDefinitionId);
+        this.sqlBuilder = sqlBuilder;
     }
 
     /**
@@ -46,9 +53,15 @@ public class FormDataSelectCommand extends AbstractFormDefinitionIdCommand<List>
         //先查出来表结构定义对象
         Relation relation = dataBaseService.getTableInfo(formNameGenerator.genTableName(form), Constants.MODULE_NAME);
         //拼写查询条件
-        SqlQuery sqlQueryObj = SqlQuery.from(relation).equal(relation.getColumn("FORMDEFINITIONID").alias("formdefinitionid"), getFormDefinitionId());
+        SqlQuery sqlQueryObj = SqlQuery.from(relation).setReturnClass(FormData.class);
+        if (sqlBuilder != null) {
+            sqlBuilder.buildSql(sqlQueryObj, relation);
+        }
         //执行查询语句
         return context.getMapper().selectByQuery(sqlQueryObj);
     }
 
+    public SqlBuilder getSqlBuilder() {
+        return sqlBuilder;
+    }
 }

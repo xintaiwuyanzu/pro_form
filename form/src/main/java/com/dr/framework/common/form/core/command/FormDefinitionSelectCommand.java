@@ -16,6 +16,11 @@ public class FormDefinitionSelectCommand extends AbstractFormDefinitionIdCommand
     private String formType;
     private String formName;
 
+    public FormDefinitionSelectCommand(String formDefinitionId, String formType) {
+        super(formDefinitionId);
+        this.formType = formType;
+    }
+
     public FormDefinitionSelectCommand(String formDefinitionId, String formCode, String formType, String formName) {
         super(formDefinitionId);
         this.formCode = formCode;

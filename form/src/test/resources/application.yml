@@ -7,3 +7,8 @@ spring:
     autoDDl: none
 server:
   port: 8081
+
+logging:
+  level:
+    com.dr.framework.common.dao.CommonMapper: debug
+

@@ -32,10 +32,10 @@ public interface FormDataService {
     /**
      * 多条件查询表单实例数据
      *
-     * @param formId
+     * @param sqlBuilder
      * @return
      */
-    List<FormData> selectFormData(String formId);
+    List<FormData> selectFormData(SqlBuilder sqlBuilder);
 
     /**
      * 查询表单单个实例数据

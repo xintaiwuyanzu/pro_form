@@ -62,6 +62,7 @@ public class FormDefaultValueInsertCommand implements Command<FormDefault> {
         if (fieldDefaultList.size() > 0) {
             for (FieldDefault fieldDefault : fieldDefaultList) {
                 FieldDefaultValue fieldDefaultValue = new FieldDefaultValue();
+                fieldDefaultValue.setId(fieldDefault.getId());
                 fieldDefaultValue.setCustom(fieldDefault.getCustom());
                 fieldDefaultValue.setDefaultValue(fieldDefault.getDefaultValue());
                 fieldDefaultValue.setFieldName(fieldDefault.getFieldName());

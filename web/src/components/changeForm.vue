@@ -1,6 +1,6 @@
 <template>
     <el-dialog :visible.sync="edit" :title="'个人信息'" width="320px" :close-on-click-modal="false">
-        <el-form :model="personForm" :rules="rules" ref="form" label-width="120px" style="color: #00397f">
+        <el-form :model="personForm" :rules="rules" ref="form" label-width="120px" style="color: #008B8B">
             <el-row style="max-width: content-box">
                 <el-form-item label="用户姓名：">
                     <span>{{personForm.userName}}</span>

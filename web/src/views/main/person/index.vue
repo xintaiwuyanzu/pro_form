@@ -176,7 +176,7 @@
                 for (let i2 = 0; i2 < deleteRoles.length; i2++) {
                     deleteids = deleteids + deleteRoles[i2] + ','
                 }
-                this.$http.post(`/system/addRoleToUser`,
+                this.$http.post(`/login/addRoleToUser`,
                     {
                         userId:this.shouquanuserid,
                         addRoleIds:addids,
@@ -202,7 +202,7 @@
 
                 //请求后台，获取菜单权限树
                 this.shouquanuserid = row.id
-                this.$http.post(`/system/getRoleList`,{userId:row.id}
+                this.$http.post(`/login/getRoleList`,{userId:row.id}
                 ).then(({data}) =>{
                     if (data.success) {
                         this.roleTree = []

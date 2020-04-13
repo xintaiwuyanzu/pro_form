@@ -15,9 +15,11 @@ import com.dr.framework.core.security.service.SecurityManager;
 import com.dr.framework.sys.entity.PermissionExistVo;
 import com.dr.framework.sys.service.LoginXService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Service
 public class LoginXServiceImpl implements LoginXService {
 
     @Autowired

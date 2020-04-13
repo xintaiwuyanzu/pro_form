@@ -26,7 +26,7 @@
                     <el-table-column prop="name" label="角色名"></el-table-column>
                     <el-table-column label="操作">
                         <template slot-scope="scope">
-                            <el-button size="mini" @click="edit(scope.row)">编 辑</el-button>
+                            <el-button type="primary" size="mini" @click="edit(scope.row)">编 辑</el-button>
                             <el-button type="danger" size="mini" @click="remove(scope.row)">删 除</el-button>
                         </template>
                     </el-table-column>

@@ -4,14 +4,14 @@
              height="50px"
              style="margin-top: 10px"/>
         <section class="section" style="float: right;margin-top: 15px;">
-            <el-tag effect="dark" style="margin-right: 20px;height:30px;padding: 4px;float: left;">
+            <el-tag effect="dark" style="margin-right: 20px;height:35px;padding: 4px;float: left;">
                 {{$store.state.user.userName}}
             </el-tag>
-            <el-button circle size="mini" style="margin-right: 10px;height:30px;padding: 4px;float: left"
+            <el-button circle size="mini" style="margin-right: 10px;height:35px;padding: 4px;float: left"
                        @click="getChange($store.state.user)">
                 <icon icon="user" style="width: 20px"/>
             </el-button>
-            <el-button circle size="mini" style="margin-right: 15px;height:30px;padding: 4px;float: left"
+            <el-button circle size="mini" style="margin-right: 15px;height:35px;padding: 4px;float: left"
                        @click="logout()">
                 <icon icon="delete" style="width: 20px"/>
             </el-button>

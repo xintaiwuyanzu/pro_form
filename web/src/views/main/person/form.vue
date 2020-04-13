@@ -18,8 +18,7 @@
             <el-form-item>
                 <el-button type="primary" @click="searchF()" size="mini">搜 索</el-button>
                 <el-button @click="$refs.searchForm.resetFields()" size="mini">重 置</el-button>
-                <el-button type="primary" @click="editForm()" size="mini" style="margin-left: 50px">添 加</el-button>
-                <el-button style="margin-left: 10px" size="mini" type="primary" @click="exportExcel">导出</el-button>
+                <el-button type="primary" @click="editForm()" size="mini" style="margin-left: 142px">添 加</el-button>
             </el-form-item>
         </el-form>
         <el-dialog :visible.sync="edit" :title="(form.id?'编辑':'添加')+'人员'+(form.id?'':'(默认密码123456)')" width="90%">
@@ -129,10 +128,6 @@
             searchF(){
                 this.$emit('func',this.searchForm)
                 this.$emit("getPerson");
-            },
-            exportExcel() {
-                let url = "api/peopleManage/expPeople"
-                window.open(url)
             },
             saveForm(){
                 let path = '/peopleManage'

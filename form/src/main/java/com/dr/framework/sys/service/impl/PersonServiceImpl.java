@@ -19,6 +19,18 @@ public class PersonServiceImpl implements PersonService {
     @Autowired
     OrganisePersonService organisePersonService;
 
+    /**
+     * 查询人员信息page
+     *
+     * @param organiseId
+     * @param userName
+     * @param userCode
+     * @param personType
+     * @param status
+     * @param page
+     * @param pageSize
+     * @return
+     */
     @Override
     public Page<Person> getPersonListByOrganiseId(String organiseId, String userName, String userCode, String personType,
                                                   String status, int page, int pageSize) {
@@ -34,6 +46,12 @@ public class PersonServiceImpl implements PersonService {
         );
     }
 
+    /**
+     * 修改人员信息
+     *
+     * @param person
+     * @param password
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updatePerson(Person person, String password) {
@@ -42,6 +60,13 @@ public class PersonServiceImpl implements PersonService {
         commonMapper.updateById(person);
     }
 
+    /**
+     * 删除人员
+     *
+     * @param personId
+     * @param organiseId
+     * @param userName
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(String personId, String organiseId, String userName) {

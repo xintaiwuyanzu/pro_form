@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author dr
  */
 @RestController
-@RequestMapping("/api/log")
+@RequestMapping("/api/sysRecord")
 public class LogController extends BaseController<Log> {
 
     @Override

@@ -6,7 +6,7 @@
                   :class="menuCollapse?'collapse':'nocollapse'"/>
         </div>
 
-        <div v-else class="navBar" style="  background-color: #008080;" @click="toggleMenu()">
+        <div v-else class="navBar" style=" background-color: #008080;" @click="toggleMenu()">
             <icon icon="menu" style="color: #d7dbf0; background: linear-gradient(180deg, #008080, #008B8B);"
                   :class="menuCollapse?'collapse':'nocollapse'"/>
         </div>
@@ -39,7 +39,9 @@
             this.$color.$on('color', (arg) => {
                 this.color = arg;
                 if (arg == '#409EFF') {
-                    this.backColor = '#1e89db'
+                    this.backColor = '#1e89db';
+                } else {
+                    this.backColor = '#008B8B'
                 }
             })
 

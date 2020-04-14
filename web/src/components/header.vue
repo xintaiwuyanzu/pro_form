@@ -7,35 +7,27 @@
             <el-tag effect="dark" style="margin-right: 20px;height:35px;padding: 4px;float: left;">
                 {{$store.state.user.userName}}
             </el-tag>
-            <el-button circle size="mini" style="margin-right: 10px;height:35px;padding: 4px;float: left"
+            <el-button circle size="mini" style="margin-right: 10px;height:32px;padding: 4px;float: left"
                        @click="getChange($store.state.user)">
                 <icon icon="user" style="width: 20px"/>
             </el-button>
-            <el-button circle size="mini" style="margin-right: 15px;height:35px;padding: 4px;float: left"
+            <el-button circle size="mini" style="margin-right: 15px;height:32px;padding: 4px;float: left"
                        @click="logout()">
                 <icon icon="delete" style="width: 20px"/>
             </el-button>
-            <el-select v-model="sysId" ref="sysSelect"
-                       style=" display: inline-block;width: 160px;"
-                       @change="loadMenu">
-                <el-option-group label="业务子系统">
-                    <el-option v-for="item in options" :key="item.id" :value="item.id" :label="item.sysName">
-                        <span style="float: left">{{ item.sysName }}</span>
-                        <span style="float: right; color: #8492a6; font-size: 13px">{{ item.sysDescription }}</span>
-                    </el-option>
-                </el-option-group>
-            </el-select>
             <change-form ref="changeform"/>
             <changepwd-form ref="changepwdform"/>
+            <theme-picker @change="themeChange"></theme-picker>
         </section>
     </section>
 </template>
 <script>
     import changeForm from './changeForm'
     import changepwdForm from './changePwdForm'
+    import ThemePicker from './ThemePicker'
 
     export default {
-        components: {changeForm, changepwdForm},
+        components: {changeForm, changepwdForm, ThemePicker},
         data() {
             return {
                 baseUrl: process.env.BASE_URL + 'imgs/',
@@ -92,6 +84,15 @@
             changePwds() {
                 this.$refs.changepwdform.editForm()
             },
+            themeChange(val) {
+                this.$store.dispatch(
+                    '', {
+                        key: 'theme',
+                        value: val
+                    }),
+
+                this.$color.$emit('color', val);
+            }
 
         }
     }

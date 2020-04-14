@@ -18,7 +18,7 @@
             <el-form-item>
                 <el-button type="primary" @click="searchF()" size="mini">搜 索</el-button>
                 <el-button @click="$refs.searchForm.resetFields()" size="mini">重 置</el-button>
-                <el-button type="primary" @click="editForm()" size="mini" style="margin-left: 142px">添 加</el-button>
+                <el-button type="primary" @click="editForm()" size="mini" style="margin-left: 50px">添 加</el-button>
             </el-form-item>
         </el-form>
         <el-dialog :visible.sync="edit" :title="(form.id?'编辑':'添加')+'人员'+(form.id?'':'(默认密码123456)')" width="90%">
@@ -76,15 +76,15 @@
         mixins: [fromMixin],
         data() {
             return {
-                form:{
-                  id:''
+                form: {
+                    id: ''
                 },
                 autoClose: true,
                 searchForm: {
-                    userName:"",
-                    userCode:"",
-                    personType:"",
-                    status:""
+                    userName: "",
+                    userCode: "",
+                    personType: "",
+                    status: ""
                 },
                 defaultForm: {
                     key: '',
@@ -101,7 +101,7 @@
                         label: '女'
                     }
                 ],
-                statusOptions:[
+                statusOptions: [
                     {
                         value: 1,
                         label: '是'
@@ -110,7 +110,7 @@
                         label: '否'
                     }
                 ],
-                statusRole:[
+                statusRole: [
                     {
                         value: 1,
                         label: '是'
@@ -121,23 +121,23 @@
                 ],
             }
         },
-        props:{
-            organiseId:String
+        props: {
+            organiseId: String
         },
-        methods:{
-            searchF(){
-                this.$emit('func',this.searchForm)
+        methods: {
+            searchF() {
+                this.$emit('func', this.searchForm)
                 this.$emit("getPerson");
             },
-            saveForm(){
+            saveForm() {
                 let path = '/peopleManage'
                 if (this.form.id) {
                     path = path + '/updatePerson'
                 } else {
                     path = path + '/addPerson'
                 }
-                this.form.organiseId=this.organiseId;
-                this.form.password=this.password;
+                this.form.organiseId = this.organiseId;
+                this.form.password = this.password;
                 this.$http.post(path, this.form)
                     .then(({data}) => {
                         if (data && data.success) {

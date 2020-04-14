@@ -10,7 +10,6 @@
                     </el-input>
                 </el-form-item>
             </el-form>
-
         </nac-info>
         <div class="index_main">
             <el-tree class="sysMenuTree"
@@ -19,7 +18,7 @@
                      v-loading="treaLoading"
                      default-expand-all :filter-node-method="filterNode"
                      ref="menuTree">
-                <div style="flex: 1;margin: 2px;" slot-scope="{ node, data }">
+                <div style="flex: 1;margin: 2px;margin-top: 30px" slot-scope="{ node, data }">
                     <el-tag style="float: left;font-size: 16px" :type="data.data.status==='1'?'':'danger'">
                         {{ data.data.organiseName }}
                     </el-tag>
@@ -51,7 +50,7 @@
 
     export default {
         components: {organiseForm},
-        data () {
+        data() {
             return {
                 filterText: '',
                 treaLoading: false,
@@ -59,20 +58,20 @@
             }
         },
         watch: {
-            filterText (val) {
+            filterText(val) {
                 this.$refs.menuTree.filter(val)
             }
         },
         methods: {
-            exportExcel () {
+            exportExcel() {
                 let url = "api/peopleManage/expOrganise"
                 window.open(url)
             },
-            filterNode (value, data) {
+            filterNode(value, data) {
                 if (!value) return true
                 return data.label.indexOf(value) !== -1
             },
-            loadMenus () {
+            loadMenus() {
                 this.treaLoading = true
                 this.$http.post('/organise/organiseTree', {all: true, sysId: this.sysId})
                     .then(({data}) => {
@@ -82,7 +81,7 @@
                         this.treaLoading = false
                     })
             },
-            editMenu (menu) {
+            editMenu(menu) {
                 let formData = {
                     sysId: this.sysId,
                     parentId: this.sysId,
@@ -95,7 +94,7 @@
                 }
                 this.$refs.orgForm.editForm(formData)
             },
-            remove (data) {
+            remove(data) {
                 this.$confirm(`删除机构将会删除该机构及所有下属机构和人员，以及相关的登录账号。确认要删除机构【${data.label}】吗？`, '提示', {type: 'waring'})
                     .then(() => {
                         this.treaLoading = true
@@ -108,7 +107,7 @@
                             })
                     })
             },
-            toggle (data) {
+            toggle(data) {
                 this.treaLoading = true
                 let status = data.data.status === '1' ? '0' : '1'
                 this.$http.post('/organise/update', Object.assign({}, data.data, {status}))
@@ -120,7 +119,7 @@
                     })
             }
         },
-        mounted () {
+        mounted() {
             this.loadMenus()
         }
     }

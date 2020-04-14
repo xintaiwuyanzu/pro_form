@@ -14,8 +14,9 @@
                     </el-row>
                 </el-form>
             </el-row>
-            <el-row>
-                <el-table :data="tableData" border="true" ref="multipleTable" style="width: 100%"
+
+            <div class="table-container" >
+                <el-table :data="tableData"  height="100%" border="true" ref="multipleTable"
                           @selection-change="handleSelectionChange">
                     <el-table-column type="selection"></el-table-column>
                     <el-table-column label="序号" fixed align="center" width="60">
@@ -31,14 +32,15 @@
                         </template>
                     </el-table-column>
                 </el-table>
-                <el-pagination
-                        @current-change="index=>init({pageIndex:index-1})"
-                        :current-page.sync="page.index"
-                        :page-size="page.size"
-                        layout="total, prev, pager, next"
-                        :total="page.total">
-                </el-pagination>
-            </el-row>
+            </div>
+
+            <el-pagination
+                    @current-change="index=>init({pageIndex:index-1})"
+                    :current-page.sync="page.index"
+                    :page-size="page.size"
+                    layout="total, prev, pager, next"
+                    :total="page.total">
+            </el-pagination>
         </div>
         <el-dialog
                 :title="rolenametitle"
@@ -78,7 +80,7 @@
 <script>
     export default {
         name: "index",
-        data () {
+        data() {
             return {
                 loading: false,
                 searchForm: {
@@ -112,12 +114,12 @@
             }
         },
         methods: {
-            filterNode (value, data) {
+            filterNode(value, data) {
                 if (!value) return true
                 return data.label.indexOf(value) !== -1
             },
             //数组比较
-            compare (a, b) {
+            compare(a, b) {
                 let result = new Array();
                 let obj = {};
                 for (let i = 0; i < a.length; i++) {
@@ -131,7 +133,7 @@
                 }
                 return result;
             },
-            showquan () {
+            showquan() {
                 let array = this.$refs.menutree.getCheckedNodes()
                 if (array.length === 0) {
                     this.$message.error('请至少选择一个权限！')
@@ -171,10 +173,10 @@
                     this.$message.error('给角色授权时出了点问题...')
                 })
             },
-            handleClick (tab) {
+            handleClick(tab) {
                 this.activeName = tab.name
             },
-            showadddialog () {
+            showadddialog() {
                 this.disabled = false
                 this.rolenametitle = '新增角色'
                 this.showadd = true
@@ -183,7 +185,7 @@
                 this.addrolebianma = ''
                 this.addroleshunxu = ''
             },
-            getPermision () {
+            getPermision() {
                 if (this.multipleSelection.length > 1) {
                     this.$message.error('只能选择一个角色！');
                     return
@@ -221,7 +223,7 @@
                     this.$message.error('获取权限树时出了点问题...')
                 })
             },
-            getCheckMenu (checkmenu) {
+            getCheckMenu(checkmenu) {
                 for (let i = 0; i < checkmenu.length; i++) {
                     if (checkmenu[i].exist === true) {
                         this.baseMenuIds.push(checkmenu[i].id)
@@ -235,10 +237,10 @@
                     }
                 }
             },
-            handleSelectionChange (val) {
+            handleSelectionChange(val) {
                 this.multipleSelection = val;
             },
-            edit (row) {
+            edit(row) {
                 this.rolenametitle = '修改角色'
                 this.showadd = false
                 this.disabled = true
@@ -249,7 +251,7 @@
                 this.role = row
             },
 
-            updateRole () {
+            updateRole() {
                 this.role.name = this.addrolename
                 this.role.order = this.addroleshunxu
                 this.role.code = this.addrolebianma
@@ -269,7 +271,7 @@
                     this.$message.error('更新角色时出了点问题...')
                 })
             },
-            add () {
+            add() {
                 if (this.addrolename === '' || this.addrolename === null || this.addrolename === undefined) {
                     this.$message.error('角色名不能为空！')
                     return
@@ -298,7 +300,7 @@
                     this.addDialogVisible = false
                 })
             },
-            init (index) {
+            init(index) {
                 this.$http.post(`/login/getRolePage`, {
                     page: index
                 }).then(({data}) => {
@@ -314,7 +316,7 @@
                     this.$message.error('获取数据时出了点问题...');
                 })
             },
-            search () {
+            search() {
                 this.$http.post(`/login/getRolePage`, {
                     page: 1,
                     roleName: this.searchForm.roleName
@@ -331,7 +333,7 @@
                     this.$message.error('获取数据时出了点问题...');
                 })
             },
-            remove (row) {
+            remove(row) {
                 this.$confirm('确定删除？', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
@@ -356,7 +358,7 @@
                 });
             }
         },
-        mounted () {
+        mounted() {
             this.init(1)
         }
     }

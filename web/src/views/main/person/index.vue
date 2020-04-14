@@ -9,7 +9,7 @@
                         <div slot="header">
                             <strong>部门单位</strong>
                         </div>
-                        <div style="min-height:80vh;overflow:auto">
+                        <div style="min-height:78vh;overflow:auto">
                             <el-tree class="sysMenuTree"
                                      :data="menuData"
                                      v-loading="treaLoading"
@@ -25,23 +25,20 @@
                     </el-card>
                 </el-col>
                 <el-col :span="19" >
-                    <el-card shadow="hover" style="min-height:90vh;overflow:auto">
+                    <el-card shadow="hover" style="min-height:88vh;overflow:auto">
                         <div slot="header">
                             <strong>人员详情</strong>
 
                         </div>
                         <config-form ref="form" v-if="showSearch" @func="getMsgFromForm" :organiseId="organiseId" @getPerson="getPerson"/>
-                        <div class="table-container" style="height: 55vh">
-                            <el-table :data="personData" border height="100%" @selection-change="handleTableSelect">
-                                <el-table-column type="selection"/>
+                        <div class="table-container" style="height: 65vh">
+                            <el-table :data="personData" border height="100%" >
                                 <el-table-column label="排序" type="index" fixed align="center"/>
                                 <el-table-column prop="userName" label="用户姓名" align="center" header-align="center"/>
                                 <el-table-column prop="userCode" label="用户编号" align="center" header-align="center"/>
                                 <el-table-column prop="mobile" label="手机号" align="center" header-align="center"
                                                  show-overflow-tooltip/>
                                 <el-table-column prop="email" label="邮箱" align="center" header-align="center"
-                                                 show-overflow-tooltip/>
-                                <el-table-column prop="idNo" label="身份证号" align="center" header-align="center"
                                                  show-overflow-tooltip/>
                                 <el-table-column label="性 别" align="center">
                                     <template slot-scope="scope">

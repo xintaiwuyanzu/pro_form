@@ -1,14 +1,22 @@
 <template>
     <section class="leftMenu">
-        <div class="navBar" @click="toggleMenu()">
-            <icon icon="menu" style="color: #d7dbf0" :class="menuCollapse?'collapse':'nocollapse'"/>
+
+        <div v-if="color=='#409EFF'" style="  background-color: #409EFF;" class="navBar" @click="toggleMenu()">
+            <icon icon="menu" style="color: #d7dbf0;background: linear-gradient(180deg, #1e89db, #1973c3);"
+                  :class="menuCollapse?'collapse':'nocollapse'"/>
         </div>
+
+        <div v-else class="navBar" style="  background-color: #008080;" @click="toggleMenu()">
+            <icon icon="menu" style="color: #d7dbf0; background: linear-gradient(180deg, #008080, #008B8B);"
+                  :class="menuCollapse?'collapse':'nocollapse'"/>
+        </div>
+
         <el-menu :collapse="menuCollapse"
                  class="menu"
                  unique-opened
                  text-color="#fff"
                  active-text-color="white"
-                 background-color="#008B8B"
+                 :background-color="backColor"
                  v-loading="menuLoading">
             <tree-menu :menu-data="menus"/>
         </el-menu>
@@ -20,6 +28,22 @@
     export default {
         computed: {
             ...mapState(['menuLoading'])
+        },
+        data() {
+            return {
+                color: "",
+                backColor: '#008B8B'
+            }
+        },
+        mounted() {
+            this.$color.$on('color', (arg) => {
+                this.color = arg;
+                if (arg == '#409EFF') {
+                    this.backColor = '#1e89db'
+                }
+            })
+
+
         }
     }
 </script>
@@ -48,7 +72,6 @@
         justify-content: center;
         display: flex;
         padding: 5px 0px;
-        background-color: #008080;
 
         .collapse {
             transition: all .20s ease-out;
@@ -62,7 +85,6 @@
     }
 
     .menu {
-        background: linear-gradient(180deg, #008080, #008B8B);
         overflow-x: hidden;
         overflow-y: auto;
         flex: 1;
@@ -74,10 +96,5 @@
         .stitle {
             margin-left: 4px;
         }
-
-    }
-
-    .el-menu-item.is-active {
-        background-color: teal !important;
     }
 </style>

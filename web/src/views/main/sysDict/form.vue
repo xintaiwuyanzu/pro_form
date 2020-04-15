@@ -18,8 +18,8 @@
             <el-form-item>
                 <el-button type="primary" @click="search" size="mini">搜 索</el-button>
                 <el-button @click="$refs.searchForm.resetFields()" size="mini">重 置</el-button>
-                <el-button type="primary" @click="editForm()" size="mini" style="margin-left:500px">添加</el-button>
             </el-form-item>
+            <el-button type="primary" @click="editForm()" size="mini"  style="float: right;margin-right: 10px">添加</el-button>
         </el-form>
         <el-dialog :visible.sync="edit" :title="(form.id?'编辑':'添加')+'字典'" width="450px">
             <el-form :model="form" :rules="rules" ref="form" label-width="80px">

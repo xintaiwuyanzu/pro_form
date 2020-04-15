@@ -25,7 +25,7 @@
                     </el-card>
                 </el-col>
                 <el-col :span="19" >
-                    <el-card shadow="hover" style="min-height:88vh;overflow:auto">
+                    <el-card shadow="hover" style="min-height:85vh;overflow:auto">
                         <div slot="header">
                             <strong>人员详情</strong>
 

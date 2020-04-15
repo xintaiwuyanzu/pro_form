@@ -2,7 +2,12 @@
     <section class="leftMenu">
 
         <div v-if="color=='#409EFF'" style="  background-color: #409EFF;" class="navBar" @click="toggleMenu()">
-            <icon icon="menu" style="color: #d7dbf0;background: linear-gradient(180deg, #1e89db, #1973c3);"
+            <icon icon="menu" style="color: #d7dbf0;background: linear-gradient(180deg, #409EFF, #409EFF);"
+                  :class="menuCollapse?'collapse':'nocollapse'"/>
+        </div>
+
+        <div v-else-if="color=='#303133'" style="  background-color: #303133;" class="navBar" @click="toggleMenu()">
+            <icon icon="menu" style="color: #d7dbf0;background: linear-gradient(180deg, #303133, #303133);"
                   :class="menuCollapse?'collapse':'nocollapse'"/>
         </div>
 
@@ -40,7 +45,9 @@
                 this.color = arg;
                 if (arg == '#409EFF') {
                     this.backColor = '#1e89db';
-                } else {
+                } else if (arg =='#303133'){
+                    this.backColor = '#303133';
+                }else {
                     this.backColor = '#008B8B'
                 }
             })

@@ -3,6 +3,9 @@
         <el-header v-if="color=='#409EFF'" class="headerBlue">
             <header-top></header-top>
         </el-header>
+        <el-header v-else-if="color=='#303133'" class="headerh">
+            <header-top></header-top>
+        </el-header>
         <el-header v-else class="header">
             <header-top></header-top>
         </el-header>
@@ -53,6 +56,12 @@
         color: #fff;
         vertical-align: middle;
         border-bottom: 1px solid #00397f;
+    }
+    .headerh {
+        background: linear-gradient(180deg, #303133, #606266, #606266);
+        color: #fff;
+        vertical-align: middle;
+        border-bottom: 1px solid #303133;
     }
 
     .breadcrumb-container {

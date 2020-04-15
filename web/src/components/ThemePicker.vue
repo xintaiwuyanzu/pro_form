@@ -3,6 +3,7 @@
     <el-select size="mini" style="width: 85px;" v-model="theme" class="theme-picker">
         <el-option label="蓝色" value='#409EFF'></el-option>
         <el-option label="绿色" value='#008080'></el-option>
+        <el-option label="灰色" value='#303133'></el-option>
     </el-select>
 
 </template>

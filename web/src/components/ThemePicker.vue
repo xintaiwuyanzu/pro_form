@@ -1,10 +1,17 @@
 <template>
 
-    <el-select size="mini" style="width: 85px;" v-model="theme" class="theme-picker">
-        <el-option label="蓝色" value='#409EFF'></el-option>
-        <el-option label="绿色" value='#008080'></el-option>
-        <el-option label="灰色" value='#303133'></el-option>
-    </el-select>
+    <el-dropdown trigger="click" @command="handleCommand">
+        <el-button circle style="padding: 4px">
+            <icon icon="el-icon-clothesyifuhuanfu" style="width: 20px;font-size: 20px;"/>
+
+        </el-button>
+        <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item :command="1">蓝色</el-dropdown-item>
+            <el-dropdown-item :command="2">灰色</el-dropdown-item>
+            <el-dropdown-item :command="3">绿色</el-dropdown-item>
+        </el-dropdown-menu>
+    </el-dropdown>
+
 
 </template>
 
@@ -26,7 +33,7 @@
         },
         watch: {
             defaultTheme: {
-                handler: function(val ) {
+                handler: function (val) {
                     this.theme = val
                 },
                 immediate: true
@@ -77,7 +84,7 @@
                         return new RegExp(oldVal, 'i').test(text) && !/Chalk Variables/.test(text)
                     })
                 styles.forEach(style => {
-                    const { innerText } = style
+                    const {innerText} = style
                     if (typeof innerText !== 'string') return
                     style.innerText = this.updateStyle(innerText, originalCluster, themeCluster)
                 })
@@ -89,6 +96,16 @@
         },
 
         methods: {
+            handleCommand(command) {
+                console.log(command)
+                if (command == '1') {
+                    this.theme = '#409EFF'
+                } else if (command == '2') {
+                    this.theme = '#303133';
+                } else {
+                    this.theme = '#008080';
+                }
+            },
             updateStyle(style, oldCluster, newCluster) {
                 let newStyle = style
                 oldCluster.forEach((color, index) => {
@@ -174,7 +191,6 @@
         width: 26px !important;
         padding: 2px;
     }
-
 
 
     .theme-picker-dropdown .el-color-dropdown__link-btn {

@@ -3,21 +3,22 @@
         <img src="../assets/logo.png"
              height="50px"
              style="margin-top: 10px"/>
-        <section class="section" style="float: right;margin-top: 15px;">
-            <el-tag effect="dark" style="margin-right: 20px;height:35px;padding: 4px;float: left;">
+        <section class="section" style="float: right;margin-top: 20px;">
+
+            <el-tag effect="dark" style="margin-right: 15px;height:32px;padding: 2px;float: left;">
                 {{$store.state.user.userName}}
             </el-tag>
-            <el-button circle size="mini" style="margin-right: 10px;height:32px;padding: 4px;float: left"
+            <el-button circle style="margin-right: 15px;height:32px;padding: 4px;float: left"
                        @click="getChange($store.state.user)">
                 <icon icon="user" style="width: 20px"/>
             </el-button>
-            <el-button circle size="mini" style="margin-right: 15px;height:32px;padding: 4px;float: left"
+            <theme-picker @change="themeChange" style="margin-right: 10px;float: left;height:32px"></theme-picker>
+            <el-button circle style="margin-right: 15px;height:32px;padding: 4px;float: left"
                        @click="logout()">
                 <icon icon="delete" style="width: 20px"/>
             </el-button>
             <change-form ref="changeform"/>
             <changepwd-form ref="changepwdform"/>
-            <theme-picker @change="themeChange"></theme-picker>
         </section>
     </section>
 </template>
@@ -91,7 +92,7 @@
                         value: val
                     }),
 
-                this.$color.$emit('color', val);
+                    this.$color.$emit('color', val);
             }
 
         }

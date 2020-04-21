@@ -18,7 +18,7 @@ export default {
     },
     login(state, user) {
         if(user.id){
-            this.$http.post('/gestion/getAdminById', {adminId:user.id})
+            this.$http.post('/sysadmin/getAdminById', {adminId:user.id})
                 .then(({data}) => {
                     if (data.success) {
                         state.user = data.data

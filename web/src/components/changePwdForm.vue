@@ -33,7 +33,7 @@
     methods: {
         changePwd(){
             if(this.form.newPwd==this.form.confirmPwd) {
-                this.$http.post('/gestion/changePassword', {
+                this.$http.post('/sysadmin/changePassword', {
                     adminId: this.form.id,
                     oldPwd: Base64.encode(this.form.oldPwd),
                     newPwd: Base64.encode(this.form.newPwd)

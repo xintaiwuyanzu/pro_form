@@ -3,28 +3,28 @@
         <el-form :model="personForm" :rules="rules" ref="form" label-width="120px" style="color: #008B8B">
             <el-row style="max-width: content-box">
                 <el-form-item label="用户姓名：">
-                    <span>{{personForm.userName}}</span>
+                    <span>{{$store.state.user.userName}}</span>
                     <!--<el-button style="border: none">→去修改</el-button>-->
                 </el-form-item>
             </el-row>
             <el-row>
                 <el-form-item label="用户编号：">
-                    <span>{{personForm.userCode}}</span>
+                    <span>{{$store.state.user.userCode}}</span>
                 </el-form-item>
             </el-row>
             <el-row>
                 <el-form-item label="手机号：">
-                    <span>{{personForm.mobile}}</span>
+                    <span>{{$store.state.user.mobile}}</span>
                 </el-form-item>
             </el-row>
             <el-row>
                 <el-form-item label="身份证号：">
-                    <span>{{personForm.idNo}}</span>
+                    <span>{{$store.state.user.idNo}}</span>
                 </el-form-item>
             </el-row>
             <el-row>
                 <el-form-item label="邮   箱：">
-                    <span>{{personForm.email}}</span>
+                    <span>{{$store.state.user.email}}</span>
                 </el-form-item>
             </el-row>
         </el-form>
@@ -49,28 +49,9 @@
             }
         },
         methods: {
-            $init() {
-                // this.$http.post('/library/getLibByPid')
-                //     .then(({data}) => {
-                //         if (data.success) {
-                //             this.libIds = data.data
-                //         }
-                //     })
-                this.getPersonOne()
-            },
-            getPersonOne() {
-                this.$http.post('/gestion/getPersonOne')
-                    .then(({data}) => {
-                        if (data.success) {
-                            this.personForm = data.data
-                        }
-                    })
-            },
             changePwd() {
                 this.edit = false
-                //this.$emit('changePwds');
                 this.$parent.changePwds()
-                //this.$refs.changepwdform.editForm()
             },
             saveForm() {
                 if (this.$refs.form) {

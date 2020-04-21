@@ -130,11 +130,11 @@
                 this.$emit("getPerson");
             },
             saveForm() {
-                let path = '/peopleManage'
+                let path = '/person'
                 if (this.form.id) {
-                    path = path + '/updatePerson'
+                    path = path + '/update'
                 } else {
-                    path = path + '/addPerson'
+                    path = path + '/insert'
                 }
                 this.form.organiseId = this.organiseId;
                 this.form.password = this.password;

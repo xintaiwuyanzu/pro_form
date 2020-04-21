@@ -15,8 +15,8 @@
                 </el-form>
             </el-row>
 
-            <div class="table-container" >
-                <el-table :data="tableData"  height="100%" border="true" ref="multipleTable"
+            <div class="table-container">
+                <el-table :data="tableData" height="100%" border="true" ref="multipleTable"
                           @selection-change="handleSelectionChange">
                     <el-table-column type="selection"></el-table-column>
                     <el-table-column label="序号" fixed align="center" width="60">
@@ -155,17 +155,17 @@
                 for (let i2 = 0; i2 < deleteMenus.length; i2++) {
                     deleteids = deleteids + deleteMenus[i2] + ','
                 }
-                this.$http.post(`/login/addPermissionToRole`, {
+                this.$http.post(`/sysrole/addPermissionToRole`, {
                     roleId: this.roleid,
                     addMenuIds: addids,
                     delMenuIds: deleteids
                 }).then(({data}) => {
                     if (data.success) {
-                        this.pisDialogVisible = false
                         this.$message({
                             message: '操作成功！',
                             type: 'success'
                         });
+                        this.pisDialogVisible = false
                     } else {
                         this.$message.error(data.message)
                     }
@@ -203,7 +203,7 @@
                 let map = new Object()
                 map.id = this.roleid
                 map.name = 'menu'
-                this.$http.post(`/login/getPermissionMenuList`, map).then(({data}) => {
+                this.$http.post(`/sysrole/getPermissionMenuList`, map).then(({data}) => {
                     if (data.success) {
                         this.menuPermissionTree = data.data
                     } else {
@@ -212,10 +212,18 @@
                 }).catch(function () {
                     this.$message.error('获取权限树时出了点问题...')
                 })
-                this.$http.post(`/login/getHasPermissionIds`, map).then(({data}) => {
+                //todo 少方法
+                this.$http.post(`/sysmenu/page`, {
+                    id: this.roleid,
+                    name: 'menu', page: false
+                }).then(({data}) => {
                     if (data.success) {
-                        this.defaultcheckarray = data.data;
-                        this.baseMenuIds = data.data
+                        var mycars = new Array()
+                        for (let i = 0; i < data.data.length; i++) {
+                            mycars[i] = data.data[i].id;
+                        }
+                        this.defaultcheckarray = mycars;
+                        this.baseMenuIds = mycars
                     } else {
                         this.$message.error(data.message)
                     }
@@ -256,7 +264,7 @@
                 this.role.order = this.addroleshunxu
                 this.role.code = this.addrolebianma
 
-                this.$http.post(`/login/updateRole`, this.role
+                this.$http.post(`/sysrole/updateRole`, this.role
                 ).then(({data}) => {
                     if (data.success) {
                         this.$message({
@@ -280,7 +288,7 @@
                     this.$message.error('角色编码不能为空！')
                     return
                 }
-                this.$http.post(`/login/addRole`, {
+                this.$http.post(`/sysrole/addRole`, {
                     roleName: this.addrolename,
                     roleCode: this.addrolebianma,
                     order: this.addroleshunxu
@@ -301,7 +309,7 @@
                 })
             },
             init(index) {
-                this.$http.post(`/login/getRolePage`, {
+                this.$http.post(`/sysrole/page`, {
                     page: index
                 }).then(({data}) => {
                     if (data.success) {
@@ -317,7 +325,7 @@
                 })
             },
             search() {
-                this.$http.post(`/login/getRolePage`, {
+                this.$http.post(`/sysrole/page`, {
                     page: 1,
                     roleName: this.searchForm.roleName
                 }).then(({data}) => {
@@ -339,7 +347,7 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.$http.post(`/login/deleteRole`, {
+                    this.$http.post(`/sysrole/deleteRole`, {
                         roleCode: row.code
                     }).then(({data}) => {
                         if (data.success) {

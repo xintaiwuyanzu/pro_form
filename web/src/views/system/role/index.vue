@@ -212,7 +212,6 @@
                 }).catch(function () {
                     this.$message.error('获取权限树时出了点问题...')
                 })
-                //todo 少方法
                 this.$http.post(`/sysmenu/page`, {
                     id: this.roleid,
                     name: 'menu', page: false
@@ -231,20 +230,6 @@
                     this.$message.error('获取权限树时出了点问题...')
                 })
             },
-            getCheckMenu(checkmenu) {
-                for (let i = 0; i < checkmenu.length; i++) {
-                    if (checkmenu[i].exist === true) {
-                        this.baseMenuIds.push(checkmenu[i].id)
-                        this.defaultcheckarray.push(checkmenu[i].id)
-                    }
-                    let check = checkmenu[i].children
-                    if (check) {
-                        for (let j = 0; j < check.length; j++) {
-                            this.getCheckMenu(check[j])
-                        }
-                    }
-                }
-            },
             handleSelectionChange(val) {
                 this.multipleSelection = val;
             },
@@ -258,7 +243,6 @@
                 this.addroleshunxu = row.order
                 this.role = row
             },
-
             updateRole() {
                 this.role.name = this.addrolename
                 this.role.order = this.addroleshunxu

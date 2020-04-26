@@ -1,12 +1,9 @@
 package com.dr.framework.common.form;
 
-import com.dr.framework.common.form.core.model.FieldType;
-import com.dr.framework.common.form.core.model.FormData;
 import com.dr.framework.common.form.validate.entity.ValidateDefinitionForm;
 import com.dr.framework.common.form.validate.entity.ValidateDefinitionFormField;
 import com.dr.framework.common.form.validate.model.ValidateDefinition;
 import com.dr.framework.common.form.validate.model.ValidateDefinitionField;
-import com.dr.framework.common.form.validate.model.ValidateResults;
 import com.dr.framework.common.form.validate.service.ValidateDefaultService;
 import com.dr.framework.common.form.validate.service.ValidateService;
 import com.dr.framework.common.form.validate.service.Validator;

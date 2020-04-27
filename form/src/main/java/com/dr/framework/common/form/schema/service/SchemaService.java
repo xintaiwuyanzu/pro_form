@@ -11,7 +11,7 @@ public interface SchemaService {
      *
      * @param jsonSchema
      */
-    String analysisJsonSchema(String jsonSchema);
+    Constitute analysisJsonSchema(String jsonSchema);
 
     /**
      * 验证传过来的jsonSchema是否有这些数据节点
@@ -19,7 +19,7 @@ public interface SchemaService {
      * @param jsonSchema
      * @return
      */
-    void verifyNode(String jsonSchema);
+    boolean verifyNode(String jsonSchema);
 
     /**
      * 根据解析出来的数据进行创建

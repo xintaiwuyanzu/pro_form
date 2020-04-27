@@ -48,7 +48,7 @@ public class Constitute {
     public Map<String, Object> getSchemaMap() {
         Map<String, Object> schemaMap = new HashMap<>();
         schemaMap.put("definitionId", formDefinition);
-        schemaMap.put(" validateId", validateDefinitionForm);
+        schemaMap.put("validateId", validateDefinitionForm);
         schemaMap.put("defaultValueId", formDefaultValue);
         return schemaMap;
     }

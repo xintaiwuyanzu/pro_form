@@ -19,7 +19,7 @@ public interface SchemaService {
      * @param jsonSchema
      * @return
      */
-    boolean verifyNode(String jsonSchema);
+    void verifyNode(String jsonSchema);
 
     /**
      * 根据解析出来的数据进行创建

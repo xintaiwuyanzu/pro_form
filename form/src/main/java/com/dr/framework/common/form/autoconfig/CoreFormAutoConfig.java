@@ -66,7 +66,7 @@ public class CoreFormAutoConfig {
     @Bean
     @ConditionalOnMissingBean
     protected FormNameGenerator formNameGenerator(DataBaseService dataBaseService) {
-        Dialect dialect=dataBaseService.getDataBaseMetaDataByModuleName(Constants.MODULE_NAME).getDialect();
+        Dialect dialect = dataBaseService.getDataBaseMetaDataByModuleName(Constants.MODULE_NAME).getDialect();
         return new DefaultFormNameGenerator(dialect);
     }
 

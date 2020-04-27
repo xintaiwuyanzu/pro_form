@@ -22,7 +22,7 @@ public class ValidateAutoConfig {
      */
     @Bean
     @ConditionalOnMissingBean
-    protected ValidateService validateService() {
+    public ValidateService validateService() {
         return new DefaultValidateService();
     }
 
@@ -34,7 +34,7 @@ public class ValidateAutoConfig {
      */
     @Bean
     @ConditionalOnMissingBean
-    protected ValidateDefaultService validateDefaultService() {
+    public ValidateDefaultService validateDefaultService() {
         return new ValidateDefaultServiceImpl();
     }
 

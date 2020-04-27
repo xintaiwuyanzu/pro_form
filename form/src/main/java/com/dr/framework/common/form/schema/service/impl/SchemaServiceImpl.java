@@ -3,28 +3,37 @@ package com.dr.framework.common.form.schema.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dr.framework.common.form.autoconfig.CoreFormAutoConfig;
+import com.dr.framework.common.form.autoconfig.InitFormAutoConfig;
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormField;
 import com.dr.framework.common.form.core.model.Field;
+import com.dr.framework.common.form.core.model.Form;
 import com.dr.framework.common.form.core.service.FormDefinitionService;
+import com.dr.framework.common.form.init.entity.FieldDefaultValue;
 import com.dr.framework.common.form.init.entity.FormDefaultValue;
+import com.dr.framework.common.form.init.model.FieldDefault;
+import com.dr.framework.common.form.init.service.FormDefaultValueService;
 import com.dr.framework.common.form.schema.entity.Constitute;
 import com.dr.framework.common.form.schema.service.SchemaService;
 import com.dr.framework.common.form.validate.entity.ValidateDefinitionForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class SchemaServiceImpl implements SchemaService {
 
     @Autowired
     CoreFormAutoConfig coreFormAutoConfig;
+    @Autowired
+    InitFormAutoConfig initFormAutoConfig;
 
     /**
      * 解析传过来的JsonSchema数据
@@ -40,14 +49,13 @@ public class SchemaServiceImpl implements SchemaService {
             //将jsonSchema数据转换成Json对象
             JSONObject jsonObject = JSONObject.parseObject(jsonSchema);
             //根据获取的数据，分离出来表单的定义数据
-            FormDefinition formDefinition = getFormDefinition(jsonObject);
+            Form form = getFormDefinition(jsonObject);
             //根据json对象获取校验数据
-            ValidateDefinitionForm validateDefinitionForm = getValidateDefinitionForm(jsonObject);
-            //ValidateDefinitionForm validateDefinitionForm = getalidateDefinitionForm(jsonObject, formDefinition.getId());
+            ValidateDefinitionForm validateDefinitionForm = getValidateDefinitionForm(jsonObject, form.getId());
             //根据json对象获取默认值数据
-            FormDefaultValue formDefaultValue = getFormDefaultValue(jsonObject, formDefinition.getId());
+            FormDefaultValue formDefaultValue = getFormDefaultValue(jsonObject, form.getId());
             //创建返回的类
-            Constitute constitute = new Constitute(formDefinition, new ValidateDefinitionForm(), formDefaultValue);
+            Constitute constitute = new Constitute(form, new ValidateDefinitionForm(), formDefaultValue);
             return constitute;
         }
         return null;
@@ -89,7 +97,7 @@ public class SchemaServiceImpl implements SchemaService {
      * @param jsonObject
      * @return
      */
-    public FormDefinition getFormDefinition(JSONObject jsonObject) {
+    public Form getFormDefinition(JSONObject jsonObject) {
         Collection<FormField> formFields = new ArrayList<>();
         Collection<Field> fields = new ArrayList<>();
         FormDefinition formDefinition = new FormDefinition();
@@ -120,7 +128,7 @@ public class SchemaServiceImpl implements SchemaService {
         formDefinition.setFormFieldList(formFields);
         FormDefinitionService formDefinitionService = coreFormAutoConfig.formDefinitionService();
         Form form = formDefinitionService.addFormDefinition(formDefinition, fields, true);
-        return (FormDefinition) form;
+        return form;
     }
 
     /**
@@ -153,8 +161,7 @@ public class SchemaServiceImpl implements SchemaService {
      * @param formDefinitionId
      * @return
      */
-    public ValidateDefinitionForm getValidateDefinitionForm(JSONObject jsonObject) {
-    public ValidateDefinitionForm getalidateDefinitionForm(JSONObject jsonObject, String formDefinitionId) {
+    public ValidateDefinitionForm getValidateDefinitionForm(JSONObject jsonObject, String formDefinitionId) {
         //TODO 获取定义的校验规则
 
         return null;
@@ -171,9 +178,8 @@ public class SchemaServiceImpl implements SchemaService {
     public FormDefaultValue getFormDefaultValue(JSONObject jsonObject, String formDefinitionId) {
         Collection<FieldDefaultValue> fieldDefaultValues = new ArrayList<>();
         Collection<FieldDefault> fieldDefaults = new ArrayList<>();
-        String formDefaultId = UUID.randomUUID().toString();
         FormDefaultValue formDefaultValue = new FormDefaultValue();
-        formDefaultValue.setId(formDefaultId);
+        formDefaultValue.setId(UUID.randomUUID().toString());
         formDefaultValue.setVersion("1");
         formDefaultValue.setFormDefinitionId(formDefinitionId);
         formDefaultValue.setLinkCode(jsonObject.getString("title"));
@@ -190,7 +196,7 @@ public class SchemaServiceImpl implements SchemaService {
                     //根据required字段名称获取properties下的所有信息
                     JSONObject value = properties.getJSONObject(required.getString(i));
                     if (!value.isEmpty() && value.getString("default") != null) {
-                        FieldDefaultValue fieldDefault = getFieldDefault(required, value, i, formDefinitionId, formDefaultId);
+                        FieldDefaultValue fieldDefault = getFieldDefault(required, value, i, formDefinitionId, formDefaultValue.getId());
                         fieldDefaults.add(fieldDefault);
                         fieldDefaultValues.add(fieldDefault);
                     }

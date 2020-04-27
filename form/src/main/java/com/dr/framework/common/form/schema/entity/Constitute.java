@@ -1,58 +1,60 @@
 package com.dr.framework.common.form.schema.entity;
 
-import com.dr.framework.common.form.core.entity.FormDefinition;
+import com.dr.framework.common.form.core.model.Form;
 import com.dr.framework.common.form.init.entity.FormDefaultValue;
+import com.dr.framework.common.form.init.model.FormDefault;
 import com.dr.framework.common.form.validate.entity.ValidateDefinitionForm;
+import com.dr.framework.common.form.validate.model.ValidateDefinition;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Constitute {
 
-    private FormDefinition formDefinition;
+    private Form form;
 
-    private ValidateDefinitionForm validateDefinitionForm;
+    private ValidateDefinition validateDefinition;
 
-    private FormDefaultValue formDefaultValue;
+    private FormDefault formDefault;
 
     public Constitute() {
     }
 
-    public Constitute(FormDefinition formDefinition, ValidateDefinitionForm validateDefinitionForm, FormDefaultValue formDefaultValue) {
-        this.formDefinition = formDefinition;
-        this.validateDefinitionForm = validateDefinitionForm;
-        this.formDefaultValue = formDefaultValue;
+    public Constitute(Form form, ValidateDefinition validateDefinition, FormDefault formDefault) {
+        this.form = form;
+        this.validateDefinition = validateDefinition;
+        this.formDefault = formDefault;
     }
 
-    public FormDefinition getFormDefinition() {
-        return formDefinition;
+    public Form getForm() {
+        return form;
     }
 
-    public void setFormDefinition(FormDefinition formDefinition) {
-        this.formDefinition = formDefinition;
+    public void setForm(Form form) {
+        this.form = form;
     }
 
-    public ValidateDefinitionForm getValidateDefinitionForm() {
-        return validateDefinitionForm;
+    public ValidateDefinition getValidateDefinition() {
+        return validateDefinition;
     }
 
-    public void setValidateDefinitionForm(ValidateDefinitionForm validateDefinitionForm) {
-        this.validateDefinitionForm = validateDefinitionForm;
+    public void setValidateDefinition(ValidateDefinition validateDefinition) {
+        this.validateDefinition = validateDefinition;
     }
 
-    public FormDefaultValue getFormDefaultValue() {
-        return formDefaultValue;
+    public FormDefault getFormDefault() {
+        return formDefault;
     }
 
-    public void setFormDefaultValue(FormDefaultValue formDefaultValue) {
-        this.formDefaultValue = formDefaultValue;
+    public void setFormDefault(FormDefault formDefault) {
+        this.formDefault = formDefault;
     }
 
     public Map<String, Object> getSchemaMap() {
         Map<String, Object> schemaMap = new HashMap<>();
-        schemaMap.put("definitionId", formDefinition);
-        schemaMap.put("validateId", validateDefinitionForm);
-        schemaMap.put("defaultValueId", formDefaultValue);
+        schemaMap.put("definitionId", form);
+        schemaMap.put("validateId", validateDefinition);
+        schemaMap.put("defaultValueId", formDefault);
         return schemaMap;
     }
 

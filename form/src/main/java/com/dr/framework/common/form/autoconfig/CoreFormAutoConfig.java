@@ -77,7 +77,7 @@ public class CoreFormAutoConfig {
      */
     @Bean
     @ConditionalOnMissingBean
-    protected FormDefinitionService formDefinitionService() {
+    public FormDefinitionService formDefinitionService() {
         return new FormDefinitionServiceImpl();
     }
 
@@ -88,7 +88,7 @@ public class CoreFormAutoConfig {
      */
     @Bean
     @ConditionalOnMissingBean
-    protected FormDataService formDataService() {
+    public FormDataService formDataService() {
         return new FormDataServiceImpl();
     }
 

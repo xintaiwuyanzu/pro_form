@@ -17,7 +17,7 @@ public interface SchemaService {
      * @param jsonSchema
      * @return
      */
-    boolean verifyNode(String jsonSchema);
+    void verifyNode(String jsonSchema);
 
 
 }

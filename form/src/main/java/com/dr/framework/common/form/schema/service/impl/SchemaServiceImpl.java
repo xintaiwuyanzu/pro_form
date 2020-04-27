@@ -16,7 +16,6 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class SchemaServiceImpl implements SchemaService {
@@ -33,7 +32,7 @@ public class SchemaServiceImpl implements SchemaService {
     @Override
     public Constitute analysisJsonSchema(String jsonSchema) {
         Assert.isTrue(!StringUtils.isEmpty(jsonSchema), "参数不能为空！");
-        Assert.isTrue(verifyNode(jsonSchema), "jsonSchema数据缺少节点");
+        verifyNode(jsonSchema);
         //表单数据
         FormDefinition formDefinition = new FormDefinition();
         JSONObject jsonObject = JSONObject.parseObject(jsonSchema);
@@ -82,15 +81,13 @@ public class SchemaServiceImpl implements SchemaService {
      * @return
      */
     @Override
-    public boolean verifyNode(String jsonSchema) {
-        if (jsonSchema.indexOf("title") == -1 ||
-                jsonSchema.indexOf("description") == -1 ||
-                jsonSchema.indexOf("type") == -1 ||
-                jsonSchema.indexOf("properties") == -1 ||
-                jsonSchema.indexOf("required") == -1) {
-            return false;
-        }
-        return true;
+    public void verifyNode(String jsonSchema) {
+        Assert.isTrue(jsonSchema.indexOf("title") != -1, "jsonSchema数据缺少title节点");
+        Assert.isTrue(jsonSchema.indexOf("type") != -1, "jsonSchema数据缺少type节点");
+        Assert.isTrue(jsonSchema.indexOf("properties") != -1, "jsonSchema数据缺少properties节点");
+        Assert.isTrue(jsonSchema.indexOf("required") != -1, "jsonSchema数据缺少required节点");
+        Assert.isTrue(jsonSchema.indexOf("description") != -1, "jsonSchema数据缺少description节点");
+
     }
 
 

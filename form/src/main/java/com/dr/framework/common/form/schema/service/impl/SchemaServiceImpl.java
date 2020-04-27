@@ -41,7 +41,7 @@ public class SchemaServiceImpl implements SchemaService {
             //根据获取的数据，分离出来表单的定义数据
             FormDefinition formDefinition = getFormDefinition(jsonObject);
             //根据json对象获取校验数据
-            ValidateDefinitionForm validateDefinitionForm = getalidateDefinitionForm(jsonObject);
+            ValidateDefinitionForm validateDefinitionForm = getValidateDefinitionForm(jsonObject);
             //根据json对象获取默认值数据
             FormDefaultValue formDefaultValue = getFormDefaultValue(jsonObject);
             //创建返回的类
@@ -150,7 +150,7 @@ public class SchemaServiceImpl implements SchemaService {
      * @param jsonObject
      * @return
      */
-    public ValidateDefinitionForm getalidateDefinitionForm(JSONObject jsonObject) {
+    public ValidateDefinitionForm getValidateDefinitionForm(JSONObject jsonObject) {
         //TODO 获取定义的校验规则
 
         return null;

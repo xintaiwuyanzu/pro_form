@@ -33,7 +33,7 @@ public class FormDefinitionInsertCommand implements Command<Form> {
     /**
      * 表单定义
      */
-    private Form formData;
+    private Form form;
     /**
      * 表字段定义
      */
@@ -47,15 +47,15 @@ public class FormDefinitionInsertCommand implements Command<Form> {
      */
     private boolean copyData = true;
 
-    public FormDefinitionInsertCommand(Form formData, Collection<Field> formFieldList, boolean generate, boolean copyData) {
-        this.formData = formData;
+    public FormDefinitionInsertCommand(Form form, Collection<Field> formFieldList, boolean generate, boolean copyData) {
+        this.form = form;
         this.formFieldList = formFieldList;
         this.generate = generate;
         this.copyData = copyData;
     }
 
-    public FormDefinitionInsertCommand(Form formData, Collection<Field> formFieldList, boolean generate) {
-        this.formData = formData;
+    public FormDefinitionInsertCommand(Form form, Collection<Field> formFieldList, boolean generate) {
+        this.form = form;
         this.formFieldList = formFieldList;
         this.generate = generate;
     }
@@ -87,10 +87,10 @@ public class FormDefinitionInsertCommand implements Command<Form> {
             createTable(context, formDefinition);
         }
         //如果需要复制数据 并且是更新表定义，则执行数据复制
-        if (copyData && formDefinition.getId().equalsIgnoreCase(formData.getId())) {
-            copyData(context, formData, formDefinition);
+        if (copyData && formDefinition.getId().equalsIgnoreCase(formDefinition.getId())) {
+            copyData(context, form, formDefinition);
         }
-        return formData;
+        return formDefinition;
     }
 
     /**
@@ -150,18 +150,18 @@ public class FormDefinitionInsertCommand implements Command<Form> {
     protected FormDefinition getWorkForm(CommandContext context) {
         FormDefinition formDefinition = new FormDefinition();
         //1、根据 formData全局变量id判断：如果有id，则查询表单定义，能查询到说明之前定义过，新的表单定义需要更改表单版本号
-        if (StringUtils.isNotEmpty(formData.getId())) {
+        if (StringUtils.isNotEmpty(form.getId())) {
             //todo 进行数据比对， 没更新则不处理表定义
 
-            formDefinition = context.getMapper().selectOneByQuery(SqlQuery.from(FormDefinition.class).equal(FormDefinitionInfo.ID, formData.getId()));
+            formDefinition = context.getMapper().selectOneByQuery(SqlQuery.from(FormDefinition.class).equal(FormDefinitionInfo.ID, form.getId()));
             double version = Integer.valueOf(formDefinition.getVersion()) + 0.1;
             formDefinition.setVersion(version + "");
             formDefinition.setId(UUID.randomUUID().toString());
-            formDefinition = oneWorkForm(formData, formDefinition);
+            formDefinition = oneWorkForm(form, formDefinition);
         } else {
             //2、根据传进来的 formData创建workForm对象
             formDefinition.setId(UUID.randomUUID().toString());
-            formDefinition = oneWorkForm(formData, formDefinition);
+            formDefinition = oneWorkForm(form, formDefinition);
         }
         return formDefinition;
     }

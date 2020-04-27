@@ -90,7 +90,7 @@ public class FormDefinitionInsertCommand implements Command<Form> {
         if (copyData && formDefinition.getId().equalsIgnoreCase(formData.getId())) {
             copyData(context, formData, formDefinition);
         }
-        return formData;
+        return formDefinition;
     }
 
     /**

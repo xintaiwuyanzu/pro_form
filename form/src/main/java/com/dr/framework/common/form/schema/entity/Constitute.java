@@ -4,6 +4,9 @@ import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.init.entity.FormDefaultValue;
 import com.dr.framework.common.form.validate.entity.ValidateDefinitionForm;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Constitute {
 
     private FormDefinition formDefinition;
@@ -12,7 +15,11 @@ public class Constitute {
 
     private FormDefaultValue formDefaultValue;
 
-
+    public Constitute(FormDefinition formDefinition, ValidateDefinitionForm validateDefinitionForm, FormDefaultValue formDefaultValue) {
+        this.formDefinition = formDefinition;
+        this.validateDefinitionForm = validateDefinitionForm;
+        this.formDefaultValue = formDefaultValue;
+    }
 
     public FormDefinition getFormDefinition() {
         return formDefinition;
@@ -37,4 +44,13 @@ public class Constitute {
     public void setFormDefaultValue(FormDefaultValue formDefaultValue) {
         this.formDefaultValue = formDefaultValue;
     }
+
+    public Map<String, Object> getSchemaMap() {
+        Map<String, Object> schemaMap = new HashMap<>();
+        schemaMap.put("definitionId", formDefinition);
+        schemaMap.put(" validateId", validateDefinitionForm);
+        schemaMap.put("defaultValueId", formDefaultValue);
+        return schemaMap;
+    }
+
 }

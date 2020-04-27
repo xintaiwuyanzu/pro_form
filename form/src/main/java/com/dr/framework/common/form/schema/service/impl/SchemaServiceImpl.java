@@ -9,17 +9,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+import java.util.Map;
+
 @Service
 public class SchemaServiceImpl implements SchemaService {
 
     @Override
-    public Constitute analysisJsonSchema(String jsonSchema) {
-        Assert.isTrue(!StringUtils.isEmpty(jsonSchema),"参数不能为空！");
+    public String analysisJsonSchema(String jsonSchema) {
+        Assert.isTrue(!StringUtils.isEmpty(jsonSchema), "参数不能为空！");
         try {
-            if ( verifyNode(jsonSchema)){
+            if (verifyNode(jsonSchema)) {
                 JSONObject Schema = new JSONObject(jsonSchema);
                 JSONArray JsonSchemas = Schema.getJSONArray("properties");
-            }else{
+            } else {
 
             }
         } catch (JSONException e) {
@@ -33,5 +35,9 @@ public class SchemaServiceImpl implements SchemaService {
         return false;
     }
 
+    @Override
+    public Constitute getConstitute(Map schemaMap) {
+        return null;
+    }
 
 }

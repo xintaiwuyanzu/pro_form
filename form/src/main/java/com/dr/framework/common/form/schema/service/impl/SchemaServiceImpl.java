@@ -33,6 +33,7 @@ public class SchemaServiceImpl implements SchemaService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Constitute analysisJsonSchema(String jsonSchema) {
         Assert.isTrue(!StringUtils.isEmpty(jsonSchema), "参数不能为空！");
         if (verifyNode(jsonSchema)) {
@@ -42,10 +43,11 @@ public class SchemaServiceImpl implements SchemaService {
             FormDefinition formDefinition = getFormDefinition(jsonObject);
             //根据json对象获取校验数据
             ValidateDefinitionForm validateDefinitionForm = getValidateDefinitionForm(jsonObject);
+            //ValidateDefinitionForm validateDefinitionForm = getalidateDefinitionForm(jsonObject, formDefinition.getId());
             //根据json对象获取默认值数据
-            FormDefaultValue formDefaultValue = getFormDefaultValue(jsonObject);
+            FormDefaultValue formDefaultValue = getFormDefaultValue(jsonObject, formDefinition.getId());
             //创建返回的类
-            Constitute constitute = new Constitute(formDefinition, validateDefinitionForm, formDefaultValue);
+            Constitute constitute = new Constitute(formDefinition, new ValidateDefinitionForm(), formDefaultValue);
             return constitute;
         }
         return null;
@@ -88,7 +90,7 @@ public class SchemaServiceImpl implements SchemaService {
      * @return
      */
     public FormDefinition getFormDefinition(JSONObject jsonObject) {
-        Collection<FormField> FormFields = new ArrayList<>();
+        Collection<FormField> formFields = new ArrayList<>();
         Collection<Field> fields = new ArrayList<>();
         FormDefinition formDefinition = new FormDefinition();
         formDefinition.setVersion("1");
@@ -98,8 +100,8 @@ public class SchemaServiceImpl implements SchemaService {
         formDefinition.setFormName(jsonObject.getString("title"));
         formDefinition.setFormType(jsonObject.getString("type"));
         formDefinition.setFormOrder(1);
-        //解析properties
         if (jsonObject.getJSONObject("properties") != null) {
+            //解析properties
             JSONObject properties = jsonObject.getJSONObject("properties");
             //解析required 获取其中的字段数据
             JSONArray required = jsonObject.getJSONArray("required");
@@ -109,16 +111,16 @@ public class SchemaServiceImpl implements SchemaService {
                     JSONObject value = properties.getJSONObject(required.getString(i));
                     if (!value.isEmpty()) {
                         FormField formField = getFormFile(required, value, i);
-                        FormFields.add(formField);
+                        formFields.add(formField);
                         fields.add(formField);
                     }
                 }
             }
         }
-        formDefinition.setFormFieldList(FormFields);
+        formDefinition.setFormFieldList(formFields);
         FormDefinitionService formDefinitionService = coreFormAutoConfig.formDefinitionService();
-        formDefinitionService.addFormDefinition(formDefinition, fields, true);
-        return formDefinition;
+        Form form = formDefinitionService.addFormDefinition(formDefinition, fields, true);
+        return (FormDefinition) form;
     }
 
     /**
@@ -148,9 +150,11 @@ public class SchemaServiceImpl implements SchemaService {
      * 根据json对象获取需要校验的字段
      *
      * @param jsonObject
+     * @param formDefinitionId
      * @return
      */
     public ValidateDefinitionForm getValidateDefinitionForm(JSONObject jsonObject) {
+    public ValidateDefinitionForm getalidateDefinitionForm(JSONObject jsonObject, String formDefinitionId) {
         //TODO 获取定义的校验规则
 
         return null;
@@ -161,12 +165,64 @@ public class SchemaServiceImpl implements SchemaService {
      * 根据 json 对象获取定义的默认值数据
      *
      * @param jsonObject
+     * @param formDefinitionId
      * @return
      */
-    public FormDefaultValue getFormDefaultValue(JSONObject jsonObject) {
-        //TODO 获取定义的默认值
+    public FormDefaultValue getFormDefaultValue(JSONObject jsonObject, String formDefinitionId) {
+        Collection<FieldDefaultValue> fieldDefaultValues = new ArrayList<>();
+        Collection<FieldDefault> fieldDefaults = new ArrayList<>();
+        String formDefaultId = UUID.randomUUID().toString();
+        FormDefaultValue formDefaultValue = new FormDefaultValue();
+        formDefaultValue.setId(formDefaultId);
+        formDefaultValue.setVersion("1");
+        formDefaultValue.setFormDefinitionId(formDefinitionId);
+        formDefaultValue.setLinkCode(jsonObject.getString("title"));
+        formDefaultValue.setDescription(jsonObject.getString("description"));
+        formDefaultValue.setLinkName(jsonObject.getString("title"));
+        formDefaultValue.setDefaultType(jsonObject.getString("type"));
+        if (jsonObject.getJSONObject("properties") != null) {
+            //解析properties
+            JSONObject properties = jsonObject.getJSONObject("properties");
+            //解析required 获取其中的字段数据
+            JSONArray required = jsonObject.getJSONArray("required");
+            if (required.size() > 0) {
+                for (int i = 0; i < required.size(); i++) {
+                    //根据required字段名称获取properties下的所有信息
+                    JSONObject value = properties.getJSONObject(required.getString(i));
+                    if (!value.isEmpty() && value.getString("default") != null) {
+                        FieldDefaultValue fieldDefault = getFieldDefault(required, value, i, formDefinitionId, formDefaultId);
+                        fieldDefaults.add(fieldDefault);
+                        fieldDefaultValues.add(fieldDefault);
+                    }
+                }
+            }
+        }
+        formDefaultValue.setFieldDefaultList(fieldDefaultValues);
+        FormDefaultValueService formDefaultValueService = initFormAutoConfig.formDefaultValueService();
+        formDefaultValueService.addFormDefaultValue(formDefaultValue, fieldDefaults);
+        return formDefaultValue;
+    }
 
-        return null;
+    /**
+     * 获取字段默认值
+     *
+     * @param required
+     * @param value
+     * @param i
+     * @param formDefinitionId
+     * @param formDefaultId
+     * @return
+     */
+    private FieldDefaultValue getFieldDefault(JSONArray required, JSONObject value, int i, String formDefinitionId, String formDefaultId) {
+        FieldDefaultValue fieldDefaultValue = new FieldDefaultValue();
+        fieldDefaultValue.setId(UUID.randomUUID().toString());
+        fieldDefaultValue.setFormDefaultValueId(formDefaultId);
+        fieldDefaultValue.setFormDefinitionId(formDefinitionId);
+        fieldDefaultValue.setFieldCode(required.getString(i));
+        fieldDefaultValue.setFieldName(required.getString(i));
+        fieldDefaultValue.setFieldType(value.getString("type"));
+        fieldDefaultValue.setDefaultValue(value.getString("defaultValue"));
+        return fieldDefaultValue;
     }
 
 }

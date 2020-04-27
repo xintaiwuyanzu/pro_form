@@ -15,6 +15,9 @@ public class Constitute {
 
     private FormDefaultValue formDefaultValue;
 
+    public Constitute() {
+    }
+
     public Constitute(FormDefinition formDefinition, ValidateDefinitionForm validateDefinitionForm, FormDefaultValue formDefaultValue) {
         this.formDefinition = formDefinition;
         this.validateDefinitionForm = validateDefinitionForm;

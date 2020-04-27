@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import './plugins/element.js'
 import myPlguin from './util/myPlguin'
+import './assets/icon/iconfont.css'
 
 
 Vue.config.productionTip = false

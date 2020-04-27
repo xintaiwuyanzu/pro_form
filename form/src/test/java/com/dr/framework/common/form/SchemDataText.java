@@ -11,7 +11,7 @@ public class SchemDataText extends AbstractApplicationTest {
 
     @Test
     public void getSchemaData() {
-        String schema = "{\n" +
+        String schema = "{\n" + "\"title\":\"A person\",\n" +
                 "     \"description\":\"A person\",\n" +
                 "     \"type\":\"object\",\n" +
                 "\n" +
@@ -21,7 +21,9 @@ public class SchemDataText extends AbstractApplicationTest {
                 "           \"type\":\"integer\",\n" +
                 "           \"maximum\":125\n" +
                 "       }\n" +
-                "     }\n" +
+                "     },\n" +
+                "\"required\":[\n" + "\"name\",\n " +
+                " \"age\",]" +
                 "   }";
         SchemaService.analysisJsonSchema(schema);
     }

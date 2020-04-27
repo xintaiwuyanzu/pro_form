@@ -1,0 +1,23 @@
+{
+  "id": "1770454",
+  "name": "clothes",
+  "font_family": "iconfont",
+  "css_prefix_text": "el-icon-clothes",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "142899",
+      "name": "衣服换肤",
+      "font_class": "yifuhuanfu",
+      "unicode": "e6e0",
+      "unicode_decimal": 59104
+    },
+    {
+      "icon_id": "3262885",
+      "name": "衣服 皮肤 主题",
+      "font_class": "yifupifu",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    }
+  ]
+}

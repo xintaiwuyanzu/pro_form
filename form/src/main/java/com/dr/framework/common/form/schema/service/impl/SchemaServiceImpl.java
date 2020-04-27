@@ -7,8 +7,10 @@ import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormField;
 import com.dr.framework.common.form.core.model.Field;
 import com.dr.framework.common.form.core.service.FormDefinitionService;
+import com.dr.framework.common.form.init.entity.FormDefaultValue;
 import com.dr.framework.common.form.schema.entity.Constitute;
 import com.dr.framework.common.form.schema.service.SchemaService;
+import com.dr.framework.common.form.validate.entity.ValidateDefinitionForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -38,10 +40,13 @@ public class SchemaServiceImpl implements SchemaService {
             JSONObject jsonObject = JSONObject.parseObject(jsonSchema);
             //根据获取的数据，分离出来表单的定义数据
             FormDefinition formDefinition = getFormDefinition(jsonObject);
-            //TODO 根据json对象获取校验数据
-
-            //TODO 根据json对象获取默认值数据
-
+            //根据json对象获取校验数据
+            ValidateDefinitionForm validateDefinitionForm = getalidateDefinitionForm(jsonObject);
+            //根据json对象获取默认值数据
+            FormDefaultValue formDefaultValue = getFormDefaultValue(jsonObject);
+            //创建返回的类
+            Constitute constitute = new Constitute(formDefinition, validateDefinitionForm, formDefaultValue);
+            return constitute;
         }
         return null;
     }
@@ -132,9 +137,36 @@ public class SchemaServiceImpl implements SchemaService {
         formField.setFieldType(value.getString("type"));
         formField.setDescription(value.getString("description"));
         //formField.setFieldLength(Integer.valueOf(value.getString("maximum")));
+        //TODO 补充相对应的字段
+
         formField.setFieldOrder(i + 1);
         return formField;
     }
 
+
+    /**
+     * 根据json对象获取需要校验的字段
+     *
+     * @param jsonObject
+     * @return
+     */
+    public ValidateDefinitionForm getalidateDefinitionForm(JSONObject jsonObject) {
+        //TODO 获取定义的校验规则
+
+        return null;
+    }
+
+
+    /**
+     * 根据 json 对象获取定义的默认值数据
+     *
+     * @param jsonObject
+     * @return
+     */
+    public FormDefaultValue getFormDefaultValue(JSONObject jsonObject) {
+        //TODO 获取定义的默认值
+
+        return null;
+    }
 
 }

@@ -8,7 +8,9 @@ import com.dr.framework.common.form.init.service.impl.FormDefaultValueServiceImp
 import com.dr.framework.common.form.init.service.impl.InitValueServiceImpl;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
 public class InitFormAutoConfig {
 
     /**

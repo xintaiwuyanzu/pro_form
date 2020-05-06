@@ -87,7 +87,7 @@ public class FormDefinitionInsertCommand implements Command<Form> {
             createTable(context, formDefinition);
         }
         //如果需要复制数据 并且是更新表定义，则执行数据复制
-        if (copyData && formDefinition.getId().equalsIgnoreCase(formDefinition.getId())) {
+        if (copyData && formDefinition.getId().equalsIgnoreCase(form.getId())) {
             copyData(context, form, formDefinition);
         }
         return formDefinition;
@@ -96,7 +96,7 @@ public class FormDefinitionInsertCommand implements Command<Form> {
     /**
      * 从老表复制数据到新表
      *
-     * @param formData 老表结构定义
+     * @param formData       老表结构定义
      * @param formDefinition 新表结构定义
      */
     protected void copyData(CommandContext context, Form formData, FormDefinition formDefinition) {
@@ -205,7 +205,7 @@ public class FormDefinitionInsertCommand implements Command<Form> {
                 .forEach(field -> {
                     Column column = newColumn(formData, field, formNameGenerator);
                     if ("pk".equals(field.getFieldType())) {
-                        configedRelation.addPrimaryKey("pk", formNameGenerator.genFieldName(formData,field), 0);
+                        configedRelation.addPrimaryKey("pk", formNameGenerator.genFieldName(formData, field), 0);
                     }
                     configedRelation.addColumn(column);
                 });

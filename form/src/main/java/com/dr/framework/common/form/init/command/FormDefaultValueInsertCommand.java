@@ -11,7 +11,6 @@ import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class FormDefaultValueInsertCommand implements Command<FormDefault> {
     private FormDefault formDefault;

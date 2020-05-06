@@ -14,7 +14,7 @@ import com.dr.framework.common.form.init.entity.FormDefaultValue;
 import com.dr.framework.common.form.init.model.FieldDefault;
 import com.dr.framework.common.form.init.service.FormDefaultValueService;
 import com.dr.framework.common.form.schema.entity.Constitute;
-import com.dr.framework.common.form.schema.service.SchemaService;
+import com.dr.framework.common.form.schema.service.DecomposeSchemaService;
 import com.dr.framework.common.form.validate.entity.ValidateDefinitionForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,10 +28,11 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
-public class SchemaServiceImpl implements SchemaService {
+public class DecomposeSchemaServiceImpl implements DecomposeSchemaService {
 
     @Autowired
     CoreFormAutoConfig coreFormAutoConfig;
+
     @Autowired
     InitFormAutoConfig initFormAutoConfig;
 
@@ -146,9 +147,9 @@ public class SchemaServiceImpl implements SchemaService {
         formField.setFieldCode(required.getString(i));
         formField.setFieldType(value.getString("type"));
         formField.setDescription(value.getString("description"));
-        //formField.setFieldLength(Integer.valueOf(value.getString("maximum")));
+        formField.setFieldLength(Integer.valueOf(value.getString("maxLength")));
         //TODO 补充相对应的字段
-
+        formField.setFieldState("0");
         formField.setFieldOrder(i + 1);
         return formField;
     }
@@ -163,6 +164,7 @@ public class SchemaServiceImpl implements SchemaService {
      */
     public ValidateDefinitionForm getValidateDefinitionForm(JSONObject jsonObject, String formDefinitionId) {
         //TODO 获取定义的校验规则
+
 
         return null;
     }
@@ -186,6 +188,7 @@ public class SchemaServiceImpl implements SchemaService {
         formDefaultValue.setDescription(jsonObject.getString("description"));
         formDefaultValue.setLinkName(jsonObject.getString("title"));
         formDefaultValue.setDefaultType(jsonObject.getString("type"));
+        formDefaultValue.setVersion("1");
         if (jsonObject.getJSONObject("properties") != null) {
             //解析properties
             JSONObject properties = jsonObject.getJSONObject("properties");
@@ -203,9 +206,9 @@ public class SchemaServiceImpl implements SchemaService {
                 }
             }
         }
-        formDefaultValue.setFieldDefaultList(fieldDefaultValues);
         FormDefaultValueService formDefaultValueService = initFormAutoConfig.formDefaultValueService();
         formDefaultValueService.addFormDefaultValue(formDefaultValue, fieldDefaults);
+        formDefaultValue.setFieldDefaultList(fieldDefaultValues);
         return formDefaultValue;
     }
 
@@ -227,7 +230,7 @@ public class SchemaServiceImpl implements SchemaService {
         fieldDefaultValue.setFieldCode(required.getString(i));
         fieldDefaultValue.setFieldName(required.getString(i));
         fieldDefaultValue.setFieldType(value.getString("type"));
-        fieldDefaultValue.setDefaultValue(value.getString("defaultValue"));
+        fieldDefaultValue.setDefaultValue(value.getString("default"));
         return fieldDefaultValue;
     }
 

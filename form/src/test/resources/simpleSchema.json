@@ -1,0 +1,29 @@
+{
+  "title": "fistForm",
+  "type": "object",
+  "id": "这个是主键",
+  "uiId":"显示方案Id",
+  "validateId":"校验方案Id",
+  "defaultId":"默认值方案Id",
+  "description": "这个是描述",
+  "properties": {
+    "id": {
+      "title": "主键",
+      "type": "pk",
+      "maxLength": 50
+    },
+    "name": {
+      "title": "名称",
+      "type": "string",
+      "maxLength": 100,
+      "default": "登录人员"
+    },
+    "age": {
+      "title": "岁数",
+      "type": "string",
+      "maxLength": 50,
+      "default": "20"
+    }
+  },
+  "required": ["id","name","age"]
+}

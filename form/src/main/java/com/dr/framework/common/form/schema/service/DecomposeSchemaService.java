@@ -4,7 +4,12 @@ import com.dr.framework.common.form.schema.entity.Constitute;
 
 import java.util.Map;
 
-public interface SchemaService {
+/**
+ * 分解jsonSchema
+ *
+ * @author lc
+ */
+public interface DecomposeSchemaService {
 
     /**
      * 解析传过来的JsonSchema数据

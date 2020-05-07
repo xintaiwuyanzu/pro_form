@@ -1,3 +1,5 @@
+import vue from 'vue'
+
 /**
  *根据配置获取layout的控件
  * @param layouts
@@ -5,6 +7,27 @@
  */
 const getLayout = (layouts, displayType) => {
     return layouts[displayType]
+}
+const getContainer = ({'ui:container': container}, {containers}, {displayType}) => {
+    const containerName = container || displayType
+    return containers[containerName] || containers.default
+}
+const getWidget = ({'ui:widget': widget, type, enum: enums, format}, {widgets}, {displayType, widgetMapping}) => {
+    let result = typeof widget === 'string' ? widgets[widget] : widget
+    if (!result) {
+        const mappingKeys = []
+        if (enums) {
+            mappingKeys.push(`${type}?enum`)
+            mappingKeys.push(`*?enum`)
+        }
+        if (format) {
+            mappingKeys.push(`${type}:${format}`)
+        }
+        mappingKeys.push(type)
+        const key = mappingKeys.find(k => widgetMapping[k])
+        result = widgets[widgetMapping[key]]
+    }
+    return result
 }
 
 const getChildren = (
@@ -28,15 +51,27 @@ const getChildren = (
                         {
                             Object.keys(properties)
                                 .map(name => {
-                                    const _data = data[name] || {}
+                                    const _schema = properties[name]
+                                    let _data = data[name]
+                                    //动态添加属性，实现数据双向绑定
+                                    if (!_data) {
+                                        if (_schema.type == 'object') {
+                                            _data = {}
+                                        } else {
+                                            _data = ''
+                                            vue.set(data, name, _data)
+                                        }
+                                    }
                                     data[name] = _data
-                                    const c = getChildren(properties[name], controls, props, _data)
+                                    const children = getChildren(_schema, controls, props, _data)
                                     //准备相关的参数
                                     const _prop = {
-                                        data,
-                                        name
+                                        parent: data,
+                                        data: _data,
+                                        name,
+                                        ...props
                                     }
-                                    return <c {..._prop}/>
+                                    return <children {...{props: _prop}}/>
                                 })
                         }
                     </div>
@@ -54,16 +89,17 @@ const getChildren = (
             const container = getContainer(schema, controls, props)
             //获取widget
             const widget = getWidget(schema, controls, props)
-            const FormComponent = ({props}) => {
+            const FormComponent = ({data, props}) => {
                 //准备控件参数
                 const _props = {
                     isRoot,
+                    ...data,
                     ...props,
                     schema
                 }
                 return (
-                    <container {..._props}>
-                        <widget {..._props}/>
+                    <container {...{props: _props}}>
+                        <widget {...{props: _props}} />
                     </container>
                 )
             }
@@ -71,13 +107,7 @@ const getChildren = (
         }
     }
 }
-const getContainer = ({'ui:container': container}, {containers}, {displayType}) => {
-    const containerName = container || displayType
-    return containers[containerName] || containers.default
-}
-const getWidget = ({'ui:widget': widget, type, enum: enums, format}, {widgets}, {displayType}) => {
-    return widgets[widget] || widgets[type]
-}
+
 
 export function parser(
     //表结构描述
@@ -91,13 +121,10 @@ export function parser(
     //字段控件外层用来控制样式的控件
     containers,
     //其他的属性
-    {
-        //控件显示类型
-        displayType
-    },
+    props
 ) {
     //解析schema
-    const layout = getLayout(layouts, displayType)
+    const layout = getLayout(layouts, props.displayType)
     const children = getChildren(
         schema,
         {
@@ -105,9 +132,7 @@ export function parser(
             layouts,
             containers
         },
-        {
-            displayType
-        },
+        props,
         data,
         true
     )

@@ -1,8 +1,7 @@
 import {JSONSchema7} from "json-schema";
 import {VNode} from "vue";
 
-export default (context: { data: JSONSchema7; children: VNode; props: Record<string, any> }) => {
-    console.log(context)
+export default (context: { data: { schema: JSONSchema7 }; children: VNode; props: Record<string, any> }) => {
     const {data, children, props} = context
-    return <el-form-item label={data.title}>  {children}</el-form-item>
+    return <el-form-item label={data.schema.title}>  {children}</el-form-item>
 }

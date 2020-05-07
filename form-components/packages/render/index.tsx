@@ -1,6 +1,7 @@
 import {Component, Prop, Vue} from "vue-property-decorator";
 import {JSONSchema7} from "json-schema";
-import {containers, layouts, widgets} from '../components'
+import {containers, layouts, widgetMapping, widgets} from '../components'
+// @ts-ignore
 import {parser} from '../utils/parser'
 import {VNode} from "vue";
 
@@ -28,24 +29,33 @@ export default class FormRender extends Vue {
      */
     @Prop({default: () => widgets})
     widgets!: Record<string, VNode>
+    /**
+     * 控件的映射
+     */
+    @Prop({default: () => widgetMapping})
+    widgetMapping!: Record<string, string>
+
     @Prop({default: () => layouts})
     layouts!: Record<string, VNode>
     @Prop({default: () => containers})
     containers!: Record<string, VNode>
 
     render() {
+        const prop = {
+            displayType: this.displayType,
+            widgetMapping: this.widgetMapping
+        }
+
         const {layout, children} = parser(
             this.schema,
             this.data,
             this.widgets,
             this.layouts,
             this.containers,
-            {
-                displayType: this.displayType
-            }
+            prop
         )
         return (
-            <layout>
+            <layout {...{data: this.data, schema: this.schema}} >
                 <children/>
             </layout>
         )

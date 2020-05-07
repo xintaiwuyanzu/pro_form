@@ -1,3 +1,3 @@
 export {layouts} from './layout'
-export {containers} from './container'
-export {widgets, configs} from './widget'
+export {containers, containerMapping} from './container'
+export {widgets, widgetMapping, configs} from './widget'

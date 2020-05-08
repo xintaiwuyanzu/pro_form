@@ -1,9 +1,7 @@
 <template>
-
     <el-dropdown trigger="click" @command="handleCommand">
         <el-button circle style="padding: 4px">
             <icon icon="el-icon-clothesyifuhuanfu" style="width: 20px;font-size: 20px;"/>
-
         </el-button>
         <el-dropdown-menu slot="dropdown">
             <el-dropdown-item :command="1">蓝色</el-dropdown-item>
@@ -11,8 +9,6 @@
             <el-dropdown-item :command="3">绿色</el-dropdown-item>
         </el-dropdown-menu>
     </el-dropdown>
-
-
 </template>
 
 <script>
@@ -73,11 +69,8 @@
                     const url = `https://unpkg.com/element-ui@${version}/lib/theme-chalk/index.css`
                     await this.getCSSString(url, 'chalk')
                 }
-
                 const chalkHandler = getHandler('chalk', 'chalk-style')
-
                 chalkHandler()
-
                 const styles = [].slice.call(document.querySelectorAll('style'))
                     .filter(style => {
                         const text = style.innerText
@@ -88,16 +81,12 @@
                     if (typeof innerText !== 'string') return
                     style.innerText = this.updateStyle(innerText, originalCluster, themeCluster)
                 })
-
                 this.$emit('change', val)
-
                 $message.close()
             }
         },
-
         methods: {
             handleCommand(command) {
-                console.log(command)
                 if (command == '1') {
                     this.theme = '#409EFF'
                 } else if (command == '2') {
@@ -175,25 +164,23 @@
         }
     }
 </script>
-
-<style>
+<style lang="scss">
     .theme-picker {
         float: left;
+
+        .el-color-picker__trigger {
+            height: 26px !important;
+            width: 26px !important;
+            padding: 2px;
+        }
     }
 
-    .theme-message,
-    .theme-picker-dropdown {
+    .theme-message, .theme-picker-dropdown {
         z-index: 99999 !important;
+
+        .el-color-dropdown__link-btn {
+            display: none;
+        }
     }
 
-    .theme-picker .el-color-picker__trigger {
-        height: 26px !important;
-        width: 26px !important;
-        padding: 2px;
-    }
-
-
-    .theme-picker-dropdown .el-color-dropdown__link-btn {
-        display: none;
-    }
 </style>

@@ -16,7 +16,7 @@
             </el-row>
 
             <div class="table-container">
-                <el-table :data="tableData" height="100%" border="true" ref="multipleTable"
+                <el-table :data="tableData" height="100%" :border="true" ref="multipleTable"
                           @selection-change="handleSelectionChange">
                     <el-table-column type="selection"></el-table-column>
                     <el-table-column label="序号" fixed align="center" width="60">
@@ -79,7 +79,6 @@
 </template>
 <script>
     export default {
-        name: "index",
         data() {
             return {
                 loading: false,
@@ -91,9 +90,9 @@
                     label: 'label'
                 },
                 page: {
-                    size: '',
-                    total: '',
-                    index: ''
+                    size: 0,
+                    total: 0,
+                    index: 0
                 },
                 tableData: [],
                 addDialogVisible: false,

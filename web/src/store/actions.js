@@ -18,7 +18,7 @@ export default {
                         sessionStorage.setItem('$token', body.data)
                         body.data = {}
                         body.data.id = playload.username
-                        sessionStorage.setItem('uv',  JSON.stringify(body.data))
+                        sessionStorage.setItem('uv', JSON.stringify(body.data))
                         context.commit('login', body.data)
                         Message.success('登录成功！')
                         let p = this.$router.currentRoute.query.p

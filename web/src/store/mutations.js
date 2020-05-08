@@ -17,15 +17,7 @@ export default {
         this.$router.push('login')
     },
     login(state, user) {
-        if(user.id){
-            this.$http.post('/sysadmin/getAdminById', {adminId:user.id})
-                .then(({data}) => {
-                    if (data.success) {
-                        state.user = data.data
-                        state.isLogin = 2
-                    }
-                })
-        }
+        state.user = user
     },
     changeLogin(state, isLogin) {
         state.isLogin = isLogin

@@ -2,7 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 module.exports = {
     pages: {
-        index: {entry: './src/main.js', title: '表单管理系统'},
+        index: {entry: './src/main.js', title: '达融表单管理系统'},
     },
     productionSourceMap: false,
     configureWebpack: {

@@ -69,8 +69,6 @@
                 <!--                <per-form ref="perForm"></per-form>-->
             </el-row>
         </div>
-        <CloudDocHomePage :organiseId="organiseId" v-if="flag"></CloudDocHomePage>
-
         <el-dialog
                 :title="rolenametitle"
                 :visible.sync="roleDialogVisible">
@@ -174,9 +172,9 @@
                     deleteids = deleteids + deleteRoles[i2] + ','
                 }
                 this.$http.post(`/bin/addRoleToUser`, {
-                    addRoleIds: addids,
-                    delRoleIds: deleteids,
-                    userId: this.shouquanuserid
+                        addRoleIds: addids,
+                        delRoleIds: deleteids,
+                        userId: this.shouquanuserid
                     }
                 ).then(({data}) => {
                     if (data.success) {
@@ -255,7 +253,8 @@
                         if (data.success) {
                             this.menuData = data.data ? data.data : []
                             if (this.menuData.length > 0) {
-                                this.click(this.menuData[0].children[0])
+                                console.log(data)
+                                this.click(this.menuData[0])
                             }
                         } else {
                             this.$message.error(data.message)

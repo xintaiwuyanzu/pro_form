@@ -1,15 +1,14 @@
 <template>
     <el-container style="height: 100%">
         <el-header v-if="color=='#409EFF'" class="headerBlue">
-            <header-top></header-top>
+            <header-top/>
         </el-header>
         <el-header v-else-if="color=='#303133'" class="headerh">
-            <header-top></header-top>
+            <header-top/>
         </el-header>
         <el-header v-else class="header">
-            <header-top></header-top>
+            <header-top/>
         </el-header>
-
         <el-container style="overflow: auto;">
             <el-aside width="auto" style="padding: 0px">
                 <leftmenu></leftmenu>
@@ -37,8 +36,6 @@
             this.$color.$on('color', (arg) => {
                 this.color = arg;
             })
-
-
         }
     }
 </script>
@@ -57,6 +54,7 @@
         vertical-align: middle;
         border-bottom: 1px solid #00397f;
     }
+
     .headerh {
         background: linear-gradient(180deg, #303133, #606266, #606266);
         color: #fff;

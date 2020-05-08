@@ -1,30 +1,17 @@
 <template>
-    <section>
-        <img src="../assets/logo.png"
-             height="50px"
-             style="margin-top: 10px"/>
-        <section class="section" style="float: right;margin-top: 15px;">
-            <el-tag effect="dark" style="margin-right: 20px;height:30px;padding: 4px;float: left;">
-                {{$store.state.user.userName}}
-            </el-tag>
-            <el-button circle size="mini" style="margin-right: 10px;height:30px;padding: 4px;float: left"
-                       @click="getChange($store.state.user)">
+    <section style="height: 100%;display: flex;align-content: center">
+        <HeaderLogo style="margin-top: auto;margin-bottom: auto"/>
+        <div style="flex: 1"/>
+        <section class="section" style="margin-top: 16px;">
+            <el-button circle style="margin-right: 15px;height:32px;padding: 4px;float: left"
+                       @click="$refs.changeform.showInfo()">
                 <icon icon="user" style="width: 20px"/>
             </el-button>
-            <el-button circle size="mini" style="margin-right: 15px;height:30px;padding: 4px;float: left"
-                       @click="logout()">
+            <theme-picker @change="themeChange" style="margin-right: 10px;float: left;height:32px"/>
+            <el-button circle style="margin-right: 15px;height:32px;padding: 4px;float: left"
+                       @click="$store.commit('logout')">
                 <icon icon="delete" style="width: 20px"/>
             </el-button>
-            <el-select v-model="sysId" ref="sysSelect"
-                       style=" display: inline-block;width: 160px;"
-                       @change="loadMenu">
-                <el-option-group label="业务子系统">
-                    <el-option v-for="item in options" :key="item.id" :value="item.id" :label="item.sysName">
-                        <span style="float: left">{{ item.sysName }}</span>
-                        <span style="float: right; color: #8492a6; font-size: 13px">{{ item.sysDescription }}</span>
-                    </el-option>
-                </el-option-group>
-            </el-select>
             <change-form ref="changeform"/>
             <changepwd-form ref="changepwdform"/>
         </section>
@@ -33,9 +20,11 @@
 <script>
     import changeForm from './changeForm'
     import changepwdForm from './changePwdForm'
+    import ThemePicker from './ThemePicker'
+    import HeaderLogo from './Logo'
 
     export default {
-        components: {changeForm, changepwdForm},
+        components: {changeForm, changepwdForm, ThemePicker, HeaderLogo},
         data() {
             return {
                 baseUrl: process.env.BASE_URL + 'imgs/',
@@ -83,20 +72,21 @@
                         }
                     })
             },
-            logout() {
-                this.$store.commit('logout');
-            },
-            getChange(row) {
-                this.$refs.changeform.editForm(row)
-            },
             changePwds() {
                 this.$refs.changepwdform.editForm()
             },
-
+            themeChange(val) {
+                this.$store.dispatch(
+                    '', {
+                        key: 'theme',
+                        value: val
+                    }),
+                    this.$color.$emit('color', val);
+            }
         }
     }
 </script>
-<style type="scss">
+<style lang="scss">
     .section {
         .el-tag {
             color: #F8F8FF;

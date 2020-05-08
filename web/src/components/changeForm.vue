@@ -1,30 +1,30 @@
 <template>
     <el-dialog :visible.sync="edit" :title="'个人信息'" width="320px" :close-on-click-modal="false">
-        <el-form :model="personForm" :rules="rules" ref="form" label-width="120px" style="color: #00397f">
+        <el-form :model="personForm" :rules="rules" ref="form" label-width="120px">
             <el-row style="max-width: content-box">
                 <el-form-item label="用户姓名：">
-                    <span>{{personForm.userName}}</span>
+                    <span>{{ user.userName}}</span>
                     <!--<el-button style="border: none">→去修改</el-button>-->
                 </el-form-item>
             </el-row>
             <el-row>
                 <el-form-item label="用户编号：">
-                    <span>{{personForm.userCode}}</span>
+                    <span>{{ user.userCode}}</span>
                 </el-form-item>
             </el-row>
             <el-row>
                 <el-form-item label="手机号：">
-                    <span>{{personForm.mobile}}</span>
+                    <span>{{ user.mobile}}</span>
                 </el-form-item>
             </el-row>
             <el-row>
                 <el-form-item label="身份证号：">
-                    <span>{{personForm.idNo}}</span>
+                    <span>{{ user.idNo}}</span>
                 </el-form-item>
             </el-row>
             <el-row>
                 <el-form-item label="邮   箱：">
-                    <span>{{personForm.email}}</span>
+                    <span>{{ user.email}}</span>
                 </el-form-item>
             </el-row>
         </el-form>
@@ -40,37 +40,32 @@
 
     export default {
         mixins: [indexMixin, fromMixin],
-        components: {fromMixin},
         data() {
             return {
                 libIds: [],
                 personForm: {},
-                dict: ['loc.type']
+                dict: ['loc.type'],
+                user: {}
             }
         },
         methods: {
-            $init() {
-                // this.$http.post('/library/getLibByPid')
-                //     .then(({data}) => {
-                //         if (data.success) {
-                //             this.libIds = data.data
-                //         }
-                //     })
-                this.getPersonOne()
+            showInfo() {
+                if (!this.user.userName) {
+                    this.$http.post('/sysadmin/getAdminById', {adminId: this.$store.state.user.id})
+                        .then(({data}) => {
+                            if (data.success) {
+                                this.user = data.data
+                                this.edit = true
+                            }
+                        })
+                } else {
+                    this.edit = true
+                }
             },
-            getPersonOne() {
-                this.$http.post('/gestion/getPersonOne')
-                    .then(({data}) => {
-                        if (data.success) {
-                            this.personForm = data.data
-                        }
-                    })
-            },
+
             changePwd() {
                 this.edit = false
-                //this.$emit('changePwds');
                 this.$parent.changePwds()
-                //this.$refs.changepwdform.editForm()
             },
             saveForm() {
                 if (this.$refs.form) {

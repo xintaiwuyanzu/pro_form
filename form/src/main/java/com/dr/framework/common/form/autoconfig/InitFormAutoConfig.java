@@ -8,7 +8,9 @@ import com.dr.framework.common.form.init.service.impl.FormDefaultValueServiceImp
 import com.dr.framework.common.form.init.service.impl.InitValueServiceImpl;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
 public class InitFormAutoConfig {
 
     /**
@@ -18,7 +20,7 @@ public class InitFormAutoConfig {
      */
     @Bean
     @ConditionalOnMissingBean
-    protected FormDefaultValueService formDefaultValueService() {
+    public FormDefaultValueService formDefaultValueService() {
         return new FormDefaultValueServiceImpl();
     }
 
@@ -29,7 +31,7 @@ public class InitFormAutoConfig {
      */
     @Bean
     @ConditionalOnMissingBean
-    protected InitValueService initValueService() {
+    public InitValueService initValueService() {
         return new InitValueServiceImpl();
     }
 
@@ -40,7 +42,7 @@ public class InitFormAutoConfig {
      */
     @Bean
     @ConditionalOnMissingBean
-    protected FieldDefaultManager fieldDefaultManager() {
+    public FieldDefaultManager fieldDefaultManager() {
         return new FieldDefaultManagerImpl();
     }
 

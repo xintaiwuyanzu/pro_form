@@ -4,6 +4,7 @@ import com.dr.framework.core.orm.support.mybatis.spring.boot.autoconfigure.Enabl
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
 @SpringBootApplication(scanBasePackages = "com.dr")
 @EnableAutoMapper(basePackages = "com.dr")
 public class FormApplication {

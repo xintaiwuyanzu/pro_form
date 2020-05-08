@@ -4,20 +4,19 @@
         </nac-info>
         <div class="index_main" v-loading="loading">
             <config-form ref="form"></config-form>
-            <div class="table-container">
-                <el-table :data="data" border height="100%" @selection-change="handleTableSelect">
-                    <el-table-column label="排序" type="index" align="center"/>
+            <div class="table-container" >
+                <el-table :data="data" border height="100%">
+                    <el-table-column prop="order" label="排序" width="80" header-align="center" align="center"/>
                     <el-table-column prop="key" label="编码" header-align="center" show-overflow-tooltip/>
                     <el-table-column prop="value" label="值" header-align="center" show-overflow-tooltip/>
-                    <el-table-column prop="description" label="描述" width="300" header-align="center"
+                    <el-table-column prop="description" label="描述"  header-align="center"
                                      show-overflow-tooltip/>
-                    <el-table-column prop="order" label="排序" width="80" header-align="center" align="center"/>
-                    <el-table-column prop="status" label="可用" width="50" align="center" header-align="center">
+                    <el-table-column prop="status" label="可用" width="200" align="center" header-align="center">
                         <template slot-scope="scope">
                             {{scope.row.status|dict('state')}}
                         </template>
                     </el-table-column>
-                    <el-table-column label="操作" width="120" header-align="center" align="center" fixed="right">
+                    <el-table-column label="操作" width="150" header-align="center" align="center" fixed="right">
                         <template slot-scope="scope">
                             <el-button type="text" size="small" @click="editForm(scope.row)">编 辑</el-button>
                             <el-button type="text" size="small" @click="remove(scope.row.id)">删 除</el-button>

@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import './plugins/element.js'
 import myPlguin from './util/myPlguin'
+import './assets/icon/iconfont.css'
 
 
 Vue.config.productionTip = false
@@ -27,3 +28,4 @@ new Vue({
     store,
     render: h => h(App)
 }).$mount('#app')
+Vue.prototype.$color = new Vue();

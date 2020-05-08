@@ -73,6 +73,7 @@ public class ValidateDefinitionInsertCommand implements Command<ValidateDefiniti
             for (ValidateDefinitionField validateDefinitionField : ValidateDefinitionFieldList) {
                 ValidateDefinitionFormField validateDefinitionFormField = new ValidateDefinitionFormField();
                 validateDefinitionFormField.setId(validateDefinitionField.getId());
+                validateDefinitionFormField.setValidateFormId(validateDefinitionForm.getId());
                 validateDefinitionFormField.setCheckConfig(validateDefinitionField.getCheckConfig());
                 validateDefinitionFormField.setCheckConfigThree(validateDefinitionField.getCheckConfigThree());
                 validateDefinitionFormField.setCheckConfigTwo(validateDefinitionField.getCheckConfigTwo());
@@ -81,7 +82,6 @@ public class ValidateDefinitionInsertCommand implements Command<ValidateDefiniti
                 validateDefinitionFormField.setFieldType(validateDefinitionField.getFieldType());
                 validateDefinitionFormField.setFormDefinitionId(validateDefinitionField.getFormDefinitionId());
                 validateDefinitionFormField.setNotNull(validateDefinitionField.isNotNull());
-                validateDefinitionFormField.setValidateFormId(validateDefinitionField.getValidateFormId());
                 validateDefinitionFormField.setText1(validateDefinitionField.getText1());
                 validateDefinitionFormField.setText2(validateDefinitionField.getText2());
                 validateDefinitionFormField.setText3(validateDefinitionField.getText3());

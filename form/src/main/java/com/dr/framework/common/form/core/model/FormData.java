@@ -14,6 +14,9 @@ public class FormData extends HashMap<String, Serializable> {
     private String fieldName;
     private String fieldCode;
 
+    FormData() {
+    }
+
     public FormData(String formDefinitionId, String formDataId) {
         this(formDefinitionId, formDataId, null, null);
     }

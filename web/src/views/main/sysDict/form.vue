@@ -11,15 +11,15 @@
                 <el-input v-model="searchForm.description" placeholder="请输入字典描述" clearable/>
             </el-form-item>
             <el-form-item label="是否可用" prop="status">
-                <el-select v-model="searchForm.status" clearable placeholder="请选择是否可用" >
+                <el-select v-model="searchForm.status" clearable placeholder="请选择是否可用">
                     <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value"/>
                 </el-select>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="search" size="mini">搜 索</el-button>
-                <el-button @click="$refs.searchForm.resetFields()" >重 置</el-button>
-                <el-button type="primary" @click="editForm()" size="mini">添加</el-button>
+                <el-button @click="$refs.searchForm.resetFields()" size="mini">重 置</el-button>
             </el-form-item>
+            <el-button type="primary" @click="editForm()" size="mini"  style="float: right;margin-right: 10px">添加</el-button>
         </el-form>
         <el-dialog :visible.sync="edit" :title="(form.id?'编辑':'添加')+'字典'" width="450px">
             <el-form :model="form" :rules="rules" ref="form" label-width="80px">
@@ -50,45 +50,48 @@
 </template>
 
 <script>
-  import fromMixin from '@/util/formMixin'
+    import fromMixin from '@/util/formMixin'
 
-  export default {
-    data () {
-      return {
-        searchForm: {},
-        rules: {
-          key: [
-            {validator: this.validateKey, trigger: 'blur'}
-          ]
+    export default {
+        data() {
+            return {
+                searchForm: {},
+                rules: {
+                    key: [
+                        {validator: this.validateKey, trigger: 'blur'}
+                    ]
+                },
+                autoClose: true,
+                defaultForm: {
+                    key: '',
+                    value: '',
+                    order: '',
+                    status: 1,
+                    description: ''
+                }
+            }
         },
-        autoClose: true,
-        defaultForm: {
-          key: '',
-          value: '',
-          order: '',
-          status: 1,
-          description: ''
-        }
-      }
-    },
-    methods: {
-      validateKey (rule, key, cb) {
-        if (key) {
-          if (this.editFormData.id && this.editFormData.key == key) {
-            cb()
-          } else {
-            this.$http.post('/sysDict/validate', {key})
-              .then(({data}) => {
-                if (data.success) {cb()}
-                else {cb(new Error(data.message))}
-              })
-              .catch(e => cb(new Error(`校验失败，请稍后重试！\n${e}`)))
-          }
-        } else {
-          cb(new Error('编码不能为空！'))
-        }
-      }
-    },
-    mixins: [fromMixin]
-  }
+        methods: {
+            validateKey(rule, key, cb) {
+                if (key) {
+                    if (this.editFormData.id && this.editFormData.key == key) {
+                        cb()
+                    } else {
+                        this.$http.post('/sysDict/validate', {key})
+                            .then(({data}) => {
+                                if (data.success) {
+                                    cb()
+                                } else {
+                                    cb(new Error(data.message))
+                                }
+                            })
+                            .catch(e => cb(new Error(`校验失败，请稍后重试！\n${e}`)))
+                    }
+                } else {
+                    cb(new Error('编码不能为空！'))
+                }
+            }
+        },
+        mixins: [fromMixin]
+    }
 </script>

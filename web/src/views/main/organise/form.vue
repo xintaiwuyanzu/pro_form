@@ -7,11 +7,11 @@
             <el-form-item label="原机构名称" prop="organiseOldName">
                 <el-input v-model="form.organiseOldName"/>
             </el-form-item>
-            <el-form-item label="机构代码" prop="organiseCode">
-                <el-input v-model="form.organiseCode"/>
+            <el-form-item label="机构代码" prop="organiseCode" required>
+                <el-input v-model="form.organiseCode" :disabled="form.id"/>
             </el-form-item>
             <el-form-item label="机构类型" prop="organiseType">
-                <select-dict type="orgType" v-model="form.organiseType" placeholder="请选择机构类型"/>
+                <select-dict type="orgType" v-model="form.organiseType" placeholder="请选择机构类型" :tooltip="false"/>
             </el-form-item>
             <br>
             <el-form-item label="联系人名称" prop="concatName" required>
@@ -27,7 +27,7 @@
             <el-form-item label="经度" prop="latitude">
                 <el-input v-model="form.latitude"/>
             </el-form-item>
-            <el-form-item label="维度" prop="longitude">
+            <el-form-item label="纬度" prop="longitude">
                 <el-input v-model="form.longitude"/>
             </el-form-item>
             <br>
@@ -36,7 +36,7 @@
             </el-form-item>
             <br>
             <el-form-item label="简介" prop="summary">
-                <el-input type="textarea" v-model="form.summary"/>
+                <vue-editor v-model="form.summary"/>
             </el-form-item>
             <br>
             <el-form-item label="排序" prop="order">
@@ -53,28 +53,28 @@
     </el-dialog>
 </template>
 <script>
-  import fromMixin from '@/util/formMixin'
+    import fromMixin from '@/util/formMixin'
 
-  export default {
-    data () {
-      return {
-        autoClose: true,
-        form: {phone:'',mobile:''},
-      }
-    },
-    methods: {
-        handleClick(){
-            this.$nextTick(() => {
-                this.form.phone = this.form.phone.replace(/[^\d]/g,'')
-                this.form.mobile = this.form.mobile.replace(/[^\d]/g,'')
-            })
+    export default {
+        data () {
+            return {
+                autoClose: true,
+                form: {phone: '', mobile: '', organiseCode: '10'},
+            }
         },
-      search () {
-        if (this.$parent && this.$parent.loadMenus) {
-          this.$parent.loadMenus()
-        }
-      }
-    },
-    mixins: [fromMixin]
-  }
+        methods: {
+            handleClick () {
+                this.$nextTick(() => {
+                    this.form.phone = this.form.phone.replace(/[^\d]/g, '')
+                    this.form.mobile = this.form.mobile.replace(/[^\d]/g, '')
+                })
+            },
+            search () {
+                if (this.$parent && this.$parent.loadMenus) {
+                    this.$parent.loadMenus()
+                }
+            }
+        },
+        mixins: [fromMixin]
+    }
 </script>

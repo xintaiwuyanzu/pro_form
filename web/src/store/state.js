@@ -20,5 +20,8 @@ export default {
     statusOptions: [
         {value: '1', label: '是'},
         {value: '0', label: '否'}
-    ]
+    ],
+    settings: {
+        theme: '#409EFF'
+    }
 }

@@ -1,6 +1,6 @@
 <template>
     <section style="height: 100%;display: flex;align-content: center">
-        <HeaderLogo style="margin-top: auto;margin-bottom: auto"/>
+        <HeaderLogo style="margin-top: auto;margin-bottom: auto;font-size: 22px;width: 350px; " type="1" size="2" icon="margin-top:3px" />
         <div style="flex: 1"/>
         <section class="section" style="margin-top: 16px;">
             <el-button circle style="margin-right: 15px;height:32px;padding: 4px;float: left"

@@ -7,7 +7,7 @@
                     </div>
                 </el-col>
                 <el-col :span="8" style="margin-top: 7vh">
-                    <Logo  style="margin-left: 2vw;width: 314px;height: 25px;font-size: 25px;" icon="margin-right: 10px" />
+                    <Logo  style="margin-left: 2vw;" img="margin-right: 10px"  />
                     <div class="form" @keyup.enter="doLogin(form)">
                         <el-form>
                             <el-form-item>

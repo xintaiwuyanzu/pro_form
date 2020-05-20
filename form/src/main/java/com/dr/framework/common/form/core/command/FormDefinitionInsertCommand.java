@@ -130,6 +130,7 @@ public class FormDefinitionInsertCommand implements Command<Form> {
                 formField.setDataObjectId(field.getDataObjectId());
                 formField.setDescription(field.getDescription());
                 formField.setFieldCode(field.getFieldCode());
+                formField.setFieldAlias(field.getFieldAlias());
                 formField.setFieldLength(field.getFieldLength());
                 formField.setFieldName(field.getFieldName());
                 formField.setFieldOrder(field.getFieldOrder());

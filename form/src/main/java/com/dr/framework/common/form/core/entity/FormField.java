@@ -21,6 +21,9 @@ public class FormField extends BaseStatusEntity<String> implements Field {
     @Column(name = "fieldValue", comment = "字段值")
     private String fieldValue;
 
+    @Column(name = "fieldAlias", comment = "字段值")
+    private String fieldAlias;
+
     @Column(name = "fieldType", comment = "字段类型")
     private String fieldType;
 
@@ -78,6 +81,15 @@ public class FormField extends BaseStatusEntity<String> implements Field {
 
     public void setFieldValue(String fieldValue) {
         this.fieldValue = fieldValue;
+    }
+
+    @Override
+    public String getFieldAlias() {
+        return fieldAlias;
+    }
+
+    public void setFieldAlias(String fieldAlias) {
+        this.fieldAlias = fieldAlias;
     }
 
     @Override

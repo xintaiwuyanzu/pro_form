@@ -23,6 +23,13 @@ public interface FieldExtend {
     String getValue();
 
     /**
+     * 获取字段别名
+     *
+     * @return
+     */
+    String getFieldAlias();
+
+    /**
      * 获取类型
      *
      * @return

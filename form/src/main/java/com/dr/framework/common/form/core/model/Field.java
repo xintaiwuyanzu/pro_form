@@ -28,6 +28,13 @@ public interface Field {
     Object getFieldValue();
 
     /**
+     * 获取字段别名
+     *
+     * @return
+     */
+    String getFieldAlias();
+
+    /**
      * 获取字段类型
      *
      * @return

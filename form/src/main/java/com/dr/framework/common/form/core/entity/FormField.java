@@ -48,6 +48,9 @@ public class FormField extends BaseStatusEntity<String> implements Field {
     @Column(name = "version", comment = "版本号")
     private String version;
 
+    @Column(name = "remarks", comment = "备注")
+    private String remarks;
+
     public String getFormDefinitionId() {
         return formDefinitionId;
     }
@@ -166,5 +169,13 @@ public class FormField extends BaseStatusEntity<String> implements Field {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 }

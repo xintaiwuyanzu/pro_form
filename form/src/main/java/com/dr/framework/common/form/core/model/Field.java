@@ -89,4 +89,11 @@ public interface Field {
      * @return
      */
     String getVersion();
+
+    /**
+     * 获取备注信息
+     *
+     * @return
+     */
+    String getRemarks();
 }

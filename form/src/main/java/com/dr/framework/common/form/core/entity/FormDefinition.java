@@ -45,6 +45,9 @@ public class FormDefinition extends BaseStatusEntity<String> implements Form {
     @Column(name = "version", comment = "表单版本")
     private String version;
 
+    @Column(name = "remarks", comment = "备注")
+    private String remarks;
+
     private Collection<FormField> formFieldList;
 
     public String getOrganiseId() {
@@ -138,6 +141,14 @@ public class FormDefinition extends BaseStatusEntity<String> implements Form {
 
     public void setHistoryVersion(boolean historyVersion) {
         this.historyVersion = historyVersion;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 
     @Override

@@ -222,6 +222,7 @@ public class FormDefinitionInsertCommand implements Command<Form> {
                 plugin.beforeCreate(configedRelation);
             }
         }
+        configedRelation.setRemark(formData.getRemarks());
         dataBaseService.updateTable(configedRelation);
     }
 

@@ -51,11 +51,4 @@ public interface FormDefault {
      */
     String getDescription();
 
-    /**
-     * 顺序号
-     *
-     * @return
-     */
-    int getOrder();
-
 }

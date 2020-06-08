@@ -1,6 +1,7 @@
 package com.dr.framework.common.form.init.entity;
 
 import com.dr.framework.common.entity.BaseStatusEntity;
+import com.dr.framework.common.entity.OrderEntity;
 import com.dr.framework.common.form.init.model.FormDefault;
 import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.core.orm.annotations.Column;
@@ -96,5 +97,10 @@ public class FormDefaultValue extends BaseStatusEntity<String> implements FormDe
 
     public void setFieldDefaultList(Collection<FieldDefaultValue> fieldDefaultList) {
         this.fieldDefaultList = fieldDefaultList;
+    }
+
+    @Override
+    public int compareTo(OrderEntity o) {
+        return 0;
     }
 }

@@ -1,0 +1,7 @@
+/*/transaction-logs/
+*.iml
+/*/target/
+.idea
+/transaction-logs/
+/*/node_modules/
+*/yarn.lock

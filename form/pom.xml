@@ -48,11 +48,6 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.41</version>
-        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -69,12 +64,12 @@
         <repository>
             <id>release</id>
             <name>release</name>
-            <url>http://192.168.200.245:8081/maven/repository/maven-releases/</url>
+            <url>${repository.baseUrl}maven-releases/</url>
         </repository>
         <snapshotRepository>
-            <id>snapshots</id>
-            <name>snapshots</name>
-            <url>http://192.168.200.245:8081/maven/repository/maven-snapshots/</url>
+            <id>deployment</id>
+            <name>deployment</name>
+            <url>${repository.baseUrl}maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
     <build>

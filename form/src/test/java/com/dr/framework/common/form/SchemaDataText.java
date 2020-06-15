@@ -2,6 +2,7 @@ package com.dr.framework.common.form;
 
 import com.dr.framework.common.form.schema.service.CombinationSchemaService;
 import com.dr.framework.common.form.schema.service.DecomposeSchemaService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -48,7 +49,7 @@ public class SchemaDataText extends AbstractApplicationTest {
     }
 
     @Test
-    public void getSchemaDatas() {
+    public void getSchemaDatas() throws JsonProcessingException {
         combinationSchemaService.combinationJson("122dcd99-80ca-4fe7-a37a-64e55e117e37");
     }
 

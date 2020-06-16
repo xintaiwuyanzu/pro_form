@@ -1,6 +1,7 @@
 package com.dr.framework.common.form.engine.impl;
 
 import com.dr.framework.common.form.engine.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -24,13 +25,11 @@ public class PlugInCommandExecutor implements CommandExecutor {
      */
     private List<CommandPlugin> plugins;
 
-
     private CommandContextFactory commandContextFactory;
 
 
-    public PlugInCommandExecutor(CommandExecutor delegate, List<CommandPlugin> plugins, CommandContextFactory commandContextFactory) {
+    public PlugInCommandExecutor(CommandExecutor delegate, List<CommandPlugin> plugins) {
         this.delegate = delegate;
-        this.commandContextFactory = commandContextFactory;
         this.plugins = Optional.ofNullable(plugins)
                 .orElseGet(Collections::emptyList)
                 .stream()
@@ -52,6 +51,14 @@ public class PlugInCommandExecutor implements CommandExecutor {
             }
         }
         return delegate.execute(command);
+    }
+
+    @Autowired
+    public void setCommandContextFactory(CommandContextFactory commandContextFactory) {
+        this.commandContextFactory = commandContextFactory;
+        if (delegate instanceof StandCommandExecutor) {
+            ((StandCommandExecutor) delegate).setCommandContextFactory(commandContextFactory);
+        }
     }
 
     public CommandExecutor getDelegate() {

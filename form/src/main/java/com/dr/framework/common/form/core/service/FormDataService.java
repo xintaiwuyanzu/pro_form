@@ -37,6 +37,8 @@ public interface FormDataService {
      */
     List<FormData> selectFormData(SqlBuilder sqlBuilder);
 
+    List<FormData> selectFormData(String formId,SqlBuilder sqlBuilder);
+
     /**
      * 查询表单单个实例数据
      *

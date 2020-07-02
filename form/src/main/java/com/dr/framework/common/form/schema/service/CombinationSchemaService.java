@@ -1,5 +1,7 @@
 package com.dr.framework.common.form.schema.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 /**
  * jsonSchema组合
  * @author lc
@@ -12,7 +14,7 @@ public interface CombinationSchemaService {
      * @param formDefinitionId
      * @return
      */
-    String combinationJson(String formDefinitionId);
+    String combinationJson(String formDefinitionId) throws JsonProcessingException;
 
 
 

@@ -2,10 +2,20 @@ import input from './input/index.vue'
 import InputConfig from './input/config.vue'
 import select from './select/index.vue'
 import SelectConfig from './select/config.vue'
+import date from './date/index.vue'
+import DateConfig from './date/config.vue'
+import number from './number/index.vue'
+import NumberConfig from './number/config.vue'
+import upload from './upload/index.vue'
+import UploadConfig from './upload/config.vue'
 
 export const widgets = {
     input,
-    select
+    select,
+    date,
+    number,
+    upload
+
 }
 /**
  * key可以是任何值，value是widgets的key
@@ -25,6 +35,7 @@ export const widgetMapping = {
     'string:textarea': 'input',
     'string:color': 'color',
     'string:image': 'input',
+    'string:radio': 'radio',
     'range:date': 'dateRange',
     'range:dateTime': 'dateRange',
     '*?enum': 'select',
@@ -33,5 +44,8 @@ export const widgetMapping = {
 
 export const configs = [
     InputConfig,
-    SelectConfig
+    SelectConfig,
+    DateConfig,
+    NumberConfig,
+    UploadConfig
 ]

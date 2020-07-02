@@ -87,7 +87,7 @@ public class FormDefinitionServiceImpl implements FormDefinitionService {
      * 删除表单定义
      *
      * @param formId
-     * @param retain
+     * @param retain 是否直接删除表 true: 删  false: 不删
      * @return
      */
     @Override

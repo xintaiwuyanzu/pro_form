@@ -72,12 +72,6 @@ public interface ValidateDefinitionField {
      */
     String getCheckConfigThree();
 
-    /**
-     * 顺序号
-     *
-     * @return
-     */
-    int getOrder();
 
     /**
      * 自定义

@@ -19,7 +19,7 @@ public interface FormDefinitionService {
      *
      * @param form        表基本信息定义
      * @param fields      表字段定义
-     * @param createTable 是否创建表结构
+     * @param createTable 是否创建表结构  true:生成； false:不生成
      */
     Form addFormDefinition(Form form, Collection<Field> fields, boolean createTable);
 
@@ -66,7 +66,7 @@ public interface FormDefinitionService {
      * 删除表单定义
      *
      * @param formId
-     * @param retain
+     * @param retain 是否直接删除表 true: 删  false: 不删
      * @return
      */
     Long removeFormDefinition(String formId, boolean retain);

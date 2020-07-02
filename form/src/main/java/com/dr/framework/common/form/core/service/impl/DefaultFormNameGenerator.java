@@ -13,6 +13,10 @@ import com.dr.framework.core.orm.database.Dialect;
 public class DefaultFormNameGenerator implements FormNameGenerator {
     private Dialect dialect;
 
+    public DefaultFormNameGenerator() {
+
+    }
+
     public DefaultFormNameGenerator(Dialect dialect) {
         this.dialect = dialect;
     }
@@ -30,4 +34,5 @@ public class DefaultFormNameGenerator implements FormNameGenerator {
     public String genFieldName(Form form, Field field) {
         return field.getFieldCode();
     }
+
 }

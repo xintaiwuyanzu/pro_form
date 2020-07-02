@@ -1,7 +1,5 @@
 package com.dr.framework.common.form.schema.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.dr.framework.common.form.autoconfig.CoreFormAutoConfig;
 import com.dr.framework.common.form.autoconfig.InitFormAutoConfig;
 import com.dr.framework.common.form.core.entity.FormDefinition;
@@ -16,6 +14,11 @@ import com.dr.framework.common.form.init.service.FormDefaultValueService;
 import com.dr.framework.common.form.schema.entity.Constitute;
 import com.dr.framework.common.form.schema.service.DecomposeSchemaService;
 import com.dr.framework.common.form.validate.entity.ValidateDefinitionForm;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,12 +32,14 @@ import java.util.UUID;
 
 @Service
 public class DecomposeSchemaServiceImpl implements DecomposeSchemaService {
-
+    Logger logger = LoggerFactory.getLogger(DecomposeSchemaService.class);
     @Autowired
     CoreFormAutoConfig coreFormAutoConfig;
 
     @Autowired
     InitFormAutoConfig initFormAutoConfig;
+    @Autowired
+    ObjectMapper objectMapper;
 
     /**
      * 解析传过来的JsonSchema数据
@@ -47,17 +52,21 @@ public class DecomposeSchemaServiceImpl implements DecomposeSchemaService {
     public Constitute analysisJsonSchema(String jsonSchema) {
         Assert.isTrue(!StringUtils.isEmpty(jsonSchema), "参数不能为空！");
         if (verifyNode(jsonSchema)) {
-            //将jsonSchema数据转换成Json对象
-            JSONObject jsonObject = JSONObject.parseObject(jsonSchema);
-            //根据获取的数据，分离出来表单的定义数据
-            Form form = getFormDefinition(jsonObject);
-            //根据json对象获取校验数据
-            ValidateDefinitionForm validateDefinitionForm = getValidateDefinitionForm(jsonObject, form.getId());
-            //根据json对象获取默认值数据
-            FormDefaultValue formDefaultValue = getFormDefaultValue(jsonObject, form.getId());
-            //创建返回的类
-            Constitute constitute = new Constitute(form, new ValidateDefinitionForm(), formDefaultValue);
-            return constitute;
+            try {
+                //将jsonSchema数据转换成Json对象
+                JsonNode jsonNode = objectMapper.readTree(jsonSchema);
+                //根据获取的数据，分离出来表单的定义数据
+                Form form = getFormDefinition(jsonNode);
+                //根据json对象获取校验数据
+                ValidateDefinitionForm validateDefinitionForm = getValidateDefinitionForm(jsonNode, form.getId());
+                //根据json对象获取默认值数据
+                FormDefaultValue formDefaultValue = getFormDefaultValue(jsonNode, form.getId());
+                //创建返回的类
+                Constitute constitute = new Constitute(form, new ValidateDefinitionForm(), formDefaultValue);
+                return constitute;
+            } catch (JsonProcessingException e) {
+                logger.error("解析schema失败", e);
+            }
         }
         return null;
     }
@@ -95,29 +104,29 @@ public class DecomposeSchemaServiceImpl implements DecomposeSchemaService {
     /**
      * 根根json对象获取表单定义数据
      *
-     * @param jsonObject
+     * @param jsonNode
      * @return
      */
-    public Form getFormDefinition(JSONObject jsonObject) {
+    protected Form getFormDefinition(JsonNode jsonNode) {
         Collection<FormField> formFields = new ArrayList<>();
         Collection<Field> fields = new ArrayList<>();
         FormDefinition formDefinition = new FormDefinition();
         formDefinition.setVersion("1");
-        formDefinition.setFormCode(jsonObject.getString("title"));
-        formDefinition.setFormTable(jsonObject.getString("title"));
-        formDefinition.setDescription(jsonObject.getString("description"));
-        formDefinition.setFormName(jsonObject.getString("title"));
-        formDefinition.setFormType(jsonObject.getString("type"));
+        formDefinition.setFormCode(jsonNode.get("title").asText());
+        formDefinition.setFormTable(jsonNode.get("title").asText());
+        formDefinition.setDescription(jsonNode.get("description").asText());
+        formDefinition.setFormName(jsonNode.get("title").asText());
+        formDefinition.setFormType(jsonNode.get("type").asText());
         formDefinition.setFormOrder(1);
-        if (jsonObject.getJSONObject("properties") != null) {
+        if (jsonNode.has("properties")) {
             //解析properties
-            JSONObject properties = jsonObject.getJSONObject("properties");
+            JsonNode properties = jsonNode.get("properties");
             //解析required 获取其中的字段数据
-            JSONArray required = jsonObject.getJSONArray("required");
-            if (required.size() > 0) {
+            JsonNode required = jsonNode.get("required");
+            if (!required.isEmpty()) {
                 for (int i = 0; i < required.size(); i++) {
                     //根据required字段名称获取properties下的所有信息
-                    JSONObject value = properties.getJSONObject(required.getString(i));
+                    JsonNode value = properties.get(required.get(i).asText());
                     if (!value.isEmpty()) {
                         FormField formField = getFormFile(required, value, i);
                         formFields.add(formField);
@@ -140,14 +149,14 @@ public class DecomposeSchemaServiceImpl implements DecomposeSchemaService {
      * @param i
      * @return
      */
-    public FormField getFormFile(JSONArray required, JSONObject value, int i) {
+    public FormField getFormFile(JsonNode required, JsonNode value, int i) {
         FormField formField = new FormField();
         formField.setVersion("1");
-        formField.setFieldName(required.getString(i));
-        formField.setFieldCode(required.getString(i));
-        formField.setFieldType(value.getString("type"));
-        formField.setDescription(value.getString("description"));
-        formField.setFieldLength(Integer.valueOf(value.getString("maxLength")));
+        formField.setFieldName(required.get(i).asText());
+        formField.setFieldCode(required.get(i).asText());
+        formField.setFieldType(value.get("type").asText());
+        formField.setDescription(value.has("description") ? value.get("description").asText() : null);
+        formField.setFieldLength(Integer.valueOf(value.get("maxLength").asText()));
         //TODO 补充相对应的字段
         formField.setFieldState("0");
         formField.setFieldOrder(i + 1);
@@ -162,7 +171,7 @@ public class DecomposeSchemaServiceImpl implements DecomposeSchemaService {
      * @param formDefinitionId
      * @return
      */
-    public ValidateDefinitionForm getValidateDefinitionForm(JSONObject jsonObject, String formDefinitionId) {
+    public ValidateDefinitionForm getValidateDefinitionForm(JsonNode jsonObject, String formDefinitionId) {
         //TODO 获取定义的校验规则
 
 
@@ -177,28 +186,28 @@ public class DecomposeSchemaServiceImpl implements DecomposeSchemaService {
      * @param formDefinitionId
      * @return
      */
-    public FormDefaultValue getFormDefaultValue(JSONObject jsonObject, String formDefinitionId) {
+    public FormDefaultValue getFormDefaultValue(JsonNode jsonObject, String formDefinitionId) {
         Collection<FieldDefaultValue> fieldDefaultValues = new ArrayList<>();
         Collection<FieldDefault> fieldDefaults = new ArrayList<>();
         FormDefaultValue formDefaultValue = new FormDefaultValue();
         formDefaultValue.setId(UUID.randomUUID().toString());
         formDefaultValue.setVersion("1");
         formDefaultValue.setFormDefinitionId(formDefinitionId);
-        formDefaultValue.setLinkCode(jsonObject.getString("title"));
-        formDefaultValue.setDescription(jsonObject.getString("description"));
-        formDefaultValue.setLinkName(jsonObject.getString("title"));
-        formDefaultValue.setDefaultType(jsonObject.getString("type"));
+        formDefaultValue.setLinkCode(jsonObject.get("title").asText());
+        formDefaultValue.setDescription(jsonObject.get("description").asText());
+        formDefaultValue.setLinkName(jsonObject.get("title").asText());
+        formDefaultValue.setDefaultType(jsonObject.get("type").asText());
         formDefaultValue.setVersion("1");
-        if (jsonObject.getJSONObject("properties") != null) {
+        if (jsonObject.has("properties")) {
             //解析properties
-            JSONObject properties = jsonObject.getJSONObject("properties");
+            JsonNode properties = jsonObject.get("properties");
             //解析required 获取其中的字段数据
-            JSONArray required = jsonObject.getJSONArray("required");
-            if (required.size() > 0) {
+            JsonNode required = jsonObject.get("required");
+            if (!required.isEmpty()) {
                 for (int i = 0; i < required.size(); i++) {
                     //根据required字段名称获取properties下的所有信息
-                    JSONObject value = properties.getJSONObject(required.getString(i));
-                    if (!value.isEmpty() && value.getString("default") != null) {
+                    JsonNode value = properties.get(required.get(i).asText());
+                    if (!value.isEmpty() && value.has("default")) {
                         FieldDefaultValue fieldDefault = getFieldDefault(required, value, i, formDefinitionId, formDefaultValue.getId());
                         fieldDefaults.add(fieldDefault);
                         fieldDefaultValues.add(fieldDefault);
@@ -222,15 +231,15 @@ public class DecomposeSchemaServiceImpl implements DecomposeSchemaService {
      * @param formDefaultId
      * @return
      */
-    private FieldDefaultValue getFieldDefault(JSONArray required, JSONObject value, int i, String formDefinitionId, String formDefaultId) {
+    private FieldDefaultValue getFieldDefault(JsonNode required, JsonNode value, int i, String formDefinitionId, String formDefaultId) {
         FieldDefaultValue fieldDefaultValue = new FieldDefaultValue();
         fieldDefaultValue.setId(UUID.randomUUID().toString());
         fieldDefaultValue.setFormDefaultValueId(formDefaultId);
         fieldDefaultValue.setFormDefinitionId(formDefinitionId);
-        fieldDefaultValue.setFieldCode(required.getString(i));
-        fieldDefaultValue.setFieldName(required.getString(i));
-        fieldDefaultValue.setFieldType(value.getString("type"));
-        fieldDefaultValue.setDefaultValue(value.getString("default"));
+        fieldDefaultValue.setFieldCode(required.get(i).asText());
+        fieldDefaultValue.setFieldName(required.get(i).asText());
+        fieldDefaultValue.setFieldType(value.get("type").asText());
+        fieldDefaultValue.setDefaultValue(value.get("default").asText());
         return fieldDefaultValue;
     }
 

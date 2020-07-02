@@ -48,6 +48,11 @@ public class FormDataServiceImpl implements FormDataService {
         return executor.execute(new FormDataSelectCommand(sqlBuilder));
     }
 
+    @Override
+    public List<FormData> selectFormData(String formId, SqlBuilder sqlBuilder) {
+        return executor.execute(new FormDataSelectCommand(formId, sqlBuilder));
+    }
+
     /**
      * 查询具体表单实例数据
      *

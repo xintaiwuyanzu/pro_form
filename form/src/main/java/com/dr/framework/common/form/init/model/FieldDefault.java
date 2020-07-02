@@ -45,13 +45,6 @@ public interface FieldDefault {
     String getDefaultValue();
 
     /**
-     * 顺序号
-     *
-     * @return
-     */
-    int getOrder();
-
-    /**
      * 自定义
      *
      * @return

@@ -50,12 +50,11 @@ public class CoreFormAutoConfig {
     @Bean
     @ConditionalOnMissingBean
     protected CommandExecutor commandExecutor(
-            @Autowired(required = false) List<CommandPlugin> plugins,
-            CommandContextFactory commandContextFactory
+            @Autowired(required = false) List<CommandPlugin> plugins
     ) {
         //构造标准的命令执行器
-        StandCommandExecutor commandExecutor = new StandCommandExecutor(commandContextFactory);
-        return new PlugInCommandExecutor(commandExecutor, plugins, commandContextFactory);
+        StandCommandExecutor commandExecutor = new StandCommandExecutor();
+        return new PlugInCommandExecutor(commandExecutor, plugins);
     }
 
     /**

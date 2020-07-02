@@ -1,6 +1,7 @@
 package com.dr.framework.common.form.init.entity;
 
 import com.dr.framework.common.entity.BaseStatusEntity;
+import com.dr.framework.common.entity.OrderEntity;
 import com.dr.framework.common.form.init.model.FieldDefault;
 import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.core.orm.annotations.Column;
@@ -98,4 +99,8 @@ public class FieldDefaultValue extends BaseStatusEntity<String> implements Field
         this.remarks = remarks;
     }
 
+    @Override
+    public int compareTo(OrderEntity o) {
+        return 0;
+    }
 }

@@ -130,6 +130,7 @@ public class FormDefinitionInsertCommand implements Command<Form> {
                 formField.setDataObjectId(field.getDataObjectId());
                 formField.setDescription(field.getDescription());
                 formField.setFieldCode(field.getFieldCode());
+                formField.setFieldAlias(field.getFieldAlias());
                 formField.setFieldLength(field.getFieldLength());
                 formField.setFieldName(field.getFieldName());
                 formField.setFieldOrder(field.getFieldOrder());
@@ -141,6 +142,7 @@ public class FormDefinitionInsertCommand implements Command<Form> {
                 formField.setVersion(field.getVersion());
                 formField.setCreateDate(System.currentTimeMillis());
                 formField.setId(UUID.randomUUID().toString());
+                formField.setRemarks(field.getRemarks());
                 fields.add(formField);
             }
         }
@@ -152,15 +154,18 @@ public class FormDefinitionInsertCommand implements Command<Form> {
         //1、根据 formData全局变量id判断：如果有id，则查询表单定义，能查询到说明之前定义过，新的表单定义需要更改表单版本号
         if (StringUtils.isNotEmpty(form.getId())) {
             //todo 进行数据比对， 没更新则不处理表定义
-
             formDefinition = context.getMapper().selectOneByQuery(SqlQuery.from(FormDefinition.class).equal(FormDefinitionInfo.ID, form.getId()));
             double version = Integer.valueOf(formDefinition.getVersion()) + 0.1;
             formDefinition.setVersion(version + "");
+            formDefinition.setFormTable(form.getFormTable());
             formDefinition.setId(UUID.randomUUID().toString());
             formDefinition = oneWorkForm(form, formDefinition);
         } else {
             //2、根据传进来的 formData创建workForm对象
             formDefinition.setId(UUID.randomUUID().toString());
+            //表名称生成器
+            FormNameGenerator formNameGenerator = context.getApplicationContext().getBean(FormNameGenerator.class);
+            formDefinition.setFormTable(formNameGenerator.genTableName(form));
             formDefinition = oneWorkForm(form, formDefinition);
         }
         return formDefinition;
@@ -173,12 +178,12 @@ public class FormDefinitionInsertCommand implements Command<Form> {
         formDefinition.setFormName(formData.getFormName());
         formDefinition.setFormOrder(formData.getFormOrder());
         formDefinition.setFormState(formData.getFormState());
-        formDefinition.setFormTable(formData.getFormTable());
         formDefinition.setFormType(formData.getFormType());
         formDefinition.setHistoryVersion(formData.historyVersion());
         formDefinition.setVersion(formData.getVersion());
         formDefinition.setCreateDate(System.currentTimeMillis());
         formDefinition.setOrder(formData.getFormOrder());
+        formDefinition.setRemarks(formData.getRemarks());
         return formDefinition;
     }
 
@@ -217,6 +222,7 @@ public class FormDefinitionInsertCommand implements Command<Form> {
                 plugin.beforeCreate(configedRelation);
             }
         }
+        configedRelation.setRemark(formData.getRemarks());
         dataBaseService.updateTable(configedRelation);
     }
 

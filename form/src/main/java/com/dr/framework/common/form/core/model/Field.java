@@ -28,6 +28,13 @@ public interface Field {
     Object getFieldValue();
 
     /**
+     * 获取字段别名
+     *
+     * @return
+     */
+    String getFieldAlias();
+
+    /**
      * 获取字段类型
      *
      * @return
@@ -82,4 +89,11 @@ public interface Field {
      * @return
      */
     String getVersion();
+
+    /**
+     * 获取备注信息
+     *
+     * @return
+     */
+    String getRemarks();
 }

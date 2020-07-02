@@ -1,7 +1,11 @@
 import form from './form.vue'
+import grid from './grid.vue'
+import table from './table.vue'
 
 export const containers = {
-    form
+    form,
+    grid,
+    table
 }
 /**
  * 容器配置映射
@@ -10,5 +14,7 @@ export const containers = {
  */
 export const containerMapping = {
     'form': 'form',
+    'grid': 'grid',
+    'table': 'table',
     'default': 'form'
 }

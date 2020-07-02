@@ -1,7 +1,5 @@
 package com.dr.framework.common.form.schema.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.dr.framework.common.form.autoconfig.CoreFormAutoConfig;
 import com.dr.framework.common.form.autoconfig.InitFormAutoConfig;
 import com.dr.framework.common.form.autoconfig.ValidateAutoConfig;
@@ -11,14 +9,16 @@ import com.dr.framework.common.form.core.service.FormDefinitionService;
 import com.dr.framework.common.form.init.service.FormDefaultValueService;
 import com.dr.framework.common.form.schema.service.CombinationSchemaService;
 import com.dr.framework.common.form.validate.service.ValidateDefaultService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class CombinationSchemaServiceImpl implements CombinationSchemaService {
@@ -29,33 +29,35 @@ public class CombinationSchemaServiceImpl implements CombinationSchemaService {
     InitFormAutoConfig initFormAutoConfig;
     @Autowired
     ValidateAutoConfig validateAutoConfig;
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Override
-    public String combinationJson(String formDefinitionId) {
+    public String combinationJson(String formDefinitionId) throws JsonProcessingException {
         Assert.isTrue(!StringUtils.isEmpty(formDefinitionId), "表单定义id不能为空！");
         FormDefinitionService formDefinitionService = coreFormAutoConfig.formDefinitionService();
         FormDefinition formDefinition = (FormDefinition) formDefinitionService.selectOneFormDefinition(formDefinitionId);
-        JSONObject jsonSchema = new JSONObject();
-        jsonSchema.put("id", formDefinition.getId());
-        jsonSchema.put("title", formDefinition.getFormTable());
-        jsonSchema.put("uiId", "");
-        jsonSchema.put("validateId", "");
-        jsonSchema.put("defaultId", "");
-        jsonSchema.put("description", formDefinition.getDescription());
+        ObjectNode jsonNode = objectMapper.createObjectNode();
+
+        jsonNode.put("id", formDefinition.getId());
+        jsonNode.put("title", formDefinition.getFormTable());
+        jsonNode.put("uiId", "");
+        jsonNode.put("validateId", "");
+        jsonNode.put("defaultId", "");
+        jsonNode.put("description", formDefinition.getDescription());
 
         Collection<FormField> listFiled = formDefinition.getFormFieldList();
         if (listFiled.size() > 0) {
-            JSONArray required = new JSONArray();
-            JSONObject properties = new JSONObject();
+            ArrayNode required = objectMapper.createArrayNode();
+            ObjectNode properties = objectMapper.createObjectNode();
             for (FormField FormField : listFiled) {
-                Map map = getJsonMap(FormField);
-                properties.put(FormField.getFieldCode(), map);
+                properties.set(FormField.getFieldCode(), getJsonMap(FormField));
                 required.add(FormField.getFieldCode());
             }
-            jsonSchema.put("required", required);
-            jsonSchema.put("properties", properties);
+            jsonNode.set("required", required);
+            jsonNode.set("properties", properties);
         }
-        return jsonSchema.toString();
+        return objectMapper.writeValueAsString(jsonNode);
     }
 
     /**
@@ -64,8 +66,8 @@ public class CombinationSchemaServiceImpl implements CombinationSchemaService {
      * @param formField
      * @return
      */
-    public Map getJsonMap(FormField formField) {
-        Map map = new HashMap();
+    protected ObjectNode getJsonMap(FormField formField) {
+        ObjectNode map = objectMapper.createObjectNode();
         map.put("title", formField.getFieldName());
         map.put("type", formField.getFieldType());
         map.put("maxLength", formField.getFieldLength());
@@ -75,7 +77,7 @@ public class CombinationSchemaServiceImpl implements CombinationSchemaService {
         FormDefaultValueService formDefaultValueService = initFormAutoConfig.formDefaultValueService();
         //FormDefaultValue formDefaultValue = formDefaultValueService.SelectOneFormDefaultValue(formField.getFormDefinitionId())
         //根据表单定义iD查询表单默认值 ，并拼接在返回的类中
-        ValidateDefaultService  validateDefaultService = validateAutoConfig.validateDefaultService();
+        ValidateDefaultService validateDefaultService = validateAutoConfig.validateDefaultService();
         //ValidateDefinitionForm validateDefinitionForm = validateDefaultService.SelectOneValidateDefinitionForm(formField.getFormDefinitionId())
 
         return map;

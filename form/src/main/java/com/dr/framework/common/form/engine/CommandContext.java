@@ -42,8 +42,9 @@ public interface CommandContext {
      *
      * @return
      */
-    CacheManager getCacheManager();
-
+    default CacheManager getCacheManager() {
+        return getApplicationContext().getBean(CacheManager.class);
+    }
 
     /**
      * =========================================================

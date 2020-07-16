@@ -13,6 +13,7 @@ import com.dr.framework.common.form.init.model.FieldDefault;
 import com.dr.framework.common.form.init.service.FormDefaultValueService;
 import com.dr.framework.common.form.schema.entity.Constitute;
 import com.dr.framework.common.form.schema.service.DecomposeSchemaService;
+import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.common.form.validate.entity.ValidateDefinitionForm;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -25,10 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class DecomposeSchemaServiceImpl implements DecomposeSchemaService {
@@ -108,16 +106,16 @@ public class DecomposeSchemaServiceImpl implements DecomposeSchemaService {
      * @return
      */
     protected Form getFormDefinition(JsonNode jsonNode) {
-        Collection<FormField> formFields = new ArrayList<>();
-        Collection<Field> fields = new ArrayList<>();
+        List<FormField> formFields = new ArrayList<>();
+        List<Field> fields = new ArrayList<>();
         FormDefinition formDefinition = new FormDefinition();
-        formDefinition.setVersion("1");
+        formDefinition.setVersion(1);
         formDefinition.setFormCode(jsonNode.get("title").asText());
         formDefinition.setFormTable(jsonNode.get("title").asText());
         formDefinition.setDescription(jsonNode.get("description").asText());
         formDefinition.setFormName(jsonNode.get("title").asText());
         formDefinition.setFormType(jsonNode.get("type").asText());
-        formDefinition.setFormOrder(1);
+        formDefinition.setOrder(1);
         if (jsonNode.has("properties")) {
             //解析properties
             JsonNode properties = jsonNode.get("properties");
@@ -151,15 +149,14 @@ public class DecomposeSchemaServiceImpl implements DecomposeSchemaService {
      */
     public FormField getFormFile(JsonNode required, JsonNode value, int i) {
         FormField formField = new FormField();
-        formField.setVersion("1");
-        formField.setFieldName(required.get(i).asText());
+        formField.setVersion(Constants.DEFAULT_VERSION);
         formField.setFieldCode(required.get(i).asText());
-        formField.setFieldType(value.get("type").asText());
+        //  formField.setFieldType(value.get("type").asText());
         formField.setDescription(value.has("description") ? value.get("description").asText() : null);
         formField.setFieldLength(Integer.valueOf(value.get("maxLength").asText()));
         //TODO 补充相对应的字段
-        formField.setFieldState("0");
-        formField.setFieldOrder(i + 1);
+        formField.setStatus("0");
+        formField.setOrder(i + 1);
         return formField;
     }
 

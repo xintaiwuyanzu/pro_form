@@ -6,8 +6,6 @@ import com.dr.framework.common.form.engine.CommandExecutor;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 
-import javax.cache.CacheManager;
-
 /**
  * @author dr
  */
@@ -33,11 +31,6 @@ public class StandCommandContext implements CommandContext {
     @Override
     public ApplicationContext getApplicationContext() {
         return applicationContext;
-    }
-
-    @Override
-    public CacheManager getCacheManager() {
-        return null;
     }
 
     public void setExecutor(CommandExecutor executor) {

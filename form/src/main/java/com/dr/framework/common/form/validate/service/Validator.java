@@ -3,7 +3,6 @@ package com.dr.framework.common.form.validate.service;
 import com.dr.framework.common.form.core.model.Field;
 import com.dr.framework.common.form.core.model.FieldType;
 import com.dr.framework.common.form.engine.TypeObject;
-import com.dr.framework.common.form.validate.model.ValidateDefinition;
 import com.dr.framework.common.form.validate.model.ValidateDefinitionField;
 import com.dr.framework.common.form.validate.model.ValidateResult;
 

@@ -5,7 +5,7 @@ import com.dr.framework.common.form.core.service.FormDefinitionService;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
 import com.dr.framework.common.form.core.service.impl.DefaultFormNameGenerator;
 import com.dr.framework.common.form.core.service.impl.FormDataServiceImpl;
-import com.dr.framework.common.form.core.service.impl.FormDefinitionServiceImpl;
+import com.dr.framework.common.form.core.service.impl.DefaultFormDefinitionServiceImpl;
 import com.dr.framework.common.form.engine.CommandContextFactory;
 import com.dr.framework.common.form.engine.CommandExecutor;
 import com.dr.framework.common.form.engine.CommandPlugin;
@@ -77,7 +77,7 @@ public class CoreFormAutoConfig {
     @Bean
     @ConditionalOnMissingBean
     public FormDefinitionService formDefinitionService() {
-        return new FormDefinitionServiceImpl();
+        return new DefaultFormDefinitionServiceImpl();
     }
 
     /**

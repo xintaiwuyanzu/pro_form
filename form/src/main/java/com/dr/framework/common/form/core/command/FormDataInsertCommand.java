@@ -15,6 +15,11 @@ import org.springframework.util.Assert;
 
 import java.util.Collection;
 
+/**
+ * 插入一条表单数据
+ *
+ * @author dr
+ */
 public class FormDataInsertCommand implements Command<FormData> {
 
     private FormData formData;
@@ -26,7 +31,7 @@ public class FormDataInsertCommand implements Command<FormData> {
     @Override
     public FormData execute(CommandContext context) {
         Assert.isTrue(StringUtils.isNotEmpty(formData.get("formDefinitionId") + ""), "表单定义Id不能为空！");
-        FormDefinition formDefinition = (FormDefinition) context.getFormDefinitionService().selectOneFormDefinition(formData.get("formDefinitionId") + "");
+        FormDefinition formDefinition = (FormDefinition) context.getFormDefinitionService().selectFormDefinitionById(formData.get("formDefinitionId") + "");
         Assert.notNull(formDefinition, "系统未发现该表单");
         //判断表是否存在
         DataBaseService dataBaseService = context.getApplicationContext().getBean(DataBaseService.class);

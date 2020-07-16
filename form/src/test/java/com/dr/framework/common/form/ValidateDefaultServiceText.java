@@ -60,19 +60,20 @@ public class ValidateDefaultServiceText extends AbstractApplicationTest {
     }
 
     @Test
-    public void select(){
+    public void select() {
         // ValidateDefinition validateDefinition = validateDefaultService.SelectOneValidateDefinitionForm("11fd6860-5e95-4e1c-8978-c46f05d5eaed");
         List<ValidateDefinition> validateDefinitions = validateDefaultService.SelectValidateDefinitionForm("1", "1");
         System.out.println(validateDefinitions.toString());
     }
+
     @Test
-    public void page(){
+    public void page() {
         Page<ValidateDefinition> validateDefinitionPage = validateDefaultService.SelectPageValidateDefinitionForm("1", 1, 1);
         System.out.println(validateDefinitionPage.getData().toString());
     }
 
     @Test
-    public void delete(){
+    public void delete() {
         validateDefaultService.removeValidateDefinitionForm("11fd6860-5e95-4e1c-8978-c46f05d5eaed");
     }
 

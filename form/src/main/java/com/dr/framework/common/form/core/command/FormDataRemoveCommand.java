@@ -19,8 +19,8 @@ public class FormDataRemoveCommand extends AbstractFormDefinitionIdCommand<Long>
         this.formDataId = formDataId;
     }
 
-    public FormDataRemoveCommand(String version, String formDefinitionId, String formDataId) {
-        super(version, formDefinitionId);
+    public FormDataRemoveCommand(String formDefinitionId, Integer version, String formDataId) {
+        super(formDefinitionId, version);
         this.formDataId = formDataId;
     }
 
@@ -28,7 +28,7 @@ public class FormDataRemoveCommand extends AbstractFormDefinitionIdCommand<Long>
     public Long execute(CommandContext context) {
         Assert.isTrue(StringUtils.isNotEmpty(getFormDefinitionId()), "表单id不能为空");
         Assert.isTrue(StringUtils.isNotEmpty(formDataId), "表单实例id不能为空");
-        Form form = context.getFormDefinitionService().selectOneFormDefinition(getFormDefinitionId());
+        Form form = context.getFormDefinitionService().selectFormDefinitionById(getFormDefinitionId());
         Assert.notNull(form, "系统未发现该表单");
         //判断表是否存在
         DataBaseService dataBaseService = context.getApplicationContext().getBean(DataBaseService.class);

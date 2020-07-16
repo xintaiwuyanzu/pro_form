@@ -1,9 +1,7 @@
 package com.dr.framework.common.form.schema.entity;
 
 import com.dr.framework.common.form.core.model.Form;
-import com.dr.framework.common.form.init.entity.FormDefaultValue;
 import com.dr.framework.common.form.init.model.FormDefault;
-import com.dr.framework.common.form.validate.entity.ValidateDefinitionForm;
 import com.dr.framework.common.form.validate.model.ValidateDefinition;
 
 import java.util.HashMap;

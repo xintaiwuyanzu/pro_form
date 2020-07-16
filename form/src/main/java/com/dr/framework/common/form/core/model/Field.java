@@ -1,66 +1,48 @@
 package com.dr.framework.common.form.core.model;
 
+import java.util.Collection;
+
 /**
- * 字段
+ * 表单字段抽象定义
  *
  * @author caor
  */
 public interface Field {
     /**
-     * 获取字段编码
+     * 获取字段主键
+     *
+     * @return
+     */
+    String getId();
+
+    /**
+     * 获取表单定义Id
+     *
+     * @return
+     */
+    String getFormDefinitionId();
+
+    /**
+     * 获取字段编码，唯一，当作字段名称使用
      *
      * @return
      */
     String getFieldCode();
 
     /**
-     * 获取字段名称
-     *
-     * @return
-     */
-    String getFieldName();
-
-    /**
-     * 获取字段值
-     *
-     * @return
-     */
-    Object getFieldValue();
-
-    /**
      * 获取字段别名
      *
      * @return
      */
-    String getFieldAlias();
+    Collection<String> getFieldAlias();
+
 
     /**
      * 获取字段类型
      *
      * @return
      */
-    String getFieldType();
-
-    /**
-     * 获取状态
-     *
-     * @return
-     */
-    String getFieldState();
-
-    /**
-     * 获取字段描述
-     *
-     * @return
-     */
-    String getDescription();
-
-    /**
-     * 获取字段顺序号
-     *
-     * @return
-     */
-    int getFieldOrder();
+    FieldType getFieldType();
 
     /**
      * 获取字段长度
@@ -70,25 +52,51 @@ public interface Field {
     int getFieldLength();
 
     /**
-     * 获取数据权限
+     * 当字段类型为float的时候
+     * 获取字段精度
      *
      * @return
      */
-    String getDataObjectId();
+    int getFieldScale();
+
 
     /**
-     * 是否使用历史版本
+     * 获取字段顺序号
      *
      * @return
      */
-    boolean historyVersion();
+    int getFieldOrder();
+
+
+    /**
+     * 获取状态
+     *
+     * @return
+     */
+    String getFieldState();
 
     /**
      * 获取版本号
      *
      * @return
      */
-    String getVersion();
+
+
+    Integer getVersion();
+
+    /**
+     * 获取中文名称
+     *
+     * @return
+     */
+    String getLabel();
+
+    /**
+     * 获取字段描述
+     *
+     * @return
+     */
+    String getDescription();
 
     /**
      * 获取备注信息
@@ -96,4 +104,12 @@ public interface Field {
      * @return
      */
     String getRemarks();
+
+    /**
+     * 获取数据权限Id
+     *
+     * @return
+     */
+    String getDataObjectId();
+
 }

@@ -12,6 +12,6 @@ public interface InitValueService {
      * @param formDefaultValueId
      * @return
      */
-    FormData getFormLinkData(String formDefinitionId, String version, String formDefaultValueId);
+    FormData getFormLinkData(String formDefinitionId, Integer version, String formDefaultValueId);
 
 }

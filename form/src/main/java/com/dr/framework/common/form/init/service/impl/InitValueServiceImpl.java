@@ -19,8 +19,8 @@ public class InitValueServiceImpl implements InitValueService {
      * @return
      */
     @Override
-    public FormData getFormLinkData(String formDefinitionId, String version, String formDefaultValueId) {
-        return executor.execute(new FormDataDefaultValueCommand(formDefinitionId, version,formDefaultValueId));
+    public FormData getFormLinkData(String formDefinitionId, Integer version, String formDefaultValueId) {
+        return executor.execute(new FormDataDefaultValueCommand(formDefinitionId, version, formDefaultValueId));
     }
 
 

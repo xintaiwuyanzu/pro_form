@@ -36,7 +36,7 @@ public class CombinationSchemaServiceImpl implements CombinationSchemaService {
     public String combinationJson(String formDefinitionId) throws JsonProcessingException {
         Assert.isTrue(!StringUtils.isEmpty(formDefinitionId), "表单定义id不能为空！");
         FormDefinitionService formDefinitionService = coreFormAutoConfig.formDefinitionService();
-        FormDefinition formDefinition = (FormDefinition) formDefinitionService.selectOneFormDefinition(formDefinitionId);
+        FormDefinition formDefinition = (FormDefinition) formDefinitionService.selectFormDefinitionById(formDefinitionId);
         ObjectNode jsonNode = objectMapper.createObjectNode();
 
         jsonNode.put("id", formDefinition.getId());
@@ -68,8 +68,7 @@ public class CombinationSchemaServiceImpl implements CombinationSchemaService {
      */
     protected ObjectNode getJsonMap(FormField formField) {
         ObjectNode map = objectMapper.createObjectNode();
-        map.put("title", formField.getFieldName());
-        map.put("type", formField.getFieldType());
+        // map.put("type", formField.getFieldType());
         map.put("maxLength", formField.getFieldLength());
         map.put("default", "");
 

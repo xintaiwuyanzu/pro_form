@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 /**
  * jsonSchema组合
+ *
  * @author lc
  */
 public interface CombinationSchemaService {
@@ -15,8 +16,6 @@ public interface CombinationSchemaService {
      * @return
      */
     String combinationJson(String formDefinitionId) throws JsonProcessingException;
-
-
 
 
 }

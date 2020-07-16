@@ -45,7 +45,7 @@ public class FormDataServiceImpl implements FormDataService {
      */
     @Override
     public List<FormData> selectFormData(SqlBuilder sqlBuilder) {
-        return executor.execute(new FormDataSelectCommand(sqlBuilder));
+        return executor.execute(new FormDataSelectCommand(null, sqlBuilder));
     }
 
     @Override

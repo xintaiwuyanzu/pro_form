@@ -24,7 +24,7 @@ public class DefaultSelectDataCondationPlugin implements CommandPlugin {
 
     @Override
     public Command handle(CommandContext context, Command command) throws Exception {
-        FormDataSelectCommand selectCommand= (FormDataSelectCommand) command;
+        FormDataSelectCommand selectCommand = (FormDataSelectCommand) command;
         SqlBuilder sqlBuilder = selectCommand.getSqlBuilder();
         return null;
     }

@@ -11,6 +11,11 @@ import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
+/**
+ * 查询一条表单数据
+ *
+ * @author dr
+ */
 public class FormDataSelectOneCommand extends AbstractFormDefinitionIdCommand<FormData> {
 
     private String formDataId;
@@ -20,8 +25,8 @@ public class FormDataSelectOneCommand extends AbstractFormDefinitionIdCommand<Fo
         this.formDataId = formDataId;
     }
 
-    public FormDataSelectOneCommand(String version, String formDefinitionId, String formDataId) {
-        super(version, formDefinitionId);
+    public FormDataSelectOneCommand(String formDefinitionId, Integer version, String formDataId) {
+        super(formDefinitionId, version);
         this.formDataId = formDataId;
     }
 
@@ -35,7 +40,7 @@ public class FormDataSelectOneCommand extends AbstractFormDefinitionIdCommand<Fo
     public FormData execute(CommandContext context) {
         Assert.isTrue(StringUtils.isNotEmpty(getFormDefinitionId()), "表单id不能为空");
         Assert.isTrue(StringUtils.isNotEmpty(formDataId), "表单实例id不能为空");
-        FormDefinition form = (FormDefinition) context.getFormDefinitionService().selectOneFormDefinition(getFormDefinitionId());
+        FormDefinition form = (FormDefinition) context.getFormDefinitionService().selectFormDefinitionById(getFormDefinitionId());
         Assert.notNull(form, "系统未发现该表单");
         //判断表是否存在
         DataBaseService dataBaseService = context.getApplicationContext().getBean(DataBaseService.class);

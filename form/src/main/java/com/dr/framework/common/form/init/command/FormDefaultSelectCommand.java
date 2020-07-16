@@ -20,8 +20,8 @@ public class FormDefaultSelectCommand extends AbstractFormDefinitionIdCommand<Li
         super(formDefinitionId);
     }
 
-    public FormDefaultSelectCommand(String version, String formDefinitionId) {
-        super(version, formDefinitionId);
+    public FormDefaultSelectCommand(Integer version, String formDefinitionId) {
+        super(formDefinitionId, version);
     }
 
     @Override

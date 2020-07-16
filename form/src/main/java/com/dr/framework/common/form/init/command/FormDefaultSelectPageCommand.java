@@ -1,7 +1,6 @@
 package com.dr.framework.common.form.init.command;
 
 import com.dr.framework.common.form.core.command.AbstractFormDefinitionIdCommand;
-import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.init.entity.FieldDefaultValue;
 import com.dr.framework.common.form.init.entity.FieldDefaultValueInfo;
@@ -26,8 +25,8 @@ public class FormDefaultSelectPageCommand extends AbstractFormDefinitionIdComman
         this.pageSize = pageSize;
     }
 
-    public FormDefaultSelectPageCommand(String version, String formDefinitionId, int pageIndex, int pageSize) {
-        super(version, formDefinitionId);
+    public FormDefaultSelectPageCommand(Integer version, String formDefinitionId, int pageIndex, int pageSize) {
+        super(formDefinitionId, version);
         this.pageIndex = pageIndex;
         this.pageSize = pageSize;
     }

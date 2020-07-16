@@ -2,56 +2,49 @@ package com.dr.framework.common.form.core.command;
 
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormDefinitionInfo;
-import com.dr.framework.common.form.core.entity.FormField;
-import com.dr.framework.common.form.core.entity.FormFieldInfo;
-import com.dr.framework.common.form.core.model.Form;
+import com.dr.framework.common.form.core.query.FormDefinitionQuery;
 import com.dr.framework.common.form.engine.CommandContext;
+import com.dr.framework.common.form.util.CacheUtil;
 import com.dr.framework.common.page.Page;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
-import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.stream.Collectors;
 
-public class FormDefinitionSelectPageCommand extends AbstractFormDefinitionIdCommand<Page> {
-    private Form form;
+/**
+ * 根据query查询表单定义
+ *
+ * @author dr
+ */
+public class FormDefinitionSelectPageCommand extends AbstractFormDefinitionQueryCommand<Page<FormDefinition>> {
     private int pageIndex;
     private int pageSize;
 
-    public FormDefinitionSelectPageCommand(Form form, int pageIndex, int pageSize) {
-        this.form = form;
+    public FormDefinitionSelectPageCommand(FormDefinitionQuery query, int pageIndex, int pageSize) {
+        super(query);
         this.pageIndex = pageIndex;
         this.pageSize = pageSize;
     }
 
-
     @Override
-    public Page execute(CommandContext context) {
-        SqlQuery sqlQuery = SqlQuery.from(FormDefinition.class);
-        if (StringUtils.isNotEmpty(form.getId())) {
-            sqlQuery.equal(FormDefinitionInfo.ID, form.getId());
-        }
-        if (StringUtils.isNotEmpty(form.getFormCode())) {
-            sqlQuery.equal(FormDefinitionInfo.FORMCODE, form.getFormCode());
-        }
-        if (StringUtils.isNotEmpty(form.getFormType())) {
-            sqlQuery.equal(FormDefinitionInfo.FORMTYPE, form.getFormType());
-        }
-        if (StringUtils.isNotEmpty(form.getFormName())) {
-            sqlQuery.equal(FormDefinitionInfo.FORMNAME, form.getFormName());
-        }
-        Page page = context.getMapper().selectPageByQuery(sqlQuery, pageIndex * pageSize, (pageIndex + 1) * pageSize);
-        List<FormDefinition> list = page.getData();
-        if (list.size() > 0) {
-            List<FormDefinition> listForm = new ArrayList<>();
-            for (FormDefinition formDefinition : list) {
-                List<FormField> listFiled = context.getMapper().selectByQuery(SqlQuery.from(FormField.class).equal(FormFieldInfo.FORMDEFINITIONID, formDefinition.getId()));
-                formDefinition.setFormFieldList(listFiled);
-                listForm.add(formDefinition);
-            }
-            page.setData(listForm);
-        }
+    public Page<FormDefinition> execute(CommandContext context) {
+        SqlQuery<FormDefinition> sqlQuery = SqlQuery.from(FormDefinition.class, false).column(FormDefinitionInfo.ID);
+        buildSqlQuery(context, sqlQuery);
+        Page<FormDefinition> page = context.getMapper().selectPageByQuery(sqlQuery, pageIndex * pageSize, (pageIndex + 1) * pageSize);
+
+        page.setData(
+                page.getData()
+                        .stream()
+                        .map(f -> CacheUtil.getFormDefinitionFromCache(context, f.getId()))
+                        .collect(Collectors.toList())
+        );
         return page;
     }
 
+    public int getPageIndex() {
+        return pageIndex;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
 }

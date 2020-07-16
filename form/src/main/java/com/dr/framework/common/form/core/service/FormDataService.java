@@ -28,7 +28,6 @@ public interface FormDataService {
      */
     FormData updateFormData(FormData formData);
 
-
     /**
      * 多条件查询表单实例数据
      *
@@ -37,16 +36,23 @@ public interface FormDataService {
      */
     List<FormData> selectFormData(SqlBuilder sqlBuilder);
 
-    List<FormData> selectFormData(String formId,SqlBuilder sqlBuilder);
+    /**
+     * 根据sql语句查询指定表的数据
+     *
+     * @param formId
+     * @param sqlBuilder
+     * @return
+     */
+    List<FormData> selectFormData(String formId, SqlBuilder sqlBuilder);
 
     /**
      * 查询表单单个实例数据
      *
-     * @param formDataId
+     * @param formId     表单定义Id
+     * @param formDataId 数据Id
      * @return
      */
     FormData selectOneFormData(String formId, String formDataId);
-
 
     /**
      * 分页查询表单实例数据

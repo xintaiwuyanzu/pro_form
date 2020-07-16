@@ -1,7 +1,6 @@
 package com.dr.framework.common.form.init.command;
 
 import com.dr.framework.common.form.core.command.AbstractFormDefinitionIdCommand;
-import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.init.entity.FieldDefaultValue;
 import com.dr.framework.common.form.init.entity.FieldDefaultValueInfo;
@@ -15,6 +14,7 @@ public class FormDefaultValueRemoveCommand extends AbstractFormDefinitionIdComma
     private String formDefaultValueId;
 
     public FormDefaultValueRemoveCommand(String formDefaultValueId) {
+        super(null);
         this.formDefaultValueId = formDefaultValueId;
     }
 
@@ -23,8 +23,8 @@ public class FormDefaultValueRemoveCommand extends AbstractFormDefinitionIdComma
         this.formDefaultValueId = formDefaultValueId;
     }
 
-    public FormDefaultValueRemoveCommand(String version, String formDefinitionId, String formDefaultValueId) {
-        super(version, formDefinitionId);
+    public FormDefaultValueRemoveCommand(Integer version, String formDefinitionId, String formDefaultValueId) {
+        super(formDefinitionId, version);
         this.formDefaultValueId = formDefaultValueId;
     }
 

@@ -2,9 +2,7 @@ package com.dr.framework.common.form.core.command;
 
 import com.dr.framework.common.form.core.model.Form;
 import com.dr.framework.common.form.core.model.FormData;
-import com.dr.framework.common.form.core.service.FormDefinitionService;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
-import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.common.page.Page;
@@ -12,7 +10,6 @@ import com.dr.framework.common.service.DataBaseService;
 import com.dr.framework.core.orm.jdbc.Relation;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
 public class FormDataSelectPageCommand extends AbstractFormDefinitionIdCommand<Page> {
@@ -23,7 +20,7 @@ public class FormDataSelectPageCommand extends AbstractFormDefinitionIdCommand<P
     private int pageSize;
 
     public FormDataSelectPageCommand(FormData formData, int pageIndex, int pageSize) {
-        super();
+        super(null, null);
         this.formData = formData;
         this.pageIndex = pageIndex;
         this.pageSize = pageSize;
@@ -36,8 +33,8 @@ public class FormDataSelectPageCommand extends AbstractFormDefinitionIdCommand<P
         this.pageSize = pageSize;
     }
 
-    public FormDataSelectPageCommand(String version, String formDefinitionId, FormData formData, int pageIndex, int pageSize) {
-        super(version, formDefinitionId);
+    public FormDataSelectPageCommand(String formDefinitionId, Integer version, FormData formData, int pageIndex, int pageSize) {
+        super(formDefinitionId, version);
         this.formData = formData;
         this.pageIndex = pageIndex;
         this.pageSize = pageSize;
@@ -52,7 +49,7 @@ public class FormDataSelectPageCommand extends AbstractFormDefinitionIdCommand<P
     @Override
     public Page execute(CommandContext context) {
         Assert.isTrue(StringUtils.isNotEmpty(formData.get("formDefinitionId") + ""), "表单id不能为空");
-        Form form = context.getFormDefinitionService().selectOneFormDefinition(formData.get("formDefinitionId") + "");
+        Form form = context.getFormDefinitionService().selectFormDefinitionById(formData.get("formDefinitionId") + "");
         Assert.notNull(form, "系统未发现该表单定义");
         //判断表是否存在
         DataBaseService dataBaseService = context.getApplicationContext().getBean(DataBaseService.class);

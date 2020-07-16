@@ -1,5 +1,10 @@
 package com.dr.framework.common.form.core.model;
 
+/**
+ * 表单扩展信息
+ *
+ * @author dr
+ */
 public interface FormExtend {
     /**
      * 获取key

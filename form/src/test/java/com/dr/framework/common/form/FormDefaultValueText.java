@@ -11,17 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 public class FormDefaultValueText extends AbstractApplicationTest {
 
     @Autowired
     FormDefaultValueService formDefaultValueService;
+
     @Test
-    public void add(){
-        Collection<FieldDefaultValue>list= new ArrayList<FieldDefaultValue>();
-        Collection<FieldDefault>list1= new ArrayList<FieldDefault>();
+    public void add() {
+        Collection<FieldDefaultValue> list = new ArrayList<FieldDefaultValue>();
+        Collection<FieldDefault> list1 = new ArrayList<FieldDefault>();
         String s = UUID.randomUUID().toString();
         FormDefaultValue formDefaultValue = new FormDefaultValue();
         formDefaultValue.setId(s);
@@ -44,18 +44,19 @@ public class FormDefaultValueText extends AbstractApplicationTest {
         formDefaultValue.setFieldDefaultList(list);
         list.add(fieldDefaultValue);
         list1.add(fieldDefaultValue);
-        formDefaultValueService.addFormDefaultValue(formDefaultValue,list1);
+        formDefaultValueService.addFormDefaultValue(formDefaultValue, list1);
     }
+
     @Test
-    public void select(){
-       // FormDefault formDefault = formDefaultValueService.SelectOneFormDefaultValue("79f87c16-d5d6-49ff-9028-9edae1049887", "44150a9f-a3ee-4ccb-b563-48cd968deadd");
+    public void select() {
+        // FormDefault formDefault = formDefaultValueService.SelectOneFormDefaultValue("79f87c16-d5d6-49ff-9028-9edae1049887", "44150a9f-a3ee-4ccb-b563-48cd968deadd");
         //List<FormDefault> formDefaults = formDefaultValueService.SelectFormDefaultValue("79f87c16-d5d6-49ff-9028-9edae1049887");
         Page<FormDefault> formDefaultPage = formDefaultValueService.SelectPageFormDefaultValue("79f87c16-d5d6-49ff-9028-9edae1049887", 2, 1);
         System.out.println(formDefaultPage.getData().toString());
     }
 
     @Test
-    public void del(){
+    public void del() {
         formDefaultValueService.RemoveFormDefaultValue("44150a9f-a3ee-4ccb-b563-48cd968deadd");
     }
 

@@ -25,7 +25,7 @@ public class FormDataText extends AbstractApplicationTest {
 
     @Test
     public void add() {
-        FormData formData1 = new FormData("369363b0-ae13-4193-9626-1fccc7a4d69b", UUID.randomUUID().toString(), "NAME", "fist");
+        FormData formData1 = new FormData("369363b0-ae13-4193-9626-1fccc7a4d69b", UUID.randomUUID().toString());
         formData1.put("formDefinitionId", "29eba72e-e041-4b3a-90e2-1b49b8bc302e");
         formData1.put("formDataId", UUID.randomUUID().toString());
         formData1.put("text001", "NAME");
@@ -37,7 +37,7 @@ public class FormDataText extends AbstractApplicationTest {
     @Test
     public void select() {
         List<FormData> formData = formDataService.selectFormData((sqlQuery, relation) -> {
-            sqlQuery.equal(relation.getColumn("FORMDEFINITIONID"),"29eba72e-e041-4b3a-90e2-1b49b8bc302e");
+            sqlQuery.equal(relation.getColumn("FORMDEFINITIONID"), "29eba72e-e041-4b3a-90e2-1b49b8bc302e");
         });
         System.out.println(formData);
     }

@@ -2,9 +2,9 @@
   "title": "fistForm",
   "type": "object",
   "id": "这个是主键",
-  "uiId":"显示方案Id",
-  "validateId":"校验方案Id",
-  "defaultId":"默认值方案Id",
+  "uiId": "显示方案Id",
+  "validateId": "校验方案Id",
+  "defaultId": "默认值方案Id",
   "description": "这个是描述",
   "properties": {
     "id": {
@@ -25,5 +25,9 @@
       "default": "20"
     }
   },
-  "required": ["id","name","age"]
+  "required": [
+    "id",
+    "name",
+    "age"
+  ]
 }

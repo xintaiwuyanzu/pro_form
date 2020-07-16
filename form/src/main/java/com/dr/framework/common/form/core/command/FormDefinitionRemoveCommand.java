@@ -1,17 +1,18 @@
 package com.dr.framework.common.form.core.command;
 
 
+import com.dr.framework.common.dao.CommonMapper;
 import com.dr.framework.common.form.core.entity.FormDefinition;
-import com.dr.framework.common.form.core.entity.FormDefinitionInfo;
 import com.dr.framework.common.form.core.entity.FormField;
 import com.dr.framework.common.form.core.entity.FormFieldInfo;
-import com.dr.framework.common.form.engine.Command;
+import com.dr.framework.common.form.core.query.FormDefinitionQuery;
+import com.dr.framework.common.form.core.service.FormNameGenerator;
 import com.dr.framework.common.form.engine.CommandContext;
-import com.dr.framework.common.form.util.Constants;
-import com.dr.framework.common.service.DataBaseService;
+import com.dr.framework.common.form.engine.CommandExecutor;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
-import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 /**
  * 删除表单定义数据
@@ -20,16 +21,29 @@ import org.springframework.util.StringUtils;
  */
 public class FormDefinitionRemoveCommand extends AbstractFormDefinitionIdCommand<Long> {
 
-    private boolean retain;
+    private boolean dropTable;
 
-    public FormDefinitionRemoveCommand(String formDefinitionId, boolean retain) {
+    /**
+     * 根据特定的表单定义Id删除表单
+     *
+     * @param formDefinitionId 表单定义Id
+     * @param dropTable        是否删除物理表结构
+     */
+    public FormDefinitionRemoveCommand(String formDefinitionId, boolean dropTable) {
         super(formDefinitionId);
-        this.retain = retain;
+        this.dropTable = dropTable;
     }
 
-    public FormDefinitionRemoveCommand(String version, String formDefinitionId, boolean retain) {
-        super(version, formDefinitionId);
-        this.retain = retain;
+    /**
+     * 根据表单编码和版本号删除表单
+     *
+     * @param formCode  表单编码
+     * @param version   表单版本，表单版本为null的时候，就是删除该code的所有表单定义
+     * @param dropTable 是否删除物理表结构
+     */
+    public FormDefinitionRemoveCommand(String formCode, Integer version, boolean dropTable) {
+        super(formCode, version);
+        this.dropTable = dropTable;
     }
 
     /**
@@ -40,27 +54,52 @@ public class FormDefinitionRemoveCommand extends AbstractFormDefinitionIdCommand
      */
     @Override
     public Long execute(CommandContext context) {
-        Assert.isTrue(!StringUtils.isEmpty(getFormDefinitionId()), "请选择需要删除的表单");
-        //根据表单Id查询表单主表数据
-        FormDefinition formDefinition = context.getMapper().selectById(FormDefinition.class, getFormDefinitionId());
-        Assert.notNull(formDefinition, "你选择的表单数据不存在");
-        if (!StringUtils.isEmpty(formDefinition.getFormTable())) {
-            //是否直接删除表 true: 删  false: 不删
-            if (retain) {
-                //刪除生成的表
-                removeTable(context, formDefinition.getFormTable());
+        FormDefinition formDefinition = getFormDefinition(context);
+        long count = 0;
+        if (formDefinition == null) {
+            //如果没查出来表单，code不为空，version为空，则是按照code删除所有的表单定义
+            if (!StringUtils.isEmpty(getFormCode()) && getVersion() == null) {
+                CommandExecutor executor = context.getExecutor();
+                List<FormDefinition> formDefinitions = executor.execute(
+                        new FormDefinitionSelectCommand(
+                                new FormDefinitionQuery()
+                                        .codeEqual(getFormCode())
+                                        .statusAll()
+                                        .versionAll()
+                        )
+                );
+                if (formDefinitions != null) {
+                    count = formDefinitions.stream().mapToLong(f -> doRemove(context, f)).sum();
+                }
             }
+        } else {
+            count = doRemove(context, formDefinition);
         }
-        //根据表单数据删除表单数据中的所有字段数据
-        context.getMapper().deleteByQuery(SqlQuery.from(FormField.class).equal(FormFieldInfo.FORMDEFINITIONID, getFormDefinitionId()));
-        //最后删除表单定义表中的这条数据
-        return context.getMapper().deleteByQuery(SqlQuery.from(FormDefinition.class).equal(FormDefinitionInfo.ID, getFormDefinitionId()));
+        return count;
+
     }
 
-    protected void removeTable(CommandContext context, String tableName) {
-        //是否生成表
-        DataBaseService dataBaseService = context.getApplicationContext().getBean(DataBaseService.class);
-        dataBaseService.dropTable(tableName, Constants.MODULE_NAME);
+    /**
+     * 直接执行删除一项表单定义
+     *
+     * @param context
+     * @param formDefinition
+     * @return 返回影响数据的条数
+     */
+    protected Long doRemove(CommandContext context, FormDefinition formDefinition) {
+        //删除表里面的数据
+        CommonMapper commonMapper = context.getMapper();
+        //删除表单定义的数据
+        long count = commonMapper.deleteById(FormDefinition.class, formDefinition.getId());
+        //删除字段定义的数据
+        count += commonMapper.deleteByQuery(SqlQuery.from(FormField.class).equal(FormFieldInfo.FORMDEFINITIONID, getFormDefinitionId()));
+        if (dropTable) {
+            FormNameGenerator nameGenerator = context.getApplicationContext().getBean(FormNameGenerator.class);
+            removeTable(context, nameGenerator.genTableName(formDefinition));
+            count++;
+        }
+        return count;
     }
+
 
 }

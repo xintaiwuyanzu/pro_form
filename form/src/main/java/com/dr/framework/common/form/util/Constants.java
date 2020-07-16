@@ -23,7 +23,7 @@ public class Constants {
     /**
      * 默认版本编码
      */
-    public static final String DEFAULT_VERSION = "default";
+    public static final Integer DEFAULT_VERSION = 1;
 
     /**
      * 大陆手机号码11位数，匹配格式：前三位固定格式+后8位任意数

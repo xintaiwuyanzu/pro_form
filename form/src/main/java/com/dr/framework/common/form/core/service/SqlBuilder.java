@@ -10,5 +10,11 @@ import com.dr.framework.core.orm.sql.support.SqlQuery;
  */
 @FunctionalInterface
 public interface SqlBuilder {
+    /**
+     * 构建sql语句
+     *
+     * @param sqlQuery
+     * @param relation
+     */
     void buildSql(SqlQuery sqlQuery, Relation relation);
 }

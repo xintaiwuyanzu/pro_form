@@ -28,8 +28,8 @@ public class FormDefaultValueSelectOneCommand extends AbstractFormDefinitionIdCo
         this.linkCode = linkCode;
     }
 
-    public FormDefaultValueSelectOneCommand(String version, String formDefinitionId, String formDefaultValueId, String linkCode) {
-        super(version, formDefinitionId);
+    public FormDefaultValueSelectOneCommand(Integer version, String formDefinitionId, String formDefaultValueId, String linkCode) {
+        super(formDefinitionId, version);
         this.formDefaultValueId = formDefaultValueId;
         this.linkCode = linkCode;
     }

@@ -17,6 +17,7 @@ import com.dr.framework.common.service.CommonService;
 import com.dr.framework.common.service.DataBaseService;
 import com.dr.framework.core.orm.jdbc.Column;
 import com.dr.framework.core.orm.jdbc.Relation;
+import com.dr.framework.core.orm.jdbc.TrueOrFalse;
 import com.dr.framework.core.orm.module.ConfigedRelation;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.springframework.util.Assert;
@@ -111,6 +112,7 @@ public abstract class AbstractFormDefinitionCommand {
         idColumn.setPosition(0);
         idColumn.setType(Types.VARCHAR);
         idColumn.setSize(255);
+        idColumn.setNullAble(TrueOrFalse.TRUE);
         relation.addColumn(idColumn);
         relation.addPrimaryKey("pk", idColumn.getName(), 0);
 
@@ -243,6 +245,7 @@ public abstract class AbstractFormDefinitionCommand {
         column.setSize(field.getFieldLength());
         column.setDecimalDigits(field.getFieldScale());
         column.setPosition(field.getFieldOrder());
+        column.setNullAble(TrueOrFalse.TRUE);
         relation.addColumn(column);
     }
 

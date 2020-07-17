@@ -28,7 +28,7 @@ public class FormField extends BaseStatusEntity<String> implements Field {
     private String fieldCode;
 
     @Column(name = "fieldAlias", comment = "字段别名")
-    private String fieldAlias;
+    private String fieldAliasStr;
 
     @Column(name = "fieldType", comment = "字段类型")
     private String fieldTypeStr;
@@ -73,7 +73,7 @@ public class FormField extends BaseStatusEntity<String> implements Field {
             setFieldCode(field.getFieldCode());
 
             if (field.getFieldAlias() != null) {
-                setFieldAlias(String.join(",", field.getFieldAlias()));
+                setFieldAliasStr(String.join(",", field.getFieldAlias()));
             }
 
             setFieldTypeStr(field.getFieldType());
@@ -102,8 +102,8 @@ public class FormField extends BaseStatusEntity<String> implements Field {
 
     @Override
     public Collection<String> getFieldAlias() {
-        return StringUtils.isEmpty(fieldAlias) ? Collections.emptySet() :
-                new HashSet<>(Arrays.asList(fieldAlias.split(",")));
+        return StringUtils.isEmpty(fieldAliasStr) ? Collections.emptySet() :
+                new HashSet<>(Arrays.asList(fieldAliasStr.split(",")));
     }
 
     @Override
@@ -111,8 +111,12 @@ public class FormField extends BaseStatusEntity<String> implements Field {
         return StringUtils.isEmpty(fieldTypeStr) ? null : FieldType.valueOf(this.fieldTypeStr);
     }
 
-    public void setFieldAlias(String fieldAlias) {
-        this.fieldAlias = fieldAlias;
+    public String getFieldAliasStr() {
+        return fieldAliasStr;
+    }
+
+    public void setFieldAliasStr(String fieldAliasStr) {
+        this.fieldAliasStr = fieldAliasStr;
     }
 
     public String getFieldTypeStr() {

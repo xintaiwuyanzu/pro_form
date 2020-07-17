@@ -94,7 +94,7 @@ public class FormDefinitionInsertCommand extends AbstractFormDefinitionCommand i
 
         //校验字段基本信息
         fd.setFormFieldList(new ArrayList<>());
-        fields.stream().map(f -> newField(fd, f));
+        fields.forEach(f -> newField(fd, f));
         //排序
         Collections.sort(fd.getFormFieldList());
 

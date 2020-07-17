@@ -65,7 +65,7 @@ public interface Field {
      *
      * @return
      */
-    int getFieldOrder();
+    Integer getFieldOrder();
 
 
     /**

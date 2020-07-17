@@ -149,7 +149,7 @@ public class FormDefinition extends BaseStatusEntity<String> implements Form {
 
     @Override
     public Integer getFormOrder() {
-        return getOrder();
+        return getOrder() == null ? 0 : getOrder();
     }
 
     @Override

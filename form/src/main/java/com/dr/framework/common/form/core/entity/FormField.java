@@ -142,8 +142,8 @@ public class FormField extends BaseStatusEntity<String> implements Field {
     }
 
     @Override
-    public int getFieldOrder() {
-        return getOrder();
+    public Integer getFieldOrder() {
+        return getOrder() == null ? 0 : getOrder();
     }
 
     @Override

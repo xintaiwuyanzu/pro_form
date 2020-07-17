@@ -35,6 +35,7 @@ public class FormDefaultValue extends BaseStatusEntity<String> implements FormDe
 
     private Collection<FieldDefaultValue> fieldDefaultList;
 
+    @Override
     public String getFormDefinitionId() {
         return formDefinitionId;
     }
@@ -43,6 +44,7 @@ public class FormDefaultValue extends BaseStatusEntity<String> implements FormDe
         this.formDefinitionId = formDefinitionId;
     }
 
+    @Override
     public String getLinkName() {
         return linkName;
     }
@@ -51,6 +53,7 @@ public class FormDefaultValue extends BaseStatusEntity<String> implements FormDe
         this.linkName = linkName;
     }
 
+    @Override
     public String getLinkCode() {
         return linkCode;
     }
@@ -59,6 +62,7 @@ public class FormDefaultValue extends BaseStatusEntity<String> implements FormDe
         this.linkCode = linkCode;
     }
 
+    @Override
     public String getDefaultType() {
         return defaultType;
     }
@@ -67,6 +71,7 @@ public class FormDefaultValue extends BaseStatusEntity<String> implements FormDe
         this.defaultType = defaultType;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -75,6 +80,7 @@ public class FormDefaultValue extends BaseStatusEntity<String> implements FormDe
         this.description = description;
     }
 
+    @Override
     public String getDefaultState() {
         return defaultState;
     }

@@ -1,6 +1,9 @@
 package com.dr.framework.common.form.core.command;
 
 
+import com.dr.framework.common.entity.StatusEntity;
+import com.dr.framework.common.form.core.entity.FormDefinition;
+import com.dr.framework.common.form.core.entity.FormDefinitionInfo;
 import com.dr.framework.common.form.core.entity.FormField;
 import com.dr.framework.common.form.core.entity.FormFieldInfo;
 import com.dr.framework.common.form.engine.CommandContext;
@@ -40,18 +43,29 @@ public class FormDefinitionFieldChangeStatusCommand extends FormDefinitionFieldS
     public FormField execute(CommandContext context) {
         Assert.isTrue(!StringUtils.isEmpty(status), "状态类型不能为空！");
         Assert.isTrue(validateStatus(status), "字段状态格式不正确");
-        FormField formField = super.execute(context);
-        if (formField != null && !status.equalsIgnoreCase(formField.getStatus())) {
+
+        FormField formField = null;
+        if (StatusEntity.STATUS_DISABLE_STR.equals(status)) {
+            FormDefinition formDefinition = getFormDefinition(context);
             context.getMapper().updateIgnoreNullByQuery(
                     SqlQuery.from(FormField.class)
-                            .set(FormFieldInfo.STATUS, status)
-                            .equal(FormFieldInfo.ID, formField.getId())
-            );
-            CacheUtil.removeCache(context, formField.getFormDefinitionId());
+                            .set(FormFieldInfo.STATUS, StatusEntity.STATUS_ENABLE_STR)
+                            .equal(FormFieldInfo.FORMDEFINITIONID, formDefinition.getId())
+                            .equal(FormFieldInfo.FIELDCODE, getFieldCode()));
+            CacheUtil.removeCache(context, formDefinition.getId());
+        } else {
+            formField = super.execute(context);
+            if (formField != null && !status.equalsIgnoreCase(formField.getStatus())) {
+                context.getMapper().updateIgnoreNullByQuery(
+                        SqlQuery.from(FormField.class)
+                                .set(FormFieldInfo.STATUS, status)
+                                .equal(FormFieldInfo.ID, formField.getId())
+                );
+                CacheUtil.removeCache(context, formField.getFormDefinitionId());
+            }
         }
-        return null;
+        return formField;
     }
-
 
     public String getStatus() {
         return status;

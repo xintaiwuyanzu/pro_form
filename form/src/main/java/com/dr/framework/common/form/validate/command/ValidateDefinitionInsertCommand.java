@@ -42,6 +42,7 @@ public class ValidateDefinitionInsertCommand implements Command<ValidateDefiniti
                 if (StringUtils.isEmpty(validateDefinitionField.getId())) {
                     validateDefinitionField.setId(UUID.randomUUID().toString());
                 }
+                validateDefinitionField.setValidateFormId(validateDefinitionForm.getId());
                 //保存字段数据
                 mapper.insert(validateDefinitionField);
             }

@@ -54,7 +54,7 @@ public class FormDefinitionFieldChangeCommand extends FormDefinitionFieldAddComm
             oldField.setRemarks(getField().getRemarks());
             oldField.setDataObjectId(getField().getDataObjectId());
 
-            oldField.setFieldAlias(String.join(",", getField().getFieldAlias()));
+            oldField.setFieldAliasStr(String.join(",", getField().getFieldAlias()));
             oldField.setLabel(getField().getLabel());
 
             mapper.updateById(oldField);
@@ -72,7 +72,7 @@ public class FormDefinitionFieldChangeCommand extends FormDefinitionFieldAddComm
     @Override
     protected FormDefinition copyFormDefinition(CommandContext context, FormDefinition old) {
         FormDefinition formDefinition = super.copyFormDefinition(context, old);
-        FormField oldField = old.getFieldByCode(getField().getFieldCode());
+        FormField oldField = formDefinition.getFieldByCode(getField().getFieldCode());
         formDefinition.getFormFieldList()
                 .removeIf(f -> f.getId().equalsIgnoreCase(oldField.getId()));
         return formDefinition;

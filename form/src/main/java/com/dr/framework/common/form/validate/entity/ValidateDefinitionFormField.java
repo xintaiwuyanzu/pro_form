@@ -51,6 +51,7 @@ public class ValidateDefinitionFormField extends BaseStatusEntity<String> implem
     @Column(name = "text3", comment = "备用字段3")
     private String text3;
 
+    @Override
     public String getFormDefinitionId() {
         return formDefinitionId;
     }
@@ -59,6 +60,7 @@ public class ValidateDefinitionFormField extends BaseStatusEntity<String> implem
         this.formDefinitionId = formDefinitionId;
     }
 
+    @Override
     public String getValidateFormId() {
         return ValidateFormId;
     }
@@ -67,6 +69,7 @@ public class ValidateDefinitionFormField extends BaseStatusEntity<String> implem
         ValidateFormId = validateFormId;
     }
 
+    @Override
     public String getFieldName() {
         return fieldName;
     }
@@ -75,6 +78,7 @@ public class ValidateDefinitionFormField extends BaseStatusEntity<String> implem
         this.fieldName = fieldName;
     }
 
+    @Override
     public String getFieldCode() {
         return fieldCode;
     }
@@ -83,6 +87,7 @@ public class ValidateDefinitionFormField extends BaseStatusEntity<String> implem
         this.fieldCode = fieldCode;
     }
 
+    @Override
     public String getFieldType() {
         return fieldType;
     }
@@ -91,6 +96,7 @@ public class ValidateDefinitionFormField extends BaseStatusEntity<String> implem
         this.fieldType = fieldType;
     }
 
+    @Override
     public boolean isNotNull() {
         return isNotNull;
     }
@@ -99,6 +105,7 @@ public class ValidateDefinitionFormField extends BaseStatusEntity<String> implem
         isNotNull = notNull;
     }
 
+    @Override
     public String getCheckConfig() {
         return checkConfig;
     }
@@ -107,6 +114,7 @@ public class ValidateDefinitionFormField extends BaseStatusEntity<String> implem
         this.checkConfig = checkConfig;
     }
 
+    @Override
     public String getCheckConfigTwo() {
         return checkConfigTwo;
     }
@@ -115,6 +123,7 @@ public class ValidateDefinitionFormField extends BaseStatusEntity<String> implem
         this.checkConfigTwo = checkConfigTwo;
     }
 
+    @Override
     public String getCheckConfigThree() {
         return checkConfigThree;
     }
@@ -123,6 +132,7 @@ public class ValidateDefinitionFormField extends BaseStatusEntity<String> implem
         this.checkConfigThree = checkConfigThree;
     }
 
+    @Override
     public String getCustom() {
         return custom;
     }
@@ -139,6 +149,7 @@ public class ValidateDefinitionFormField extends BaseStatusEntity<String> implem
         this.remarks = remarks;
     }
 
+    @Override
     public String getText1() {
         return text1;
     }
@@ -147,6 +158,7 @@ public class ValidateDefinitionFormField extends BaseStatusEntity<String> implem
         this.text1 = text1;
     }
 
+    @Override
     public String getText2() {
         return text2;
     }
@@ -155,6 +167,7 @@ public class ValidateDefinitionFormField extends BaseStatusEntity<String> implem
         this.text2 = text2;
     }
 
+    @Override
     public String getText3() {
         return text3;
     }

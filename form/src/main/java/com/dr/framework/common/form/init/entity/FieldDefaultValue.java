@@ -42,6 +42,7 @@ public class FieldDefaultValue extends BaseStatusEntity<String> implements Field
         this.formDefinitionId = formDefinitionId;
     }
 
+    @Override
     public String getFormDefaultValueId() {
         return formDefaultValueId;
     }
@@ -50,6 +51,7 @@ public class FieldDefaultValue extends BaseStatusEntity<String> implements Field
         this.formDefaultValueId = formDefaultValueId;
     }
 
+    @Override
     public String getFieldName() {
         return fieldName;
     }
@@ -67,6 +69,7 @@ public class FieldDefaultValue extends BaseStatusEntity<String> implements Field
         this.fieldCode = fieldCode;
     }
 
+    @Override
     public String getFieldType() {
         return fieldType;
     }
@@ -75,6 +78,7 @@ public class FieldDefaultValue extends BaseStatusEntity<String> implements Field
         this.fieldType = fieldType;
     }
 
+    @Override
     public String getDefaultValue() {
         return defaultValue;
     }
@@ -83,6 +87,7 @@ public class FieldDefaultValue extends BaseStatusEntity<String> implements Field
         this.defaultValue = defaultValue;
     }
 
+    @Override
     public String getCustom() {
         return custom;
     }

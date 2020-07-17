@@ -1,6 +1,7 @@
 package com.dr.framework.common.form.init.command;
 
 import com.dr.framework.common.form.core.command.AbstractFormDefinitionIdCommand;
+import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.init.entity.FieldDefaultValue;
 import com.dr.framework.common.form.init.entity.FieldDefaultValueInfo;
@@ -14,7 +15,7 @@ import org.springframework.util.Assert;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FormDefaultSelectPageCommand extends AbstractFormDefinitionIdCommand<Page> {
+public class FormDefaultSelectPageCommand extends AbstractFormDefinitionIdCommand implements Command<Page> {
     private int pageIndex;
     private int pageSize;
 

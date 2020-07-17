@@ -3,10 +3,9 @@ package com.dr.framework.common.form.core.command;
 /**
  * 更新表结构命令
  *
- * @param <T>
  * @author dr
  */
-public abstract class AbstractFormDefinitionChangeCommand<T> extends AbstractFormDefinitionIdCommand<T> {
+public abstract class AbstractFormDefinitionChangeCommand extends AbstractFormDefinitionIdCommand {
     /**
      * 是否生成数据库表
      */

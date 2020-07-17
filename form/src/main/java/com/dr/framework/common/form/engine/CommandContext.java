@@ -6,9 +6,9 @@ import com.dr.framework.common.form.core.service.FormDefinitionService;
 import com.dr.framework.common.form.init.service.FormDefaultValueService;
 import com.dr.framework.common.form.validate.service.ValidateDefaultService;
 import com.dr.framework.common.form.validate.service.ValidateService;
+import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationContext;
 
-import javax.cache.CacheManager;
 
 /**
  * 命令上下文，用来给命令提供上下文参数

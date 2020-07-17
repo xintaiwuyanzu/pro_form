@@ -1,6 +1,7 @@
 package com.dr.framework.common.form.init.command;
 
 import com.dr.framework.common.form.core.command.AbstractFormDefinitionIdCommand;
+import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.init.entity.FieldDefaultValue;
 import com.dr.framework.common.form.init.entity.FieldDefaultValueInfo;
@@ -13,7 +14,7 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 
-public class FormDefaultValueSelectOneCommand extends AbstractFormDefinitionIdCommand<FormDefault> {
+public class FormDefaultValueSelectOneCommand extends AbstractFormDefinitionIdCommand implements Command<FormDefault> {
     private String formDefaultValueId;
     private String linkCode;
 

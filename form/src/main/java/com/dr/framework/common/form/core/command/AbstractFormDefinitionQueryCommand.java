@@ -10,10 +10,8 @@ import org.springframework.util.StringUtils;
 
 /**
  * 抽象query表单定义查询类
- *
- * @param <T>
  */
-public abstract class AbstractFormDefinitionQueryCommand<T> extends AbstractFormDefinitionCommand<T> {
+public abstract class AbstractFormDefinitionQueryCommand extends AbstractFormDefinitionCommand {
     private FormDefinitionQuery query;
 
     public AbstractFormDefinitionQueryCommand(FormDefinitionQuery query) {

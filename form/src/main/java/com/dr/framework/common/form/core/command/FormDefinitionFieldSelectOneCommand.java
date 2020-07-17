@@ -2,6 +2,7 @@ package com.dr.framework.common.form.core.command;
 
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormField;
+import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -11,7 +12,7 @@ import org.springframework.util.StringUtils;
  *
  * @author dr
  */
-public class FormDefinitionFieldSelectOneCommand extends AbstractFormDefinitionIdCommand<FormField> {
+public class FormDefinitionFieldSelectOneCommand extends AbstractFormDefinitionIdCommand implements Command<FormField> {
     /**
      * 字段编码
      */

@@ -4,6 +4,7 @@ import com.dr.framework.common.form.core.command.AbstractFormDefinitionIdCommand
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.model.Field;
 import com.dr.framework.common.form.core.model.FormData;
+import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.engine.CommandExecutor;
 import com.dr.framework.common.form.init.entity.FormDefaultValue;
@@ -13,7 +14,7 @@ import com.dr.framework.common.form.init.service.FieldDefaultManager;
 import java.io.Serializable;
 import java.util.UUID;
 
-public class FormDataDefaultValueCommand extends AbstractFormDefinitionIdCommand<FormData> {
+public class FormDataDefaultValueCommand extends AbstractFormDefinitionIdCommand implements Command<FormData> {
     private String formDefaultValueId;
 
     public FormDataDefaultValueCommand(String formDefinitionId, String formDefaultValueId) {

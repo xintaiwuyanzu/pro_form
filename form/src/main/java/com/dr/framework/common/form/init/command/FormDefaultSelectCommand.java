@@ -1,6 +1,7 @@
 package com.dr.framework.common.form.init.command;
 
 import com.dr.framework.common.form.core.command.AbstractFormDefinitionIdCommand;
+import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.init.entity.FieldDefaultValue;
 import com.dr.framework.common.form.init.entity.FieldDefaultValueInfo;
@@ -14,7 +15,7 @@ import org.springframework.util.Assert;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FormDefaultSelectCommand extends AbstractFormDefinitionIdCommand<List<FormDefault>> {
+public class FormDefaultSelectCommand extends AbstractFormDefinitionIdCommand implements Command<List<FormDefault>> {
 
     public FormDefaultSelectCommand(String formDefinitionId) {
         super(formDefinitionId);

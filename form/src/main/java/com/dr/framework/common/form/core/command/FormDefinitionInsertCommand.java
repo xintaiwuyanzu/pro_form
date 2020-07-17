@@ -6,6 +6,7 @@ import com.dr.framework.common.form.core.entity.FormDefinitionInfo;
 import com.dr.framework.common.form.core.entity.FormField;
 import com.dr.framework.common.form.core.model.Field;
 import com.dr.framework.common.form.core.model.Form;
+import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.springframework.util.Assert;
@@ -14,7 +15,6 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.stream.Collectors;
 
 /**
  * 创建表单定义
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * @author dr
  * @author lich
  */
-public class FormDefinitionInsertCommand extends AbstractFormDefinitionCommand<FormDefinition> {
+public class FormDefinitionInsertCommand extends AbstractFormDefinitionCommand implements Command<FormDefinition> {
     /**
      * 表单定义
      */

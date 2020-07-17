@@ -30,7 +30,7 @@ public interface Form {
     String getFormCode();
 
     /**
-     * 获取表单名称set
+     * 获取表单名称
      *
      * @return
      */

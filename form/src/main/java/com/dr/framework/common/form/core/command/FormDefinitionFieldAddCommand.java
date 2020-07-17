@@ -3,6 +3,7 @@ package com.dr.framework.common.form.core.command;
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormField;
 import com.dr.framework.common.form.core.model.Field;
+import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import org.springframework.util.Assert;
 
@@ -11,7 +12,7 @@ import org.springframework.util.Assert;
  *
  * @author dr
  */
-public class FormDefinitionFieldAddCommand extends AbstractFormDefinitionChangeCommand<FormField> {
+public class FormDefinitionFieldAddCommand extends AbstractFormDefinitionChangeCommand implements Command<FormField> {
     /**
      * 字段定义
      */

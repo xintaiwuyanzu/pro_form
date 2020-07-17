@@ -42,36 +42,44 @@ public interface FormDefinitionService {
     Form addFormDefinition(Form form, Collection<Field> fields, boolean createTable);
 
     /**
-     * 更新表单定义
+     * 更新表单基本信息
      *
      * @param form
-     * @param fields
      * @return
      */
-    default Form updateFormDefinition(Form form, Collection<Field> fields) {
-        return updateFormDefinition(form, fields, DEFAULT_TABLE_OR_FIELD_CREATE);
+    Form updateFormDefinitionBaseInfo(Form form);
+
+    /**
+     * 根据表单定义生成表结构
+     *
+     * @param formDefinitionId
+     */
+    Form checkAndGenTable(String formDefinitionId);
+
+    /**
+     * 根据表单定义生成表结构
+     *
+     * @param formCode
+     */
+    Form checkAndGenTableByCodeAndVersion(String formCode, Integer version);
+
+    /**
+     * 根据表单编码生成查找默认的表单定义，并生成表结构
+     *
+     * @param formCode
+     * @return
+     */
+    default Form checkAndGenDefaultTableByCode(String formCode) {
+        return checkAndGenTableByCodeAndVersion(formCode, null);
     }
 
     /**
-     * 更新表单定义
+     * 根据表单编码生成所有的表结构
      *
-     * @param form
-     * @param fields
-     * @param updateTable
+     * @param formCode
      * @return
      */
-    default Form updateFormDefinition(Form form, Collection<Field> fields, boolean updateTable) {
-        return updateFormDefinition(form, fields, updateTable, updateTable);
-    }
-
-    /**
-     * @param form
-     * @param fields
-     * @param updateTable
-     * @param copyData
-     * @return
-     */
-    Form updateFormDefinition(Form form, Collection<Field> fields, boolean updateTable, boolean copyData);
+    List<? extends Form> checkAndGenAllTableByCode(String formCode);
 
     /**
      * 查询表单定义

@@ -3,6 +3,7 @@ package com.dr.framework.common.form.core.command;
 import com.dr.framework.common.form.core.model.Form;
 import com.dr.framework.common.form.core.model.FormData;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
+import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.common.page.Page;
@@ -12,7 +13,7 @@ import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
-public class FormDataSelectPageCommand extends AbstractFormDefinitionIdCommand<Page> {
+public class FormDataSelectPageCommand extends AbstractFormDefinitionIdCommand implements Command<Page> {
 
 
     private FormData formData;

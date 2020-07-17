@@ -1,6 +1,7 @@
 package com.dr.framework.common.form.core.entity;
 
 import com.dr.framework.common.entity.BaseStatusEntity;
+import com.dr.framework.common.form.core.model.Form;
 import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.core.orm.annotations.Column;
 import com.dr.framework.core.orm.annotations.Table;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
  * @author dr
  */
 @Table(name = Constants.TABLE_PREFIX + "FormDefinition", module = Constants.MODULE_NAME, comment = "表单数据")
-public class FormDefinition extends BaseStatusEntity<String> implements com.dr.framework.common.form.core.model.Form {
+public class FormDefinition extends BaseStatusEntity<String> implements Form {
 
     @Column(name = "formCode", comment = "表单编码")
     private String formCode;

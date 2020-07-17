@@ -7,11 +7,11 @@ import com.dr.framework.common.form.core.entity.FormField;
 import com.dr.framework.common.form.core.entity.FormFieldInfo;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-import javax.cache.Cache;
-import javax.cache.CacheManager;
 
 /**
  * 同意管理表单相关的cache
@@ -38,11 +38,9 @@ public class CacheUtil {
     public static FormDefinition getFormDefinitionFromCache(CommandContext context, String formDefinitionId) {
         Assert.isTrue(!StringUtils.isEmpty(formDefinitionId), "表单定义Id不能为空！");
         CacheManager cacheManager = context.getCacheManager();
-        Cache<String, FormDefinition> formDefinitionCache = cacheManager.getCache(FORM_CACHE_KEY);
-        FormDefinition formDefinition;
-        if (formDefinitionCache.containsKey(formDefinitionId)) {
-            formDefinition = formDefinitionCache.get(formDefinitionId);
-        } else {
+        Cache formDefinitionCache = cacheManager.getCache(FORM_CACHE_KEY);
+        FormDefinition formDefinition = formDefinitionCache.get(formDefinitionId, FormDefinition.class);
+        if (formDefinition == null) {
             CommonMapper commonMapper = context.getMapper();
             Assert.isTrue(!org.apache.commons.lang3.StringUtils.isEmpty(formDefinitionId), "表单定义Id不能为空！");
             formDefinition = commonMapper.selectById(FormDefinition.class, formDefinitionId);
@@ -66,9 +64,7 @@ public class CacheUtil {
     public static void removeCache(CommandContext context, String formDefinitionId) {
         Assert.isTrue(!StringUtils.isEmpty(formDefinitionId), "表单定义Id不能为空！");
         CacheManager cacheManager = context.getCacheManager();
-        Cache<String, FormDefinition> formDefinitionCache = cacheManager.getCache(FORM_CACHE_KEY);
-        if (formDefinitionCache.containsKey(formDefinitionId)) {
-            formDefinitionCache.remove(formDefinitionId);
-        }
+        Cache formDefinitionCache = cacheManager.getCache(FORM_CACHE_KEY);
+        formDefinitionCache.evictIfPresent(formDefinitionId);
     }
 }

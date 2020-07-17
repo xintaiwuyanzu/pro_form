@@ -4,8 +4,10 @@ import com.dr.framework.common.form.core.model.Form;
 import com.dr.framework.common.form.core.model.FormData;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
 import com.dr.framework.common.form.core.service.SqlBuilder;
+import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.util.Constants;
+import com.dr.framework.common.page.Page;
 import com.dr.framework.common.service.DataBaseService;
 import com.dr.framework.core.orm.jdbc.Relation;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
@@ -14,7 +16,7 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 
-public class FormDataSelectCommand extends AbstractFormDefinitionIdCommand<List> {
+public class FormDataSelectCommand extends AbstractFormDefinitionIdCommand implements Command<List<FormData>> {
 
     private SqlBuilder sqlBuilder;
 

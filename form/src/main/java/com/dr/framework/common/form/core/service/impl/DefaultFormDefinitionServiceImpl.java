@@ -8,6 +8,7 @@ import com.dr.framework.common.form.core.service.FormDefinitionService;
 import com.dr.framework.common.form.engine.CommandExecutor;
 import com.dr.framework.common.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
  *
  * @author dr
  */
+@Transactional(rollbackFor = Exception.class)
 public class DefaultFormDefinitionServiceImpl implements FormDefinitionService {
 
     @Autowired
@@ -27,10 +29,24 @@ public class DefaultFormDefinitionServiceImpl implements FormDefinitionService {
         return executor.execute(new FormDefinitionInsertCommand(form, fields, createTable));
     }
 
-    //TODO
     @Override
-    public Form updateFormDefinition(Form form, Collection<Field> fields, boolean updateTable, boolean copyData) {
-        return null;
+    public Form updateFormDefinitionBaseInfo(Form form) {
+        return executor.execute(new FormDefinitionUpdateBaseInfoCommand(form));
+    }
+
+    @Override
+    public Form checkAndGenTable(String formDefinitionId) {
+        return executor.execute(new FormDefinitionGenTableCommand(formDefinitionId));
+    }
+
+    @Override
+    public Form checkAndGenTableByCodeAndVersion(String formCode, Integer version) {
+        return executor.execute(new FormDefinitionGenTableCommand(formCode, version));
+    }
+
+    @Override
+    public List<? extends Form> checkAndGenAllTableByCode(String formCode) {
+        return executor.execute(new FormDefinitionGenAllTableByCodeCommand(formCode));
     }
 
     @Override

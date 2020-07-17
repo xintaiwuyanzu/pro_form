@@ -3,6 +3,7 @@ package com.dr.framework.common.form.core.command;
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormDefinitionInfo;
 import com.dr.framework.common.form.core.query.FormDefinitionQuery;
+import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.util.CacheUtil;
 import com.dr.framework.common.page.Page;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
  *
  * @author dr
  */
-public class FormDefinitionSelectPageCommand extends AbstractFormDefinitionQueryCommand<Page<FormDefinition>> {
+public class FormDefinitionSelectPageCommand extends AbstractFormDefinitionQueryCommand implements Command<Page<FormDefinition>> {
     private int pageIndex;
     private int pageSize;
 

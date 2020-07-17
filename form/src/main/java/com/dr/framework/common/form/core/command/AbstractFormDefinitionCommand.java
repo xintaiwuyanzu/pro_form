@@ -10,7 +10,6 @@ import com.dr.framework.common.form.core.model.Field;
 import com.dr.framework.common.form.core.model.Form;
 import com.dr.framework.common.form.core.plugin.CreateWorkFormPlugin;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
-import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.util.CacheUtil;
 import com.dr.framework.common.form.util.Constants;
@@ -30,7 +29,7 @@ import java.util.stream.Collectors;
 /**
  * 抽象父类，提供各个命令通用方法
  */
-public abstract class AbstractFormDefinitionCommand<T> implements Command<T> {
+public abstract class AbstractFormDefinitionCommand {
 
     protected void saveFormDefinition(CommandContext context, FormDefinition formDefinition) {
         CommonMapper mapper = context.getMapper();
@@ -57,6 +56,7 @@ public abstract class AbstractFormDefinitionCommand<T> implements Command<T> {
     protected void createTable(CommandContext context, FormDefinition formDefinition) {
         Assert.isTrue(formDefinition != null, "表单定义不能为空！");
         Assert.isTrue(formDefinition.getFormFieldList() != null && !formDefinition.getFormFieldList().isEmpty(), "表单字段不能为空！");
+        Assert.isTrue(!tableExist(context, formDefinition), "指定的物理表已经存在！");
 
         //表结构生成器
         DataBaseService dataBaseService = context.getApplicationContext().getBean(DataBaseService.class);
@@ -71,6 +71,23 @@ public abstract class AbstractFormDefinitionCommand<T> implements Command<T> {
         CommonMapper mapper = context.getMapper();
         mapper.updateIgnoreNullByQuery(SqlQuery.from(FormDefinition.class).set(FormDefinitionInfo.FORMTABLE, formDefinition.getFormTable()));
     }
+
+    /**
+     * 判断指定的表名称是否存在
+     *
+     * @param context
+     * @param formDefinition
+     * @return
+     */
+    protected boolean tableExist(CommandContext context, FormDefinition formDefinition) {
+        Assert.isTrue(formDefinition != null, "表单定义不能为空！");
+        FormNameGenerator formNameGenerator = context.getApplicationContext().getBean(FormNameGenerator.class);
+        String tableName = formNameGenerator.genTableName(formDefinition);
+        DataBaseService dataBaseService = context.getApplicationContext().getBean(DataBaseService.class);
+
+        return dataBaseService.tableExist(tableName, Constants.MODULE_NAME);
+    }
+
 
     /**
      * 创建表结构
@@ -202,6 +219,9 @@ public abstract class AbstractFormDefinitionCommand<T> implements Command<T> {
             formDefinition.setStatus(StatusEntity.STATUS_ENABLE_STR);
         }
         CommonService.bindCreateInfo(formDefinition);
+        if (formDefinition.getVersion() == null) {
+            formDefinition.setVersion(Constants.DEFAULT_VERSION);
+        }
     }
 
     protected boolean validateStatus(String status) {

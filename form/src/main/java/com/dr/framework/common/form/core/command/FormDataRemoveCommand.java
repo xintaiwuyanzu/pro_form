@@ -2,6 +2,7 @@ package com.dr.framework.common.form.core.command;
 
 import com.dr.framework.common.form.core.model.Form;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
+import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.common.service.DataBaseService;
@@ -10,7 +11,7 @@ import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
-public class FormDataRemoveCommand extends AbstractFormDefinitionIdCommand<Long> {
+public class FormDataRemoveCommand extends AbstractFormDefinitionIdCommand implements Command<Long> {
 
     private String formDataId;
 

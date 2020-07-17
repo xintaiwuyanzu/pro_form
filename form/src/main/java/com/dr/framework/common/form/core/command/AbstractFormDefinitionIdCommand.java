@@ -11,10 +11,8 @@ import org.springframework.util.StringUtils;
  * 传了formDefinitionId就根据formDefinitionId查询具体的数据
  * <p>
  * 否则按照code和版本号查询数据，版本号为空则查询默认的表单
- *
- * @param <T>
  */
-public abstract class AbstractFormDefinitionIdCommand<T> extends AbstractFormDefinitionVersionCommand<T> {
+public abstract class AbstractFormDefinitionIdCommand extends AbstractFormDefinitionVersionCommand {
     /**
      * 表单Id查询条件
      */
@@ -61,7 +59,7 @@ public abstract class AbstractFormDefinitionIdCommand<T> extends AbstractFormDef
         return formDefinitionId;
     }
 
-    public void setFormDefinitionId(String formDefinitionId) {
+    protected void setFormDefinitionId(String formDefinitionId) {
         this.formDefinitionId = formDefinitionId;
     }
 

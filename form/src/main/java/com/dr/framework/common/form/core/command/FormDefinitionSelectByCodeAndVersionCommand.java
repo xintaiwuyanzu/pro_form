@@ -1,6 +1,7 @@
 package com.dr.framework.common.form.core.command;
 
 import com.dr.framework.common.form.core.entity.FormDefinition;
+import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 
 /**
@@ -8,7 +9,7 @@ import com.dr.framework.common.form.engine.CommandContext;
  *
  * @author dr
  */
-public class FormDefinitionSelectByCodeAndVersionCommand extends AbstractFormDefinitionVersionCommand<FormDefinition> {
+public class FormDefinitionSelectByCodeAndVersionCommand extends AbstractFormDefinitionVersionCommand implements Command<FormDefinition> {
 
     public FormDefinitionSelectByCodeAndVersionCommand(String formCode, Integer version) {
         super(formCode, version);

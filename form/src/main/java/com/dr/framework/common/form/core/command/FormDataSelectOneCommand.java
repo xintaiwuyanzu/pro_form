@@ -3,6 +3,7 @@ package com.dr.framework.common.form.core.command;
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.model.FormData;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
+import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.common.service.DataBaseService;
@@ -16,7 +17,7 @@ import org.springframework.util.Assert;
  *
  * @author dr
  */
-public class FormDataSelectOneCommand extends AbstractFormDefinitionIdCommand<FormData> {
+public class FormDataSelectOneCommand extends AbstractFormDefinitionIdCommand implements Command<FormData> {
 
     private String formDataId;
 

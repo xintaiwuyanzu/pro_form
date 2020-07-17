@@ -7,6 +7,7 @@ import com.dr.framework.common.form.core.entity.FormField;
 import com.dr.framework.common.form.core.entity.FormFieldInfo;
 import com.dr.framework.common.form.core.query.FormDefinitionQuery;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
+import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.engine.CommandExecutor;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
@@ -19,7 +20,7 @@ import java.util.List;
  *
  * @author dr
  */
-public class FormDefinitionRemoveCommand extends AbstractFormDefinitionIdCommand<Long> {
+public class FormDefinitionRemoveCommand extends AbstractFormDefinitionIdCommand implements Command<Long> {
 
     private boolean dropTable;
 

@@ -3,6 +3,7 @@ package com.dr.framework.common.form.core.command;
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormDefinitionInfo;
 import com.dr.framework.common.form.core.query.FormDefinitionQuery;
+import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.util.CacheUtil;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
  *
  * @author dr
  */
-public class FormDefinitionSelectCommand extends AbstractFormDefinitionQueryCommand<List<FormDefinition>> {
+public class FormDefinitionSelectCommand extends AbstractFormDefinitionQueryCommand implements Command<List<FormDefinition>> {
 
     public FormDefinitionSelectCommand(FormDefinitionQuery query) {
         super(query);

@@ -1,15 +1,13 @@
 package com.dr.framework.common.form.core.command;
 
 import com.dr.framework.common.form.core.entity.FormDefinition;
-import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 
 /**
  * 默认版本查询的抽象父类
- *
- * @param <T>
  */
-public abstract class AbstractFormDefinitionVersionCommand<T> extends AbstractFormDefinitionCommand<T> implements Command<T> {
+public abstract class AbstractFormDefinitionVersionCommand extends AbstractFormDefinitionCommand {
+
     /**
      * 表单编码
      */
@@ -53,5 +51,13 @@ public abstract class AbstractFormDefinitionVersionCommand<T> extends AbstractFo
 
     public String getFormCode() {
         return formCode;
+    }
+
+    protected void setFormCode(String formCode) {
+        this.formCode = formCode;
+    }
+
+    protected void setVersion(Integer version) {
+        this.version = version;
     }
 }

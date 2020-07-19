@@ -50,8 +50,8 @@ public class FormDefinition extends BaseStatusEntity<String> implements Form {
     @Column(name = "isDefault", comment = "是否默认版本")
     private boolean isDefault;
 
-    @Column(name = "isInner", comment = "是否内部使用")
-    private boolean inner;
+    @Column(name = "isBuildIn", comment = "是否内部使用")
+    private boolean buildIn;
 
 
     private List<FormField> formFieldList;
@@ -72,7 +72,7 @@ public class FormDefinition extends BaseStatusEntity<String> implements Form {
             setStatus(form.getFormState());
             setDataObjectId(form.getDataObjectId());
             setVersion(form.getVersion());
-            setInner(form.isInner());
+            setBuildIn(form.isBuildIn());
             if (form instanceof FormDefinition) {
                 setFormTable(((FormDefinition) form).getFormTable());
             }
@@ -214,12 +214,12 @@ public class FormDefinition extends BaseStatusEntity<String> implements Form {
     }
 
     @Override
-    public boolean isInner() {
-        return inner;
+    public boolean isBuildIn() {
+        return buildIn;
     }
 
-    public void setInner(boolean inner) {
-        this.inner = inner;
+    public void setBuildIn(boolean buildIn) {
+        this.buildIn = buildIn;
     }
 
     public List<FormField> getFormFieldList() {

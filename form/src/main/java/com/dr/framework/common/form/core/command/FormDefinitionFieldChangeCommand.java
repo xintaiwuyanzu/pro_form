@@ -72,7 +72,7 @@ public class FormDefinitionFieldChangeCommand extends FormDefinitionFieldAddComm
     @Override
     protected FormDefinition copyFormDefinition(CommandContext context, FormDefinition old) {
         FormDefinition formDefinition = super.copyFormDefinition(context, old);
-        FormField oldField = old.getFieldByCode(getField().getFieldCode());
+        FormField oldField = formDefinition.getFieldByCode(getField().getFieldCode());
         formDefinition.getFormFieldList()
                 .removeIf(f -> f.getId().equalsIgnoreCase(oldField.getId()));
         return formDefinition;

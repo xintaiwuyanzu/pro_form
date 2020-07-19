@@ -73,7 +73,11 @@ public abstract class AbstractFormDefinitionCommand {
 
         //更新表结构
         CommonMapper mapper = context.getMapper();
-        mapper.updateIgnoreNullByQuery(SqlQuery.from(FormDefinition.class).set(FormDefinitionInfo.FORMTABLE, formDefinition.getFormTable()));
+        mapper.updateIgnoreNullByQuery(
+                SqlQuery.from(FormDefinition.class)
+                        .set(FormDefinitionInfo.FORMTABLE, formDefinition.getFormTable())
+                        .equal(FormDefinitionInfo.ID, formDefinition.getId())
+        );
     }
 
     /**
@@ -196,6 +200,9 @@ public abstract class AbstractFormDefinitionCommand {
     protected FormField newField(Field field) {
         FormField formField = new FormField(field);
         CommonService.bindCreateInfo(formField);
+        if (StringUtils.isEmpty(formField.getStatus())) {
+            formField.setStatus(StatusEntity.STATUS_ENABLE_STR);
+        }
         return formField;
     }
 
@@ -263,7 +270,9 @@ public abstract class AbstractFormDefinitionCommand {
         FormDefinition formDefinition = new FormDefinition(old);
         CommonService.bindCreateInfo(formDefinition);
         formDefinition.setId(UUID.randomUUID().toString());
-        formDefinition.setVersion(old.getVersion() + 1);
+        //查询最大版本
+        Integer max = getLastFormDefinitionVersion(context, old.getFormCode());
+        formDefinition.setVersion(max + 1);
 
         formDefinition.setFormFieldList(
                 old.getFormFieldList()
@@ -280,6 +289,24 @@ public abstract class AbstractFormDefinitionCommand {
                         .collect(Collectors.toList())
         );
         return formDefinition;
+    }
+
+    /**
+     * 获取指定表单的最大版本号
+     *
+     * @param context
+     * @param formCode
+     * @return
+     */
+    protected Integer getLastFormDefinitionVersion(CommandContext context, String formCode) {
+        Assert.isTrue(!StringUtils.isEmpty(formCode), "表单编码不能为空！");
+        FormDefinition max = context.getMapper()
+                .selectOneByQuery(
+                        SqlQuery.from(FormDefinition.class, false)
+                                .column(FormDefinitionInfo.VERSION.max())
+                                .equal(FormDefinitionInfo.FORMCODE, formCode)
+                );
+        return max == null ? Constants.DEFAULT_VERSION : max.getVersion();
     }
 
     /**

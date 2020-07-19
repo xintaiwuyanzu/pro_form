@@ -42,7 +42,7 @@ public class CacheUtil {
         FormDefinition formDefinition = formDefinitionCache.get(formDefinitionId, FormDefinition.class);
         if (formDefinition == null) {
             CommonMapper commonMapper = context.getMapper();
-            Assert.isTrue(!org.apache.commons.lang3.StringUtils.isEmpty(formDefinitionId), "表单定义Id不能为空！");
+            Assert.isTrue(!StringUtils.isEmpty(formDefinitionId), "表单定义Id不能为空！");
             formDefinition = commonMapper.selectById(FormDefinition.class, formDefinitionId);
             Assert.notNull(formDefinition, () -> "指定的表单Id不存在" + formDefinitionId);
             formDefinition.setFormFieldList(commonMapper.selectByQuery(

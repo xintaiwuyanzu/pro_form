@@ -58,6 +58,7 @@ public class ValidateDefinitionForm extends BaseStatusEntity<String> implements 
         this.validateCode = validateCode;
     }
 
+    @Override
     public String getValidateName() {
         return validateName;
     }
@@ -93,6 +94,7 @@ public class ValidateDefinitionForm extends BaseStatusEntity<String> implements 
         this.description = description;
     }
 
+    @Override
     public int getValidateOrder() {
         return validateOrder;
     }
@@ -101,6 +103,7 @@ public class ValidateDefinitionForm extends BaseStatusEntity<String> implements 
         this.validateOrder = validateOrder;
     }
 
+    @Override
     public String getVersion() {
         return version;
     }

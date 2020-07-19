@@ -2,13 +2,14 @@ spring:
   datasource:
     username: root
     password: root
-    url: jdbc:mysql://192.168.200.244:3306/drform?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    url: jdbc:mysql://192.168.200.244:3306/formtest?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     includeModules: sys,common,form
-    autoDDl: none
+    autoDDl: update
+  cache:
+    cache-names: common.form.definition
 server:
   port: 8081
 
 logging:
   level:
     com.dr.framework.common.dao.CommonMapper: debug
-

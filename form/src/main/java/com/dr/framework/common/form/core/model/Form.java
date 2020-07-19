@@ -90,6 +90,6 @@ public interface Form {
      *
      * @return
      */
-    boolean isInner();
+    boolean isBuildIn();
 
 }

@@ -411,11 +411,11 @@ public interface FormDefinitionService {
      * @return
      */
     default Field disableFieldByFormCode(String formCode, Integer version, String fieldCode) {
-        return changeFieldStatusByFormCode(formCode, version, fieldCode, StatusEntity.STATUS_ENABLE_STR);
+        return changeFieldStatusByFormCode(formCode, version, fieldCode, StatusEntity.STATUS_DISABLE_STR);
     }
 
     default Field enableField(String formDefinitionId, String fieldCode) {
-        return changeFieldStatus(formDefinitionId, fieldCode, StatusEntity.STATUS_DISABLE_STR);
+        return changeFieldStatus(formDefinitionId, fieldCode, StatusEntity.STATUS_ENABLE_STR);
     }
 
     default Field enableFieldByFormCode(String formCode, String fieldCode) {

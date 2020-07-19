@@ -1,62 +1,49 @@
 package com.dr.framework.common.form.core.command;
 
-import com.dr.framework.common.form.core.model.Form;
 import com.dr.framework.common.form.core.model.FormData;
-import com.dr.framework.common.form.core.service.FormNameGenerator;
+import com.dr.framework.common.form.core.model.FormRelationWrapper;
 import com.dr.framework.common.form.core.service.SqlBuilder;
-import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
-import com.dr.framework.common.form.util.Constants;
-import com.dr.framework.common.page.Page;
-import com.dr.framework.common.service.DataBaseService;
-import com.dr.framework.core.orm.jdbc.Relation;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.Assert;
 
+import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class FormDataSelectCommand extends AbstractFormDefinitionIdCommand implements Command<List<FormData>> {
-
-    private SqlBuilder sqlBuilder;
-
-    public FormDataSelectCommand(String formDefinitionId, SqlBuilder sqlBuilder) {
-        super(formDefinitionId);
-        this.sqlBuilder = sqlBuilder;
-    }
-
-    public FormDataSelectCommand(Integer version, String formDefinitionId, SqlBuilder sqlBuilder) {
-        super(formDefinitionId, version);
-        this.sqlBuilder = sqlBuilder;
-    }
-
+/**
+ * 表单查询语句
+ *
+ * @author dr
+ */
+public class FormDataSelectCommand extends AbstractFormDataSqlBuilderCommand<List<FormData>> {
     /**
-     * 查询这个表单下的所有实例数据
-     *
-     * @param context
-     * @return
+     * 是否查询所有的列
      */
-    @Override
-    public List<FormData> execute(CommandContext context) {
-        Assert.isTrue(StringUtils.isNotEmpty(getFormDefinitionId()), "表单id不能为空");
-        Form form = context.getFormDefinitionService().selectFormDefinitionById(getFormDefinitionId());
-        Assert.notNull(form, "系统未发现该表单定义");
-        //判断表是否存在
-        DataBaseService dataBaseService = context.getApplicationContext().getBean(DataBaseService.class);
-        FormNameGenerator formNameGenerator = context.getApplicationContext().getBean(FormNameGenerator.class);
-        Assert.isTrue(dataBaseService.tableExist(formNameGenerator.genTableName(form), Constants.MODULE_NAME), "未发现数据实例表");
-        //先查出来表结构定义对象
-        Relation relation = dataBaseService.getTableInfo(formNameGenerator.genTableName(form), Constants.MODULE_NAME);
-        //拼写查询条件
-        SqlQuery sqlQueryObj = SqlQuery.from(relation).setReturnClass(FormData.class);
-        if (sqlBuilder != null) {
-            sqlBuilder.buildSql(sqlQueryObj, relation);
-        }
-        //执行查询语句
-        return context.getMapper().selectByQuery(sqlQueryObj);
+    private boolean allColumn;
+
+    public FormDataSelectCommand(String formDefinitionId, boolean autoCheck, SqlBuilder sqlBuilder, boolean allColumn) {
+        super(formDefinitionId, autoCheck, sqlBuilder);
+        this.allColumn = allColumn;
     }
 
-    public SqlBuilder getSqlBuilder() {
-        return sqlBuilder;
+    public FormDataSelectCommand(String formCode, Integer version, boolean autoCheck, SqlBuilder sqlBuilder, boolean allColumn) {
+        super(formCode, version, autoCheck, sqlBuilder);
+        this.allColumn = allColumn;
+    }
+
+    @Override
+    protected List<FormData> doModifyTable(CommandContext context, FormRelationWrapper wrapper) {
+        SqlQuery<HashMap<String, Serializable>> sqlQuery = SqlQuery.from(wrapper.getRelation(), allColumn);
+        sqlQuery.setReturnClass(HashMap.class);
+        getSqlBuilder().buildSql(sqlQuery, wrapper);
+        return context.getMapper().selectByQuery(sqlQuery)
+                .stream()
+                .map(d -> mapFormData(wrapper, d))
+                .collect(Collectors.toList());
+    }
+
+    public boolean isAllColumn() {
+        return allColumn;
     }
 }

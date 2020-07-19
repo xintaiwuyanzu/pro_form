@@ -22,12 +22,13 @@ public class FormDefinitionGenAllTableByCodeCommand extends AbstractFormDefiniti
     @Override
     public List<FormDefinition> execute(CommandContext context) {
         Assert.isTrue(!StringUtils.isEmpty(formCode), "表单编码不能为空!");
-        List<FormDefinition> formDefinitions = context.getExecutor()
-                .execute(new FormDefinitionSelectCommand(
-                        new FormDefinitionQuery()
-                                .codeEqual(formCode)
-                                .statusEnable()
-                ));
+        List<FormDefinition> formDefinitions =
+                (List<FormDefinition>) context.getFormDefinitionService()
+                        .selectFormDefinitionByQuery(
+                                new FormDefinitionQuery()
+                                        .codeEqual(formCode)
+                                        .statusEnable()
+                        );
         formDefinitions.forEach(f -> {
             if (!tableExist(context, f)) {
                 createTable(context, f);

@@ -20,7 +20,7 @@ public class FormDefinitionUpdateBaseInfoCommand extends AbstractFormDefinitionI
 
     public FormDefinitionUpdateBaseInfoCommand(Form form) {
         super(null);
-        Assert.isTrue(form != null, "表单对象不能为空！");
+        Assert.isTrue(form != null, FORM_CAN_NOT_BE_NULL_ERROR);
         setFormDefinitionId(form.getId());
         setFormCode(form.getFormCode());
         setVersion(form.getVersion());
@@ -30,7 +30,7 @@ public class FormDefinitionUpdateBaseInfoCommand extends AbstractFormDefinitionI
     @Override
     public FormDefinition execute(CommandContext context) {
         FormDefinition formDefinition = getFormDefinition(context);
-        Assert.isTrue(formDefinition != null, "未查询到指定的表单定义！");
+        Assert.isTrue(formDefinition != null, FORM_CAN_NOT_BE_NULL_ERROR);
         SqlQuery sqlQuery = SqlQuery.from(FormDefinition.class).equal(FormDefinitionInfo.ID, formDefinition.getId());
         if (!StringUtils.isEmpty(form.getFormName())) {
             sqlQuery.set(FormDefinitionInfo.FORMNAME, form.getFormName());

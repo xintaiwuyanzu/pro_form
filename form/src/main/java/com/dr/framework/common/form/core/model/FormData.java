@@ -15,12 +15,36 @@ import java.util.HashMap;
  */
 public class FormData extends HashMap<String, Serializable> {
     public static final String FORM_DATA_ID_KEY = IdEntity.ID_COLUMN_NAME;
-
+    /**
+     * 表单定义Id
+     */
     private String formDefinitionId;
+    /**
+     * 表单数据Id
+     */
     private String formDataId;
 
+    /**
+     * 编码
+     */
+    private String formCode;
+    /**
+     * 版本
+     */
+    private Integer formVersion;
+
     public FormData(String formDefinitionId, String formDataId) {
+        this(formDefinitionId, null, null, formDataId);
+    }
+
+    public FormData(String formCode, Integer version, String formDataId) {
+        this(null, formCode, version, formDataId);
+    }
+
+    public FormData(String formDefinitionId, String formCode, Integer version, String formDataId) {
         this.formDefinitionId = formDefinitionId;
+        this.formCode = formCode;
+        this.formVersion = version;
         this.formDataId = formDataId;
         put(FORM_DATA_ID_KEY, formDataId);
     }
@@ -29,26 +53,47 @@ public class FormData extends HashMap<String, Serializable> {
         return formDefinitionId;
     }
 
-    public String getFormDataId() {
-        return formDataId;
+    public String getFormCode() {
+        return formCode;
     }
 
-    public String getStringValue(String keyOrAlias) {
-        return null;
+    public Integer getFormVersion() {
+        return formVersion;
     }
 
     public <T> T getFieldValue(Field field) {
+        if (field != null) {
+            String fieldCode = field.getFieldCode();
+
+            switch (field.getFieldType()) {
+                case STRING:
+                    return (T) getString(fieldCode);
+                case DATE:
+                case LONG:
+                    return (T) getLong(fieldCode);
+                case NUMBER:
+                    return (T) getNumber(fieldCode);
+                case BYTES:
+                    //TODO
+                default:
+                    return null;
+            }
+        }
         return null;
+    }
+
+    public String getId() {
+        return getString(FORM_DATA_ID_KEY);
     }
 
     /**
      * 获取字符串值
      *
-     * @param keyOrAlias
+     * @param codeOrAlias
      * @return
      */
-    public String getString(String keyOrAlias) {
-        Serializable sValue = get(keyOrAlias);
+    public String getString(String codeOrAlias) {
+        Serializable sValue = get(codeOrAlias);
         if (sValue != null) {
             return sValue.toString();
         }
@@ -58,11 +103,11 @@ public class FormData extends HashMap<String, Serializable> {
     /**
      * 获取boolean类型的值
      *
-     * @param keyOrAlias
+     * @param codeOrAlias
      * @return
      */
-    public Boolean getBoolean(String keyOrAlias) {
-        Serializable sValue = get(keyOrAlias);
+    public Boolean getBoolean(String codeOrAlias) {
+        Serializable sValue = get(codeOrAlias);
         if (sValue instanceof Boolean) {
             return (Boolean) sValue;
         }
@@ -79,11 +124,11 @@ public class FormData extends HashMap<String, Serializable> {
     /**
      * 获取 Integer值
      *
-     * @param keyOrAlias
+     * @param codeOrAlias
      * @return
      */
-    public Integer getInteger(String keyOrAlias) {
-        Number answer = getNumber(keyOrAlias);
+    public Integer getInteger(String codeOrAlias) {
+        Number answer = getNumber(codeOrAlias);
         if (answer == null) {
             return null;
         }
@@ -96,11 +141,11 @@ public class FormData extends HashMap<String, Serializable> {
     /**
      * 获取number值
      *
-     * @param keyOrAlias
+     * @param codeOrAlias
      * @return
      */
-    public Number getNumber(String keyOrAlias) {
-        Serializable answer = get(keyOrAlias);
+    public Number getNumber(String codeOrAlias) {
+        Serializable answer = get(codeOrAlias);
         if (answer != null) {
             if (answer instanceof Number) {
                 return (Number) answer;
@@ -119,11 +164,11 @@ public class FormData extends HashMap<String, Serializable> {
     /**
      * 获取long类型值
      *
-     * @param keyOrAlias
+     * @param codeOrAlias
      * @return
      */
-    public Long getLong(String keyOrAlias) {
-        Number answer = getNumber(keyOrAlias);
+    public Long getLong(String codeOrAlias) {
+        Number answer = getNumber(codeOrAlias);
         if (answer == null) {
             return null;
         }
@@ -136,11 +181,11 @@ public class FormData extends HashMap<String, Serializable> {
     /**
      * 获取Float
      *
-     * @param keyOrAlias
+     * @param codeOrAlias
      * @return
      */
-    public Float getFloat(String keyOrAlias) {
-        Number answer = getNumber(keyOrAlias);
+    public Float getFloat(String codeOrAlias) {
+        Number answer = getNumber(codeOrAlias);
         if (answer == null) {
             return null;
         }
@@ -153,11 +198,11 @@ public class FormData extends HashMap<String, Serializable> {
     /**
      * 获取Double值
      *
-     * @param keyOrAlias
+     * @param codeOrAlias
      * @return
      */
-    public Double getDouble(String keyOrAlias) {
-        Number answer = getNumber(keyOrAlias);
+    public Double getDouble(String codeOrAlias) {
+        Number answer = getNumber(codeOrAlias);
         if (answer == null) {
             return null;
         }
@@ -170,18 +215,18 @@ public class FormData extends HashMap<String, Serializable> {
     /**
      * 获取日期类型的数据
      *
-     * @param keyOrAlias
+     * @param codeOrAlias
      * @return
      */
-    public Date getDate(String keyOrAlias) {
-        Serializable answer = get(keyOrAlias);
+    public Date getDate(String codeOrAlias) {
+        Serializable answer = get(codeOrAlias);
         if (answer instanceof Date) {
             return (Date) answer;
         }
         if (answer instanceof Long) {
             return new Date((Long) answer);
         }
-        long v = getLong(keyOrAlias);
+        long v = getLong(codeOrAlias);
         return new Date(v);
     }
 

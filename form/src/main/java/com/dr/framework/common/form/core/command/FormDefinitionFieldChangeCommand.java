@@ -54,7 +54,7 @@ public class FormDefinitionFieldChangeCommand extends FormDefinitionFieldAddComm
             oldField.setRemarks(getField().getRemarks());
             oldField.setDataObjectId(getField().getDataObjectId());
 
-            oldField.setFieldAlias(String.join(",", getField().getFieldAlias()));
+            oldField.setFieldAliasStr(String.join(",", getField().getFieldAlias()));
             oldField.setLabel(getField().getLabel());
 
             mapper.updateById(oldField);

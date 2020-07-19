@@ -1,6 +1,6 @@
 package com.dr.framework.common.form.core.service;
 
-import com.dr.framework.core.orm.jdbc.Relation;
+import com.dr.framework.common.form.core.model.FormRelationWrapper;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
 
 /**
@@ -14,7 +14,7 @@ public interface SqlBuilder {
      * 构建sql语句
      *
      * @param sqlQuery
-     * @param relation
+     * @param formRelationWrapper 表单表结构对象
      */
-    void buildSql(SqlQuery sqlQuery, Relation relation);
+    void buildSql(SqlQuery sqlQuery, FormRelationWrapper formRelationWrapper);
 }

@@ -4,6 +4,12 @@ import com.dr.framework.common.entity.StatusEntity;
 
 /**
  * 表单查询类
+ * <p>
+ * code不为空的时候，版本为空，则查询默认版本
+ * <p>
+ * code不为空的时候，版本不为空，则查询指定版本
+ * <p>
+ * code不为空的时候，versionAll为true，则查询所有code的版本
  *
  * @author dr
  */
@@ -16,7 +22,6 @@ public class FormDefinitionQuery {
     private String typeEqual;
     private String status;
 
-    //code不为空的时候，版本为空，则查询默认版本
     private Integer version;
     private boolean versionAll;
 

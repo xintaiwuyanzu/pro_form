@@ -2,7 +2,9 @@ package com.dr.framework.common.form.core.command;
 
 
 import com.dr.framework.common.dao.CommonMapper;
+import com.dr.framework.common.entity.StatusEntity;
 import com.dr.framework.common.form.core.entity.FormDefinition;
+import com.dr.framework.common.form.core.entity.FormDefinitionInfo;
 import com.dr.framework.common.form.core.entity.FormField;
 import com.dr.framework.common.form.core.entity.FormFieldInfo;
 import com.dr.framework.common.form.core.model.Form;
@@ -10,7 +12,6 @@ import com.dr.framework.common.form.core.query.FormDefinitionQuery;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
-import com.dr.framework.common.form.engine.CommandExecutor;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.springframework.util.StringUtils;
 
@@ -74,9 +75,41 @@ public class FormDefinitionRemoveCommand extends AbstractFormDefinitionIdCommand
             }
         } else {
             count = doRemove(context, formDefinition);
+            //如果删除掉的是default版本，则设置最大可用版本为default
+            if (formDefinition.isDefault()) {
+                CommonMapper mapper = context.getMapper();
+
+                FormDefinition maxForm = mapper.selectOneByQuery(
+                        SqlQuery.from(FormDefinition.class, false)
+                                .column(FormDefinitionInfo.VERSION.max())
+                                .equal(FormDefinitionInfo.FORMCODE, formDefinition.getFormCode())
+                                .equal(FormDefinitionInfo.STATUS, StatusEntity.STATUS_ENABLE_STR)
+                );
+                if (maxForm != null) {
+                    //启用最大可用版本为default
+                    count += mapper.updateByQuery(
+                            SqlQuery.from(FormDefinition.class)
+                                    .set(FormDefinitionInfo.ISDEFAULT, true)
+                                    .equal(FormDefinitionInfo.FORMCODE, formDefinition.getFormCode())
+                                    .equal(FormDefinitionInfo.VERSION, maxForm.getVersion())
+                    );
+                }
+            }
         }
         return count;
 
+    }
+
+    @Override
+    protected FormDefinition getFormDefinition(CommandContext context) {
+        //只有明确了表单定义Id或者code和版本的时候，才查询到具体的表单定义
+        boolean fullParams = !StringUtils.isEmpty(getFormDefinitionId())
+                || (!StringUtils.isEmpty(getFormCode()) && getVersion() != null);
+        if (fullParams) {
+            return super.getFormDefinition(context);
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -92,7 +125,10 @@ public class FormDefinitionRemoveCommand extends AbstractFormDefinitionIdCommand
         //删除表单定义的数据
         long count = commonMapper.deleteById(FormDefinition.class, formDefinition.getId());
         //删除字段定义的数据
-        count += commonMapper.deleteByQuery(SqlQuery.from(FormField.class).equal(FormFieldInfo.FORMDEFINITIONID, getFormDefinitionId()));
+        count += commonMapper.deleteByQuery(
+                SqlQuery.from(FormField.class)
+                        .equal(FormFieldInfo.FORMDEFINITIONID, formDefinition.getId())
+        );
         if (dropTable) {
             FormNameGenerator nameGenerator = context.getFormNameGenerator();
             removeTable(context, nameGenerator.genTableName(formDefinition));

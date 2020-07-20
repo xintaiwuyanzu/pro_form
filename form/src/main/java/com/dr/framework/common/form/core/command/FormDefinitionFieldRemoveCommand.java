@@ -30,7 +30,8 @@ public class FormDefinitionFieldRemoveCommand extends FormDefinitionFieldSelectO
     public FormField execute(CommandContext context) {
         FormField formField = super.execute(context);
         if (formField != null) {
-            context.getMapper().deleteById(FormField.class, formField.getId());
+            Long num = context.getMapper().deleteById(FormField.class, formField.getId());
+//TODO 删除失败
             CacheUtil.removeCache(context, formField.getFormDefinitionId());
         }
         return formField;

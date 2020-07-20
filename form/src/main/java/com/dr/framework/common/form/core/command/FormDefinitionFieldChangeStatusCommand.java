@@ -45,24 +45,22 @@ public class FormDefinitionFieldChangeStatusCommand extends FormDefinitionFieldS
         Assert.isTrue(validateStatus(status), "字段状态格式不正确");
 
         FormField formField = null;
-        if (StatusEntity.STATUS_DISABLE_STR.equals(status)) {
+        formField = super.execute(context);
+        if (formField != null && !status.equalsIgnoreCase(formField.getStatus())) {
+            context.getMapper().updateIgnoreNullByQuery(
+                    SqlQuery.from(FormField.class)
+                            .set(FormFieldInfo.STATUS, status)
+                            .equal(FormFieldInfo.ID, formField.getId())
+            );
+            CacheUtil.removeCache(context, formField.getFormDefinitionId());
+        } else {
             FormDefinition formDefinition = getFormDefinition(context);
             context.getMapper().updateIgnoreNullByQuery(
                     SqlQuery.from(FormField.class)
-                            .set(FormFieldInfo.STATUS, StatusEntity.STATUS_ENABLE_STR)
+                            .set(FormFieldInfo.STATUS, status)
                             .equal(FormFieldInfo.FORMDEFINITIONID, formDefinition.getId())
                             .equal(FormFieldInfo.FIELDCODE, getFieldCode()));
             CacheUtil.removeCache(context, formDefinition.getId());
-        } else {
-            formField = super.execute(context);
-            if (formField != null && !status.equalsIgnoreCase(formField.getStatus())) {
-                context.getMapper().updateIgnoreNullByQuery(
-                        SqlQuery.from(FormField.class)
-                                .set(FormFieldInfo.STATUS, status)
-                                .equal(FormFieldInfo.ID, formField.getId())
-                );
-                CacheUtil.removeCache(context, formField.getFormDefinitionId());
-            }
         }
         return formField;
     }

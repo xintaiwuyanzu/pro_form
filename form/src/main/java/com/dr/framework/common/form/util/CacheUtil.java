@@ -48,7 +48,7 @@ public class CacheUtil {
             formDefinition.setFormFieldList(commonMapper.selectByQuery(
                     SqlQuery.from(FormField.class)
                             .equal(FormFieldInfo.FORMDEFINITIONID, formDefinition.getId())
-                            .equal(FormFieldInfo.STATUS, StatusEntity.STATUS_ENABLE_STR)
+                            .equal(FormFieldInfo.STATUS, StatusEntity.STATUS_ENABLE_STR)//TODO 删除时也只能删除字段状态为1的？
                     )
             );
             formDefinitionCache.put(formDefinitionId, formDefinition);

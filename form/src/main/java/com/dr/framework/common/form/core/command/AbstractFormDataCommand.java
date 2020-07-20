@@ -127,7 +127,7 @@ public abstract class AbstractFormDataCommand<T> extends AbstractFormDefinitionI
         //TODO
         @Override
         public Column getColumn(String fieldCodeOrAlias) {
-            return null;
+            return relation.getColumn(fieldCodeOrAlias);
         }
     }
 

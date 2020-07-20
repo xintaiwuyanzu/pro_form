@@ -34,13 +34,13 @@ public class FormDataText extends AbstractApplicationTest {
         System.out.println(formData);
     }
 
-    @Test
-    public void select() {
-        List<FormData> formData = formDataService.selectFormData((sqlQuery, relation) -> {
-            sqlQuery.equal(relation.getColumn("FORMDEFINITIONID"), "29eba72e-e041-4b3a-90e2-1b49b8bc302e");
-        });
-        System.out.println(formData);
-    }
+//    @Test
+//    public void select() {
+//        List<FormData> formData = formDataService.selectFormData((sqlQuery, relation) -> {
+//            sqlQuery.equal(relation.getColumn("FORMDEFINITIONID"), "29eba72e-e041-4b3a-90e2-1b49b8bc302e");
+//        });
+//        System.out.println(formData);
+//    }
 
     @Test
     public void field() {

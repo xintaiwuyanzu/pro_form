@@ -27,6 +27,7 @@ public class FormDataUpdateBySqlCommand extends AbstractFormDataSqlBuilderComman
         this.ignoreNull = ignoreNull;
     }
 
+    @Override
     protected Long doModifyTable(CommandContext context, FormRelationWrapper wrapper) {
         CommonMapper commonMapper = context.getMapper();
         SqlQuery sqlQuery = SqlQuery.from(wrapper.getRelation());

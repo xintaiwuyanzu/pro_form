@@ -87,7 +87,7 @@ public class FormDefinitionRemoveCommand extends AbstractFormDefinitionIdCommand
                 );
                 if (maxForm != null) {
                     //启用最大可用版本为default
-                    count += mapper.updateByQuery(
+                    count += mapper.updateIgnoreNullByQuery(
                             SqlQuery.from(FormDefinition.class)
                                     .set(FormDefinitionInfo.ISDEFAULT, true)
                                     .equal(FormDefinitionInfo.FORMCODE, formDefinition.getFormCode())

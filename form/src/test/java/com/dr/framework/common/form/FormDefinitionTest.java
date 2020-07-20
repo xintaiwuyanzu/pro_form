@@ -103,8 +103,8 @@ public class FormDefinitionTest {
 
     public FormField doCreateField() {
         FormField formField = new FormField();
-        formField.setFieldCode("danghao");
-        formField.setLabel("档号");
+        formField.setFieldCode("立档单位");
+        formField.setLabel("lidangdanwei");
         formField.setFieldTypeStr(FieldType.NUMBER);
 //        formField.setFieldLength(300);
         return formField;
@@ -152,15 +152,14 @@ public class FormDefinitionTest {
 
     @Test
     public void removeFormDefinitionAllByCode() {
-        FormDefinition definition = doCreateFormDefinition(true);
-        FormField formField = doCreateField();
-        formDefinitionService.addFieldByFormCode(definition.getFormCode(), formField, true);
-//        formDefinitionService.removeFormDefinitionAllByCode("ws", true);//TODO 未删除表定义和表，只把字段删掉了，并且其他formcode下的字段也一并删除了
-//        formDefinitionService.removeFormDefinitionAllByCode("ws");//TODO 未删除表定义和表，只把字段删掉了，并且其他formcode下的字段也一并删除了
+//        FormDefinition definition = doCreateFormDefinition(true);
+//        FormField formField = doCreateField();
+//        formDefinitionService.addFieldByFormCode("ws", formField, true);
+//        formDefinitionService.removeFormDefinitionAllByCode("ws", true);
+//        formDefinitionService.removeFormDefinitionAllByCode("ws");
 
 //        formDefinitionService.removeFormDefinitionByCodeAndVersion("ws",1,true);
-//        formDefinitionService.removeFormDefinitionById("42ce6c9c-56b1-4a6a-8c58-919994f53d4f", true);//TODO 未删除表定义和表，只把formdefineid相关的字段数据删掉了;如果把isdefalut的删掉对其他方法是否有影响
-
+        formDefinitionService.removeFormDefinitionById("07f5ef8c-db97-4b7a-bb88-fb5c881d8cb0", true);
     }
 
     @Test
@@ -177,13 +176,39 @@ public class FormDefinitionTest {
 //        FormDefinition formDefinition = (FormDefinition) formDefinitionService.selectFormDefinitionById("23ec8c25-ad02-43f6-94f8-5b2c7f2f1c3c");
         FormDefinitionQuery formDefinitionQuery = new FormDefinitionQuery();
 //        formDefinitionQuery.versionEqual(1);
-        formDefinitionQuery.codeEqual("ws");
-        List<FormDefinition> formDefinition = (List<FormDefinition>) formDefinitionService.selectFormDefinitionByQuery(formDefinitionQuery);//TODO code为ws应该返回两条只返回了一条数据
+        formDefinitionQuery.codeEqual("cs");
+        formDefinitionQuery.versionAll();
+//        List<FormDefinition> formDefinition = (List<FormDefinition>) formDefinitionService.selectFormDefinitionByQuery(formDefinitionQuery);
 
-//        Page<FormDefinition> page = (Page<FormDefinition>) formDefinitionService.selectPageFormDefinition(formDefinitionQuery, 0);//TODO code为ws应该返回两条只返回了一条数据
-//        Page<FormDefinition> page = (Page<FormDefinition>) formDefinitionService.selectPageFormDefinition(formDefinitionQuery, 0, 5);//TODO code为ws应该返回两条只返回了一条数据
+        Page<FormDefinition> page = (Page<FormDefinition>) formDefinitionService.selectPageFormDefinition(formDefinitionQuery, 0);
+//        Page<FormDefinition> page = (Page<FormDefinition>) formDefinitionService.selectPageFormDefinition(formDefinitionQuery, 0, 5);
 
-//        System.out.println(formDefinition);
+        System.out.println(page);
 
+    }
+
+    @Test
+    public void updateFormDefinitionBaseInfo() {
+        FormDefinition formDefinition = new FormDefinition();
+        formDefinition.setId("89e97792-cee3-4a2e-84ac-00665314ab09");
+        formDefinition.setFormName("文书类档案");
+        formDefinition.setRemarks("sss");//TODO 未更新全部字段
+        FormDefinition formDefinition2 = (FormDefinition) formDefinitionService.updateFormDefinitionBaseInfo(formDefinition);
+        System.out.println(formDefinition2);
+    }
+
+    @Test
+    public void add() {
+//        FormDefinition definition = doCreateFormDefinition(true);
+        FormField formField = doCreateField();
+        formDefinitionService.addFieldByFormCode("ws", formField, true);
+        //TODO 物理表已经存在，报异常，但是formdefiniton和formfield内容也添加成功了，未回滚
+    }
+
+    @Test
+    public void deleteField() {
+        //TODO 删除时也只能删除字段状态为1的？
+        FormField formField = (FormField) formDefinitionService.removeField("4662d427-4d4a-4558-ad37-0476e8c75728", "责任人");
+        System.out.println(formField);
     }
 }

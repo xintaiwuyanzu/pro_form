@@ -32,7 +32,7 @@ public class FormDefinitionFieldSelectOneCommand extends AbstractFormDefinitionI
     public FormField execute(CommandContext context) {
         Assert.isTrue(!StringUtils.isEmpty(fieldCode), "字段编码不能为空！");
         FormDefinition formDefinition = getFormDefinition(context);
-        Assert.notNull(formDefinition, "未查询到指定的表单定义！");
+        Assert.notNull(formDefinition, FORM_NOT_DEFINITION_ERROR);
         return formDefinition.getFieldByCode(fieldCode);
     }
 

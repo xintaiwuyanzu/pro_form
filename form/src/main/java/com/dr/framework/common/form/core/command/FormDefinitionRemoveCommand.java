@@ -5,6 +5,7 @@ import com.dr.framework.common.dao.CommonMapper;
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormField;
 import com.dr.framework.common.form.core.entity.FormFieldInfo;
+import com.dr.framework.common.form.core.model.Form;
 import com.dr.framework.common.form.core.query.FormDefinitionQuery;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
 import com.dr.framework.common.form.engine.Command;
@@ -60,17 +61,15 @@ public class FormDefinitionRemoveCommand extends AbstractFormDefinitionIdCommand
         if (formDefinition == null) {
             //如果没查出来表单，code不为空，version为空，则是按照code删除所有的表单定义
             if (!StringUtils.isEmpty(getFormCode()) && getVersion() == null) {
-                CommandExecutor executor = context.getExecutor();
-                List<FormDefinition> formDefinitions = executor.execute(
-                        new FormDefinitionSelectCommand(
+                List<? extends Form> formDefinitions = context.getFormDefinitionService()
+                        .selectFormDefinitionByQuery(
                                 new FormDefinitionQuery()
                                         .codeEqual(getFormCode())
                                         .statusAll()
                                         .versionAll()
-                        )
-                );
+                        );
                 if (formDefinitions != null) {
-                    count = formDefinitions.stream().mapToLong(f -> doRemove(context, f)).sum();
+                    count = formDefinitions.stream().mapToLong(f -> doRemove(context, (FormDefinition) f)).sum();
                 }
             }
         } else {
@@ -95,7 +94,7 @@ public class FormDefinitionRemoveCommand extends AbstractFormDefinitionIdCommand
         //删除字段定义的数据
         count += commonMapper.deleteByQuery(SqlQuery.from(FormField.class).equal(FormFieldInfo.FORMDEFINITIONID, getFormDefinitionId()));
         if (dropTable) {
-            FormNameGenerator nameGenerator = context.getApplicationContext().getBean(FormNameGenerator.class);
+            FormNameGenerator nameGenerator = context.getFormNameGenerator();
             removeTable(context, nameGenerator.genTableName(formDefinition));
             count++;
         }

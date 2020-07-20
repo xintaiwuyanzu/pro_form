@@ -3,9 +3,11 @@ package com.dr.framework.common.form.engine;
 import com.dr.framework.common.dao.CommonMapper;
 import com.dr.framework.common.form.core.service.FormDataService;
 import com.dr.framework.common.form.core.service.FormDefinitionService;
+import com.dr.framework.common.form.core.service.FormNameGenerator;
 import com.dr.framework.common.form.init.service.FormDefaultValueService;
 import com.dr.framework.common.form.validate.service.ValidateDefaultService;
 import com.dr.framework.common.form.validate.service.ValidateService;
+import com.dr.framework.common.service.DataBaseService;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationContext;
 
@@ -42,59 +44,60 @@ public interface CommandContext {
      *
      * @return
      */
-    default CacheManager getCacheManager() {
-        return getApplicationContext().getBean(CacheManager.class);
-    }
+    CacheManager getCacheManager();
 
     /**
      * =========================================================
      * 功能包之间相互调用通过service调用，不可以直接跨包调用command
      * =========================================================
      */
+    /**
+     * 获取表单名称生成器
+     *
+     * @return
+     */
+    FormNameGenerator getFormNameGenerator();
 
     /**
      * 获取表单定义service
      *
      * @return
      */
-    default FormDefinitionService getFormDefinitionService() {
-        return getApplicationContext().getBean(FormDefinitionService.class);
-    }
+    FormDefinitionService getFormDefinitionService();
 
     /**
      * 获取表单数据service
      *
      * @return
      */
-    default FormDataService getFormDataService() {
-        return getApplicationContext().getBean(FormDataService.class);
-    }
+    FormDataService getFormDataService();
+
+    /**
+     * 获取数据库操作工具类
+     *
+     * @return
+     */
+    DataBaseService getDataBaseService();
 
     /**
      * 获取校验服务
      *
      * @return
      */
-    default ValidateDefaultService getValidateDefaultService() {
-        return getApplicationContext().getBean(ValidateDefaultService.class);
-    }
+    ValidateDefaultService getValidateDefaultService();
 
     /**
      * 获取校验服务
      *
      * @return
      */
-    default ValidateService getValidateService() {
-        return getApplicationContext().getBean(ValidateService.class);
-    }
+    ValidateService getValidateService();
 
     /**
      * 获取默认值服务
      *
      * @return
      */
-    default FormDefaultValueService getFormDefaultValueService() {
-        return getApplicationContext().getBean(FormDefaultValueService.class);
-    }
+    FormDefaultValueService getFormDefaultValueService();
 
 }

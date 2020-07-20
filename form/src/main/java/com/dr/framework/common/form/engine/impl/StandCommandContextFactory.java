@@ -1,13 +1,22 @@
 package com.dr.framework.common.form.engine.impl;
 
 import com.dr.framework.common.dao.CommonMapper;
+import com.dr.framework.common.form.core.service.FormDataService;
+import com.dr.framework.common.form.core.service.FormDefinitionService;
+import com.dr.framework.common.form.core.service.FormNameGenerator;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.engine.CommandContextFactory;
 import com.dr.framework.common.form.engine.CommandExecutor;
+import com.dr.framework.common.form.init.service.FormDefaultValueService;
+import com.dr.framework.common.form.validate.service.ValidateDefaultService;
+import com.dr.framework.common.form.validate.service.ValidateService;
+import com.dr.framework.common.service.DataBaseService;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.util.Assert;
 
 /**
  * 默认上下文构建工厂
@@ -16,36 +25,50 @@ import org.springframework.context.ApplicationContextAware;
  */
 public class StandCommandContextFactory implements CommandContextFactory, ApplicationContextAware {
 
-    @Autowired
-    private CommonMapper commonMapper;
-    @Autowired
-    private CommandExecutor commandExecutor;
-
     private ApplicationContext applicationContext;
+
+    @Autowired
+    private CommonMapper mapper;
+    @Autowired
+    private CommandExecutor executor;
+
+    @Autowired
+    private CacheManager cacheManager;
+    @Autowired
+    private FormNameGenerator formNameGenerator;
+    @Autowired
+    private FormDefinitionService formDefinitionService;
+    @Autowired
+    private FormDataService formDataService;
+
+    @Autowired
+    private DataBaseService dataBaseService;
+
+    @Autowired
+    private ValidateDefaultService validateDefaultService;
+    @Autowired
+    private ValidateService validateService;
+    @Autowired
+    private FormDefaultValueService formDefaultValueService;
 
     @Override
     public CommandContext createCommandContext() {
-        StandCommandContext commandContext = new StandCommandContext();
-        commandContext.setMapper(commonMapper);
-        commandContext.setExecutor(commandExecutor);
-        commandContext.setApplicationContext(applicationContext);
-        return commandContext;
-    }
+        Assert.isTrue(applicationContext != null, "spring上下文不能为空！");
+        StandCommandContext context = new StandCommandContext();
+        context.setApplicationContext(applicationContext);
+        context.setMapper(mapper);
+        context.setExecutor(executor);
+        context.setCacheManager(cacheManager);
+        context.setFormNameGenerator(formNameGenerator);
 
-    public CommonMapper getCommonMapper() {
-        return commonMapper;
-    }
+        context.setFormDefinitionService(formDefinitionService);
+        context.setFormDataService(formDataService);
+        context.setDataBaseService(dataBaseService);
 
-    public void setCommonMapper(CommonMapper commonMapper) {
-        this.commonMapper = commonMapper;
-    }
-
-    public CommandExecutor getCommandExecutor() {
-        return commandExecutor;
-    }
-
-    public void setCommandExecutor(CommandExecutor commandExecutor) {
-        this.commandExecutor = commandExecutor;
+        context.setValidateDefaultService(validateDefaultService);
+        context.setValidateService(validateService);
+        context.setFormDefaultValueService(formDefaultValueService);
+        return context;
     }
 
     @Override

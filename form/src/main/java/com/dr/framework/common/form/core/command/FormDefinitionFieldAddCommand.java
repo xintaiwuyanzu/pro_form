@@ -32,7 +32,7 @@ public class FormDefinitionFieldAddCommand extends AbstractFormDefinitionChangeC
     public FormField execute(CommandContext context) {
         //获取原来的表单定义
         FormDefinition old = getFormDefinition(context);
-        Assert.isTrue(old != null, "未找到指定的表单！");
+        Assert.isTrue(old != null, FORM_NOT_DEFINITION_ERROR);
         //复制新的表单对象
         FormDefinition newFormDefinition = copyFormDefinition(context, old);
         newFormDefinition.setDefault(true);

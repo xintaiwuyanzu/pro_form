@@ -44,14 +44,11 @@ public class CoreFormAutoConfig {
      * 注入默认的命令执行器
      *
      * @param plugins
-     * @param commandContextFactory
      * @return
      */
     @Bean
     @ConditionalOnMissingBean
-    protected CommandExecutor commandExecutor(
-            @Autowired(required = false) List<CommandPlugin> plugins
-    ) {
+    protected CommandExecutor commandExecutor(@Autowired(required = false) List<CommandPlugin> plugins) {
         //构造标准的命令执行器
         StandCommandExecutor commandExecutor = new StandCommandExecutor();
         return new PlugInCommandExecutor(commandExecutor, plugins);

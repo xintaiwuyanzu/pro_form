@@ -23,7 +23,7 @@ public class FormDefinitionGenTableCommand extends AbstractFormDefinitionIdComma
     @Override
     public FormDefinition execute(CommandContext context) {
         FormDefinition formDefinition = getFormDefinition(context);
-        Assert.isTrue(formDefinition != null, "表单定义不能为空！");
+        Assert.isTrue(formDefinition != null, FORM_NOT_DEFINITION_ERROR);
         if (tableExist(context, formDefinition)) {
             logger.trace("指定的表已存在，不再重复生成，" + formDefinition.getFormTable());
         } else {

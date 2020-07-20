@@ -31,6 +31,9 @@ import java.util.stream.Collectors;
  * 抽象父类，提供各个命令通用方法
  */
 public abstract class AbstractFormDefinitionCommand {
+    protected static final String FORM_NOT_DEFINITION_ERROR = "未查询到指定的表单！";
+    protected static final String FORM_CAN_NOT_BE_NULL_ERROR = "表单定义不能为空！";
+
 
     protected void saveFormDefinition(CommandContext context, FormDefinition formDefinition) {
         CommonMapper mapper = context.getMapper();
@@ -55,14 +58,14 @@ public abstract class AbstractFormDefinitionCommand {
      * @param formDefinition
      */
     protected void createTable(CommandContext context, FormDefinition formDefinition) {
-        Assert.isTrue(formDefinition != null, "表单定义不能为空！");
+        Assert.isTrue(formDefinition != null, FORM_CAN_NOT_BE_NULL_ERROR);
         Assert.isTrue(formDefinition.getFormFieldList() != null && !formDefinition.getFormFieldList().isEmpty(), "表单字段不能为空！");
         Assert.isTrue(!tableExist(context, formDefinition), "指定的物理表已经存在！");
 
         //表结构生成器
-        DataBaseService dataBaseService = context.getApplicationContext().getBean(DataBaseService.class);
+        DataBaseService dataBaseService = context.getDataBaseService();
         //表名称生成器
-        FormNameGenerator formNameGenerator = context.getApplicationContext().getBean(FormNameGenerator.class);
+        FormNameGenerator formNameGenerator = context.getFormNameGenerator();
         //构建表结构对象
         Relation configedRelation = newRelation(context, formNameGenerator, formDefinition);
         //生成表结构
@@ -85,10 +88,10 @@ public abstract class AbstractFormDefinitionCommand {
      * @return
      */
     protected boolean tableExist(CommandContext context, FormDefinition formDefinition) {
-        Assert.isTrue(formDefinition != null, "表单定义不能为空！");
-        FormNameGenerator formNameGenerator = context.getApplicationContext().getBean(FormNameGenerator.class);
+        Assert.isTrue(formDefinition != null, FORM_CAN_NOT_BE_NULL_ERROR);
+        FormNameGenerator formNameGenerator = context.getFormNameGenerator();
         String tableName = formNameGenerator.genTableName(formDefinition);
-        DataBaseService dataBaseService = context.getApplicationContext().getBean(DataBaseService.class);
+        DataBaseService dataBaseService = context.getDataBaseService();
 
         return dataBaseService.tableExist(tableName, Constants.MODULE_NAME);
     }
@@ -103,7 +106,7 @@ public abstract class AbstractFormDefinitionCommand {
      * @return
      */
     protected Relation newRelation(CommandContext context, FormNameGenerator formNameGenerator, FormDefinition formDefinition) {
-        Assert.isTrue(formDefinition != null, "表单对象不能为空");
+        Assert.isTrue(formDefinition != null, FORM_CAN_NOT_BE_NULL_ERROR);
         ConfigedRelation relation = new ConfigedRelation(true);
         relation.setId(formDefinition.getId());
         relation.setModule(Constants.MODULE_NAME);
@@ -150,7 +153,7 @@ public abstract class AbstractFormDefinitionCommand {
      * @param tableName
      */
     protected void removeTable(CommandContext context, String tableName) {
-        DataBaseService dataBaseService = context.getApplicationContext().getBean(DataBaseService.class);
+        DataBaseService dataBaseService = context.getDataBaseService();
         dataBaseService.dropTable(tableName, Constants.MODULE_NAME);
     }
 
@@ -204,7 +207,7 @@ public abstract class AbstractFormDefinitionCommand {
     }
 
     protected FormDefinition newFormDefinition(CommandContext context, Form form) {
-        Assert.notNull(form, "表单对象不能为空！");
+        Assert.notNull(form, FORM_CAN_NOT_BE_NULL_ERROR);
         FormDefinition formDefinition = new FormDefinition(form);
         CommonService.bindCreateInfo(formDefinition);
         return formDefinition;

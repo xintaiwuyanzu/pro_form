@@ -1,17 +1,18 @@
 package com.dr.framework.common.form.core.command;
 
 import com.dr.framework.common.form.core.entity.FormDefinition;
+import com.dr.framework.common.form.core.model.Field;
 import com.dr.framework.common.form.core.model.Form;
 import com.dr.framework.common.form.core.model.FormData;
 import com.dr.framework.common.form.core.model.FormRelationWrapper;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
-import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.common.service.DataBaseService;
 import com.dr.framework.core.orm.jdbc.Column;
 import com.dr.framework.core.orm.jdbc.Relation;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -124,10 +125,15 @@ public abstract class AbstractFormDataCommand<T> extends AbstractFormDefinitionI
             return relation;
         }
 
-        //TODO
         @Override
         public Column getColumn(String fieldCodeOrAlias) {
-            return relation.getColumn(fieldCodeOrAlias);
+            Assert.isTrue(!StringUtils.isEmpty(fieldCodeOrAlias), "字段名称不能为空！");
+            Field field = formDefinition.getFieldByCode(fieldCodeOrAlias);
+            if (field == null) {
+                field = formDefinition.getFieldByAlias(fieldCodeOrAlias);
+            }
+            Assert.isTrue(field != null, () -> "未找到指定的字段" + fieldCodeOrAlias);
+            return relation.getColumn(field.getFieldCode());
         }
     }
 

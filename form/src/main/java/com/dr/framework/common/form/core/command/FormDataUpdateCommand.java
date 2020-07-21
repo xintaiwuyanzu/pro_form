@@ -20,6 +20,7 @@ public class FormDataUpdateCommand extends FormDataInsertCommand {
         this.ignoreNull = ignoreNull;
     }
 
+    @Override
     protected FormData doModifyTable(CommandContext context, FormRelationWrapper wrapper) {
         CommonMapper mapper = context.getMapper();
         //如果没有主键，则是添加数据

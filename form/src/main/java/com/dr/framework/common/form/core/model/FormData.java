@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 /**
  * 表单数据对象
+ * TODO code和别名的映射，key大小写问题
  *
  * @author dr
  */

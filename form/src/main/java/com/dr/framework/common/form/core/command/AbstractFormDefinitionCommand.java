@@ -121,7 +121,7 @@ public abstract class AbstractFormDefinitionCommand {
         idColumn.setSize(255);
         idColumn.setNullAble(TrueOrFalse.TRUE);
         relation.addColumn(idColumn);
-        relation.addPrimaryKey("pk", idColumn.getName(), 0);
+        relation.addPrimaryKey("", idColumn.getName(), 0);
 
         //通过插件拦截创建表结构行为
         Map<String, CreateWorkFormPlugin> workFormPluginMap = context.getApplicationContext().getBeansOfType(CreateWorkFormPlugin.class);

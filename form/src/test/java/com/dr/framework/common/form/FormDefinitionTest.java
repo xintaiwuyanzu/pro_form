@@ -45,7 +45,7 @@ public class FormDefinitionTest {
 
     FormDefinition doCreateFormDefinition(boolean createTable) {
         FormDefinition formDefinition = new FormDefinition();
-        formDefinition.setFormCode("ws");
+        formDefinition.setFormCode("ee");
         formDefinition.setFormName("文书档案");
         formDefinition.setFormType("gongwen");
         Collection<Field> list = new ArrayList<Field>();
@@ -65,7 +65,7 @@ public class FormDefinitionTest {
         formField1.setOrder(2);
 //        formField1.setFieldAliasStr("niandu");
         list.add(formField1);
-        FormDefinition form = (FormDefinition) formDefinitionService.addFormDefinition(formDefinition, list, true);
+        FormDefinition form = (FormDefinition) formDefinitionService.addFormDefinition(formDefinition, null, true);
 
         Assert.assertTrue("表单定义创建失败！", form != null);
         return form;
@@ -159,7 +159,7 @@ public class FormDefinitionTest {
 //        formDefinitionService.removeFormDefinitionAllByCode("ws");
 
 //        formDefinitionService.removeFormDefinitionByCodeAndVersion("ws",1,true);
-        formDefinitionService.removeFormDefinitionById("07f5ef8c-db97-4b7a-bb88-fb5c881d8cb0", true);
+        formDefinitionService.removeFormDefinitionById("e6be1844-6c19-4624-9692-0bfd314d66ef", false);
     }
 
     @Test
@@ -199,9 +199,9 @@ public class FormDefinitionTest {
 
     @Test
     public void add() {
-//        FormDefinition definition = doCreateFormDefinition(true);
+        FormDefinition definition = doCreateFormDefinition(true);
         FormField formField = doCreateField();
-        formDefinitionService.addFieldByFormCode("ws", formField, true);
+        formDefinitionService.addFieldByFormCode(definition.getFormCode(), formField, true);
         //TODO 物理表已经存在，报异常，但是formdefiniton和formfield内容也添加成功了，未回滚
     }
 
@@ -210,5 +210,44 @@ public class FormDefinitionTest {
         //TODO 删除时也只能删除字段状态为1的？
         FormField formField = (FormField) formDefinitionService.removeField("4662d427-4d4a-4558-ad37-0476e8c75728", "责任人");
         System.out.println(formField);
+    }
+
+    @Test
+    public void addFormTest() {
+//        List<Field> fieldList = new ArrayList<>();
+//        for (FileField fileField : FileField.values()) {
+//            fieldList.add(fileField);
+//            Object value = fileField.getLabel();
+//            System.out.println(value);
+//        }
+//        System.out.println(fieldList);
+//        FormDefinition formDefinition = new FormDefinition();
+//        formDefinition.setFormCode("GW");
+//        formDefinition.setFormName("文书档案");
+//        formDefinition.setFormType("gongwen");
+//        FormDefinition form = (FormDefinition) formDefinitionService.addFormDefinition(formDefinition, fieldList, true);
+//        System.out.println(form);
+        FormDefinition formDefinition = new FormDefinition();
+        formDefinition.setFormCode("cs");
+        formDefinition.setFormName("文书档案");
+        formDefinition.setFormType("gongwen");
+        Collection<Field> list = new ArrayList<Field>();
+        FormField formField = new FormField();
+        formField.setFieldCode("quanzong");
+        formField.setLabel("全宗");
+        formField.setFieldTypeStr(FieldType.STRING);
+        formField.setFieldLength(200);
+//        formField.setFieldAliasStr("quanzong");
+        formField.setOrder(1);
+        list.add(formField);
+        FormField formField1 = new FormField();
+        formField1.setFieldCode("niandu");
+        formField1.setLabel("年度");
+        formField1.setFieldTypeStr(FieldType.LONG);
+//        formField1.setFieldLength(10);
+        formField1.setOrder(2);
+//        formField1.setFieldAliasStr("niandu");
+        list.add(formField1);
+        FormDefinition form = (FormDefinition) formDefinitionService.addFormDefinition(formDefinition, list, true);
     }
 }

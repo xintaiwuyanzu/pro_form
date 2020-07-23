@@ -1,8 +1,11 @@
 spring:
   datasource:
-    username: root
-    password: root
-    url: jdbc:mysql://192.168.200.244:3306/formtest?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true
+#    username: root
+#    password: root
+#    url: jdbc:mysql://192.168.200.244:3306/formtest?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true
+    url: jdbc:sqlserver://192.168.200.248:1433;database=archive
+    username: sa
+    password: 123456a?
     includeModules: sys,common,form
     autoDDl: update
   cache:

@@ -79,11 +79,34 @@ public class FormDefinition extends BaseStatusEntity<String> implements Form {
         }
     }
 
-
+    /**
+     * TODO 这个应该放到hashmap中提高性能
+     *
+     * @param code
+     * @return
+     */
     public FormField getFieldByCode(String code) {
         if (formFieldList != null) {
             for (FormField formField : formFieldList) {
                 if (formField.getFieldCode().equals(code)) {
+                    return formField;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * TODO 这个应该放到hashmap中提高性能
+     * 根据别名获取字段
+     *
+     * @param alias
+     * @return
+     */
+    public FormField getFieldByAlias(String alias) {
+        if (formFieldList != null) {
+            for (FormField formField : formFieldList) {
+                if (formField.getFieldAlias() != null && formField.getFieldAlias().contains(alias)) {
                     return formField;
                 }
             }

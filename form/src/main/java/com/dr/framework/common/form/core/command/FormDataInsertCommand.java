@@ -33,7 +33,7 @@ public class FormDataInsertCommand extends AbstractFormDataCommand<FormData> imp
         if (!StringUtils.isEmpty(formData.getId())) {
             formData.put(FormData.FORM_DATA_ID_KEY, UUID.randomUUID().toString());
         }
-        //TODO
+        //TODO  字段映射还有问题
         SqlQuery sqlQuery = SqlQuery.from(wrapper.getRelation());
         sqlQuery.putAll(formData);
         context.getMapper().insertByQuery(sqlQuery);

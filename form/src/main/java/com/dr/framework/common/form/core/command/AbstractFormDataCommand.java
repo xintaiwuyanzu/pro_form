@@ -6,6 +6,7 @@ import com.dr.framework.common.form.core.model.Form;
 import com.dr.framework.common.form.core.model.FormData;
 import com.dr.framework.common.form.core.model.FormRelationWrapper;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
+import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.common.service.DataBaseService;
@@ -46,7 +47,7 @@ public abstract class AbstractFormDataCommand<T> extends AbstractFormDefinitionI
                 "未生成表结构！"
         );
         FormRelationWrapper wrapper = getFormRelation(context, formDefinition);
-        return doModifyTable(context, wrapper);
+        return doModifyData(context, wrapper);
     }
 
     /**
@@ -74,7 +75,7 @@ public abstract class AbstractFormDataCommand<T> extends AbstractFormDefinitionI
      * @param wrapper
      * @return
      */
-    protected abstract T doModifyTable(CommandContext context, FormRelationWrapper wrapper);
+    protected abstract T doModifyData(CommandContext context, FormRelationWrapper wrapper);
 
 
     protected FormData mapFormData(FormRelationWrapper wrapper, HashMap<String, Serializable> data) {
@@ -132,8 +133,13 @@ public abstract class AbstractFormDataCommand<T> extends AbstractFormDefinitionI
             if (field == null) {
                 field = formDefinition.getFieldByAlias(fieldCodeOrAlias);
             }
-            Assert.isTrue(field != null, () -> "未找到指定的字段" + fieldCodeOrAlias);
-            return relation.getColumn(field.getFieldCode());
+            String columnName = fieldCodeOrAlias;
+            if (field != null) {
+                columnName = field.getFieldCode();
+            } else {
+                Command.logger.warn("未找到指定的字段,使用默认参数查询列：{}", fieldCodeOrAlias);
+            }
+            return relation.getColumn(columnName);
         }
     }
 

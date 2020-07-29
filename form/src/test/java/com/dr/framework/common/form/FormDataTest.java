@@ -35,14 +35,14 @@ public class FormDataTest {
 
     @Test
     public void addFormData() {
-        FormData formData = new FormData("b35fe585-a45f-4541-972c-25bf9c694ab0", UUID.randomUUID().toString());
+        FormData formData = new FormData("a4b72521-7492-4803-81f5-acc8c49daf85", UUID.randomUUID().toString());
 //        formData.put("id", UUID.randomUUID().toString());
 //        formData.put("quanzong1", "XZ");
-//        formData.put("quanzong", 2);
-//        formData.put("niandu", "22");
+        formData.put("quanzong", "SDDR");
+        formData.put("niandu", 22);
 //        formData.put("niandu", "测试");
 //        formData.put("niandu", "1111111111");
-        formData.put("niandu", 1111111111);
+//        formData.put("niandu", 1111111111);
         formDataService.addFormData(formData);
     }
 
@@ -105,18 +105,18 @@ public class FormDataTest {
 
     @Test
     public void updateFormDataById() {
-        FormData formData = new FormData("b35fe585-a45f-4541-972c-25bf9c694ab0", "a44896fa-4c57-4cf6-981a-1fe57d40c966");
+        FormData formData = new FormData("a4b72521-7492-4803-81f5-acc8c49daf85", "9f0c3e8a-4a7b-48dc-92b6-bf6abf6ac7a0");
         formData.put("niandu", 2020);
-        formData.put("danghao", 2020);
-        FormData formDataNew = formDataService.updateFormDataById(formData);
+        formData.put("quanzong", "2020");
+        FormData formDataNew = formDataService.updateFormDataIgnoreNullById(formData);
         System.out.println(formDataNew);
     }
 
     @Test
     public void updateFormDataBySqlBuilder() {
         SqlBuilder sqlBuilder = (sqlQuery, formRelationWrapper) -> {
-            sqlQuery.set(formRelationWrapper.getColumn("quanzong"), "XZ");
-            sqlQuery.equal(formRelationWrapper.getColumn("niandu"), "2019");
+            sqlQuery.set(formRelationWrapper.getColumn("quanzong"), "XZ")
+                    .equal(formRelationWrapper.getColumn("niandu"), "2019");
         };
         Long num = formDataService.updateFormDataBySqlBuilder("89e97792-cee3-4a2e-84ac-00665314ab09", sqlBuilder, true);
 //        Long num = formDataService.updateFormDataIgnoreNullBySqlBuilder("b35fe585-a45f-4541-972c-25bf9c694ab0", sqlBuilder);

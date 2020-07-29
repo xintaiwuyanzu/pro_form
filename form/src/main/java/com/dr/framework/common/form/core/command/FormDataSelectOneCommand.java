@@ -40,7 +40,7 @@ public class FormDataSelectOneCommand extends AbstractFormDataCommand<FormData> 
     }
 
     @Override
-    protected FormData doModifyTable(CommandContext context, FormRelationWrapper wrapper) {
+    protected FormData doModifyData(CommandContext context, FormRelationWrapper wrapper) {
         HashMap<String, Serializable> data =
                 context.getMapper()
                         .selectOneByQuery(

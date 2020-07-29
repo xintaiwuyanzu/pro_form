@@ -21,11 +21,11 @@ public class FormDataUpdateCommand extends FormDataInsertCommand {
     }
 
     @Override
-    protected FormData doModifyTable(CommandContext context, FormRelationWrapper wrapper) {
+    protected FormData doModifyData(CommandContext context, FormRelationWrapper wrapper) {
         CommonMapper mapper = context.getMapper();
         //如果没有主键，则是添加数据
         if (StringUtils.isEmpty(getFormData().getId())) {
-            return super.doModifyTable(context, wrapper);
+            return super.doModifyData(context, wrapper);
         } else {
             SqlQuery sqlQuery = SqlQuery.from(wrapper.getRelation()).equal(wrapper.idColumn(), getFormData().getId());
             if (mapper.existsByQuery(sqlQuery)) {
@@ -37,7 +37,7 @@ public class FormDataUpdateCommand extends FormDataInsertCommand {
                 }
                 return getFormData();
             } else {
-                return super.doModifyTable(context, wrapper);
+                return super.doModifyData(context, wrapper);
             }
         }
     }

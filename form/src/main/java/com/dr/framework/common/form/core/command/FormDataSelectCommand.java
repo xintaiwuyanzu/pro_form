@@ -33,7 +33,7 @@ public class FormDataSelectCommand extends AbstractFormDataSqlBuilderCommand<Lis
     }
 
     @Override
-    protected List<FormData> doModifyTable(CommandContext context, FormRelationWrapper wrapper) {
+    protected List<FormData> doModifyData(CommandContext context, FormRelationWrapper wrapper) {
         SqlQuery<HashMap<String, Serializable>> sqlQuery = SqlQuery.from(wrapper.getRelation(), allColumn);
         sqlQuery.setReturnClass(HashMap.class);
         getSqlBuilder().buildSql(sqlQuery, wrapper);

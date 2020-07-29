@@ -214,22 +214,9 @@ public class FormDefinitionTest {
 
     @Test
     public void addFormTest() {
-//        List<Field> fieldList = new ArrayList<>();
-//        for (FileField fileField : FileField.values()) {
-//            fieldList.add(fileField);
-//            Object value = fileField.getLabel();
-//            System.out.println(value);
-//        }
-//        System.out.println(fieldList);
-//        FormDefinition formDefinition = new FormDefinition();
-//        formDefinition.setFormCode("GW");
-//        formDefinition.setFormName("文书档案");
-//        formDefinition.setFormType("gongwen");
-//        FormDefinition form = (FormDefinition) formDefinitionService.addFormDefinition(formDefinition, fieldList, true);
-//        System.out.println(form);
         FormDefinition formDefinition = new FormDefinition();
-        formDefinition.setFormCode("cs");
-        formDefinition.setFormName("文书档案");
+        formDefinition.setFormCode("xz");
+        formDefinition.setFormName("行政类");
         formDefinition.setFormType("gongwen");
         Collection<Field> list = new ArrayList<Field>();
         FormField formField = new FormField();

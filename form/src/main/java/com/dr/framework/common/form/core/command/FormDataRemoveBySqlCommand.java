@@ -21,7 +21,7 @@ public class FormDataRemoveBySqlCommand extends AbstractFormDataSqlBuilderComman
     }
 
     @Override
-    protected Long doModifyTable(CommandContext context, FormRelationWrapper wrapper) {
+    protected Long doModifyData(CommandContext context, FormRelationWrapper wrapper) {
         SqlQuery sqlQuery = SqlQuery.from(wrapper.getRelation());
         getSqlBuilder().buildSql(sqlQuery, wrapper);
         return context.getMapper()

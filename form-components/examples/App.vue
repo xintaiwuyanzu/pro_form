@@ -6,6 +6,7 @@
                 v-if="!edit"
                 :schema="schema"
                 :data="data"
+                displayType="table"
                 width="600px"
         />
         <form-editor class='content' v-else/>

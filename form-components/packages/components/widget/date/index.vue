@@ -3,15 +3,15 @@
             :type="type"
             :value="data"
             @input="v=>parent[name]=v"
-            placeholder="选择日期时间">
+            :placeholder="placeholder">
     </el-date-picker>
 </template>
 
 <script>
-    import base from "../../base";
+    import selectBase from "../selectBase";
 
     export default {
-        extends: base,
+        extends: selectBase,
         computed: {
             /**
              * 显示类型，从schema format中提取

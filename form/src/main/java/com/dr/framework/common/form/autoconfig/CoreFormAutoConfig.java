@@ -28,7 +28,7 @@ import java.util.List;
  * @author dr
  */
 @Configuration
-public class CoreFormAutoConfig {
+class CoreFormAutoConfig {
     /**
      * 注入默认的contextFactory
      *

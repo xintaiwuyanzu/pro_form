@@ -1,5 +1,6 @@
 import {Component, Prop, Vue} from "vue-property-decorator";
 import {JSONSchema7} from "json-schema";
+// @ts-ignore
 import {containers, layouts, widgetMapping, widgets} from '../components'
 // @ts-ignore
 import {parser} from '../utils/parser'

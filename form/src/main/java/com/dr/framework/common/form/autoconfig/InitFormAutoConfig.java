@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class InitFormAutoConfig {
+class InitFormAutoConfig {
 
     /**
      * 注入默认的表单默认值service

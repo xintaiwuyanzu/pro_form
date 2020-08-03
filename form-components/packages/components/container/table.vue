@@ -1,9 +1,12 @@
 <template>
-    <el-table :data="tableData" style="width: 100%">
-        <slot/>
-    </el-table>
+    <el-table-column
+            :label="label"
+            :min-width="labelWidth">
+        <template>
+            <slot/>
+        </template>
+    </el-table-column>
 </template>
-
 <script>
     import base from "../base";
 
@@ -11,7 +14,3 @@
         extends: base
     }
 </script>
-
-<style scoped>
-
-</style>

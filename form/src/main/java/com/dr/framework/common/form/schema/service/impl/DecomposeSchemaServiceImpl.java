@@ -1,7 +1,5 @@
 package com.dr.framework.common.form.schema.service.impl;
 
-import com.dr.framework.common.form.autoconfig.CoreFormAutoConfig;
-import com.dr.framework.common.form.autoconfig.InitFormAutoConfig;
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormField;
 import com.dr.framework.common.form.core.model.Field;
@@ -32,12 +30,11 @@ import java.util.*;
 public class DecomposeSchemaServiceImpl implements DecomposeSchemaService {
     Logger logger = LoggerFactory.getLogger(DecomposeSchemaService.class);
     @Autowired
-    CoreFormAutoConfig coreFormAutoConfig;
-
-    @Autowired
-    InitFormAutoConfig initFormAutoConfig;
-    @Autowired
     ObjectMapper objectMapper;
+    @Autowired
+    FormDefaultValueService formDefaultValueService;
+    @Autowired
+    FormDefinitionService formDefinitionService;
 
     /**
      * 解析传过来的JsonSchema数据
@@ -134,7 +131,6 @@ public class DecomposeSchemaServiceImpl implements DecomposeSchemaService {
             }
         }
         formDefinition.setFormFieldList(formFields);
-        FormDefinitionService formDefinitionService = coreFormAutoConfig.formDefinitionService();
         Form form = formDefinitionService.addFormDefinition(formDefinition, fields, true);
         return form;
     }
@@ -212,7 +208,6 @@ public class DecomposeSchemaServiceImpl implements DecomposeSchemaService {
                 }
             }
         }
-        FormDefaultValueService formDefaultValueService = initFormAutoConfig.formDefaultValueService();
         formDefaultValueService.addFormDefaultValue(formDefaultValue, fieldDefaults);
         formDefaultValue.setFieldDefaultList(fieldDefaultValues);
         return formDefaultValue;

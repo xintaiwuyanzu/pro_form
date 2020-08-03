@@ -4,15 +4,15 @@
     </div>
 </template>
 
-<script lang="ts">
+<script>
     import {Component, Vue} from "vue-property-decorator";
-    import {configs} from '../../components'
+    import {configs} from '../../components/index'
 
     @Component
     export default class EditorLeft extends Vue {
         configs = configs
 
-        nodeClick(data: ComponentConfig) {
+        nodeClick(data) {
             this.$emit('currentChange', data)
         }
     }

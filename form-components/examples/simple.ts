@@ -12,6 +12,7 @@ export default {
             "field2": {
                 "title": "单输入框",
                 "type": "string",
+                "ui:labelWidth": '300'
             },
             "select": {
                 "title": "单选",

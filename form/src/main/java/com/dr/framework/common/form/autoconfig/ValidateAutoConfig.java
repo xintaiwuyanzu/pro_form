@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
  * @author dr
  */
 @Configuration
-public class ValidateAutoConfig {
+class ValidateAutoConfig {
     /**
      * 注入默认的校验service
      *

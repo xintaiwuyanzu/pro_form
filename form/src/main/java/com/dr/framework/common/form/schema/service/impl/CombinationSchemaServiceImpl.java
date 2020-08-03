@@ -1,8 +1,5 @@
 package com.dr.framework.common.form.schema.service.impl;
 
-import com.dr.framework.common.form.autoconfig.CoreFormAutoConfig;
-import com.dr.framework.common.form.autoconfig.InitFormAutoConfig;
-import com.dr.framework.common.form.autoconfig.ValidateAutoConfig;
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormField;
 import com.dr.framework.common.form.core.service.FormDefinitionService;
@@ -22,20 +19,18 @@ import java.util.Collection;
 
 @Service
 public class CombinationSchemaServiceImpl implements CombinationSchemaService {
-
     @Autowired
-    CoreFormAutoConfig coreFormAutoConfig;
+    FormDefinitionService formDefinitionService;
     @Autowired
-    InitFormAutoConfig initFormAutoConfig;
+    FormDefaultValueService formDefaultValueService;
     @Autowired
-    ValidateAutoConfig validateAutoConfig;
+    ValidateDefaultService validateDefaultService;
     @Autowired
     ObjectMapper objectMapper;
 
     @Override
     public String combinationJson(String formDefinitionId) throws JsonProcessingException {
         Assert.isTrue(!StringUtils.isEmpty(formDefinitionId), "表单定义id不能为空！");
-        FormDefinitionService formDefinitionService = coreFormAutoConfig.formDefinitionService();
         FormDefinition formDefinition = (FormDefinition) formDefinitionService.selectFormDefinitionById(formDefinitionId);
         ObjectNode jsonNode = objectMapper.createObjectNode();
 
@@ -73,12 +68,9 @@ public class CombinationSchemaServiceImpl implements CombinationSchemaService {
         map.put("default", "");
 
         //根据表单定义iD查询表单默认值 ，并拼接在返回的类中
-        FormDefaultValueService formDefaultValueService = initFormAutoConfig.formDefaultValueService();
         //FormDefaultValue formDefaultValue = formDefaultValueService.SelectOneFormDefaultValue(formField.getFormDefinitionId())
         //根据表单定义iD查询表单默认值 ，并拼接在返回的类中
-        ValidateDefaultService validateDefaultService = validateAutoConfig.validateDefaultService();
         //ValidateDefinitionForm validateDefinitionForm = validateDefaultService.SelectOneValidateDefinitionForm(formField.getFormDefinitionId())
-
         return map;
     }
 }

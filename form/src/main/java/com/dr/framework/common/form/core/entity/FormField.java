@@ -18,7 +18,7 @@ import java.util.HashSet;
  *
  * @author dr
  */
-@Table(name = Constants.TABLE_PREFIX + "formField", module = Constants.MODULE_NAME, comment = "表单字段")
+@Table(name = Constants.TABLE_PREFIX + "FormField", module = Constants.MODULE_NAME, comment = "表单字段")
 public class FormField extends BaseStatusEntity<String> implements Field {
 
     @Column(name = "formDefinitionId", comment = "表单定义id")

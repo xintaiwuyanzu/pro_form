@@ -19,7 +19,7 @@ public class Constants {
     /**
      * 表前缀
      */
-    public static final String TABLE_PREFIX = "form_";
+    public static final String TABLE_PREFIX = "FORM_";
     /**
      * 默认版本编码
      */

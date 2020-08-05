@@ -8,6 +8,7 @@ import com.dr.framework.common.form.engine.CommandContext;
 import org.springframework.util.Assert;
 
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * 修改表单定义
@@ -76,6 +77,13 @@ public class FormDefinitionFieldChangeCommand extends FormDefinitionFieldAddComm
         formDefinition.getFormFieldList()
                 .removeIf(f -> f.getId().equalsIgnoreCase(oldField.getId()));
         return formDefinition;
+    }
+
+    @Override
+    protected FormField newField(Field field) {
+        FormField newField = super.newField(field);
+        newField.setId(UUID.randomUUID().toString());
+        return newField;
     }
 
     private boolean isFieldChange(FormField old, Field field) {

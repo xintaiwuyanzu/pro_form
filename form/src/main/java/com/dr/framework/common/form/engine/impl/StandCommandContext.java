@@ -1,6 +1,7 @@
 package com.dr.framework.common.form.engine.impl;
 
 import com.dr.framework.common.dao.CommonMapper;
+import com.dr.framework.common.form.engine.FormConfig;
 import com.dr.framework.common.form.core.service.FormDataService;
 import com.dr.framework.common.form.core.service.FormDefinitionService;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
@@ -19,6 +20,7 @@ import org.springframework.context.ApplicationContext;
  */
 public class StandCommandContext implements CommandContext {
     private CommonMapper mapper;
+    private FormConfig config;
     private CommandExecutor executor;
     private ApplicationContext applicationContext;
     private CacheManager cacheManager;
@@ -131,5 +133,14 @@ public class StandCommandContext implements CommandContext {
 
     public void setFormDefaultValueService(FormDefaultValueService formDefaultValueService) {
         this.formDefaultValueService = formDefaultValueService;
+    }
+
+    @Override
+    public FormConfig getConfig() {
+        return config;
+    }
+
+    public void setConfig(FormConfig config) {
+        this.config = config;
     }
 }

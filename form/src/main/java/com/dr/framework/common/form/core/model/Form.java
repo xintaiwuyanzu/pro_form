@@ -1,5 +1,6 @@
 package com.dr.framework.common.form.core.model;
 
+import com.dr.framework.common.form.engine.model.FormModel;
 import com.dr.framework.common.form.util.StringUtils;
 
 /**
@@ -7,14 +8,7 @@ import com.dr.framework.common.form.util.StringUtils;
  *
  * @author dr
  */
-public interface Form {
-    /**
-     * 表单定义主键
-     *
-     * @return
-     */
-    String getId();
-
+public interface Form extends FormModel {
     /**
      * 获取表单编码
      * 表单编码生成之后
@@ -44,20 +38,6 @@ public interface Form {
     String getFormType();
 
     /**
-     * 获取表单描述
-     *
-     * @return
-     */
-    String getDescription();
-
-    /**
-     * 获取备注信息
-     *
-     * @return
-     */
-    String getRemarks();
-
-    /**
      * 获取表单顺序号
      *
      * @return
@@ -70,20 +50,6 @@ public interface Form {
      * @return
      */
     String getFormState();
-
-    /**
-     * 获取数据权限
-     *
-     * @return
-     */
-    String getDataObjectId();
-
-    /**
-     * 获取表单版本
-     *
-     * @return
-     */
-    Integer getVersion();
 
     /**
      * 是否内部使用的表定义

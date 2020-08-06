@@ -53,6 +53,7 @@ public abstract class AbstractFormDefinitionCommand {
 
     /**
      * 直接执行创建表结构
+     * TODO 根据全局配置决定是否生成多个表结构
      *
      * @param context
      * @param formDefinition

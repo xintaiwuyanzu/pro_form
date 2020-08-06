@@ -26,6 +26,13 @@ public interface CommandContext {
     CommonMapper getMapper();
 
     /**
+     * 获取全局初始化表单配置
+     *
+     * @return
+     */
+    FormConfig getConfig();
+
+    /**
      * 获取命令执行器
      *
      * @return

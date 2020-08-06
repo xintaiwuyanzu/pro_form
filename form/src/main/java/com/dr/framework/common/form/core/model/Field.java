@@ -1,5 +1,7 @@
 package com.dr.framework.common.form.core.model;
 
+import com.dr.framework.common.form.engine.model.FormModel;
+
 import java.util.Collection;
 
 /**
@@ -7,13 +9,7 @@ import java.util.Collection;
  *
  * @author caor
  */
-public interface Field {
-    /**
-     * 获取字段主键
-     *
-     * @return
-     */
-    String getId();
+public interface Field extends FormModel {
 
     /**
      * 获取表单定义Id
@@ -35,7 +31,6 @@ public interface Field {
      * @return
      */
     Collection<String> getFieldAlias();
-
 
     /**
      * 获取字段类型
@@ -67,7 +62,6 @@ public interface Field {
      */
     Integer getFieldOrder();
 
-
     /**
      * 获取状态
      *
@@ -76,40 +70,10 @@ public interface Field {
     String getFieldState();
 
     /**
-     * 获取版本号
-     *
-     * @return
-     */
-
-
-    Integer getVersion();
-
-    /**
      * 获取中文名称
      *
      * @return
      */
     String getLabel();
-
-    /**
-     * 获取字段描述
-     *
-     * @return
-     */
-    String getDescription();
-
-    /**
-     * 获取备注信息
-     *
-     * @return
-     */
-    String getRemarks();
-
-    /**
-     * 获取数据权限Id
-     *
-     * @return
-     */
-    String getDataObjectId();
 
 }

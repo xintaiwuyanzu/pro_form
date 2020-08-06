@@ -27,7 +27,7 @@
         <dependency>
             <groupId>com.dr</groupId>
             <artifactId>codegen</artifactId>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.cache</groupId>

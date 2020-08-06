@@ -1,11 +1,10 @@
 package com.dr.framework.common.form.core.service.impl;
 
+import com.dr.framework.common.form.engine.FormConfig;
 import com.dr.framework.common.form.core.entity.FormDefinition;
-import com.dr.framework.common.form.core.entity.FormField;
 import com.dr.framework.common.form.core.model.Field;
 import com.dr.framework.common.form.core.model.Form;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
-import com.dr.framework.common.form.util.StringUtils;
 import com.dr.framework.core.orm.database.Dialect;
 
 import static com.dr.framework.common.form.util.StringUtils.generateShortUuid;
@@ -17,9 +16,12 @@ import static com.dr.framework.common.form.util.StringUtils.generateShortUuid;
  */
 public class DefaultFormNameGenerator implements FormNameGenerator {
     private Dialect dialect;
+    //TODO 根据全局定义判断是否生成多个版本的物理表结构
+    private FormConfig formConfig;
 
-    public DefaultFormNameGenerator(Dialect dialect) {
+    public DefaultFormNameGenerator(Dialect dialect, FormConfig formConfig) {
         this.dialect = dialect;
+        this.formConfig = formConfig;
     }
 
     @Override

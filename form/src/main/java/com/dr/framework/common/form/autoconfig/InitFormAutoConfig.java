@@ -20,7 +20,7 @@ class InitFormAutoConfig {
      */
     @Bean
     @ConditionalOnMissingBean
-    public FormDefaultValueService formDefaultValueService() {
+    protected FormDefaultValueService formDefaultValueService() {
         return new FormDefaultValueServiceImpl();
     }
 
@@ -31,7 +31,7 @@ class InitFormAutoConfig {
      */
     @Bean
     @ConditionalOnMissingBean
-    public InitValueService initValueService() {
+    protected InitValueService initValueService() {
         return new InitValueServiceImpl();
     }
 
@@ -42,7 +42,7 @@ class InitFormAutoConfig {
      */
     @Bean
     @ConditionalOnMissingBean
-    public FieldDefaultManager fieldDefaultManager() {
+    protected FieldDefaultManager fieldDefaultManager() {
         return new FieldDefaultManagerImpl();
     }
 

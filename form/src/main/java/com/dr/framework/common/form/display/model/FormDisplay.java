@@ -1,62 +1,18 @@
 package com.dr.framework.common.form.display.model;
 
+import com.dr.framework.common.form.engine.model.FormCodeNameModel;
+import com.dr.framework.common.form.engine.model.FormDefinitionRelationModel;
+
+import java.util.Collection;
+import java.util.Collections;
+
 /**
  * 表单的显示方案
  *
  * @author caor
+ * @author dr
  */
-public interface FormDisplay {
-    enum type {}
-
-    /**
-     * 获取编码
-     *
-     * @return
-     */
-    String getCode();
-
-    /**
-     * 获取名称
-     *
-     * @return
-     */
-    String getName();
-
-    /**
-     * 获取类型
-     *
-     * @return
-     */
-    String getType();
-
-    /**
-     * 获取脚本
-     *
-     * @return
-     */
-    String getJS();
-
-    /**
-     * 获取状态
-     *
-     * @return
-     */
-    String getState();
-
-    /**
-     * 获取列数
-     *
-     * @return
-     */
-    int getCol();
-
-    /**
-     * 获取位置
-     *
-     * @return
-     */
-    String getLocation();
-
+public interface FormDisplay extends FormCodeNameModel, FormDefinitionRelationModel {
     /**
      * 获取宽度
      *
@@ -86,37 +42,12 @@ public interface FormDisplay {
     String getCss();
 
     /**
-     * 获取描述
+     * 获取表单显示方案所有的字段显示方案定义
      *
      * @return
      */
-    String getDescription();
+    default Collection<FieldDisplay> getFields() {
+        return Collections.EMPTY_LIST;
+    }
 
-    /**
-     * 获取顺序号
-     *
-     * @return
-     */
-    int getOrder();
-
-    /**
-     * 获取数据权限
-     *
-     * @return
-     */
-    String getDataobjectId();
-
-    /**
-     * 是否启用历史版本
-     *
-     * @return
-     */
-    boolean historyVersion();
-
-    /**
-     * 获取版本
-     *
-     * @return
-     */
-    String getVersion();
 }

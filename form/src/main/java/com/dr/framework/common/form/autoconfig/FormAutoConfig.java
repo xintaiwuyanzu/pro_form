@@ -11,10 +11,11 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @Import({
         CoreFormAutoConfig.class,
+        FormDisplayAutoConfig.class,
         InitFormAutoConfig.class,
         ValidateAutoConfig.class
 })
-public class FormAutoConfig {
+class FormAutoConfig {
 
 
 }

@@ -30,6 +30,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>com.dr.framework.common</groupId>
+            <artifactId>file</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>javax.cache</groupId>
             <artifactId>cache-api</artifactId>
         </dependency>

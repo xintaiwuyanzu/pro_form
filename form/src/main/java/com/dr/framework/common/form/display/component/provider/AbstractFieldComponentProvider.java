@@ -1,4 +1,4 @@
-package com.dr.framework.common.form.display.service.impl;
+package com.dr.framework.common.form.display.component.provider;
 
 import com.dr.framework.common.config.service.CommonConfigService;
 import org.springframework.beans.factory.annotation.Autowired;

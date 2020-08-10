@@ -1,8 +1,8 @@
-package com.dr.framework.common.form.display.service.impl;
+package com.dr.framework.common.form.display.component.provider;
 
 import com.dr.framework.common.form.core.model.FieldType;
+import com.dr.framework.common.form.display.component.FieldComponentProvider;
 import com.dr.framework.common.form.display.model.FieldComponent;
-import com.dr.framework.common.form.display.service.FieldComponentProvider;
 
 import java.util.List;
 

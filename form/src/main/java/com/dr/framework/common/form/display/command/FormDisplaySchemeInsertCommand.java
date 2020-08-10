@@ -10,6 +10,11 @@ import org.springframework.util.Assert;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * 添加显示方案定义
+ *
+ * @author dr
+ */
 public class FormDisplaySchemeInsertCommand implements Command<FormDisplayScheme> {
 
     private FormDisplayScheme formDisplayScheme;

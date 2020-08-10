@@ -85,7 +85,6 @@ public interface FormDisplayService {
      *
      * =======================================
      */
-
     default FieldDisplay insertField(FieldDisplay fieldDisplay) {
         return insertField(fieldDisplay, DEFAULT_MODIFY_ALL_VERSION);
     }

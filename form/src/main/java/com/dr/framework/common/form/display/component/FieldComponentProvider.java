@@ -1,4 +1,4 @@
-package com.dr.framework.common.form.display.service;
+package com.dr.framework.common.form.display.component;
 
 import com.dr.framework.common.form.core.model.FieldType;
 import com.dr.framework.common.form.display.model.FieldComponent;

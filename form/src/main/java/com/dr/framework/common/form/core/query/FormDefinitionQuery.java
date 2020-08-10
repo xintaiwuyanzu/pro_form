@@ -23,7 +23,7 @@ public class FormDefinitionQuery {
     private String status;
 
     private Integer version;
-    private boolean versionAll;
+    private boolean versionAll = false;
 
 
     public FormDefinitionQuery codeLike(String code) {

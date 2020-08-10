@@ -29,6 +29,8 @@ import java.util.stream.Collectors;
 
 /**
  * 抽象父类，提供各个命令通用方法
+ *
+ * @author dr
  */
 public abstract class AbstractFormDefinitionCommand {
     protected static final String FORM_NOT_DEFINITION_ERROR = "未查询到指定的表单！";
@@ -53,7 +55,6 @@ public abstract class AbstractFormDefinitionCommand {
 
     /**
      * 直接执行创建表结构
-     * TODO 根据全局配置决定是否生成多个表结构
      *
      * @param context
      * @param formDefinition
@@ -61,17 +62,42 @@ public abstract class AbstractFormDefinitionCommand {
     protected void createTable(CommandContext context, FormDefinition formDefinition) {
         Assert.isTrue(formDefinition != null, FORM_CAN_NOT_BE_NULL_ERROR);
         Assert.isTrue(formDefinition.getFormFieldList() != null && !formDefinition.getFormFieldList().isEmpty(), "表单字段不能为空！");
-        Assert.isTrue(!tableExist(context, formDefinition), "指定的物理表已经存在！");
-
         //表结构生成器
         DataBaseService dataBaseService = context.getDataBaseService();
-        //表名称生成器
-        FormNameGenerator formNameGenerator = context.getFormNameGenerator();
+        boolean tableExist = tableExist(context, formDefinition);
+        boolean multiTable = context.getConfig().multiTableEnable(formDefinition.getFormCode());
         //构建表结构对象
-        Relation configedRelation = newRelation(context, formNameGenerator, formDefinition);
+        Relation<Column> configedRelation;
+        if (multiTable) {
+            Assert.isTrue(!tableExist, "指定的物理表已经存在！");
+            configedRelation = newRelation(context, formDefinition);
+        } else {
+            configedRelation = newRelation(context, formDefinition);
+            if (tableExist) {
+                //根据编码查询默认版本
+                FormDefinition defaultDefinition = (FormDefinition) context.getFormDefinitionService().selectFormDefinitionByCode(formDefinition.getFormCode());
+                //如果表存在，过滤增加的列和长度
+                Assert.isTrue(defaultDefinition != null, "表存在，但是未查询到默认表单定义：" + formDefinition.getFormCode());
+                if (!defaultDefinition.getId().equals(formDefinition.getId())) {
+                    Relation<Column> relation = newRelation(context, defaultDefinition);
+                    for (Column column : configedRelation.getColumns()) {
+                        Column defaultColumn = relation.getColumn(column.getName());
+                        if (defaultColumn != null) {
+                            Assert.isTrue(column.getType() == defaultColumn.getType(), "单表模式下，不能修改列数据类型");
+                            //长度精度使用大的
+                            if (column.getSize() < defaultColumn.getSize()) {
+                                column.setSize(defaultColumn.getSize());
+                            }
+                            if (column.getDecimalDigits() < defaultColumn.getDecimalDigits()) {
+                                column.setDecimalDigits(defaultColumn.getDecimalDigits());
+                            }
+                        }
+                    }
+                }
+            }
+        }
         //生成表结构
         dataBaseService.updateTable(configedRelation);
-
         //更新表结构
         CommonMapper mapper = context.getMapper();
         mapper.updateIgnoreNullByQuery(
@@ -90,11 +116,8 @@ public abstract class AbstractFormDefinitionCommand {
      */
     protected boolean tableExist(CommandContext context, FormDefinition formDefinition) {
         Assert.isTrue(formDefinition != null, FORM_CAN_NOT_BE_NULL_ERROR);
-        FormNameGenerator formNameGenerator = context.getFormNameGenerator();
-        String tableName = formNameGenerator.genTableName(formDefinition);
-        DataBaseService dataBaseService = context.getDataBaseService();
-
-        return dataBaseService.tableExist(tableName, Constants.MODULE_NAME);
+        String tableName = context.getFormNameGenerator().genTableName(formDefinition);
+        return context.getDataBaseService().tableExist(tableName, Constants.MODULE_NAME);
     }
 
 
@@ -102,11 +125,11 @@ public abstract class AbstractFormDefinitionCommand {
      * 创建表结构
      *
      * @param context
-     * @param formNameGenerator
      * @param formDefinition
      * @return
      */
-    protected Relation newRelation(CommandContext context, FormNameGenerator formNameGenerator, FormDefinition formDefinition) {
+    protected Relation<Column> newRelation(CommandContext context, FormDefinition formDefinition) {
+        FormNameGenerator formNameGenerator = context.getFormNameGenerator();
         Assert.isTrue(formDefinition != null, FORM_CAN_NOT_BE_NULL_ERROR);
         ConfigedRelation relation = new ConfigedRelation(true);
         relation.setId(formDefinition.getId());
@@ -144,7 +167,10 @@ public abstract class AbstractFormDefinitionCommand {
      * @param newFormDefinition 新表
      */
     protected void copyTable(CommandContext commandContext, FormDefinition oldFormDefinition, FormDefinition newFormDefinition) {
-        //TODO
+        //如果开启了才需要复制表结构
+        if (commandContext.getConfig().multiTableEnable(oldFormDefinition.getFormCode())) {
+            //TODO
+        }
     }
 
     /**

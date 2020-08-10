@@ -57,7 +57,7 @@ public abstract class AbstractFormDataCommand<T> extends AbstractFormDefinitionI
      * @param formDefinition
      */
     protected boolean checkAndGen(CommandContext context, FormDefinition formDefinition) {
-        if (!tableExist(context, formDefinition)) {
+        if (!tableExist(context, formDefinition) || !context.getConfig().multiTableEnable(formDefinition.getFormCode())) {
             if (autoCheck) {
                 createTable(context, formDefinition);
                 return true;

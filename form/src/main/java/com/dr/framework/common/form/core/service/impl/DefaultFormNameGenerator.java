@@ -1,10 +1,10 @@
 package com.dr.framework.common.form.core.service.impl;
 
-import com.dr.framework.common.form.engine.FormConfig;
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.model.Field;
 import com.dr.framework.common.form.core.model.Form;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
+import com.dr.framework.common.form.engine.FormConfig;
 import com.dr.framework.core.orm.database.Dialect;
 
 import static com.dr.framework.common.form.util.StringUtils.generateShortUuid;
@@ -15,9 +15,8 @@ import static com.dr.framework.common.form.util.StringUtils.generateShortUuid;
  * @author dr
  */
 public class DefaultFormNameGenerator implements FormNameGenerator {
-    private Dialect dialect;
-    //TODO 根据全局定义判断是否生成多个版本的物理表结构
-    private FormConfig formConfig;
+    private final Dialect dialect;
+    private final FormConfig formConfig;
 
     public DefaultFormNameGenerator(Dialect dialect, FormConfig formConfig) {
         this.dialect = dialect;
@@ -26,12 +25,13 @@ public class DefaultFormNameGenerator implements FormNameGenerator {
 
     @Override
     public String genTableName(Form form) {
+        //根据全局定义判断是否生成多个版本的物理表结构
+        boolean versionEnable = formConfig.multiTableEnable(form.getFormCode());
         String tableName = form instanceof FormDefinition ? ((FormDefinition) form).getFormTable() : generateShortUuid();
-        return String.join("_",
-                "f",
-                //根据数据库驱动不同，转换不同表名的大小写
-                dialect.convertObjectName(tableName),
-                String.valueOf(form.getVersion()));
+        //根据数据库驱动不同，转换不同表名的大小写
+        tableName = dialect.convertObjectName(tableName);
+        String[] params = versionEnable ? new String[]{"f", tableName} : new String[]{"f", tableName, String.valueOf(form.getVersion())};
+        return String.join("_", params);
     }
 
     @Override

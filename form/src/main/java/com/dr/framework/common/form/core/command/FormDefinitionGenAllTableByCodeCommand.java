@@ -11,6 +11,8 @@ import java.util.List;
 
 /**
  * 根据表单code生成所有的物理表
+ *
+ * @author dr
  */
 public class FormDefinitionGenAllTableByCodeCommand extends AbstractFormDefinitionCommand implements Command<List<FormDefinition>> {
     private String formCode;
@@ -22,19 +24,17 @@ public class FormDefinitionGenAllTableByCodeCommand extends AbstractFormDefiniti
     @Override
     public List<FormDefinition> execute(CommandContext context) {
         Assert.isTrue(!StringUtils.isEmpty(formCode), "表单编码不能为空!");
-        List<FormDefinition> formDefinitions =
-                (List<FormDefinition>) context.getFormDefinitionService()
-                        .selectFormDefinitionByQuery(
-                                new FormDefinitionQuery()
-                                        .codeEqual(formCode)
-                                        .statusEnable()
-                        );
+        List<FormDefinition> formDefinitions = (List<FormDefinition>) context.getFormDefinitionService()
+                .selectFormDefinitionByQuery(
+                        new FormDefinitionQuery()
+                                .codeEqual(formCode)
+                                .statusEnable()
+                );
         formDefinitions.forEach(f -> {
-            if (!tableExist(context, f)) {
+            if (!tableExist(context, f) || !context.getConfig().multiTableEnable(f.getFormCode())) {
                 createTable(context, f);
             }
         });
-
         return formDefinitions;
     }
 

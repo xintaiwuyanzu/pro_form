@@ -5,6 +5,11 @@ import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.core.orm.annotations.Column;
 import com.dr.framework.core.orm.annotations.Table;
 
+/**
+ * 表单字段显示方案
+ *
+ * @author dr
+ */
 @Table(name = Constants.TABLE_PREFIX + "FieldDisplayScheme", module = Constants.MODULE_NAME, comment = "表单字段显示方案")
 public class FieldDisplayScheme extends BaseStatusEntity<String> {
 

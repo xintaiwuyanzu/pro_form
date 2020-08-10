@@ -7,14 +7,14 @@ import com.dr.framework.common.form.core.command.AbstractFormDefinitionIdCommand
  *
  * @author dr
  */
-public abstract class AbstractFormDisplayCommand extends AbstractFormDefinitionIdCommand {
+public abstract class AbstractFormDisplayWithFormDefinitionCommand extends AbstractFormDefinitionIdCommand {
     private boolean modifyAllVersion;
 
-    public AbstractFormDisplayCommand(String formDefinitionId) {
+    public AbstractFormDisplayWithFormDefinitionCommand(String formDefinitionId) {
         super(formDefinitionId);
     }
 
-    public AbstractFormDisplayCommand(String formCode, Integer version) {
+    public AbstractFormDisplayWithFormDefinitionCommand(String formCode, Integer version) {
         super(formCode, version);
     }
 

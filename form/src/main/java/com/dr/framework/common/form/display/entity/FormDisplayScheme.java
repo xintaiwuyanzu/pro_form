@@ -5,8 +5,11 @@ import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.core.orm.annotations.Column;
 import com.dr.framework.core.orm.annotations.Table;
 
-import java.util.List;
-
+/**
+ * 表单显示方案
+ *
+ * @author dr
+ */
 @Table(name = Constants.TABLE_PREFIX + "FormDisplayScheme", module = Constants.MODULE_NAME, comment = "表单显示方案")
 public class FormDisplayScheme extends BaseStatusEntity<String> {
 
@@ -21,8 +24,6 @@ public class FormDisplayScheme extends BaseStatusEntity<String> {
 
     @Column(name = "schemeType", comment = "类型")
     private String schemeType;
-
-    private List<FieldDisplayScheme> fieldDisplayList;
 
     public String getFormDefinitionId() {
         return formDefinitionId;
@@ -54,14 +55,6 @@ public class FormDisplayScheme extends BaseStatusEntity<String> {
 
     public void setSchemeType(String schemeType) {
         this.schemeType = schemeType;
-    }
-
-    public List<FieldDisplayScheme> getFieldDisplayList() {
-        return fieldDisplayList;
-    }
-
-    public void setFieldDisplayList(List<FieldDisplayScheme> fieldDisplayList) {
-        this.fieldDisplayList = fieldDisplayList;
     }
 
 }

@@ -10,9 +10,17 @@ import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
-public class FormDisplayRemoveCommand implements Command<Long> {
+/**
+ *
+ * @author dr
+ */
+public class FormDisplayRemoveCommand extends AbstractFormDisplayWithFormDefinitionCommand implements Command<Long> {
 
     private String formDisplayId;
+
+    public FormDisplayRemoveCommand(String formDefinitionId) {
+        super(formDefinitionId);
+    }
 
     public void FormDisplayRemoveCommand(String formDisplayId) {
         this.formDisplayId = formDisplayId;

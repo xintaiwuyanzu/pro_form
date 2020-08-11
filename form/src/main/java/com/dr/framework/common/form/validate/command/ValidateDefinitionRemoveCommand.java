@@ -12,7 +12,7 @@ import org.springframework.util.Assert;
 
 public class ValidateDefinitionRemoveCommand implements Command<Long> {
 
-    private String validateId;
+    private final String validateId;
 
 
     public ValidateDefinitionRemoveCommand(String validateId) {

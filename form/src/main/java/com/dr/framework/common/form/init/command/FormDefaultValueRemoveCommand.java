@@ -12,7 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
 public class FormDefaultValueRemoveCommand extends AbstractFormDefinitionIdCommand implements Command<Long> {
-    private String formDefaultValueId;
+    private final String formDefaultValueId;
 
     public FormDefaultValueRemoveCommand(String formDefaultValueId) {
         super(null);

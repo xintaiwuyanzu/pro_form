@@ -2,11 +2,11 @@ package com.dr.framework.common.form;
 
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormField;
-import com.dr.framework.common.form.core.model.Field;
-import com.dr.framework.common.form.core.model.FieldType;
-import com.dr.framework.common.form.core.model.Form;
 import com.dr.framework.common.form.core.service.FormDefinitionService;
 import com.dr.framework.common.form.engine.CommandExecutor;
+import com.dr.framework.common.form.engine.model.core.FieldModel;
+import com.dr.framework.common.form.engine.model.core.FieldType;
+import com.dr.framework.common.form.engine.model.core.FormModel;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ import java.util.Collection;
 @SpringBootTest(classes = FormApplication.class)
 @RunWith(SpringRunner.class)
 public class AbstractApplicationTest {
-    Logger logger = LoggerFactory.getLogger(AbstractApplicationTest.class);
+    final Logger logger = LoggerFactory.getLogger(AbstractApplicationTest.class);
 
     @Autowired
     CommandExecutor commandExecutor;
@@ -44,11 +44,11 @@ public class AbstractApplicationTest {
         formDefinition.setStatus("0");
         formDefinition.setFormType("gongWen");
         formDefinition.setVersion(2);
-        Collection<Field> list = new ArrayList<Field>();
+        Collection<FieldModel> list = new ArrayList();
         FormField formField = new FormField();
         formField.setFieldCode("text001");
         formField.setLabel("测试");
-        formField.setFieldTypeStr(FieldType.STRING);
+        formField.setFieldTypeStrEnum(FieldType.STRING);
         formField.setFieldLength(300);
         formField.setOrder(1);
         formField.setStatus("0");
@@ -56,7 +56,7 @@ public class AbstractApplicationTest {
         FormField formField1 = new FormField();
         formField1.setFieldCode("id");
         formField1.setLabel("试试");
-        formField1.setFieldTypeStr(FieldType.STRING);
+        formField1.setFieldTypeStrEnum(FieldType.STRING);
         formField1.setFieldLength(50);
         formField1.setOrder(1);
         formField1.setStatus("0");
@@ -64,7 +64,7 @@ public class AbstractApplicationTest {
         FormField formField2 = new FormField();
         formField2.setFieldCode("formDefinitionId");
         formField2.setLabel("试试");
-        formField2.setFieldTypeStr(FieldType.STRING);
+        formField2.setFieldTypeStrEnum(FieldType.STRING);
         formField2.setFieldLength(50);
         formField2.setOrder(1);
         formField2.setStatus("0");
@@ -81,7 +81,7 @@ public class AbstractApplicationTest {
     @Test
     public void SelectOneForm() {
         String formId = "29eba72e-e041-4b3a-90e2-1b49b8bc302e";
-        Form from = formDefinitionService.selectFormDefinitionById(formId);
+        FormModel from = formDefinitionService.selectFormDefinitionById(formId);
     }
 
     @Test

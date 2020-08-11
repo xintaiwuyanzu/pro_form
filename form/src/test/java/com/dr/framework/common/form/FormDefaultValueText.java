@@ -20,8 +20,8 @@ public class FormDefaultValueText extends AbstractApplicationTest {
 
     @Test
     public void add() {
-        Collection<FieldDefaultValue> list = new ArrayList<FieldDefaultValue>();
-        Collection<FieldDefault> list1 = new ArrayList<FieldDefault>();
+        Collection<FieldDefaultValue> list = new ArrayList<>();
+        Collection<FieldDefault> list1 = new ArrayList<>();
         String s = UUID.randomUUID().toString();
         FormDefaultValue formDefaultValue = new FormDefaultValue();
         formDefaultValue.setId(s);

@@ -14,7 +14,7 @@ import org.springframework.util.StringUtils;
  * @author dr
  */
 public abstract class AbstractFormDefinitionQueryCommand extends AbstractFormDefinitionCommand {
-    private FormDefinitionQuery query;
+    private final FormDefinitionQuery query;
 
     public AbstractFormDefinitionQueryCommand(FormDefinitionQuery query) {
         this.query = query;

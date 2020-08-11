@@ -7,7 +7,7 @@ import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormDefinitionInfo;
 import com.dr.framework.common.form.core.entity.FormField;
 import com.dr.framework.common.form.core.entity.FormFieldInfo;
-import com.dr.framework.common.form.core.model.Form;
+import com.dr.framework.common.form.engine.model.core.FormModel;
 import com.dr.framework.common.form.core.query.FormDefinitionQuery;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
 import com.dr.framework.common.form.engine.Command;
@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class FormDefinitionRemoveCommand extends AbstractFormDefinitionIdCommand implements Command<Long> {
 
-    private boolean dropTable;
+    private final boolean dropTable;
 
     /**
      * 根据特定的表单定义Id删除表单
@@ -62,7 +62,7 @@ public class FormDefinitionRemoveCommand extends AbstractFormDefinitionIdCommand
         if (formDefinition == null) {
             //如果没查出来表单，code不为空，version为空，则是按照code删除所有的表单定义
             if (!StringUtils.isEmpty(getFormCode()) && getVersion() == null) {
-                List<? extends Form> formDefinitions = context.getFormDefinitionService()
+                List<? extends FormModel> formDefinitions = context.getFormDefinitionService()
                         .selectFormDefinitionByQuery(
                                 new FormDefinitionQuery()
                                         .codeEqual(getFormCode())

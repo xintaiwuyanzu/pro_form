@@ -1,6 +1,6 @@
-package com.dr.framework.common.form.engine;
+package com.dr.framework.common.form.engine.config;
 
-import com.dr.framework.common.form.engine.model.FormModel;
+import com.dr.framework.common.form.engine.model.BaseModel;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.StringUtils;
 
@@ -16,13 +16,13 @@ import java.util.stream.Collectors;
  */
 @ConfigurationProperties(prefix = "common.form")
 public class FormConfig {
-    public static boolean DEFAULT_ENABLE_MULTI_VERSION_TABLE = false;
+    public static final boolean DEFAULT_ENABLE_MULTI_VERSION_TABLE = false;
     /**
      * 是否启用多版本的表结构
      * <p>
      * 启用则表示每一个表单定义的多个版本
      * <p><b>每一个版本都生成一个物理表结构<b/>
-     * <br>详细意义和介绍参考{@link FormModel#getVersion()}
+     * <br>详细意义和介绍参考{@link BaseModel#getVersion()}
      */
     private boolean enableMultiVersionTable = DEFAULT_ENABLE_MULTI_VERSION_TABLE;
     /**

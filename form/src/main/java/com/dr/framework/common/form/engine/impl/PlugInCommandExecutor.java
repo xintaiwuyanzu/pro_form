@@ -18,12 +18,12 @@ public class PlugInCommandExecutor implements CommandExecutor {
     /**
      * 真正的执行器
      */
-    private CommandExecutor delegate;
+    private final CommandExecutor delegate;
 
     /**
      * 拦截的插件
      */
-    private List<CommandPlugin> plugins;
+    private final List<CommandPlugin> plugins;
 
     private CommandContextFactory commandContextFactory;
 
@@ -33,7 +33,7 @@ public class PlugInCommandExecutor implements CommandExecutor {
         this.plugins = Optional.ofNullable(plugins)
                 .orElseGet(Collections::emptyList)
                 .stream()
-                .sorted(Comparator.comparingInt(TypeObject::order))
+                .sorted(Comparator.comparingInt(TypeComponent::order))
                 .collect(Collectors.toList());
     }
 

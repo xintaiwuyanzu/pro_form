@@ -1,6 +1,8 @@
 package com.dr.framework.common.form.core.model;
 
 import com.dr.framework.common.entity.IdEntity;
+import com.dr.framework.common.form.engine.model.core.FieldModel;
+import com.dr.framework.common.form.engine.model.core.FormDataModel;
 
 import java.io.Serializable;
 import java.text.NumberFormat;
@@ -14,25 +16,25 @@ import java.util.HashMap;
  *
  * @author dr
  */
-public class FormData extends HashMap<String, Serializable> {
+public class FormData extends HashMap<String, Serializable> implements FormDataModel {
     public static final String FORM_DATA_ID_KEY = IdEntity.ID_COLUMN_NAME;
     /**
      * 表单定义Id
      */
-    private String formDefinitionId;
+    private final String formDefinitionId;
     /**
      * 表单数据Id
      */
-    private String formDataId;
+    private final String formDataId;
 
     /**
      * 编码
      */
-    private String formCode;
+    private final String formCode;
     /**
      * 版本
      */
-    private Integer formVersion;
+    private final Integer formVersion;
 
     public FormData(String formDefinitionId, String formDataId) {
         this(formDefinitionId, null, null, formDataId);
@@ -50,8 +52,24 @@ public class FormData extends HashMap<String, Serializable> {
         put(FORM_DATA_ID_KEY, formDataId);
     }
 
+    @Override
+    public String getFormDefinitionName() {
+        return null;
+    }
+
+    @Override
     public String getFormDefinitionId() {
         return formDefinitionId;
+    }
+
+    @Override
+    public String getFormDefinitionCode() {
+        return null;
+    }
+
+    @Override
+    public Integer getVersion() {
+        return null;
     }
 
     public String getFormCode() {
@@ -62,7 +80,9 @@ public class FormData extends HashMap<String, Serializable> {
         return formVersion;
     }
 
-    public <T> T getFieldValue(Field field) {
+
+    @Override
+    public <T> T getFieldValue(FieldModel field) {
         if (field != null) {
             String fieldCode = field.getFieldCode();
 
@@ -83,8 +103,14 @@ public class FormData extends HashMap<String, Serializable> {
         return null;
     }
 
+    @Override
     public String getId() {
         return getString(FORM_DATA_ID_KEY);
+    }
+
+    @Override
+    public <V extends Serializable> V get(String key) {
+        return (V) super.get(key);
     }
 
     /**
@@ -93,6 +119,7 @@ public class FormData extends HashMap<String, Serializable> {
      * @param codeOrAlias
      * @return
      */
+    @Override
     public String getString(String codeOrAlias) {
         Serializable sValue = get(codeOrAlias);
         if (sValue != null) {
@@ -107,6 +134,7 @@ public class FormData extends HashMap<String, Serializable> {
      * @param codeOrAlias
      * @return
      */
+    @Override
     public Boolean getBoolean(String codeOrAlias) {
         Serializable sValue = get(codeOrAlias);
         if (sValue instanceof Boolean) {
@@ -128,6 +156,7 @@ public class FormData extends HashMap<String, Serializable> {
      * @param codeOrAlias
      * @return
      */
+    @Override
     public Integer getInteger(String codeOrAlias) {
         Number answer = getNumber(codeOrAlias);
         if (answer == null) {
@@ -136,7 +165,7 @@ public class FormData extends HashMap<String, Serializable> {
         if (answer instanceof Integer) {
             return (Integer) answer;
         }
-        return Integer.valueOf(answer.intValue());
+        return answer.intValue();
     }
 
     /**
@@ -168,6 +197,7 @@ public class FormData extends HashMap<String, Serializable> {
      * @param codeOrAlias
      * @return
      */
+    @Override
     public Long getLong(String codeOrAlias) {
         Number answer = getNumber(codeOrAlias);
         if (answer == null) {
@@ -176,7 +206,7 @@ public class FormData extends HashMap<String, Serializable> {
         if (answer instanceof Long) {
             return (Long) answer;
         }
-        return Long.valueOf(answer.longValue());
+        return answer.longValue();
     }
 
     /**
@@ -185,6 +215,7 @@ public class FormData extends HashMap<String, Serializable> {
      * @param codeOrAlias
      * @return
      */
+    @Override
     public Float getFloat(String codeOrAlias) {
         Number answer = getNumber(codeOrAlias);
         if (answer == null) {
@@ -193,7 +224,7 @@ public class FormData extends HashMap<String, Serializable> {
         if (answer instanceof Float) {
             return (Float) answer;
         }
-        return Float.valueOf(answer.floatValue());
+        return answer.floatValue();
     }
 
     /**
@@ -202,6 +233,7 @@ public class FormData extends HashMap<String, Serializable> {
      * @param codeOrAlias
      * @return
      */
+    @Override
     public Double getDouble(String codeOrAlias) {
         Number answer = getNumber(codeOrAlias);
         if (answer == null) {
@@ -210,7 +242,7 @@ public class FormData extends HashMap<String, Serializable> {
         if (answer instanceof Double) {
             return (Double) answer;
         }
-        return Double.valueOf(answer.doubleValue());
+        return answer.doubleValue();
     }
 
     /**
@@ -219,6 +251,7 @@ public class FormData extends HashMap<String, Serializable> {
      * @param codeOrAlias
      * @return
      */
+    @Override
     public Date getDate(String codeOrAlias) {
         Serializable answer = get(codeOrAlias);
         if (answer instanceof Date) {

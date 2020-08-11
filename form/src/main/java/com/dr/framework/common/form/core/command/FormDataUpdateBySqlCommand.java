@@ -15,7 +15,7 @@ public class FormDataUpdateBySqlCommand extends AbstractFormDataSqlBuilderComman
     /**
      * 是否忽略null
      */
-    private boolean ignoreNull;
+    private final boolean ignoreNull;
 
     public FormDataUpdateBySqlCommand(String formDefinitionId, boolean autoCheck, SqlBuilder sqlBuilder, boolean ignoreNull) {
         super(formDefinitionId, autoCheck, sqlBuilder);

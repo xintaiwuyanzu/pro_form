@@ -8,7 +8,7 @@ package com.dr.framework.common.form.engine.model;
  *
  * @author dr
  */
-public interface FormCodeNameModel extends FormModel {
+public interface CodeNameModel extends BaseModel {
     /**
      * 获取编码
      *

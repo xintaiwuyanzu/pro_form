@@ -12,7 +12,6 @@ import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
 import java.util.UUID;
 
 public class FormDataText extends AbstractApplicationTest {

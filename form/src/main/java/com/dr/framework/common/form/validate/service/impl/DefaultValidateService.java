@@ -21,7 +21,7 @@ public class DefaultValidateService implements ValidateService {
     @Autowired
     CommandExecutor executor;
 
-    List<Validator> defaultValidators = Arrays.asList(
+    final List<Validator> defaultValidators = Arrays.asList(
             new IdNoValidator(),
             new PhoneValidator()
     );

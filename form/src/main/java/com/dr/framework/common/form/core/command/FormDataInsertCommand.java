@@ -17,7 +17,7 @@ import java.util.UUID;
  */
 public class FormDataInsertCommand extends AbstractFormDataCommand<FormData> implements Command<FormData> {
 
-    private FormData formData;
+    private final FormData formData;
 
     public FormDataInsertCommand(FormData formData, boolean autoCheck) {
         super(null, autoCheck);

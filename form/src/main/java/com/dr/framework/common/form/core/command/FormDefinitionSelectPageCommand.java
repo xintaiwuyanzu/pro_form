@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
  * @author dr
  */
 public class FormDefinitionSelectPageCommand extends AbstractFormDefinitionQueryCommand implements Command<Page<FormDefinition>> {
-    private int pageIndex;
-    private int pageSize;
+    private final int pageIndex;
+    private final int pageSize;
 
     public FormDefinitionSelectPageCommand(FormDefinitionQuery query, int pageIndex, int pageSize) {
         super(query);

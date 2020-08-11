@@ -2,13 +2,12 @@ package com.dr.framework.common.form;
 
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormField;
-import com.dr.framework.common.form.core.model.Field;
-import com.dr.framework.common.form.core.model.FieldType;
-import com.dr.framework.common.form.core.model.Form;
+import com.dr.framework.common.form.engine.model.core.FieldModel;
 import com.dr.framework.common.form.core.query.FormDefinitionQuery;
 import com.dr.framework.common.form.core.service.FormDefinitionService;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
 import com.dr.framework.common.form.engine.CommandExecutor;
+import com.dr.framework.common.form.engine.model.core.FieldType;
 import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.common.page.Page;
 import com.dr.framework.common.service.DataBaseService;
@@ -23,7 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * @author caor
@@ -48,11 +46,11 @@ public class FormDefinitionTest {
         formDefinition.setFormCode("ee");
         formDefinition.setFormName("文书档案");
         formDefinition.setFormType("gongwen");
-        Collection<Field> list = new ArrayList<Field>();
+        Collection<FieldModel> list = new ArrayList<>();
         FormField formField = new FormField();
         formField.setFieldCode("quanzong");
         formField.setLabel("全宗");
-        formField.setFieldTypeStr(FieldType.STRING);
+        formField.setFieldTypeStrEnum(FieldType.STRING);
         formField.setFieldLength(200);
 //        formField.setFieldAliasStr("quanzong");
         formField.setOrder(1);
@@ -60,7 +58,7 @@ public class FormDefinitionTest {
         FormField formField1 = new FormField();
         formField1.setFieldCode("niandu");
         formField1.setLabel("年度");
-        formField1.setFieldTypeStr(FieldType.NUMBER);
+        formField1.setFieldTypeStrEnum(FieldType.NUMBER);
         formField1.setFieldLength(10);
         formField1.setOrder(2);
 //        formField1.setFieldAliasStr("niandu");
@@ -94,7 +92,7 @@ public class FormDefinitionTest {
         FormField formField = new FormField();
         formField.setFieldCode("danghao");
         formField.setLabel("档号");
-        formField.setFieldTypeStr(FieldType.LONG);
+        formField.setFieldTypeStrEnum(FieldType.LONG);
         formDefinitionService.addField(definition.getId(), formField, true);
 //        formDefinitionService.addField("276ad349-5b8e-4724-a3f6-6e3152ca5914", formField);
 
@@ -105,7 +103,7 @@ public class FormDefinitionTest {
         FormField formField = new FormField();
         formField.setFieldCode("立档单位");
         formField.setLabel("lidangdanwei");
-        formField.setFieldTypeStr(FieldType.NUMBER);
+        formField.setFieldTypeStrEnum(FieldType.NUMBER);
 //        formField.setFieldLength(300);
         return formField;
     }
@@ -218,11 +216,11 @@ public class FormDefinitionTest {
         formDefinition.setFormCode("xz");
         formDefinition.setFormName("行政类");
         formDefinition.setFormType("gongwen");
-        Collection<Field> list = new ArrayList<Field>();
+        Collection<FieldModel> list = new ArrayList<>();
         FormField formField = new FormField();
         formField.setFieldCode("quanzong");
         formField.setLabel("全宗");
-        formField.setFieldTypeStr(FieldType.STRING);
+        formField.setFieldTypeStrEnum(FieldType.STRING);
         formField.setFieldLength(200);
 //        formField.setFieldAliasStr("quanzong");
         formField.setOrder(1);
@@ -230,7 +228,7 @@ public class FormDefinitionTest {
         FormField formField1 = new FormField();
         formField1.setFieldCode("niandu");
         formField1.setLabel("年度");
-        formField1.setFieldTypeStr(FieldType.LONG);
+        formField1.setFieldTypeStrEnum(FieldType.LONG);
 //        formField1.setFieldLength(10);
         formField1.setOrder(2);
 //        formField1.setFieldAliasStr("niandu");

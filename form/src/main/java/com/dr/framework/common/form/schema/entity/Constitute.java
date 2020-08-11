@@ -1,6 +1,6 @@
 package com.dr.framework.common.form.schema.entity;
 
-import com.dr.framework.common.form.core.model.Form;
+import com.dr.framework.common.form.engine.model.core.FormModel;
 import com.dr.framework.common.form.init.model.FormDefault;
 import com.dr.framework.common.form.validate.model.ValidateDefinition;
 
@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Constitute {
 
-    private Form form;
+    private FormModel formModel;
 
     private ValidateDefinition validateDefinition;
 
@@ -18,18 +18,18 @@ public class Constitute {
     public Constitute() {
     }
 
-    public Constitute(Form form, ValidateDefinition validateDefinition, FormDefault formDefault) {
-        this.form = form;
+    public Constitute(FormModel formModel, ValidateDefinition validateDefinition, FormDefault formDefault) {
+        this.formModel = formModel;
         this.validateDefinition = validateDefinition;
         this.formDefault = formDefault;
     }
 
-    public Form getForm() {
-        return form;
+    public FormModel getForm() {
+        return formModel;
     }
 
-    public void setForm(Form form) {
-        this.form = form;
+    public void setForm(FormModel formModel) {
+        this.formModel = formModel;
     }
 
     public ValidateDefinition getValidateDefinition() {
@@ -50,7 +50,7 @@ public class Constitute {
 
     public Map<String, Object> getSchemaMap() {
         Map<String, Object> schemaMap = new HashMap<>();
-        schemaMap.put("definitionId", form);
+        schemaMap.put("definitionId", formModel);
         schemaMap.put("validateId", validateDefinition);
         schemaMap.put("defaultValueId", formDefault);
         return schemaMap;

@@ -18,17 +18,17 @@ public class ValidateDefinitionSelectCommand implements Command<List<ValidateDef
     /**
      * 表单定义id
      */
-    private String formDefinitionId;
+    private final String formDefinitionId;
 
     /**
      * 校验类型
      */
-    private String validateType;
+    private final String validateType;
 
     /**
      * 校验名称
      */
-    private String validateName;
+    private final String validateName;
 
     public ValidateDefinitionSelectCommand(String formDefinitionId) {
         this(formDefinitionId, "default", null);

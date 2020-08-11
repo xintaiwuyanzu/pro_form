@@ -9,7 +9,7 @@ import com.dr.framework.common.form.core.service.impl.FormDataServiceImpl;
 import com.dr.framework.common.form.engine.CommandContextFactory;
 import com.dr.framework.common.form.engine.CommandExecutor;
 import com.dr.framework.common.form.engine.CommandPlugin;
-import com.dr.framework.common.form.engine.FormConfig;
+import com.dr.framework.common.form.engine.config.FormConfig;
 import com.dr.framework.common.form.engine.impl.PlugInCommandExecutor;
 import com.dr.framework.common.form.engine.impl.StandCommandContextFactory;
 import com.dr.framework.common.form.engine.impl.StandCommandExecutor;

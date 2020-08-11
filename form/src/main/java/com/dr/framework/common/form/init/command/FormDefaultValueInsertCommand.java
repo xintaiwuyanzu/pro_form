@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class FormDefaultValueInsertCommand implements Command<FormDefault> {
-    private FormDefault formDefault;
-    private Collection<FieldDefault> fieldDefaultList;
+    private final FormDefault formDefault;
+    private final Collection<FieldDefault> fieldDefaultList;
 
     public FormDefaultValueInsertCommand(FormDefault formDefault, Collection<FieldDefault> fieldDefaultList) {
         this.formDefault = formDefault;

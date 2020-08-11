@@ -5,6 +5,6 @@ package com.dr.framework.common.form.engine;
  *
  * @author dr
  */
-public interface Plugin extends TypeObject {
+public interface Plugin extends TypeComponent {
 
 }

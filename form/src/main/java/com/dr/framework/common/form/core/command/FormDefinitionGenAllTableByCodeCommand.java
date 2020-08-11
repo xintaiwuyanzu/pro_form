@@ -15,7 +15,7 @@ import java.util.List;
  * @author dr
  */
 public class FormDefinitionGenAllTableByCodeCommand extends AbstractFormDefinitionCommand implements Command<List<FormDefinition>> {
-    private String formCode;
+    private final String formCode;
 
     public FormDefinitionGenAllTableByCodeCommand(String formCode) {
         this.formCode = formCode;

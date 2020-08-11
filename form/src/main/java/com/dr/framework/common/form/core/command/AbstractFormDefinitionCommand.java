@@ -6,8 +6,8 @@ import com.dr.framework.common.entity.StatusEntity;
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormDefinitionInfo;
 import com.dr.framework.common.form.core.entity.FormField;
-import com.dr.framework.common.form.core.model.Field;
-import com.dr.framework.common.form.core.model.Form;
+import com.dr.framework.common.form.engine.model.core.FieldModel;
+import com.dr.framework.common.form.engine.model.core.FormModel;
 import com.dr.framework.common.form.core.plugin.CreateWorkFormPlugin;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
 import com.dr.framework.common.form.engine.CommandContext;
@@ -40,7 +40,7 @@ public abstract class AbstractFormDefinitionCommand {
     protected void saveFormDefinition(CommandContext context, FormDefinition formDefinition) {
         CommonMapper mapper = context.getMapper();
         //保存字段定义
-        formDefinition.getFormFieldList().forEach(f -> mapper.insert(f));
+        formDefinition.getFields().forEach(mapper::insert);
         //保存定义数据
         mapper.insert(formDefinition);
         //更新其他的默认表单为非默认
@@ -61,7 +61,7 @@ public abstract class AbstractFormDefinitionCommand {
      */
     protected void createTable(CommandContext context, FormDefinition formDefinition) {
         Assert.isTrue(formDefinition != null, FORM_CAN_NOT_BE_NULL_ERROR);
-        Assert.isTrue(formDefinition.getFormFieldList() != null && !formDefinition.getFormFieldList().isEmpty(), "表单字段不能为空！");
+        Assert.isTrue(formDefinition.getFields() != null && !formDefinition.getFields().isEmpty(), "表单字段不能为空！");
         //表结构生成器
         DataBaseService dataBaseService = context.getDataBaseService();
         boolean tableExist = tableExist(context, formDefinition);
@@ -137,7 +137,7 @@ public abstract class AbstractFormDefinitionCommand {
         relation.setRemark(formDefinition.getRemarks());
         relation.setName(formNameGenerator.genTableName(formDefinition));
 
-        formDefinition.getFormFieldList().forEach(field -> newColumn(relation, formDefinition, field, formNameGenerator));
+        formDefinition.getFields().forEach(field -> newColumn(relation, formDefinition, field, formNameGenerator));
 
         Column idColumn = new Column(relation.getName(), IdEntity.ID_COLUMN_NAME, IdEntity.ID_COLUMN_NAME);
         idColumn.setPosition(0);
@@ -184,28 +184,28 @@ public abstract class AbstractFormDefinitionCommand {
         dataBaseService.dropTable(tableName, Constants.MODULE_NAME);
     }
 
-    protected void validateFieldBaseInfo(CommandContext context, Field field) {
-        Assert.isTrue(!StringUtils.isEmpty(field.getFormDefinitionId()), "字段所属表定义不能为空！");
-        FormDefinition definition = CacheUtil.getFormDefinitionFromCache(context, field.getFormDefinitionId());
-        validateFieldBaseInfo(definition, field);
+    protected void validateFieldBaseInfo(CommandContext context, FieldModel fieldModel) {
+        Assert.isTrue(!StringUtils.isEmpty(fieldModel.getFormDefinitionId()), "字段所属表定义不能为空！");
+        FormDefinition definition = CacheUtil.getFormDefinitionFromCache(context, fieldModel.getFormDefinitionId());
+        validateFieldBaseInfo(definition, fieldModel);
     }
 
     /**
      * 校验字段基本参数是否正确
      *
      * @param definition
-     * @param field
+     * @param fieldModel
      */
-    protected void validateFieldBaseInfo(FormDefinition definition, Field field) {
+    protected void validateFieldBaseInfo(FormDefinition definition, FieldModel fieldModel) {
         //类型不能为空
-        Assert.notNull(field.getFieldType(), "字段类型不能为空！");
+        Assert.notNull(fieldModel.getFieldType(), "字段类型不能为空！");
         //主表外键不能为空
         Set<String> existsFieldNames = definition == null ? Collections.EMPTY_SET : definition.getFieldNames();
         Set<String> existsFieldAlias = definition == null ? Collections.EMPTY_SET : definition.getFieldAlias();
 
         Set<String> fieldNames = new HashSet<>();
 
-        String fieldCode = field.getFieldCode();
+        String fieldCode = fieldModel.getFieldCode();
         //字段名称不能重复
         if (!StringUtils.isEmpty(fieldCode)) {
             Assert.isTrue(!existsFieldNames.contains(fieldCode), "字段名称不能重复！" + fieldCode);
@@ -213,7 +213,7 @@ public abstract class AbstractFormDefinitionCommand {
             fieldNames.add(fieldCode);
         }
         //别名不能重复
-        Collection<String> fieldAlias = field.getFieldAlias();
+        Collection<String> fieldAlias = fieldModel.getFieldAlias();
         if (fieldAlias != null) {
             fieldAlias.forEach(a -> {
                 Assert.isTrue(!existsFieldNames.contains(a), "字段别名不能重复！" + a);
@@ -224,8 +224,8 @@ public abstract class AbstractFormDefinitionCommand {
         }
     }
 
-    protected FormField newField(Field field) {
-        FormField formField = new FormField(field);
+    protected FormField newField(FieldModel fieldModel) {
+        FormField formField = new FormField(fieldModel);
         CommonService.bindCreateInfo(formField);
         if (StringUtils.isEmpty(formField.getStatus())) {
             formField.setStatus(StatusEntity.STATUS_ENABLE_STR);
@@ -233,9 +233,9 @@ public abstract class AbstractFormDefinitionCommand {
         return formField;
     }
 
-    protected FormDefinition newFormDefinition(CommandContext context, Form form) {
-        Assert.notNull(form, FORM_CAN_NOT_BE_NULL_ERROR);
-        FormDefinition formDefinition = new FormDefinition(form);
+    protected FormDefinition newFormDefinition(CommandContext context, FormModel formModel) {
+        Assert.notNull(formModel, FORM_CAN_NOT_BE_NULL_ERROR);
+        FormDefinition formDefinition = new FormDefinition(formModel);
         CommonService.bindCreateInfo(formDefinition);
         return formDefinition;
     }
@@ -301,8 +301,8 @@ public abstract class AbstractFormDefinitionCommand {
         Integer max = getLastFormDefinitionVersion(context, old.getFormCode());
         formDefinition.setVersion(max + 1);
 
-        formDefinition.setFormFieldList(
-                old.getFormFieldList()
+        formDefinition.setFields(
+                old.getFields()
                         .stream()
                         .map(f -> {
                             FormField formField = newField(f);

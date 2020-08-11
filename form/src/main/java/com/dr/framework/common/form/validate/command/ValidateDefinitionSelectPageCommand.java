@@ -17,9 +17,9 @@ import java.util.List;
 
 public class ValidateDefinitionSelectPageCommand implements Command<Page<ValidateDefinition>> {
 
-    private String formDefinitionId;
-    private int pageIndex;
-    private int pageSize;
+    private final String formDefinitionId;
+    private final int pageIndex;
+    private final int pageSize;
 
     public ValidateDefinitionSelectPageCommand(String formDefinitionId, int pageIndex, int pageSize) {
         this.formDefinitionId = formDefinitionId;

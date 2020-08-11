@@ -3,7 +3,7 @@ package com.dr.framework.common.form.display.command;
 import com.dr.framework.common.dao.CommonMapper;
 import com.dr.framework.common.form.display.entity.FormDisplayScheme;
 import com.dr.framework.common.form.display.entity.FormDisplaySchemeInfo;
-import com.dr.framework.common.form.display.model.FormDisplay;
+import com.dr.framework.common.form.engine.model.display.FormDisplay;
 import com.dr.framework.common.form.display.model.SimpleFormDisplay;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
@@ -21,7 +21,7 @@ public class AbstractFormDisplayIdCommand {
     /**
      * 表单显示方案Id
      */
-    private String formDisplayId;
+    private final String formDisplayId;
     /**
      * 是否更新所有的版本
      */

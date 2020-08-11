@@ -35,7 +35,7 @@ public class Constants {
      * 147
      */
     public static boolean isChinaPhoneLegal(String str) throws PatternSyntaxException {
-        String regExp = "^((13[0-9])|(15[^4])|(18[0,2,3,5-9])|(17[0-8])|(147))\\d{8}$";
+        String regExp = "^((13[0-9])|(15[^4])|(18[0,235-9])|(17[0-8])|(147))\\d{8}$";
         Pattern p = Pattern.compile(regExp);
         Matcher m = p.matcher(str);
         return m.matches();
@@ -45,7 +45,7 @@ public class Constants {
      * 香港手机号码8位数，5|6|8|9开头+7位任意数
      */
     public static boolean isHKPhoneLegal(String str) throws PatternSyntaxException {
-        String regExp = "^(5|6|8|9)\\d{7}$";
+        String regExp = "^([5689])\\d{7}$";
         Pattern p = Pattern.compile(regExp);
         Matcher m = p.matcher(str);
         return m.matches();

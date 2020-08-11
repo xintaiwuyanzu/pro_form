@@ -1,15 +1,17 @@
 package com.dr.framework.common.form.core.service.impl;
 
+import com.dr.framework.common.config.model.MetaMap;
 import com.dr.framework.common.form.core.command.*;
-import com.dr.framework.common.form.core.model.Field;
-import com.dr.framework.common.form.core.model.Form;
 import com.dr.framework.common.form.core.query.FormDefinitionQuery;
 import com.dr.framework.common.form.core.service.FormDefinitionService;
-import com.dr.framework.common.form.engine.impl.AbstractFormService;
+import com.dr.framework.common.form.engine.impl.service.AbstractFormService;
+import com.dr.framework.common.form.engine.model.core.FieldModel;
+import com.dr.framework.common.form.engine.model.core.FormModel;
 import com.dr.framework.common.page.Page;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 默认表单定义实现
@@ -19,47 +21,47 @@ import java.util.List;
 public class DefaultFormDefinitionServiceImpl extends AbstractFormService implements FormDefinitionService {
 
     @Override
-    public Form addFormDefinition(Form form, Collection<Field> fields, boolean createTable) {
-        return execute(new FormDefinitionInsertCommand(form, fields, createTable));
+    public FormModel addFormDefinition(FormModel formModel, Collection<FieldModel> fieldModels, boolean createTable) {
+        return execute(new FormDefinitionInsertCommand(formModel, fieldModels, createTable));
     }
 
     @Override
-    public Form updateFormDefinitionBaseInfo(Form form) {
-        return execute(new FormDefinitionUpdateBaseInfoCommand(form));
+    public FormModel updateFormDefinitionBaseInfo(FormModel formModel) {
+        return execute(new FormDefinitionUpdateBaseInfoCommand(formModel));
     }
 
     @Override
-    public Form checkAndGenTable(String formDefinitionId) {
+    public FormModel checkAndGenTable(String formDefinitionId) {
         return execute(new FormDefinitionGenTableCommand(formDefinitionId));
     }
 
     @Override
-    public Form checkAndGenTableByCodeAndVersion(String formCode, Integer version) {
+    public FormModel checkAndGenTableByCodeAndVersion(String formCode, Integer version) {
         return execute(new FormDefinitionGenTableCommand(formCode, version));
     }
 
     @Override
-    public List<? extends Form> checkAndGenAllTableByCode(String formCode) {
+    public List<? extends FormModel> checkAndGenAllTableByCode(String formCode) {
         return execute(new FormDefinitionGenAllTableByCodeCommand(formCode));
     }
 
     @Override
-    public List<? extends Form> selectFormDefinitionByQuery(FormDefinitionQuery query) {
+    public List<? extends FormModel> selectFormDefinitionByQuery(FormDefinitionQuery query) {
         return execute(new FormDefinitionSelectCommand(query));
     }
 
     @Override
-    public Page<? extends Form> selectPageFormDefinition(FormDefinitionQuery query, int pageIndex, int pageSize) {
+    public Page<? extends FormModel> selectPageFormDefinition(FormDefinitionQuery query, int pageIndex, int pageSize) {
         return execute(new FormDefinitionSelectPageCommand(query, pageIndex, pageSize));
     }
 
     @Override
-    public Form selectFormDefinitionById(String formDefinitionId) {
+    public FormModel selectFormDefinitionById(String formDefinitionId) {
         return execute(new FormDefinitionSelectByIdCommand(formDefinitionId));
     }
 
     @Override
-    public Form selectFormDefinitionByCodeAndVersion(String formCode, Integer version) {
+    public FormModel selectFormDefinitionByCodeAndVersion(String formCode, Integer version) {
         return execute(new FormDefinitionSelectByCodeAndVersionCommand(formCode, version));
     }
 
@@ -74,52 +76,72 @@ public class DefaultFormDefinitionServiceImpl extends AbstractFormService implem
     }
 
     @Override
-    public Field selectFieldByCode(String formDefinitionId, String fieldCode) {
+    public FieldModel selectFieldByCode(String formDefinitionId, String fieldCode) {
         return execute(new FormDefinitionFieldSelectOneCommand(formDefinitionId, fieldCode));
     }
 
     @Override
-    public Field selectFieldByCodeAndVersion(String formCode, Integer version, String fieldCode) {
+    public FieldModel selectFieldByCodeAndVersion(String formCode, Integer version, String fieldCode) {
         return execute(new FormDefinitionFieldSelectOneCommand(formCode, version, fieldCode));
     }
 
     @Override
-    public Field addField(String formDefinitionId, Field field, boolean updateTable, boolean copyData) {
-        return execute(new FormDefinitionFieldAddCommand(formDefinitionId, updateTable, copyData, field));
+    public FieldModel addField(String formDefinitionId, FieldModel fieldModel, boolean updateTable, boolean copyData) {
+        return execute(new FormDefinitionFieldAddCommand(formDefinitionId, updateTable, copyData, fieldModel));
     }
 
     @Override
-    public Field addFieldByFormCode(String formCode, Integer version, Field field, boolean updateTable, boolean copyData) {
-        return execute(new FormDefinitionFieldAddCommand(formCode, version, updateTable, copyData, field));
+    public MetaMap setMeta(String formDefinitionId, Map<String, String> metas) {
+        return execute(new FormDefinitionAddMetaCommand(formDefinitionId, metas));
     }
 
     @Override
-    public Field changeField(String formDefinitionId, Field field, boolean updateTable, boolean copyData) {
-        return execute(new FormDefinitionFieldChangeCommand(formDefinitionId, updateTable, copyData, field));
+    public MetaMap setMetaByFormCode(String formCode, Integer version, Map<String, String> metas) {
+        return execute(new FormDefinitionAddMetaCommand(formCode, version, metas));
     }
 
     @Override
-    public Field changeFieldByFormCode(String formCode, Integer version, Field field, boolean updateTable, boolean copyData) {
-        return execute(new FormDefinitionFieldChangeCommand(formCode, version, updateTable, copyData, field));
+    public FieldModel addFieldByFormCode(String formCode, Integer version, FieldModel fieldModel, boolean updateTable, boolean copyData) {
+        return execute(new FormDefinitionFieldAddCommand(formCode, version, updateTable, copyData, fieldModel));
     }
 
     @Override
-    public Field removeField(String formDefinitionId, String fieldCode) {
+    public FieldModel changeField(String formDefinitionId, FieldModel fieldModel, boolean updateTable, boolean copyData) {
+        return execute(new FormDefinitionFieldChangeCommand(formDefinitionId, updateTable, copyData, fieldModel));
+    }
+
+    @Override
+    public FieldModel changeFieldByFormCode(String formCode, Integer version, FieldModel fieldModel, boolean updateTable, boolean copyData) {
+        return execute(new FormDefinitionFieldChangeCommand(formCode, version, updateTable, copyData, fieldModel));
+    }
+
+    @Override
+    public FieldModel removeField(String formDefinitionId, String fieldCode) {
         return execute(new FormDefinitionFieldRemoveCommand(formDefinitionId, fieldCode));
     }
 
     @Override
-    public Field removeFieldByFormCode(String formCode, Integer version, String fieldCode) {
+    public FieldModel removeFieldByFormCode(String formCode, Integer version, String fieldCode) {
         return execute(new FormDefinitionFieldRemoveCommand(formCode, version, fieldCode));
     }
 
     @Override
-    public Field changeFieldStatus(String formDefinitionId, String fieldCode, String status) {
+    public FieldModel changeFieldStatus(String formDefinitionId, String fieldCode, String status) {
         return execute(new FormDefinitionFieldChangeStatusCommand(formDefinitionId, fieldCode, status));
     }
 
     @Override
-    public Field changeFieldStatusByFormCode(String formCode, Integer version, String fieldCode, String status) {
+    public MetaMap setFieldMeta(String formDefinitionId, String fieldCode, Map<String, String> metas) {
+        return execute(new FormDefinitionFieldAddMetaCommand(formDefinitionId, fieldCode, metas));
+    }
+
+    @Override
+    public MetaMap setFieldMetaByFormCode(String formCode, Integer version, String fieldCode, Map<String, String> metas) {
+        return execute(new FormDefinitionFieldAddMetaCommand(formCode, version, fieldCode, metas));
+    }
+
+    @Override
+    public FieldModel changeFieldStatusByFormCode(String formCode, Integer version, String fieldCode, String status) {
         return execute(new FormDefinitionFieldChangeStatusCommand(formCode, version, fieldCode, status));
     }
 

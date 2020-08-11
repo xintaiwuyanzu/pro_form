@@ -13,7 +13,7 @@ public abstract class AbstractFormDataSqlBuilderCommand<T> extends AbstractFormD
     /**
      * sql语句构造器
      */
-    private SqlBuilder sqlBuilder;
+    private final SqlBuilder sqlBuilder;
 
     public AbstractFormDataSqlBuilderCommand(String formDefinitionId, boolean autoCheck, SqlBuilder sqlBuilder) {
         super(formDefinitionId, autoCheck);

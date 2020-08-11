@@ -4,18 +4,25 @@ import com.dr.framework.common.form.display.entity.FieldDisplayScheme;
 import com.dr.framework.common.form.display.entity.FieldDisplaySchemeInfo;
 import com.dr.framework.common.form.display.entity.FormDisplayScheme;
 import com.dr.framework.common.form.display.entity.FormDisplaySchemeInfo;
+import com.dr.framework.common.form.display.model.SimpleFormDisplay;
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
+import com.dr.framework.common.form.engine.model.display.FormDisplay;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
 import java.util.List;
 
-public class FormDisplaySelectOneCommand implements Command<FormDisplayScheme> {
-    private String formDefinitionId;
-    private String formDisplayId;
-    private String schemeCode;
+/**
+ * 根据显示方案id查询单个显示方案
+ *
+ * @author dr
+ */
+public class FormDisplaySelectOneCommand extends AbstractFormDisplayIdCommand implements Command<FormDisplayScheme> {
+    private final String formDefinitionId;
+    private final String formDisplayId;
+    private final String schemeCode;
 
     public FormDisplaySelectOneCommand(String formDefinitionId, String formDisplayId, String schemeCode) {
         this.formDefinitionId = formDefinitionId;

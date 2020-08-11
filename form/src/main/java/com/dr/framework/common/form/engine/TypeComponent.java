@@ -1,11 +1,11 @@
 package com.dr.framework.common.form.engine;
 
 /**
- * 一个抽象接口，用来统一type和描述，用来给前端展示使用
+ * 一个抽象service接口，用来统一type和描述，用来给前端展示使用
  *
  * @author dr
  */
-public interface TypeObject {
+public interface TypeComponent {
     /**
      * 类型
      *

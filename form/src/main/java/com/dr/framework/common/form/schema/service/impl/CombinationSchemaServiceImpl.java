@@ -41,13 +41,13 @@ public class CombinationSchemaServiceImpl implements CombinationSchemaService {
         jsonNode.put("defaultId", "");
         jsonNode.put("description", formDefinition.getDescription());
 
-        Collection<FormField> listFiled = formDefinition.getFormFieldList();
+        Collection<FormField> listFiled = formDefinition.getFields();
         if (listFiled.size() > 0) {
             ArrayNode required = objectMapper.createArrayNode();
             ObjectNode properties = objectMapper.createObjectNode();
-            for (FormField FormField : listFiled) {
-                properties.set(FormField.getFieldCode(), getJsonMap(FormField));
-                required.add(FormField.getFieldCode());
+            for (FormField formField : listFiled) {
+                properties.set(formField.getFieldCode(), getJsonMap(formField));
+                required.add(formField.getFieldCode());
             }
             jsonNode.set("required", required);
             jsonNode.set("properties", properties);

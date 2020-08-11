@@ -2,8 +2,8 @@ package com.dr.framework.common.form.schema.service.impl;
 
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormField;
-import com.dr.framework.common.form.core.model.Field;
-import com.dr.framework.common.form.core.model.Form;
+import com.dr.framework.common.form.engine.model.core.FieldModel;
+import com.dr.framework.common.form.engine.model.core.FormModel;
 import com.dr.framework.common.form.core.service.FormDefinitionService;
 import com.dr.framework.common.form.init.entity.FieldDefaultValue;
 import com.dr.framework.common.form.init.entity.FormDefaultValue;
@@ -28,7 +28,7 @@ import java.util.*;
 
 @Service
 public class DecomposeSchemaServiceImpl implements DecomposeSchemaService {
-    Logger logger = LoggerFactory.getLogger(DecomposeSchemaService.class);
+    final Logger logger = LoggerFactory.getLogger(DecomposeSchemaService.class);
     @Autowired
     ObjectMapper objectMapper;
     @Autowired
@@ -51,13 +51,13 @@ public class DecomposeSchemaServiceImpl implements DecomposeSchemaService {
                 //将jsonSchema数据转换成Json对象
                 JsonNode jsonNode = objectMapper.readTree(jsonSchema);
                 //根据获取的数据，分离出来表单的定义数据
-                Form form = getFormDefinition(jsonNode);
+                FormModel formModel = getFormDefinition(jsonNode);
                 //根据json对象获取校验数据
-                ValidateDefinitionForm validateDefinitionForm = getValidateDefinitionForm(jsonNode, form.getId());
+                ValidateDefinitionForm validateDefinitionForm = getValidateDefinitionForm(jsonNode, formModel.getId());
                 //根据json对象获取默认值数据
-                FormDefaultValue formDefaultValue = getFormDefaultValue(jsonNode, form.getId());
+                FormDefaultValue formDefaultValue = getFormDefaultValue(jsonNode, formModel.getId());
                 //创建返回的类
-                Constitute constitute = new Constitute(form, new ValidateDefinitionForm(), formDefaultValue);
+                Constitute constitute = new Constitute(formModel, new ValidateDefinitionForm(), formDefaultValue);
                 return constitute;
             } catch (JsonProcessingException e) {
                 logger.error("解析schema失败", e);
@@ -74,11 +74,11 @@ public class DecomposeSchemaServiceImpl implements DecomposeSchemaService {
      */
     @Override
     public boolean verifyNode(String jsonSchema) {
-        Assert.isTrue(jsonSchema.indexOf("title") != -1, "jsonSchema数据缺少title节点");
-        Assert.isTrue(jsonSchema.indexOf("type") != -1, "jsonSchema数据缺少type节点");
-        Assert.isTrue(jsonSchema.indexOf("properties") != -1, "jsonSchema数据缺少properties节点");
-        Assert.isTrue(jsonSchema.indexOf("required") != -1, "jsonSchema数据缺少required节点");
-        Assert.isTrue(jsonSchema.indexOf("description") != -1, "jsonSchema数据缺少description节点");
+        Assert.isTrue(jsonSchema.contains("title"), "jsonSchema数据缺少title节点");
+        Assert.isTrue(jsonSchema.contains("type"), "jsonSchema数据缺少type节点");
+        Assert.isTrue(jsonSchema.contains("properties"), "jsonSchema数据缺少properties节点");
+        Assert.isTrue(jsonSchema.contains("required"), "jsonSchema数据缺少required节点");
+        Assert.isTrue(jsonSchema.contains("description"), "jsonSchema数据缺少description节点");
         //TODO 验证jsonSchema 是否符合标注
 
         return true;
@@ -102,9 +102,9 @@ public class DecomposeSchemaServiceImpl implements DecomposeSchemaService {
      * @param jsonNode
      * @return
      */
-    protected Form getFormDefinition(JsonNode jsonNode) {
+    protected FormModel getFormDefinition(JsonNode jsonNode) {
         List<FormField> formFields = new ArrayList<>();
-        List<Field> fields = new ArrayList<>();
+        List<FieldModel> fieldModels = new ArrayList<>();
         FormDefinition formDefinition = new FormDefinition();
         formDefinition.setVersion(1);
         formDefinition.setFormCode(jsonNode.get("title").asText());
@@ -125,14 +125,14 @@ public class DecomposeSchemaServiceImpl implements DecomposeSchemaService {
                     if (!value.isEmpty()) {
                         FormField formField = getFormFile(required, value, i);
                         formFields.add(formField);
-                        fields.add(formField);
+                        fieldModels.add(formField);
                     }
                 }
             }
         }
-        formDefinition.setFormFieldList(formFields);
-        Form form = formDefinitionService.addFormDefinition(formDefinition, fields, true);
-        return form;
+        formDefinition.setFields(formFields);
+        FormModel formModel = formDefinitionService.addFormDefinition(formDefinition, fieldModels, true);
+        return formModel;
     }
 
     /**
@@ -149,7 +149,7 @@ public class DecomposeSchemaServiceImpl implements DecomposeSchemaService {
         formField.setFieldCode(required.get(i).asText());
         //  formField.setFieldType(value.get("type").asText());
         formField.setDescription(value.has("description") ? value.get("description").asText() : null);
-        formField.setFieldLength(Integer.valueOf(value.get("maxLength").asText()));
+        formField.setFieldLength(Integer.parseInt(value.get("maxLength").asText()));
         //TODO 补充相对应的字段
         formField.setStatus("0");
         formField.setOrder(i + 1);

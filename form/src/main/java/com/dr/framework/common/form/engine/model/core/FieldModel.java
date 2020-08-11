@@ -1,6 +1,8 @@
-package com.dr.framework.common.form.core.model;
+package com.dr.framework.common.form.engine.model.core;
 
-import com.dr.framework.common.form.engine.model.FormModel;
+import com.dr.framework.common.form.engine.model.BaseModel;
+import com.dr.framework.common.form.engine.model.FormRelationModel;
+import com.dr.framework.common.form.engine.model.MetaGetterModel;
 
 import java.util.Collection;
 
@@ -8,16 +10,9 @@ import java.util.Collection;
  * 表单字段抽象定义
  *
  * @author caor
+ * @author dr
  */
-public interface Field extends FormModel {
-
-    /**
-     * 获取表单定义Id
-     *
-     * @return
-     */
-    String getFormDefinitionId();
-
+public interface FieldModel extends BaseModel, FormRelationModel, MetaGetterModel {
     /**
      * 获取字段编码，唯一，当作字段名称使用
      *
@@ -54,7 +49,6 @@ public interface Field extends FormModel {
      */
     int getFieldScale();
 
-
     /**
      * 获取字段顺序号
      *
@@ -75,5 +69,4 @@ public interface Field extends FormModel {
      * @return
      */
     String getLabel();
-
 }

@@ -3,7 +3,7 @@ package com.dr.framework.common.form.core.command;
 import com.dr.framework.common.dao.CommonMapper;
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormField;
-import com.dr.framework.common.form.core.model.Field;
+import com.dr.framework.common.form.engine.model.core.FieldModel;
 import com.dr.framework.common.form.engine.CommandContext;
 import org.springframework.util.Assert;
 
@@ -17,12 +17,12 @@ import java.util.UUID;
  */
 public class FormDefinitionFieldChangeCommand extends FormDefinitionFieldAddCommand {
 
-    public FormDefinitionFieldChangeCommand(String formDefinitionId, boolean updateTable, boolean copyData, Field field) {
-        super(formDefinitionId, updateTable, copyData, field);
+    public FormDefinitionFieldChangeCommand(String formDefinitionId, boolean updateTable, boolean copyData, FieldModel fieldModel) {
+        super(formDefinitionId, updateTable, copyData, fieldModel);
     }
 
-    public FormDefinitionFieldChangeCommand(String formCode, Integer version, boolean updateTable, boolean copyData, Field field) {
-        super(formCode, version, updateTable, copyData, field);
+    public FormDefinitionFieldChangeCommand(String formCode, Integer version, boolean updateTable, boolean copyData, FieldModel fieldModel) {
+        super(formCode, version, updateTable, copyData, fieldModel);
     }
 
     @Override
@@ -53,7 +53,6 @@ public class FormDefinitionFieldChangeCommand extends FormDefinitionFieldAddComm
             oldField.setLabel(getField().getLabel());
             oldField.setDescription(getField().getDescription());
             oldField.setRemarks(getField().getRemarks());
-            oldField.setDataObjectId(getField().getDataObjectId());
 
             oldField.setFieldAliasStr(String.join(",", getField().getFieldAlias()));
             oldField.setLabel(getField().getLabel());
@@ -74,24 +73,22 @@ public class FormDefinitionFieldChangeCommand extends FormDefinitionFieldAddComm
     protected FormDefinition copyFormDefinition(CommandContext context, FormDefinition old) {
         FormDefinition formDefinition = super.copyFormDefinition(context, old);
         FormField oldField = formDefinition.getFieldByCode(getField().getFieldCode());
-        formDefinition.getFormFieldList()
+        formDefinition.getFields()
                 .removeIf(f -> f.getId().equalsIgnoreCase(oldField.getId()));
         return formDefinition;
     }
 
     @Override
-    protected FormField newField(Field field) {
-        FormField newField = super.newField(field);
+    protected FormField newField(FieldModel fieldModel) {
+        FormField newField = super.newField(fieldModel);
         newField.setId(UUID.randomUUID().toString());
         return newField;
     }
 
-    private boolean isFieldChange(FormField old, Field field) {
-        if (old.getFieldType().equals(field.getFieldType())) {
-            if (old.getFieldLength() == field.getFieldLength()) {
-                if (old.getFieldScale() == field.getFieldScale()) {
-                    return false;
-                }
+    private boolean isFieldChange(FormField old, FieldModel fieldModel) {
+        if (old.getFieldType().equals(fieldModel.getFieldType())) {
+            if (old.getFieldLength() == fieldModel.getFieldLength()) {
+                return old.getFieldScale() != fieldModel.getFieldScale();
             }
         }
         return true;

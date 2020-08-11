@@ -13,7 +13,7 @@ import org.springframework.util.StringUtils;
  * @author dr
  */
 public class FormDataUpdateCommand extends FormDataInsertCommand {
-    private boolean ignoreNull;
+    private final boolean ignoreNull;
 
     public FormDataUpdateCommand(FormData formData, boolean ignoreNull) {
         super(formData, false);

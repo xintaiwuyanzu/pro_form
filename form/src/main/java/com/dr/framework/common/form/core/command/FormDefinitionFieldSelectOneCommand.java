@@ -16,7 +16,7 @@ public class FormDefinitionFieldSelectOneCommand extends AbstractFormDefinitionI
     /**
      * 字段编码
      */
-    private String fieldCode;
+    private final String fieldCode;
 
     public FormDefinitionFieldSelectOneCommand(String formDefinitionId, String fieldCode) {
         super(formDefinitionId);

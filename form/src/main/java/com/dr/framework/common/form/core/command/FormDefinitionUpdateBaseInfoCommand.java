@@ -2,7 +2,7 @@ package com.dr.framework.common.form.core.command;
 
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormDefinitionInfo;
-import com.dr.framework.common.form.core.model.Form;
+import com.dr.framework.common.form.engine.model.core.FormModel;
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
@@ -16,15 +16,15 @@ import org.springframework.util.StringUtils;
  */
 public class FormDefinitionUpdateBaseInfoCommand extends AbstractFormDefinitionIdCommand implements Command<FormDefinition> {
 
-    private Form form;
+    private final FormModel formModel;
 
-    public FormDefinitionUpdateBaseInfoCommand(Form form) {
+    public FormDefinitionUpdateBaseInfoCommand(FormModel formModel) {
         super(null);
-        Assert.isTrue(form != null, FORM_CAN_NOT_BE_NULL_ERROR);
-        setFormDefinitionId(form.getId());
-        setFormCode(form.getFormCode());
-        setVersion(form.getVersion());
-        this.form = form;
+        Assert.isTrue(formModel != null, FORM_CAN_NOT_BE_NULL_ERROR);
+        setFormDefinitionId(formModel.getId());
+        setFormCode(formModel.getFormCode());
+        setVersion(formModel.getVersion());
+        this.formModel = formModel;
     }
 
     @Override
@@ -32,42 +32,42 @@ public class FormDefinitionUpdateBaseInfoCommand extends AbstractFormDefinitionI
         FormDefinition formDefinition = getFormDefinition(context);
         Assert.isTrue(formDefinition != null, FORM_CAN_NOT_BE_NULL_ERROR);
         SqlQuery sqlQuery = SqlQuery.from(FormDefinition.class).equal(FormDefinitionInfo.ID, formDefinition.getId());
-        if (!StringUtils.isEmpty(form.getFormName())) {
-            sqlQuery.set(FormDefinitionInfo.FORMNAME, form.getFormName());
+        if (!StringUtils.isEmpty(formModel.getFormName())) {
+            sqlQuery.set(FormDefinitionInfo.FORMNAME, formModel.getFormName());
         }
-        if (!StringUtils.isEmpty(form.getFormType())) {
-            sqlQuery.set(FormDefinitionInfo.FORMTYPE, form.getFormType());
+        if (!StringUtils.isEmpty(formModel.getFormType())) {
+            sqlQuery.set(FormDefinitionInfo.FORMTYPE, formModel.getFormType());
         }
-        if (!StringUtils.isEmpty(form.getDescription())) {
-            sqlQuery.set(FormDefinitionInfo.DESCRIPTION, form.getDescription());
+        if (!StringUtils.isEmpty(formModel.getDescription())) {
+            sqlQuery.set(FormDefinitionInfo.DESCRIPTION, formModel.getDescription());
         }
-        if (!StringUtils.isEmpty(form.getDataObjectId())) {
-            sqlQuery.set(FormDefinitionInfo.DATAOBJECTID, form.getDataObjectId());
+        if (!StringUtils.isEmpty(formModel.getDataObjectId())) {
+            sqlQuery.set(FormDefinitionInfo.DATAOBJECTID, formModel.getDataObjectId());
         }
-        if (form.getFormOrder() != null) {
-            sqlQuery.set(FormDefinitionInfo.ORDERBY, form.getFormOrder());
+        if (formModel.getFormOrder() != null) {
+            sqlQuery.set(FormDefinitionInfo.ORDERBY, formModel.getFormOrder());
         }
         context.getMapper().updateIgnoreNullByQuery(sqlQuery);
         //更新成功后更新缓存
-        if (!StringUtils.isEmpty(form.getFormName())) {
-            formDefinition.setFormName(form.getFormName());
+        if (!StringUtils.isEmpty(formModel.getFormName())) {
+            formDefinition.setFormName(formModel.getFormName());
         }
-        if (!StringUtils.isEmpty(form.getFormType())) {
-            formDefinition.setFormType(form.getFormType());
+        if (!StringUtils.isEmpty(formModel.getFormType())) {
+            formDefinition.setFormType(formModel.getFormType());
         }
-        if (!StringUtils.isEmpty(form.getDescription())) {
-            formDefinition.setDescription(form.getDescription());
+        if (!StringUtils.isEmpty(formModel.getDescription())) {
+            formDefinition.setDescription(formModel.getDescription());
         }
-        if (!StringUtils.isEmpty(form.getDataObjectId())) {
-            formDefinition.setDataObjectId(form.getDataObjectId());
+        if (!StringUtils.isEmpty(formModel.getDataObjectId())) {
+            formDefinition.setDataObjectId(formModel.getDataObjectId());
         }
-        if (form.getFormOrder() != null) {
-            formDefinition.setOrder(form.getFormOrder());
+        if (formModel.getFormOrder() != null) {
+            formDefinition.setOrder(formModel.getFormOrder());
         }
         return formDefinition;
     }
 
-    public Form getForm() {
-        return form;
+    public FormModel getForm() {
+        return formModel;
     }
 }

@@ -46,6 +46,7 @@ public class SubFormDefinition extends BaseStatusEntity<String> implements SubFo
 
     private Collection<SubFormField> subFormFieldList;
 
+    @Override
     public String getFormDefinitionId() {
         return formDefinitionId;
     }
@@ -54,6 +55,7 @@ public class SubFormDefinition extends BaseStatusEntity<String> implements SubFo
         this.formDefinitionId = formDefinitionId;
     }
 
+    @Override
     public String getSubFormCode() {
         return subFormCode;
     }
@@ -62,6 +64,7 @@ public class SubFormDefinition extends BaseStatusEntity<String> implements SubFo
         this.subFormCode = subFormCode;
     }
 
+    @Override
     public String getSubFormType() {
         return subFormType;
     }
@@ -70,6 +73,7 @@ public class SubFormDefinition extends BaseStatusEntity<String> implements SubFo
         this.subFormType = subFormType;
     }
 
+    @Override
     public String getSubFormName() {
         return subFormName;
     }
@@ -78,6 +82,7 @@ public class SubFormDefinition extends BaseStatusEntity<String> implements SubFo
         this.subFormName = subFormName;
     }
 
+    @Override
     public String getSubFormState() {
         return subFormState;
     }
@@ -86,6 +91,7 @@ public class SubFormDefinition extends BaseStatusEntity<String> implements SubFo
         this.subFormState = subFormState;
     }
 
+    @Override
     public String getSubFormTable() {
         return subFormTable;
     }
@@ -94,6 +100,7 @@ public class SubFormDefinition extends BaseStatusEntity<String> implements SubFo
         this.subFormTable = subFormTable;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -102,6 +109,7 @@ public class SubFormDefinition extends BaseStatusEntity<String> implements SubFo
         this.description = description;
     }
 
+    @Override
     public int getFormOrder() {
         return formOrder;
     }
@@ -110,6 +118,7 @@ public class SubFormDefinition extends BaseStatusEntity<String> implements SubFo
         this.formOrder = formOrder;
     }
 
+    @Override
     public String getDataObjectId() {
         return dataObjectId;
     }
@@ -131,6 +140,7 @@ public class SubFormDefinition extends BaseStatusEntity<String> implements SubFo
         this.historyVersion = historyVersion;
     }
 
+    @Override
     public String getVersion() {
         return version;
     }

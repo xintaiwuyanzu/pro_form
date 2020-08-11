@@ -4,8 +4,8 @@ import com.dr.framework.common.dao.CommonMapper;
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormDefinitionInfo;
 import com.dr.framework.common.form.core.entity.FormField;
-import com.dr.framework.common.form.core.model.Field;
-import com.dr.framework.common.form.core.model.Form;
+import com.dr.framework.common.form.engine.model.core.FieldModel;
+import com.dr.framework.common.form.engine.model.core.FormModel;
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
@@ -26,26 +26,26 @@ public class FormDefinitionInsertCommand extends AbstractFormDefinitionCommand i
     /**
      * 表单定义
      */
-    private Form form;
+    private final FormModel formModel;
     /**
      * 表字段定义
      */
-    private Collection<Field> fields;
+    private final Collection<FieldModel> fieldModels;
     /**
      * 是否生成表结构
      */
-    private boolean genTable;
+    private final boolean genTable;
 
     /**
      * 创建表单
      *
-     * @param form     表单对象
-     * @param fields   表单字段
+     * @param formModel     表单对象
+     * @param fieldModels   表单字段
      * @param genTable 是否创建表结构
      */
-    public FormDefinitionInsertCommand(Form form, Collection<Field> fields, boolean genTable) {
-        this.form = form;
-        this.fields = fields;
+    public FormDefinitionInsertCommand(FormModel formModel, Collection<FieldModel> fieldModels, boolean genTable) {
+        this.formModel = formModel;
+        this.fieldModels = fieldModels;
         this.genTable = genTable;
     }
 
@@ -58,10 +58,10 @@ public class FormDefinitionInsertCommand extends AbstractFormDefinitionCommand i
      */
     @Override
     public FormDefinition execute(CommandContext context) {
-        Assert.isTrue(fields != null && !fields.isEmpty(), "表单字段不能为空！");
+        Assert.isTrue(fieldModels != null && !fieldModels.isEmpty(), "表单字段不能为空！");
 
         //根据参数创建FormDefinition对象
-        FormDefinition fd = newFormDefinition(context, form);
+        FormDefinition fd = newFormDefinition(context, formModel);
         fd.setDefault(true);
 
         //填充默认信息
@@ -93,10 +93,10 @@ public class FormDefinitionInsertCommand extends AbstractFormDefinitionCommand i
         }
 
         //校验字段基本信息
-        fd.setFormFieldList(new ArrayList<>());
-        fields.forEach(f -> newField(fd, f));
+        fd.setFields(new ArrayList<>());
+        fieldModels.forEach(f -> newField(fd, f));
         //排序
-        Collections.sort(fd.getFormFieldList());
+        Collections.sort(fd.getFields());
 
         saveFormDefinition(context, fd);
 
@@ -107,24 +107,24 @@ public class FormDefinitionInsertCommand extends AbstractFormDefinitionCommand i
         return fd;
     }
 
-    private FormField newField(FormDefinition formDefinition, Field field) {
-        FormField formField = newField(field);
+    private FormField newField(FormDefinition formDefinition, FieldModel fieldModel) {
+        FormField formField = newField(fieldModel);
         formField.setFormDefinitionId(formDefinition.getId());
 
-        if (StringUtils.isEmpty(field.getFieldCode())) {
+        if (StringUtils.isEmpty(fieldModel.getFieldCode())) {
             formField.setFieldCode(com.dr.framework.common.form.util.StringUtils.generateShortUuid());
         }
-        validateFieldBaseInfo(formDefinition, field);
-        formDefinition.getFormFieldList().add(formField);
+        validateFieldBaseInfo(formDefinition, fieldModel);
+        formDefinition.getFields().add(formField);
         return formField;
     }
 
-    public Form getForm() {
-        return form;
+    public FormModel getForm() {
+        return formModel;
     }
 
-    public Collection<Field> getFields() {
-        return fields;
+    public Collection<FieldModel> getFields() {
+        return fieldModels;
     }
 
     public boolean isGenTable() {

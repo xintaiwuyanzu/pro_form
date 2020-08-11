@@ -21,7 +21,7 @@ public class FormDataSelectOneCommand extends AbstractFormDataCommand<FormData> 
     /**
      * 表单数据Id
      */
-    private String formDataId;
+    private final String formDataId;
 
     public FormDataSelectOneCommand(String formDefinitionId, boolean autoCheck, String formDataId) {
         super(formDefinitionId, autoCheck);

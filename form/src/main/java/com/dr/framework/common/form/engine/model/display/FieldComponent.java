@@ -1,10 +1,25 @@
-package com.dr.framework.common.form.display.model;
+package com.dr.framework.common.form.engine.model.display;
 
-import com.dr.framework.common.form.core.model.FieldType;
+import com.dr.framework.common.form.engine.model.core.FieldType;
 
 /**
  * 表单显示控件抽象接口，
  * 用来定义扩展控件属性，需要前后台同时实现
+ * <p>
+ * 大文本域
+ * 复选
+ * 日期时间
+ * 显示域
+ * 下拉
+ * 编辑域
+ * 隐藏
+ * 单选
+ * 选择域
+ * 特殊编辑域
+ * 评论域
+ * 文本框
+ * 文本域
+ * 按钮
  *
  * @author dr
  */

@@ -1,8 +1,8 @@
 package com.dr.framework.common.form.core.command;
 
 import com.dr.framework.common.form.core.entity.FormDefinition;
-import com.dr.framework.common.form.core.model.Field;
-import com.dr.framework.common.form.core.model.Form;
+import com.dr.framework.common.form.engine.model.core.FieldModel;
+import com.dr.framework.common.form.engine.model.core.FormModel;
 import com.dr.framework.common.form.core.model.FormData;
 import com.dr.framework.common.form.core.model.FormRelationWrapper;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
@@ -27,7 +27,7 @@ public abstract class AbstractFormDataCommand<T> extends AbstractFormDefinitionI
     /**
      * 是否自动检测并创建表结构
      */
-    private boolean autoCheck;
+    private final boolean autoCheck;
 
     public AbstractFormDataCommand(String formDefinitionId, boolean autoCheck) {
         super(formDefinitionId);
@@ -105,10 +105,10 @@ public abstract class AbstractFormDataCommand<T> extends AbstractFormDefinitionI
         return new DefaultFormRelationWrapper(context, formDefinition, relation);
     }
 
-    class DefaultFormRelationWrapper implements FormRelationWrapper {
-        private CommandContext commandContext;
-        private FormDefinition formDefinition;
-        private Relation relation;
+    static class DefaultFormRelationWrapper implements FormRelationWrapper {
+        private final CommandContext commandContext;
+        private final FormDefinition formDefinition;
+        private final Relation relation;
 
         public DefaultFormRelationWrapper(CommandContext commandContext, FormDefinition formDefinition, Relation relation) {
             this.commandContext = commandContext;
@@ -117,7 +117,7 @@ public abstract class AbstractFormDataCommand<T> extends AbstractFormDefinitionI
         }
 
         @Override
-        public Form getForm() {
+        public FormModel getForm() {
             return formDefinition;
         }
 
@@ -127,15 +127,20 @@ public abstract class AbstractFormDataCommand<T> extends AbstractFormDefinitionI
         }
 
         @Override
+        public CommandContext getContext() {
+            return commandContext;
+        }
+
+        @Override
         public Column getColumn(String fieldCodeOrAlias) {
             Assert.isTrue(!StringUtils.isEmpty(fieldCodeOrAlias), "字段名称不能为空！");
-            Field field = formDefinition.getFieldByCode(fieldCodeOrAlias);
-            if (field == null) {
-                field = formDefinition.getFieldByAlias(fieldCodeOrAlias);
+            FieldModel fieldModel = formDefinition.getFieldByCode(fieldCodeOrAlias);
+            if (fieldModel == null) {
+                fieldModel = formDefinition.getFieldByAlias(fieldCodeOrAlias);
             }
             String columnName = fieldCodeOrAlias;
-            if (field != null) {
-                columnName = field.getFieldCode();
+            if (fieldModel != null) {
+                columnName = fieldModel.getFieldCode();
             } else {
                 Command.logger.warn("未找到指定的字段,使用默认参数查询列：{}", fieldCodeOrAlias);
             }

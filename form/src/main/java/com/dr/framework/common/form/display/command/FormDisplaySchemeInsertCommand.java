@@ -17,9 +17,9 @@ import java.util.UUID;
  */
 public class FormDisplaySchemeInsertCommand implements Command<FormDisplayScheme> {
 
-    private FormDisplayScheme formDisplayScheme;
+    private final FormDisplayScheme formDisplayScheme;
 
-    private List<FieldDisplayScheme> fieldDisplayList;
+    private final List<FieldDisplayScheme> fieldDisplayList;
 
     public FormDisplaySchemeInsertCommand(FormDisplayScheme formDisplayScheme, List<FieldDisplayScheme> fieldDisplayList) {
         this.formDisplayScheme = formDisplayScheme;

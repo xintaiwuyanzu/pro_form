@@ -9,11 +9,11 @@ public abstract class AbstractFormDefinitionChangeCommand extends AbstractFormDe
     /**
      * 是否生成数据库表
      */
-    private boolean updateTable;
+    private final boolean updateTable;
     /**
      * 更新表结构会创建新的物理表定义
      */
-    private boolean copyData;
+    private final boolean copyData;
 
     public AbstractFormDefinitionChangeCommand(String formDefinitionId, boolean updateTable, boolean copyData) {
         super(formDefinitionId);

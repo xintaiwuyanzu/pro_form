@@ -1,14 +1,8 @@
 package com.dr.framework.common.form;
 
-import com.dr.framework.common.form.core.entity.FormField;
-import com.dr.framework.common.form.core.model.Field;
-import com.dr.framework.common.form.core.model.FieldType;
 import com.dr.framework.common.form.core.model.FormData;
-import com.dr.framework.common.form.core.model.FormRelationWrapper;
 import com.dr.framework.common.form.core.service.FormDataService;
 import com.dr.framework.common.form.core.service.SqlBuilder;
-import com.dr.framework.common.page.Page;
-import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.apache.commons.collections4.map.MultiKeyMap;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,9 +44,7 @@ public class FormDataTest {
     public void removeFormData() {
 //        Long num = formDataService.removeFormData("b35fe585-a45f-4541-972c-25bf9c694ab0", "ba11aee0-cf4d-41a3-bab9-150dd6fab9a8");
 //        Long num = formDataService.removeFormDataByFormCode("cs", 2, "ba11aee0-cf4d-41a3-bab9-150dd6fab9a8");
-        Long num = formDataService.removeFormDataByFormCode("cs", 2, (sqlQuery, formRelationWrapper) -> {
-            sqlQuery.equal(formRelationWrapper.idColumn(), "cf27c3e8-31cd-40be-a315-6771e95ef0b3");
-        });
+        Long num = formDataService.removeFormDataByFormCode("cs", 2, (sqlQuery, formRelationWrapper) -> sqlQuery.equal(formRelationWrapper.idColumn(), "cf27c3e8-31cd-40be-a315-6771e95ef0b3"));
         System.out.println(num);
     }
 
@@ -114,10 +106,8 @@ public class FormDataTest {
 
     @Test
     public void updateFormDataBySqlBuilder() {
-        SqlBuilder sqlBuilder = (sqlQuery, formRelationWrapper) -> {
-            sqlQuery.set(formRelationWrapper.getColumn("quanzong"), "XZ")
-                    .equal(formRelationWrapper.getColumn("niandu"), "2019");
-        };
+        SqlBuilder sqlBuilder = (sqlQuery, formRelationWrapper) -> sqlQuery.set(formRelationWrapper.getColumn("quanzong"), "XZ")
+                .equal(formRelationWrapper.getColumn("niandu"), "2019");
         Long num = formDataService.updateFormDataBySqlBuilder("89e97792-cee3-4a2e-84ac-00665314ab09", sqlBuilder, true);
 //        Long num = formDataService.updateFormDataIgnoreNullBySqlBuilder("b35fe585-a45f-4541-972c-25bf9c694ab0", sqlBuilder);
 

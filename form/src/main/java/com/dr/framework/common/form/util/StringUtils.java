@@ -28,7 +28,7 @@ public class StringUtils {
      * @return
      */
     public static String generateShortUuid() {
-        StringBuffer shortBuffer = new StringBuffer();
+        StringBuilder shortBuffer = new StringBuilder();
         String uuid = UUID.randomUUID().toString().replace("-", "");
         for (int i = 0; i < 8; i++) {
             String str = uuid.substring(i * 4, i * 4 + 4);

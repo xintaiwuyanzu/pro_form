@@ -1,8 +1,7 @@
 package com.dr.framework.common.form.display.component.provider;
 
-import com.dr.framework.common.form.core.model.FieldType;
 import com.dr.framework.common.form.display.component.FieldComponentProvider;
-import com.dr.framework.common.form.display.model.FieldComponent;
+import com.dr.framework.common.form.engine.model.display.FieldComponent;
 
 import java.util.List;
 
@@ -14,8 +13,8 @@ import java.util.List;
 public class StringFieldComponentProvider extends AbstractFieldComponentProvider implements FieldComponentProvider {
 
     @Override
-    public boolean accept(FieldType type) {
-        return FieldType.STRING.equals(type);
+    public boolean accept(FieldTypeEnum type) {
+        return FieldTypeEnum.STRING.equals(type);
     }
 
     @Override

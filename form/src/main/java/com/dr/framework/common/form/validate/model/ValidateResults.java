@@ -1,6 +1,6 @@
 package com.dr.framework.common.form.validate.model;
 
-import com.dr.framework.common.form.core.model.Field;
+import com.dr.framework.common.form.engine.model.core.FieldModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,12 +48,12 @@ public class ValidateResults<T> {
     /**
      * 获取指定字段的校验结果
      *
-     * @param field
+     * @param fieldModel
      * @return
      */
-    public List<ValidateResult> getValidateResult(Field field) {
+    public List<ValidateResult> getValidateResult(FieldModel fieldModel) {
         return results.stream()
-                .filter(r -> r.getField().equals(field))
+                .filter(r -> r.getField().equals(fieldModel))
                 .collect(Collectors.toList());
     }
 

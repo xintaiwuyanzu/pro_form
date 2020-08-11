@@ -14,9 +14,9 @@ import java.util.List;
 
 public class ValidateDefinitionSelectOneCommand implements Command<ValidateDefinitionForm> {
 
-    private String validateId;
+    private final String validateId;
 
-    private String validateCode;
+    private final String validateCode;
 
     public ValidateDefinitionSelectOneCommand(String validateId) {
         this(validateId, "default");

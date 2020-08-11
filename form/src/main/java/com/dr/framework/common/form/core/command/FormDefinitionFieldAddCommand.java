@@ -2,7 +2,7 @@ package com.dr.framework.common.form.core.command;
 
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormField;
-import com.dr.framework.common.form.core.model.Field;
+import com.dr.framework.common.form.engine.model.core.FieldModel;
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import org.springframework.util.Assert;
@@ -16,16 +16,16 @@ public class FormDefinitionFieldAddCommand extends AbstractFormDefinitionChangeC
     /**
      * 字段定义
      */
-    private Field field;
+    private final FieldModel fieldModel;
 
-    public FormDefinitionFieldAddCommand(String formDefinitionId, boolean updateTable, boolean copyData, Field field) {
+    public FormDefinitionFieldAddCommand(String formDefinitionId, boolean updateTable, boolean copyData, FieldModel fieldModel) {
         super(formDefinitionId, updateTable, copyData);
-        this.field = field;
+        this.fieldModel = fieldModel;
     }
 
-    public FormDefinitionFieldAddCommand(String formCode, Integer version, boolean updateTable, boolean copyData, Field field) {
+    public FormDefinitionFieldAddCommand(String formCode, Integer version, boolean updateTable, boolean copyData, FieldModel fieldModel) {
         super(formCode, version, updateTable, copyData);
-        this.field = field;
+        this.fieldModel = fieldModel;
     }
 
     @Override
@@ -37,14 +37,14 @@ public class FormDefinitionFieldAddCommand extends AbstractFormDefinitionChangeC
         FormDefinition newFormDefinition = copyFormDefinition(context, old);
         newFormDefinition.setDefault(true);
         //转换添加的字段
-        FormField formField = newField(field);
+        FormField formField = newField(fieldModel);
         formField.setFormDefinitionId(newFormDefinition.getId());
         formField.setVersion(newFormDefinition.getVersion());
 
         //校验字段定义格式正确
-        validateFieldBaseInfo(newFormDefinition, field);
+        validateFieldBaseInfo(newFormDefinition, fieldModel);
 
-        newFormDefinition.getFormFieldList().add(formField);
+        newFormDefinition.getFields().add(formField);
         //保存字段定义到数据库
         saveFormDefinition(context, newFormDefinition);
         //更新表结构
@@ -58,8 +58,8 @@ public class FormDefinitionFieldAddCommand extends AbstractFormDefinitionChangeC
         return formField;
     }
 
-    public Field getField() {
-        return field;
+    public FieldModel getField() {
+        return fieldModel;
     }
 
 }

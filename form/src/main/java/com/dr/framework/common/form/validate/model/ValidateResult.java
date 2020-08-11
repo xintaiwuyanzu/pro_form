@@ -1,6 +1,6 @@
 package com.dr.framework.common.form.validate.model;
 
-import com.dr.framework.common.form.core.model.Field;
+import com.dr.framework.common.form.engine.model.core.FieldModel;
 
 /**
  * 单条校验结果
@@ -22,24 +22,24 @@ public class ValidateResult {
     /**
      * 校验字段
      */
-    private Field field;
+    private FieldModel fieldModel;
 
-    public static ValidateResult success(Field field) {
-        return success(SUCCESS_MESSAGE, field);
+    public static ValidateResult success(FieldModel fieldModel) {
+        return success(SUCCESS_MESSAGE, fieldModel);
     }
 
-    public static ValidateResult success(String message, Field field) {
-        return new ValidateResult(true, message, field);
+    public static ValidateResult success(String message, FieldModel fieldModel) {
+        return new ValidateResult(true, message, fieldModel);
     }
 
-    public static ValidateResult fail(String message, Field field) {
-        return new ValidateResult(false, message, field);
+    public static ValidateResult fail(String message, FieldModel fieldModel) {
+        return new ValidateResult(false, message, fieldModel);
     }
 
-    public ValidateResult(boolean success, String message, Field field) {
+    public ValidateResult(boolean success, String message, FieldModel fieldModel) {
         this.success = success;
         this.message = message;
-        this.field = field;
+        this.fieldModel = fieldModel;
     }
 
     public boolean isSuccess() {
@@ -58,11 +58,11 @@ public class ValidateResult {
         this.message = message;
     }
 
-    public Field getField() {
-        return field;
+    public FieldModel getField() {
+        return fieldModel;
     }
 
-    public void setField(Field field) {
-        this.field = field;
+    public void setField(FieldModel fieldModel) {
+        this.fieldModel = fieldModel;
     }
 }

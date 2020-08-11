@@ -1,7 +1,7 @@
 package com.dr.framework.common.form.display.component;
 
-import com.dr.framework.common.form.core.model.FieldType;
-import com.dr.framework.common.form.display.model.FieldComponent;
+import com.dr.framework.common.form.engine.model.core.FieldType;
+import com.dr.framework.common.form.engine.model.display.FieldComponent;
 import org.springframework.core.Ordered;
 
 import java.util.List;

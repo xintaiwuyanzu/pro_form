@@ -20,7 +20,7 @@ public class FormDataSelectCommand extends AbstractFormDataSqlBuilderCommand<Lis
     /**
      * 是否查询所有的列
      */
-    private boolean allColumn;
+    private final boolean allColumn;
 
     public FormDataSelectCommand(String formDefinitionId, boolean autoCheck, SqlBuilder sqlBuilder, boolean allColumn) {
         super(formDefinitionId, autoCheck, sqlBuilder);

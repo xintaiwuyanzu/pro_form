@@ -2,7 +2,7 @@ package com.dr.framework.common.form.init.command;
 
 import com.dr.framework.common.form.core.command.AbstractFormDefinitionIdCommand;
 import com.dr.framework.common.form.core.entity.FormDefinition;
-import com.dr.framework.common.form.core.model.Field;
+import com.dr.framework.common.form.engine.model.core.FieldModel;
 import com.dr.framework.common.form.core.model.FormData;
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
@@ -15,7 +15,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class FormDataDefaultValueCommand extends AbstractFormDefinitionIdCommand implements Command<FormData> {
-    private String formDefaultValueId;
+    private final String formDefaultValueId;
 
     public FormDataDefaultValueCommand(String formDefinitionId, String formDefaultValueId) {
         super(formDefinitionId);
@@ -40,16 +40,16 @@ public class FormDataDefaultValueCommand extends AbstractFormDefinitionIdCommand
         //遍历所有默认值定义，只需要处理定义的字段就可以了
         for (FieldDefault fieldDefault : formDefault.getFieldDefaultList()) {
             //获取所设置的默认值所对应的的字段定义
-            Field field = form.getFieldByCode(fieldDefault.getFieldCode());
-            Serializable fieldDefaultValue = getFieldDefaultValue(context, field, fieldDefault);
-            data.put(field.getFieldCode(), fieldDefaultValue);
+            FieldModel fieldModel = form.getFieldByCode(fieldDefault.getFieldCode());
+            Serializable fieldDefaultValue = getFieldDefaultValue(context, fieldModel, fieldDefault);
+            data.put(fieldModel.getFieldCode(), fieldDefaultValue);
         }
         return data;
     }
 
-    private Serializable getFieldDefaultValue(CommandContext context, Field field, FieldDefault fieldDefault) {
+    private Serializable getFieldDefaultValue(CommandContext context, FieldModel fieldModel, FieldDefault fieldDefault) {
         FieldDefaultManager manager = context.getApplicationContext().getBean(FieldDefaultManager.class);
-        return manager.getDefaultValue(field, fieldDefault);
+        return manager.getDefaultValue(fieldModel, fieldDefault);
     }
 
     public String getFormDefaultValueId() {

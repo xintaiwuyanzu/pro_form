@@ -1,14 +1,19 @@
-package com.dr.framework.common.form.core.model;
+package com.dr.framework.common.form.engine.model.core;
 
-import com.dr.framework.common.form.engine.model.FormModel;
+import com.dr.framework.common.form.core.entity.FormField;
+import com.dr.framework.common.form.engine.model.BaseModel;
+import com.dr.framework.common.form.engine.model.MetaGetterModel;
+import com.dr.framework.common.form.engine.model.PermissionModel;
 import com.dr.framework.common.form.util.StringUtils;
 
+import java.util.Collection;
+
 /**
- * 表单
+ * 表单定义
  *
  * @author dr
  */
-public interface Form extends FormModel {
+public interface FormModel extends BaseModel, PermissionModel, MetaGetterModel {
     /**
      * 获取表单编码
      * 表单编码生成之后
@@ -57,5 +62,12 @@ public interface Form extends FormModel {
      * @return
      */
     boolean isBuildIn();
+
+    /**
+     * 获取字段
+     *
+     * @return
+     */
+    Collection<FormField> getFields();
 
 }

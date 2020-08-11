@@ -15,7 +15,7 @@ import org.springframework.util.Assert;
 import java.util.List;
 
 public class FormDefaultValueSelectOneCommand extends AbstractFormDefinitionIdCommand implements Command<FormDefault> {
-    private String formDefaultValueId;
+    private final String formDefaultValueId;
     private String linkCode;
 
     public FormDefaultValueSelectOneCommand(String formDefinitionId, String formDefaultValueId) {

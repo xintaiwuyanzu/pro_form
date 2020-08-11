@@ -1,17 +1,14 @@
 package com.dr.framework.common.form.core.entity;
 
+import com.dr.framework.common.config.model.MetaMap;
 import com.dr.framework.common.entity.BaseStatusEntity;
-import com.dr.framework.common.form.core.model.Field;
-import com.dr.framework.common.form.core.model.FieldType;
+import com.dr.framework.common.form.engine.model.core.FieldModel;
+import com.dr.framework.common.form.engine.model.core.FieldType;
 import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.core.orm.annotations.Column;
 import com.dr.framework.core.orm.annotations.Table;
-import org.springframework.util.StringUtils;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
 
 /**
  * 表单字段
@@ -19,7 +16,7 @@ import java.util.HashSet;
  * @author dr
  */
 @Table(name = Constants.TABLE_PREFIX + "FormField", module = Constants.MODULE_NAME, comment = "表单字段")
-public class FormField extends BaseStatusEntity<String> implements Field {
+public class FormField extends BaseStatusEntity<String> implements FieldModel {
 
     @Column(name = "formDefinitionId", comment = "表单定义id")
     private String formDefinitionId;
@@ -47,44 +44,52 @@ public class FormField extends BaseStatusEntity<String> implements Field {
     @Column(name = "remarks", comment = "备注", length = 1000)
     private String remarks;
 
-    @Column(name = "dataObjectId", comment = "数据权限")
-    private String dataObjectId;
-
     @Column(name = "version", comment = "版本号")
     private Integer version;
 
+    private MetaMap meta;
 
     public FormField() {
     }
 
-    public FormField(Field field) {
-        if (field != null) {
-            setId(field.getId());
+    public FormField(FieldModel fieldModel) {
+        if (fieldModel != null) {
+            setId(fieldModel.getId());
 
-            setDataObjectId(field.getDataObjectId());
-            setDescription(field.getDescription());
-            setRemarks(field.getRemarks());
-            setStatus(field.getFieldState());
-            setLabel(field.getLabel());
+            setDescription(fieldModel.getDescription());
+            setRemarks(fieldModel.getRemarks());
+            setStatus(fieldModel.getFieldState());
+            setLabel(fieldModel.getLabel());
 
-            setOrder(field.getFieldOrder());
-            setVersion(field.getVersion());
+            setOrder(fieldModel.getFieldOrder());
+            setVersion(fieldModel.getVersion());
 
-            setFieldCode(field.getFieldCode());
+            setFieldCode(fieldModel.getFieldCode());
 
-            if (field.getFieldAlias() != null) {
-                setFieldAliasStr(String.join(",", field.getFieldAlias()));
+            if (fieldModel.getFieldAlias() != null) {
+                setFieldAliasStr(String.join(",", fieldModel.getFieldAlias()));
             }
 
-            setFieldTypeStr(field.getFieldType());
-            setFieldLength(field.getFieldLength());
-            setFieldScale(field.getFieldScale());
+            setFieldTypeStr(fieldModel.getFieldType().name());
+            setFieldLength(fieldModel.getFieldLength());
+            setFieldScale(fieldModel.getFieldScale());
         }
     }
 
 
+    @Override
+    public String getFormDefinitionName() {
+        return null;
+    }
+
+    @Override
     public String getFormDefinitionId() {
         return formDefinitionId;
+    }
+
+    @Override
+    public String getFormDefinitionCode() {
+        return null;
     }
 
     public void setFormDefinitionId(String formDefinitionId) {
@@ -96,20 +101,20 @@ public class FormField extends BaseStatusEntity<String> implements Field {
         return fieldCode;
     }
 
-    public void setFieldCode(String fieldCode) {
-        this.fieldCode = fieldCode;
-    }
-
     @Override
     public Collection<String> getFieldAlias() {
-        return StringUtils.isEmpty(fieldAliasStr) ? Collections.emptySet() :
-                new HashSet<>(Arrays.asList(fieldAliasStr.split(",")));
+        return null;
     }
 
     @Override
     public FieldType getFieldType() {
-        return StringUtils.isEmpty(fieldTypeStr) ? null : FieldType.valueOf(this.fieldTypeStr);
+        return FieldType.valueOf(fieldTypeStr);
     }
+
+    public void setFieldCode(String fieldCode) {
+        this.fieldCode = fieldCode;
+    }
+
 
     public String getFieldAliasStr() {
         return fieldAliasStr;
@@ -123,8 +128,12 @@ public class FormField extends BaseStatusEntity<String> implements Field {
         return fieldTypeStr;
     }
 
-    public void setFieldTypeStr(FieldType fieldTypeStr) {
-        this.fieldTypeStr = fieldTypeStr.name();
+    public void setFieldTypeStrEnum(FieldType fieldType) {
+        this.fieldTypeStr = fieldType.name();
+    }
+
+    public void setFieldTypeStr(String fieldTypeStr) {
+        this.fieldTypeStr = fieldTypeStr;
     }
 
     @Override
@@ -165,15 +174,6 @@ public class FormField extends BaseStatusEntity<String> implements Field {
     }
 
     @Override
-    public String getDataObjectId() {
-        return dataObjectId;
-    }
-
-    public void setDataObjectId(String dataObjectId) {
-        this.dataObjectId = dataObjectId;
-    }
-
-    @Override
     public Integer getVersion() {
         return version;
     }
@@ -181,7 +181,6 @@ public class FormField extends BaseStatusEntity<String> implements Field {
     public void setVersion(Integer version) {
         this.version = version;
     }
-
 
     @Override
     public String getLabel() {
@@ -199,5 +198,14 @@ public class FormField extends BaseStatusEntity<String> implements Field {
 
     public void setRemarks(String remarks) {
         this.remarks = remarks;
+    }
+
+    @Override
+    public MetaMap getMeta() {
+        return meta;
+    }
+
+    public void setMeta(MetaMap meta) {
+        this.meta = meta;
     }
 }

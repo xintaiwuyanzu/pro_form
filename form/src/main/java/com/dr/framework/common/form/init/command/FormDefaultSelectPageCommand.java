@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FormDefaultSelectPageCommand extends AbstractFormDefinitionIdCommand implements Command<Page> {
-    private int pageIndex;
-    private int pageSize;
+    private final int pageIndex;
+    private final int pageSize;
 
 
     public FormDefaultSelectPageCommand(String formDefinitionId, int pageIndex, int pageSize) {

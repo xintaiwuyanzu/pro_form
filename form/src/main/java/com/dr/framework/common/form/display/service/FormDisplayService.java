@@ -1,7 +1,7 @@
 package com.dr.framework.common.form.display.service;
 
-import com.dr.framework.common.form.display.model.FieldDisplay;
-import com.dr.framework.common.form.display.model.FormDisplay;
+import com.dr.framework.common.form.engine.model.display.FieldDisplay;
+import com.dr.framework.common.form.engine.model.display.FormDisplay;
 
 import java.util.List;
 

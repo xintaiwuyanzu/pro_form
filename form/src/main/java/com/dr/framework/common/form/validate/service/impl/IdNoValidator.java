@@ -1,7 +1,6 @@
 package com.dr.framework.common.form.validate.service.impl;
 
-import com.dr.framework.common.form.core.model.Field;
-import com.dr.framework.common.form.core.model.FieldType;
+import com.dr.framework.common.form.engine.model.core.FieldModel;
 import com.dr.framework.common.form.validate.model.ValidateDefinitionField;
 import com.dr.framework.common.form.validate.model.ValidateResult;
 import com.dr.framework.common.form.validate.service.Validator;
@@ -19,17 +18,17 @@ public class IdNoValidator implements Validator {
     public static final String NAME = "ID";
 
     @Override
-    public Collection<FieldType> acceptTypes() {
-        return Arrays.asList(FieldType.STRING);
+    public Collection<FieldTypeEnum> acceptTypes() {
+        return Arrays.asList(FieldTypeEnum.STRING);
     }
 
     @Override
-    public <T> ValidateResult validate(Field field, ValidateDefinitionField definition, T data) {
+    public <T> ValidateResult validate(FieldModel fieldModel, ValidateDefinitionField definition, T data) {
         try {
             IDNo.from(String.valueOf(data));
-            return ValidateResult.success(field);
+            return ValidateResult.success(fieldModel);
         } catch (Exception e) {
-            return ValidateResult.fail("身份证号不正确", field);
+            return ValidateResult.fail("身份证号不正确", fieldModel);
         }
     }
 

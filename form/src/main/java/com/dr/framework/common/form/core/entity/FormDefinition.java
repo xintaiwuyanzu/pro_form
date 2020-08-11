@@ -1,11 +1,13 @@
 package com.dr.framework.common.form.core.entity;
 
+import com.dr.framework.common.config.model.MetaMap;
 import com.dr.framework.common.entity.BaseStatusEntity;
-import com.dr.framework.common.form.core.model.Form;
+import com.dr.framework.common.form.engine.model.core.FormModel;
 import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.core.orm.annotations.Column;
 import com.dr.framework.core.orm.annotations.Table;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -17,7 +19,7 @@ import java.util.stream.Collectors;
  * @author dr
  */
 @Table(name = Constants.TABLE_PREFIX + "FormDefinition", module = Constants.MODULE_NAME, comment = "表单数据")
-public class FormDefinition extends BaseStatusEntity<String> implements Form {
+public class FormDefinition extends BaseStatusEntity<String> implements FormModel {
 
     @Column(name = "formCode", comment = "表单编码")
     private String formCode;
@@ -54,27 +56,28 @@ public class FormDefinition extends BaseStatusEntity<String> implements Form {
     private boolean buildIn;
 
 
-    private List<FormField> formFieldList;
+    private Collection<FormField> fields;
+    private MetaMap meta;
 
     public FormDefinition() {
 
     }
 
-    public FormDefinition(com.dr.framework.common.form.core.model.Form form) {
-        if (form != null) {
-            setId(form.getId());
-            setFormCode(form.getFormCode());
-            setFormName(form.getFormName());
-            setFormType(form.getFormType());
-            setDescription(form.getDescription());
-            setRemarks(form.getRemarks());
-            setOrder(form.getFormOrder());
-            setStatus(form.getFormState());
-            setDataObjectId(form.getDataObjectId());
-            setVersion(form.getVersion());
-            setBuildIn(form.isBuildIn());
-            if (form instanceof FormDefinition) {
-                setFormTable(((FormDefinition) form).getFormTable());
+    public FormDefinition(FormModel formModel) {
+        if (formModel != null) {
+            setId(formModel.getId());
+            setFormCode(formModel.getFormCode());
+            setFormName(formModel.getFormName());
+            setFormType(formModel.getFormType());
+            setDescription(formModel.getDescription());
+            setRemarks(formModel.getRemarks());
+            setOrder(formModel.getFormOrder());
+            setStatus(formModel.getFormState());
+            setDataObjectId(formModel.getDataObjectId());
+            setVersion(formModel.getVersion());
+            setBuildIn(formModel.isBuildIn());
+            if (formModel instanceof FormDefinition) {
+                setFormTable(((FormDefinition) formModel).getFormTable());
             }
         }
     }
@@ -86,8 +89,8 @@ public class FormDefinition extends BaseStatusEntity<String> implements Form {
      * @return
      */
     public FormField getFieldByCode(String code) {
-        if (formFieldList != null) {
-            for (FormField formField : formFieldList) {
+        if (fields != null) {
+            for (FormField formField : fields) {
                 if (formField.getFieldCode().equals(code)) {
                     return formField;
                 }
@@ -104,8 +107,8 @@ public class FormDefinition extends BaseStatusEntity<String> implements Form {
      * @return
      */
     public FormField getFieldByAlias(String alias) {
-        if (formFieldList != null) {
-            for (FormField formField : formFieldList) {
+        if (fields != null) {
+            for (FormField formField : fields) {
                 if (formField.getFieldAlias() != null && formField.getFieldAlias().contains(alias)) {
                     return formField;
                 }
@@ -120,8 +123,8 @@ public class FormDefinition extends BaseStatusEntity<String> implements Form {
      * @return
      */
     public Set<String> getFieldNames() {
-        return formFieldList == null ? Collections.EMPTY_SET :
-                formFieldList.stream()
+        return fields == null ? Collections.EMPTY_SET :
+                fields.stream()
                         .map(FormField::getFieldCode)
                         .collect(Collectors.toSet());
     }
@@ -132,8 +135,8 @@ public class FormDefinition extends BaseStatusEntity<String> implements Form {
      * @return
      */
     public Set<String> getFieldAlias() {
-        return formFieldList == null ? Collections.EMPTY_SET :
-                formFieldList.stream()
+        return fields == null ? Collections.EMPTY_SET :
+                fields.stream()
                         .flatMap(formField -> formField.getFieldAlias().stream())
                         .collect(Collectors.toSet());
     }
@@ -245,11 +248,21 @@ public class FormDefinition extends BaseStatusEntity<String> implements Form {
         this.buildIn = buildIn;
     }
 
-    public List<FormField> getFormFieldList() {
-        return formFieldList;
+    @Override
+    public Collection<FormField> getFields() {
+        return fields;
     }
 
-    public void setFormFieldList(List<FormField> formFieldList) {
-        this.formFieldList = formFieldList;
+    public void setFields(Collection<FormField> fields) {
+        this.fields = fields;
+    }
+
+    @Override
+    public MetaMap getMeta() {
+        return meta;
+    }
+
+    public void setMeta(MetaMap meta) {
+        this.meta = meta;
     }
 }

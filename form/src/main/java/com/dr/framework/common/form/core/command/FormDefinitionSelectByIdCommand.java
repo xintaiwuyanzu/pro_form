@@ -16,7 +16,7 @@ public class FormDefinitionSelectByIdCommand implements Command<FormDefinition> 
     /**
      * 表单定义Id
      */
-    private String formDefinitionId;
+    private final String formDefinitionId;
 
     public FormDefinitionSelectByIdCommand(String formDefinitionId) {
         this.formDefinitionId = formDefinitionId;

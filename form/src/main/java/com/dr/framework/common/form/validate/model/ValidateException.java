@@ -2,7 +2,7 @@ package com.dr.framework.common.form.validate.model;
 
 public class ValidateException extends Exception {
 
-    private ValidateResults results;
+    private final ValidateResults results;
 
     public ValidateException(ValidateResults results) {
         this.results = results;

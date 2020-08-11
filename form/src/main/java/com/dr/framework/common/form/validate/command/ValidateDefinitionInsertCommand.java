@@ -18,12 +18,12 @@ public class ValidateDefinitionInsertCommand implements Command<ValidateDefiniti
     /**
      * 校验主表
      */
-    private ValidateDefinition validateDefinition;
+    private final ValidateDefinition validateDefinition;
 
     /**
      * 校验字段
      */
-    private Collection<ValidateDefinitionField> ValidateDefinitionFieldList;
+    private final Collection<ValidateDefinitionField> ValidateDefinitionFieldList;
 
 
     public ValidateDefinitionInsertCommand(ValidateDefinition validateDefinition, Collection<ValidateDefinitionField> ValidateDefinitionFieldList) {

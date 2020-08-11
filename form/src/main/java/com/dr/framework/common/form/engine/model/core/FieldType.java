@@ -1,4 +1,4 @@
-package com.dr.framework.common.form.core.model;
+package com.dr.framework.common.form.engine.model.core;
 
 import java.sql.Types;
 
@@ -7,8 +7,9 @@ import java.sql.Types;
  *
  * @author dr
  */
-
 public enum FieldType {
+
+
     /**
      * 字符串，长度超过4000自动变成clob
      */
@@ -30,12 +31,17 @@ public enum FieldType {
      */
     BYTES(Types.BLOB);
 
-    int sqlType;
+    final int sqlType;
 
     FieldType(int sqlType) {
         this.sqlType = sqlType;
     }
 
+    /**
+     * 与数据库对应
+     *
+     * @return @see java.sql.Types
+     */
     public int getSqlType() {
         return sqlType;
     }

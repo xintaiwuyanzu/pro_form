@@ -5,21 +5,27 @@ package com.dr.framework.common.form.engine.model;
  *
  * @author
  */
-public interface FormDefinitionRelationModel {
+public interface FormRelationModel {
+    /**
+     * 获取表单定义名称
+     *
+     * @return
+     */
+    String getFormDefinitionName();
 
     /**
      * 获取表单定义Id
      *
      * @return
      */
-    String formDefinitionId();
+    String getFormDefinitionId();
 
     /**
      * 获取表单定义编码
      *
      * @return
      */
-    String formDefinitionCode();
+    String getFormDefinitionCode();
 
     /**
      * 获取表单定义版本
@@ -29,5 +35,5 @@ public interface FormDefinitionRelationModel {
      *
      * @return
      */
-    Integer version();
+    Integer getVersion();
 }

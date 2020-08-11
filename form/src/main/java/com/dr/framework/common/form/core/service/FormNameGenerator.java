@@ -1,7 +1,7 @@
 package com.dr.framework.common.form.core.service;
 
-import com.dr.framework.common.form.core.model.Field;
-import com.dr.framework.common.form.core.model.Form;
+import com.dr.framework.common.form.engine.model.core.FieldModel;
+import com.dr.framework.common.form.engine.model.core.FormModel;
 
 /**
  * 表单名称生成器
@@ -12,17 +12,17 @@ public interface FormNameGenerator {
     /**
      * 生成表单表名称
      *
-     * @param form
+     * @param formModel
      * @return
      */
-    String genTableName(Form form);
+    String genTableName(FormModel formModel);
 
     /**
      * 生成字段名称
      *
-     * @param form
-     * @param field
+     * @param formModel
+     * @param fieldModel
      * @return
      */
-    String genFieldName(Form form, Field field);
+    String genFieldName(FormModel formModel, FieldModel fieldModel);
 }

@@ -1,8 +1,8 @@
 package com.dr.framework.common.form.validate.service;
 
-import com.dr.framework.common.form.core.model.Field;
-import com.dr.framework.common.form.core.model.FieldType;
-import com.dr.framework.common.form.engine.TypeObject;
+import com.dr.framework.common.form.engine.model.core.FieldModel;
+import com.dr.framework.common.form.engine.TypeComponent;
+import com.dr.framework.common.form.engine.model.core.FieldType;
 import com.dr.framework.common.form.validate.model.ValidateDefinitionField;
 import com.dr.framework.common.form.validate.model.ValidateResult;
 
@@ -13,7 +13,7 @@ import java.util.Collection;
  *
  * @author dr
  */
-public interface Validator extends TypeObject {
+public interface Validator extends TypeComponent {
     /**
      * 能够校验的字段类型
      *
@@ -24,11 +24,11 @@ public interface Validator extends TypeObject {
     /**
      * 根据字段定义执行校验，并且返回校验结果
      *
-     * @param field
+     * @param fieldModel
      * @param definition
      * @param data
      * @param <T>
      * @return
      */
-    <T> ValidateResult validate(Field field, ValidateDefinitionField definition, T data);
+    <T> ValidateResult validate(FieldModel fieldModel, ValidateDefinitionField definition, T data);
 }

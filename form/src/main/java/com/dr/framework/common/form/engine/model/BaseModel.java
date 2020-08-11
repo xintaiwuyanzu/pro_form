@@ -2,9 +2,10 @@ package com.dr.framework.common.form.engine.model;
 
 /**
  * 添加一层抽象定义，用来处理共性的地方
+ *
  * @author dr
  */
-public interface FormModel {
+public interface BaseModel {
     /**
      * 表单定义主键
      *
@@ -25,13 +26,6 @@ public interface FormModel {
      * @return
      */
     String getRemarks();
-
-    /**
-     * 获取数据权限
-     *
-     * @return
-     */
-    String getDataObjectId();
 
     /**
      * <p>

@@ -1,6 +1,8 @@
 package com.dr.framework.common.form.core.model;
 
 import com.dr.framework.common.entity.IdEntity;
+import com.dr.framework.common.form.engine.CommandContext;
+import com.dr.framework.common.form.engine.model.core.FormModel;
 import com.dr.framework.core.orm.jdbc.Column;
 import com.dr.framework.core.orm.jdbc.Relation;
 
@@ -15,7 +17,7 @@ public interface FormRelationWrapper {
      *
      * @return
      */
-    Form getForm();
+    FormModel getForm();
 
     /**
      * 获取数据库对象
@@ -25,12 +27,20 @@ public interface FormRelationWrapper {
     Relation getRelation();
 
     /**
+     * 获取运转上下文
+     *
+     * @return
+     */
+    CommandContext getContext();
+
+    /**
      * 获取数据库列
      *
      * @param fieldCodeOrAlias
      * @return
      */
     Column getColumn(String fieldCodeOrAlias);
+
 
     /**
      * 获取主键列

@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
  */
 public class FormDataSelectPageCommand extends AbstractFormDataSqlBuilderCommand<Page<FormData>> {
 
-    private int pageIndex;
-    private int pageSize;
+    private final int pageIndex;
+    private final int pageSize;
 
     public FormDataSelectPageCommand(String formDefinitionId, boolean autoCheck, SqlBuilder sqlBuilder, int pageIndex, int pageSize) {
         super(formDefinitionId, autoCheck, sqlBuilder);

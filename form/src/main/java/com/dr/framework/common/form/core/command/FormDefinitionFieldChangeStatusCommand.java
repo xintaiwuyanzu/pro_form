@@ -1,9 +1,7 @@
 package com.dr.framework.common.form.core.command;
 
 
-import com.dr.framework.common.entity.StatusEntity;
 import com.dr.framework.common.form.core.entity.FormDefinition;
-import com.dr.framework.common.form.core.entity.FormDefinitionInfo;
 import com.dr.framework.common.form.core.entity.FormField;
 import com.dr.framework.common.form.core.entity.FormFieldInfo;
 import com.dr.framework.common.form.engine.CommandContext;
@@ -21,7 +19,7 @@ public class FormDefinitionFieldChangeStatusCommand extends FormDefinitionFieldS
     /**
      * 状态
      */
-    private String status;
+    private final String status;
 
     public FormDefinitionFieldChangeStatusCommand(String formDefinitionId, String fieldCode, String status) {
         super(formDefinitionId, fieldCode);

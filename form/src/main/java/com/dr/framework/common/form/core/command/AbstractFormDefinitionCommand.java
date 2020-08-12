@@ -1,16 +1,20 @@
 package com.dr.framework.common.form.core.command;
 
+import com.dr.framework.common.config.service.CommonMetaService;
 import com.dr.framework.common.dao.CommonMapper;
 import com.dr.framework.common.entity.IdEntity;
 import com.dr.framework.common.entity.StatusEntity;
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormDefinitionInfo;
 import com.dr.framework.common.form.core.entity.FormField;
-import com.dr.framework.common.form.engine.model.core.FieldModel;
-import com.dr.framework.common.form.engine.model.core.FormModel;
+import com.dr.framework.common.form.core.entity.FormFieldInfo;
 import com.dr.framework.common.form.core.plugin.CreateWorkFormPlugin;
+import com.dr.framework.common.form.core.service.FormDefinitionService;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
 import com.dr.framework.common.form.engine.CommandContext;
+import com.dr.framework.common.form.engine.impl.command.AbstractCommand;
+import com.dr.framework.common.form.engine.model.core.FieldModel;
+import com.dr.framework.common.form.engine.model.core.FormModel;
 import com.dr.framework.common.form.util.CacheUtil;
 import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.common.service.CommonService;
@@ -32,7 +36,7 @@ import java.util.stream.Collectors;
  *
  * @author dr
  */
-public abstract class AbstractFormDefinitionCommand {
+public abstract class AbstractFormDefinitionCommand extends AbstractCommand {
     protected static final String FORM_NOT_DEFINITION_ERROR = "未查询到指定的表单！";
     protected static final String FORM_CAN_NOT_BE_NULL_ERROR = "表单定义不能为空！";
 
@@ -50,7 +54,7 @@ public abstract class AbstractFormDefinitionCommand {
                         .equal(FormDefinitionInfo.FORMCODE, formDefinition.getFormCode())
                         .notEqual(FormDefinitionInfo.ID, formDefinition.getId())
         );
-        CacheUtil.removeCache(context, formDefinition.getId());
+        CacheUtil.removeFormDefinitionCache(context, formDefinition.getId());
     }
 
     /**
@@ -354,6 +358,9 @@ public abstract class AbstractFormDefinitionCommand {
         return false;
     }
 
+    protected FormDefinition getFormDefinitionById(CommandContext context, String formDefinitionId) {
+        return CacheUtil.getFormDefinitionFromCache(context, formDefinitionId);
+    }
 
     protected FormDefinition getFormDefinitionByCodeAndVersion(CommandContext context, String formCode, Integer version) {
         if (!StringUtils.isEmpty(formCode)) {
@@ -378,4 +385,29 @@ public abstract class AbstractFormDefinitionCommand {
         }
     }
 
+    protected long removeFormDefinition(CommandContext context, String formDefinitionId, boolean dropTable) {
+        FormDefinition formDefinition = getFormDefinitionById(context, formDefinitionId);
+        Assert.notNull(formDefinition, "未查询到指定的表单");
+        //删除表里面的数据
+        CommonMapper commonMapper = context.getMapper();
+        //删除表单定义的数据
+        long count = commonMapper.deleteById(FormDefinition.class, formDefinition.getId());
+        CommonMetaService commonMetaService = context.getApplicationContext().getBean(CommonMetaService.class);
+        //删除字段定义的数据
+        count += commonMapper.deleteByQuery(
+                SqlQuery.from(FormField.class)
+                        .equal(FormFieldInfo.FORMDEFINITIONID, formDefinition.getId())
+        );
+        //删除元数据
+        count += deleteMeta(commonMetaService, formDefinition.getId(), FormDefinitionService.FORM_DEFINITION_META_TYPE);
+        //删除缓存
+        CacheUtil.removeFormDefinitionCache(context, formDefinition.getId());
+        if (dropTable) {
+            FormNameGenerator nameGenerator = context.getFormNameGenerator();
+            removeTable(context, nameGenerator.genTableName(formDefinition));
+            count++;
+        }
+        return count;
+
+    }
 }

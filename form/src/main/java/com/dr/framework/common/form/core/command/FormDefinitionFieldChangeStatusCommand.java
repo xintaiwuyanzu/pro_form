@@ -50,7 +50,7 @@ public class FormDefinitionFieldChangeStatusCommand extends FormDefinitionFieldS
                             .set(FormFieldInfo.STATUS, status)
                             .equal(FormFieldInfo.ID, formField.getId())
             );
-            CacheUtil.removeCache(context, formField.getFormDefinitionId());
+            CacheUtil.removeFormDefinitionCache(context, formField.getFormDefinitionId());
         } else {
             FormDefinition formDefinition = getFormDefinition(context);
             context.getMapper().updateIgnoreNullByQuery(
@@ -58,7 +58,7 @@ public class FormDefinitionFieldChangeStatusCommand extends FormDefinitionFieldS
                             .set(FormFieldInfo.STATUS, status)
                             .equal(FormFieldInfo.FORMDEFINITIONID, formDefinition.getId())
                             .equal(FormFieldInfo.FIELDCODE, getFieldCode()));
-            CacheUtil.removeCache(context, formDefinition.getId());
+            CacheUtil.removeFormDefinitionCache(context, formDefinition.getId());
         }
         return formField;
     }

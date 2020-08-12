@@ -109,6 +109,11 @@ public class FormData extends HashMap<String, Serializable> implements FormDataM
     }
 
     @Override
+    public Serializable put(String key, Serializable value) {
+        return super.put(key, value);
+    }
+
+    @Override
     public <V extends Serializable> V get(String key) {
         return (V) super.get(key);
     }

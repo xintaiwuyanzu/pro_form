@@ -52,7 +52,7 @@ public class FormDisplaySchemeInsertCommand implements Command<FormDisplayScheme
             //再保存显示方案主表信息
             context.getMapper().insert(formDisplayScheme);
             //将各字段显示信息保存在主表显示方案中
-            formDisplayScheme.setFieldDisplayList(fieldDisplayList);
+            formDisplayScheme.setFields(fieldDisplayList);
         }
         return formDisplayScheme;
     }

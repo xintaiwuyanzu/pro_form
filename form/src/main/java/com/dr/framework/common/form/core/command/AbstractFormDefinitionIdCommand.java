@@ -39,7 +39,7 @@ public abstract class AbstractFormDefinitionIdCommand extends AbstractFormDefini
         if (!StringUtils.isEmpty(formDefinitionId)) {
             boolean exist = context.getMapper().exists(FormDefinition.class, getFormDefinitionId());
             if (!exist) {
-                CacheUtil.removeCache(context, formDefinitionId);
+                CacheUtil.removeFormDefinitionCache(context, formDefinitionId);
             }
             return exist;
         } else {
@@ -50,10 +50,7 @@ public abstract class AbstractFormDefinitionIdCommand extends AbstractFormDefini
     @Override
     protected FormDefinition getFormDefinition(CommandContext context) {
         if (!StringUtils.isEmpty(formDefinitionId)) {
-            FormDefinition formDefinition = CacheUtil.getFormDefinitionFromCache(context, formDefinitionId);
-            if (formDefinition != null) {
-                return formDefinition;
-            }
+            return getFormDefinitionById(context, formDefinitionId);
         }
         return super.getFormDefinition(context);
     }

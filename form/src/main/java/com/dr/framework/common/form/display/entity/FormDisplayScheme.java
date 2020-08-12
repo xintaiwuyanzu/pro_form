@@ -8,6 +8,7 @@ import com.dr.framework.core.orm.annotations.Column;
 import com.dr.framework.core.orm.annotations.Table;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * 表单显示方案
@@ -21,7 +22,7 @@ public class FormDisplayScheme extends FormDefinitionRelation implements FormDis
     @Column(comment = "备注", length = 800)
     private String remarks;
 
-    private Collection<FieldDisplay> fields;
+    private List<? extends FieldDisplay> fields;
 
     @Override
     public Integer getLabelWidth() {
@@ -42,11 +43,11 @@ public class FormDisplayScheme extends FormDefinitionRelation implements FormDis
     }
 
     @Override
-    public Collection<FieldDisplay> getFields() {
+    public List<? extends FieldDisplay> getFields() {
         return fields;
     }
 
-    public void setFields(Collection<FieldDisplay> fields) {
+    public void setFields(List<? extends FieldDisplay> fields) {
         this.fields = fields;
     }
 }

@@ -26,6 +26,6 @@ public interface FormDisplay extends CodeNameModel, FormRelationModel, MetaGette
      *
      * @return
      */
-    Collection<FieldDisplay> getFields();
+    Collection<? extends FieldDisplay> getFields();
 
 }

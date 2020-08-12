@@ -45,7 +45,7 @@ public class FormDisplayFieldSelectOneCommand implements Command<FormDisplaySche
         FormDisplayScheme formDisplayScheme = context.getMapper().selectOneByQuery(sqlQuery);
         Assert.notNull(formDisplayScheme, "查询的显示方案不存在");
         List<FieldDisplayScheme> fieldDisplayList = context.getMapper().selectByQuery(SqlQuery.from(FieldDisplayScheme.class).equal(FieldDisplaySchemeInfo.FORMDISPLAYID, formDisplayScheme.getId()));
-        formDisplayScheme.setFieldDisplayList(fieldDisplayList);
+        formDisplayScheme.setFields(fieldDisplayList);
         return formDisplayScheme;
     }
 

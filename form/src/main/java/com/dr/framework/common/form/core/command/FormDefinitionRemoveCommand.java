@@ -5,13 +5,10 @@ import com.dr.framework.common.dao.CommonMapper;
 import com.dr.framework.common.entity.StatusEntity;
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormDefinitionInfo;
-import com.dr.framework.common.form.core.entity.FormField;
-import com.dr.framework.common.form.core.entity.FormFieldInfo;
-import com.dr.framework.common.form.engine.model.core.FormModel;
 import com.dr.framework.common.form.core.query.FormDefinitionQuery;
-import com.dr.framework.common.form.core.service.FormNameGenerator;
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
+import com.dr.framework.common.form.engine.model.core.FormModel;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.springframework.util.StringUtils;
 
@@ -70,11 +67,11 @@ public class FormDefinitionRemoveCommand extends AbstractFormDefinitionIdCommand
                                         .versionAll()
                         );
                 if (formDefinitions != null) {
-                    count = formDefinitions.stream().mapToLong(f -> doRemove(context, (FormDefinition) f)).sum();
+                    count = formDefinitions.stream().mapToLong(f -> removeFormDefinition(context, f.getId(), dropTable)).sum();
                 }
             }
         } else {
-            count = doRemove(context, formDefinition);
+            count = removeFormDefinition(context, formDefinition.getId(), dropTable);
             //如果删除掉的是default版本，则设置最大可用版本为default
             if (formDefinition.isDefault()) {
                 CommonMapper mapper = context.getMapper();
@@ -97,7 +94,6 @@ public class FormDefinitionRemoveCommand extends AbstractFormDefinitionIdCommand
             }
         }
         return count;
-
     }
 
     @Override
@@ -111,31 +107,5 @@ public class FormDefinitionRemoveCommand extends AbstractFormDefinitionIdCommand
             return null;
         }
     }
-
-    /**
-     * 直接执行删除一项表单定义
-     *
-     * @param context
-     * @param formDefinition
-     * @return 返回影响数据的条数
-     */
-    protected Long doRemove(CommandContext context, FormDefinition formDefinition) {
-        //删除表里面的数据
-        CommonMapper commonMapper = context.getMapper();
-        //删除表单定义的数据
-        long count = commonMapper.deleteById(FormDefinition.class, formDefinition.getId());
-        //删除字段定义的数据
-        count += commonMapper.deleteByQuery(
-                SqlQuery.from(FormField.class)
-                        .equal(FormFieldInfo.FORMDEFINITIONID, formDefinition.getId())
-        );
-        if (dropTable) {
-            FormNameGenerator nameGenerator = context.getFormNameGenerator();
-            removeTable(context, nameGenerator.genTableName(formDefinition));
-            count++;
-        }
-        return count;
-    }
-
 
 }

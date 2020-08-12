@@ -20,6 +20,14 @@ public interface FormDisplayService {
      * 增删改的时候是否同步更新所有版本的显示方案定义
      */
     boolean DEFAULT_MODIFY_ALL_VERSION = true;
+    /**
+     * 表单定义元数据refType
+     */
+    String FORM_DISPLAY_META_TYPE = "formDisplay";
+    /**
+     * 字段元数据refType
+     */
+    String FORM_DISPLAY_FIELD_META_TYPE = "formDisplayField";
 
     /**
      * 添加表单显示方案
@@ -151,7 +159,9 @@ public interface FormDisplayService {
      * @param formDefinitionId
      * @return
      */
-    List<FormDisplay> getFormDisplay(String formDefinitionId);
+    default List<FormDisplay> getFormDisplay(String formDefinitionId) {
+        return getFormDisplay(formDefinitionId, null);
+    }
 
     /**
      * 获取指定表单定义的指定显示类型的显示方案
@@ -189,7 +199,9 @@ public interface FormDisplayService {
      * @param version
      * @return
      */
-    List<FormDisplay> getFormDisplayByCode(String formCode, Integer version);
+    default List<FormDisplay> getFormDisplayByCode(String formCode, Integer version) {
+        return getFormDisplayByCodeAndDisplayType(formCode, version, null);
+    }
 
     /**
      * 根据表单编码获取指定所有的显示方案
@@ -219,7 +231,7 @@ public interface FormDisplayService {
      * @return
      */
     default FormDisplay getFormDisplayByCodeAndDisplayType(String formCode, String displayType, String displayCode) {
-        return getFormDisplayByCodeAndDisplayType(formCode, displayType, displayCode);
+        return getFormDisplayByCodeAndDisplayType(formCode, null, displayType, displayCode);
     }
 
     /**

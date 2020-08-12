@@ -2,12 +2,9 @@ package com.dr.framework.common.form.engine.config;
 
 import com.dr.framework.common.form.engine.model.BaseModel;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.util.StringUtils;
 
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 
 /**
  * 表单默认配置项
@@ -29,17 +26,13 @@ public class FormConfig {
      * 不管默认的多版本配置，特定声明启用多版本的表单定义表前缀名称
      * 可以是多个，以逗号隔开
      */
-    private String enabledPreFix;
-
-    private Set<String> enableSet = Collections.EMPTY_SET;
+    private List<String> enabledPreFix = Collections.EMPTY_LIST;
 
     /**
      * 不管默认的多版本配置，特定声明禁用多版本的表单定义表前缀名称
      * 可以是多个，以逗号隔开
      */
-    private String disabledPreFix;
-
-    private Set<String> disableSet = Collections.EMPTY_SET;
+    private List<String> disabledPreFix = Collections.EMPTY_LIST;
 
     /**
      * 判断指定的表单编码是否启用多版本表结构
@@ -49,9 +42,9 @@ public class FormConfig {
      */
     public boolean multiTableEnable(String formCode) {
         if (enableMultiVersionTable) {
-            return disableSet.stream().noneMatch(s -> s.startsWith(formCode));
+            return disabledPreFix.stream().noneMatch(s -> s.startsWith(formCode));
         } else {
-            return enableSet.stream().anyMatch(s -> s.startsWith(formCode));
+            return enabledPreFix.stream().anyMatch(s -> s.startsWith(formCode));
         }
     }
 
@@ -64,25 +57,19 @@ public class FormConfig {
         this.enableMultiVersionTable = enableMultiVersionTable;
     }
 
-    public String getEnabledPreFix() {
+    public List<String> getEnabledPreFix() {
         return enabledPreFix;
     }
 
-    public void setEnabledPreFix(String enabledPreFix) {
-        if (!StringUtils.isEmpty(enabledPreFix)) {
-            enableSet = Arrays.stream(enabledPreFix.split(",")).collect(Collectors.toSet());
-        }
+    public void setEnabledPreFix(List<String> enabledPreFix) {
         this.enabledPreFix = enabledPreFix;
     }
 
-    public String getDisabledPreFix() {
+    public List<String> getDisabledPreFix() {
         return disabledPreFix;
     }
 
-    public void setDisabledPreFix(String disabledPreFix) {
-        if (!StringUtils.isEmpty(disabledPreFix)) {
-            disableSet = Arrays.stream(disabledPreFix.split(",")).collect(Collectors.toSet());
-        }
+    public void setDisabledPreFix(List<String> disabledPreFix) {
         this.disabledPreFix = disabledPreFix;
     }
 }

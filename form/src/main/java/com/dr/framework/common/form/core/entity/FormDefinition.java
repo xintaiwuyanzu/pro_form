@@ -56,7 +56,7 @@ public class FormDefinition extends BaseStatusEntity<String> implements FormMode
     private boolean buildIn;
 
 
-    private Collection<FormField> fields;
+    private List<FormField> fields;
     private MetaMap meta;
 
     public FormDefinition() {
@@ -249,11 +249,11 @@ public class FormDefinition extends BaseStatusEntity<String> implements FormMode
     }
 
     @Override
-    public Collection<FormField> getFields() {
+    public List<FormField> getFields() {
         return fields;
     }
 
-    public void setFields(Collection<FormField> fields) {
+    public void setFields(List<FormField> fields) {
         this.fields = fields;
     }
 

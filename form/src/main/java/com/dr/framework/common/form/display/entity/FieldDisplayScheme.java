@@ -14,6 +14,9 @@ import com.dr.framework.core.orm.annotations.Table;
 @Table(name = Constants.TABLE_PREFIX + "FieldDisplayScheme", module = Constants.MODULE_NAME, comment = "表单字段显示方案")
 public class FieldDisplayScheme extends FormDefinitionRelation implements FieldDisplay {
 
+    @Column(comment = "主表外键", length = 100)
+    private String formDisplayId;
+
     @Column(comment = "label显示宽度", length = 10)
     private Integer labelWidth;
     @Column(comment = "备注", length = 800)
@@ -35,5 +38,13 @@ public class FieldDisplayScheme extends FormDefinitionRelation implements FieldD
 
     public void setRemarks(String remarks) {
         this.remarks = remarks;
+    }
+
+    public String getFormDisplayId() {
+        return formDisplayId;
+    }
+
+    public void setFormDisplayId(String formDisplayId) {
+        this.formDisplayId = formDisplayId;
     }
 }

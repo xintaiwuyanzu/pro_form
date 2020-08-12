@@ -32,7 +32,7 @@ public class FormDefinitionFieldRemoveCommand extends FormDefinitionFieldSelectO
         if (formField != null) {
             Long num = context.getMapper().deleteById(FormField.class, formField.getId());
 //TODO 删除失败
-            CacheUtil.removeCache(context, formField.getFormDefinitionId());
+            CacheUtil.removeFormDefinitionCache(context, formField.getFormDefinitionId());
         }
         return formField;
     }

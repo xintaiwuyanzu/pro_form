@@ -1,9 +1,12 @@
 package com.dr.framework.common.form.display.service.impl;
 
-import com.dr.framework.common.form.engine.model.display.FieldDisplay;
-import com.dr.framework.common.form.engine.model.display.FormDisplay;
+import com.dr.framework.common.form.display.command.FormDisplaySelectByIdCommand;
+import com.dr.framework.common.form.display.command.FormDisplaySelectListCommand;
+import com.dr.framework.common.form.display.command.FormDisplaySelectOneCommand;
 import com.dr.framework.common.form.display.service.FormDisplayService;
 import com.dr.framework.common.form.engine.impl.service.AbstractFormService;
+import com.dr.framework.common.form.engine.model.display.FieldDisplay;
+import com.dr.framework.common.form.engine.model.display.FormDisplay;
 
 import java.util.List;
 
@@ -45,36 +48,27 @@ public class FormDisplayServiceImpl extends AbstractFormService implements FormD
 
     @Override
     public FormDisplay getFormDisplayById(String formDisplayId) {
-        return null;
-    }
-
-    @Override
-    public List<FormDisplay> getFormDisplay(String formDefinitionId) {
-        return null;
+        return execute(new FormDisplaySelectByIdCommand(formDisplayId));
     }
 
     @Override
     public List<FormDisplay> getFormDisplay(String formDefinitionId, String displayType) {
-        return null;
-    }
-
-    @Override
-    public FormDisplay getFormDisplay(String formDefinitionId, String displayType, String displayCode) {
-        return null;
-    }
-
-    @Override
-    public List<FormDisplay> getFormDisplayByCode(String formCode, Integer version) {
-        return null;
+        return execute(new FormDisplaySelectListCommand(formDefinitionId, displayType));
     }
 
     @Override
     public List<FormDisplay> getFormDisplayByCodeAndDisplayType(String formCode, Integer version, String displayType) {
-        return null;
+        return execute(new FormDisplaySelectListCommand(formCode, version, displayType));
     }
 
     @Override
+    public FormDisplay getFormDisplay(String formDefinitionId, String displayType, String displayCode) {
+        return execute(new FormDisplaySelectOneCommand(formDefinitionId, displayType, displayCode));
+    }
+
+
+    @Override
     public FormDisplay getFormDisplayByCodeAndDisplayType(String formCode, Integer version, String displayType, String displayCode) {
-        return null;
+        return execute(new FormDisplaySelectOneCommand(formCode, version, displayType, displayCode));
     }
 }

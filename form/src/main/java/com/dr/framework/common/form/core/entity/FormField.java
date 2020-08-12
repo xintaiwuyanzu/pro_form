@@ -20,6 +20,8 @@ public class FormField extends BaseStatusEntity<String> implements FieldModel {
 
     @Column(name = "formDefinitionId", comment = "表单定义id")
     private String formDefinitionId;
+    private String formDefinitionName;
+    private String formDefinitionCode;
 
     @Column(name = "fieldCode", comment = "字段编码")
     private String fieldCode;
@@ -76,20 +78,9 @@ public class FormField extends BaseStatusEntity<String> implements FieldModel {
         }
     }
 
-
-    @Override
-    public String getFormDefinitionName() {
-        return null;
-    }
-
     @Override
     public String getFormDefinitionId() {
         return formDefinitionId;
-    }
-
-    @Override
-    public String getFormDefinitionCode() {
-        return null;
     }
 
     public void setFormDefinitionId(String formDefinitionId) {
@@ -207,5 +198,23 @@ public class FormField extends BaseStatusEntity<String> implements FieldModel {
 
     public void setMeta(MetaMap meta) {
         this.meta = meta;
+    }
+
+    @Override
+    public String getFormDefinitionName() {
+        return formDefinitionName;
+    }
+
+    public void setFormDefinitionName(String formDefinitionName) {
+        this.formDefinitionName = formDefinitionName;
+    }
+
+    @Override
+    public String getFormDefinitionCode() {
+        return formDefinitionCode;
+    }
+
+    public void setFormDefinitionCode(String formDefinitionCode) {
+        this.formDefinitionCode = formDefinitionCode;
     }
 }

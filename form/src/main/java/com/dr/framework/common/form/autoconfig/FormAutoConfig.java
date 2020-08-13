@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Import;
 @Import({
         CoreFormAutoConfig.class,
         FormDisplayAutoConfig.class,
+        FormJsonSchemaAutoConfig.class,
         InitFormAutoConfig.class,
         ValidateAutoConfig.class
 })

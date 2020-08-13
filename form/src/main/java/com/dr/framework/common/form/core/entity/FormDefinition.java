@@ -7,7 +7,6 @@ import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.core.orm.annotations.Column;
 import com.dr.framework.core.orm.annotations.Table;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -88,6 +87,7 @@ public class FormDefinition extends BaseStatusEntity<String> implements FormMode
      * @param code
      * @return
      */
+    @Override
     public FormField getFieldByCode(String code) {
         if (fields != null) {
             for (FormField formField : fields) {
@@ -106,6 +106,7 @@ public class FormDefinition extends BaseStatusEntity<String> implements FormMode
      * @param alias
      * @return
      */
+    @Override
     public FormField getFieldByAlias(String alias) {
         if (fields != null) {
             for (FormField formField : fields) {

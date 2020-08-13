@@ -1,18 +1,56 @@
 package com.dr.framework.common.form;
 
+import com.dr.framework.common.form.core.entity.FormDefinition;
+import com.dr.framework.common.form.core.entity.FormField;
+import com.dr.framework.common.form.display.entity.FieldDisplayScheme;
+import com.dr.framework.common.form.display.entity.FormDisplayScheme;
+import com.dr.framework.common.form.engine.model.core.FieldType;
+import com.dr.framework.common.form.schema.model.JsonSchema;
 import com.dr.framework.common.form.schema.service.CombinationSchemaService;
 import com.dr.framework.common.form.schema.service.DecomposeSchemaService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class SchemaDataText extends AbstractApplicationTest {
+import java.util.Arrays;
+import java.util.Map;
 
+public class SchemaDataTest extends AbstractApplicationTest {
+    Logger logger = LoggerFactory.getLogger(SchemaDataTest.class);
     @Autowired
     DecomposeSchemaService decomposeSchemaService;
     @Autowired
     CombinationSchemaService combinationSchemaService;
+    @Autowired
+    ObjectMapper objectMapper;
 
+    @Test
+    public void testJsonSchema() throws JsonProcessingException {
+        FormField formField = new FormField();
+        formField.setFieldCode("aa");
+        formField.setLabel("label");
+        formField.setFieldTypeStrEnum(FieldType.STRING);
+        FormDefinition formDefinition = new FormDefinition();
+        formDefinition.setFormName("setFormName");
+        formDefinition.setFields(Arrays.asList(formField));
+
+
+        FormDisplayScheme formDisplay = new FormDisplayScheme();
+
+        FieldDisplayScheme fieldDisplay = new FieldDisplayScheme();
+        fieldDisplay.setCode("aa");
+        formDisplay.setFields(Arrays.asList(fieldDisplay));
+
+        JsonSchema jsonSchema = new JsonSchema();
+        jsonSchema.setFormModel(formDefinition);
+        jsonSchema.setFormDisplay(formDisplay);
+
+        logger.warn(objectMapper.writeValueAsString(jsonSchema));
+        logger.warn(String.valueOf(objectMapper.readValue(objectMapper.writeValueAsString(jsonSchema), Map.class)));
+    }
 
     @Test
     public void getSchemaData() {

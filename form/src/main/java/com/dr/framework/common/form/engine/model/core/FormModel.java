@@ -70,4 +70,7 @@ public interface FormModel extends BaseModel, PermissionModel, MetaGetterModel {
      */
     Collection<FormField> getFields();
 
+    FormField getFieldByCode(String code);
+
+    FormField getFieldByAlias(String code);
 }

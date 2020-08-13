@@ -1,13 +1,14 @@
 package com.dr.framework.common.form.engine.impl;
 
 import com.dr.framework.common.dao.CommonMapper;
-import com.dr.framework.common.form.engine.config.FormConfig;
 import com.dr.framework.common.form.core.service.FormDataService;
 import com.dr.framework.common.form.core.service.FormDefinitionService;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
+import com.dr.framework.common.form.display.service.FormDisplayService;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.engine.CommandContextFactory;
 import com.dr.framework.common.form.engine.CommandExecutor;
+import com.dr.framework.common.form.engine.config.FormConfig;
 import com.dr.framework.common.form.init.service.FormDefaultValueService;
 import com.dr.framework.common.form.validate.service.ValidateDefaultService;
 import com.dr.framework.common.form.validate.service.ValidateService;
@@ -41,6 +42,8 @@ public class StandCommandContextFactory implements CommandContextFactory, Applic
     private FormDefinitionService formDefinitionService;
     @Autowired
     private FormDataService formDataService;
+    @Autowired
+    private FormDisplayService formDisplayService;
 
     @Autowired
     private DataBaseService dataBaseService;
@@ -69,6 +72,8 @@ public class StandCommandContextFactory implements CommandContextFactory, Applic
         context.setFormDefinitionService(formDefinitionService);
         context.setFormDataService(formDataService);
         context.setDataBaseService(dataBaseService);
+
+        context.setFormDisplayService(formDisplayService);
 
         context.setValidateDefaultService(validateDefaultService);
         context.setValidateService(validateService);

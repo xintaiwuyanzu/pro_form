@@ -40,7 +40,7 @@ public class FormDisplayFieldSelectOneCommand implements Command<FormDisplaySche
             sqlQuery.equal(FormDisplaySchemeInfo.ID, formDisplayId);
         }
         if (StringUtils.isNotEmpty(schemeCode)) {
-            sqlQuery.equal(FormDisplaySchemeInfo.SCHEMECODE, schemeCode);
+            sqlQuery.equal(FormDisplaySchemeInfo.CODE, schemeCode);
         }
         FormDisplayScheme formDisplayScheme = context.getMapper().selectOneByQuery(sqlQuery);
         Assert.notNull(formDisplayScheme, "查询的显示方案不存在");

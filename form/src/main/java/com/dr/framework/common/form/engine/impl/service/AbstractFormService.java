@@ -33,6 +33,7 @@ public class AbstractFormService implements InitializingBean, ApplicationContext
     @Transactional(rollbackFor = Exception.class)
     public <T> T execute(Command<T> command) {
         Assert.isTrue(command != null, "命令参数不能为空！");
+        logger.trace("开始执行命令：{}", command.getClass().getName());
         return commandExecutor.execute(command);
     }
 

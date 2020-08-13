@@ -1,12 +1,13 @@
 package com.dr.framework.common.form.engine.impl;
 
 import com.dr.framework.common.dao.CommonMapper;
-import com.dr.framework.common.form.engine.config.FormConfig;
 import com.dr.framework.common.form.core.service.FormDataService;
 import com.dr.framework.common.form.core.service.FormDefinitionService;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
+import com.dr.framework.common.form.display.service.FormDisplayService;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.engine.CommandExecutor;
+import com.dr.framework.common.form.engine.config.FormConfig;
 import com.dr.framework.common.form.init.service.FormDefaultValueService;
 import com.dr.framework.common.form.validate.service.ValidateDefaultService;
 import com.dr.framework.common.form.validate.service.ValidateService;
@@ -28,6 +29,7 @@ public class StandCommandContext implements CommandContext {
     private FormNameGenerator formNameGenerator;
     private FormDefinitionService formDefinitionService;
     private FormDataService formDataService;
+    private FormDisplayService formDisplayService;
 
     private DataBaseService dataBaseService;
 
@@ -142,5 +144,14 @@ public class StandCommandContext implements CommandContext {
 
     public void setConfig(FormConfig config) {
         this.config = config;
+    }
+
+    @Override
+    public FormDisplayService getFormDisplayService() {
+        return formDisplayService;
+    }
+
+    public void setFormDisplayService(FormDisplayService formDisplayService) {
+        this.formDisplayService = formDisplayService;
     }
 }

@@ -2,6 +2,7 @@ package com.dr.framework.common.form.display.command;
 
 import com.dr.framework.common.config.service.CommonMetaService;
 import com.dr.framework.common.dao.CommonMapper;
+import com.dr.framework.common.form.display.entity.FieldDisplayScheme;
 import com.dr.framework.common.form.display.entity.FormDisplayScheme;
 import com.dr.framework.common.form.display.service.FormDisplayService;
 import com.dr.framework.common.form.engine.CommandContext;
@@ -17,6 +18,24 @@ import org.springframework.util.Assert;
  * @author dr
  */
 public class AbstractFormDisplayCommand extends AbstractCommand {
+    /**
+     * 根据显示方案Id删除相关数据
+     *
+     * @param context
+     * @param formDisplayId
+     * @param allVersion    是否删除所有版本
+     * @return
+     */
+    protected long deleteFormDisplayById(CommandContext context, String formDisplayId, boolean allVersion) {
+        if (allVersion) {
+            FormDisplay formDisplay = getFormDisplayById(context, formDisplayId);
+            Assert.notNull(formDisplay, "未找到指定的显示方案");
+            //TODO 删除所有版本的显示方案
+            return 0;
+        } else {
+            return deleteFormDisplayById(context, formDisplayId);
+        }
+    }
 
     /**
      * 根据显示方案Id删除相关数据
@@ -31,7 +50,6 @@ public class AbstractFormDisplayCommand extends AbstractCommand {
         Assert.notNull(display, "未查询到指定的显示方案！");
         CommonMetaService commonMetaService = context.getApplicationContext().getBean(CommonMetaService.class);
         CommonMapper mapper = context.getMapper();
-
         //删除显示方案
         count += mapper.deleteById(FormDisplayScheme.class, formDisplayId);
         //删除字段定义
@@ -49,8 +67,8 @@ public class AbstractFormDisplayCommand extends AbstractCommand {
 
     protected long deleteDisplayFieldById(CommonMapper mapper, CommonMetaService commonMetaService, String displayFieldId) {
         long count = 0;
-
-
+        count += mapper.deleteById(FieldDisplayScheme.class, displayFieldId);
+        count += deleteMeta(commonMetaService, displayFieldId, FormDisplayService.FORM_DISPLAY_FIELD_META_TYPE);
         return count;
     }
 

@@ -15,23 +15,23 @@ import static com.dr.framework.common.form.core.service.FormDefinitionService.FO
  * @author dr
  */
 public class FormDefinitionFieldAddMetaCommand extends FormDefinitionAddMetaCommand {
-    private String formCode;
+    private String fieldCode;
 
-    public FormDefinitionFieldAddMetaCommand(String formDefinitionId, String formCode, Map<String, String> metas) {
+    public FormDefinitionFieldAddMetaCommand(String formDefinitionId, String fieldCode, Map<String, String> metas) {
         super(formDefinitionId, metas);
-        this.formCode = formCode;
+        this.fieldCode = fieldCode;
     }
 
-    public FormDefinitionFieldAddMetaCommand(String formCode, Integer version, String formCode1, Map<String, String> metas) {
-        super(formCode, version, metas);
-        this.formCode = formCode1;
+    public FormDefinitionFieldAddMetaCommand(String fieldCode, Integer version, String formCode1, Map<String, String> metas) {
+        super(fieldCode, version, metas);
+        this.fieldCode = formCode1;
     }
 
     @Override
     public String getRefId(CommandContext context) {
         FormDefinition formModel = getFormDefinition(context);
         Assert.isTrue(formModel != null, "未查询到指定的表单！");
-        FieldModel fieldModel = formModel.getFieldByCode(formCode);
+        FieldModel fieldModel = formModel.getFieldByCode(fieldCode);
         Assert.isTrue(fieldModel != null, "未查询到指定的字段！");
         return fieldModel.getId();
     }

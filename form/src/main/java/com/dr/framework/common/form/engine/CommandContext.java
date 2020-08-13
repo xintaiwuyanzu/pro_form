@@ -4,6 +4,7 @@ import com.dr.framework.common.dao.CommonMapper;
 import com.dr.framework.common.form.core.service.FormDataService;
 import com.dr.framework.common.form.core.service.FormDefinitionService;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
+import com.dr.framework.common.form.display.service.FormDisplayService;
 import com.dr.framework.common.form.engine.config.FormConfig;
 import com.dr.framework.common.form.init.service.FormDefaultValueService;
 import com.dr.framework.common.form.validate.service.ValidateDefaultService;
@@ -72,6 +73,13 @@ public interface CommandContext {
      * @return
      */
     FormDefinitionService getFormDefinitionService();
+
+    /**
+     * 获取显示方案service
+     *
+     * @return
+     */
+    FormDisplayService getFormDisplayService();
 
     /**
      * 获取表单数据service

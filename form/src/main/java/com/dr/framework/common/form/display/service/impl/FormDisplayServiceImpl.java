@@ -1,14 +1,14 @@
 package com.dr.framework.common.form.display.service.impl;
 
-import com.dr.framework.common.form.display.command.FormDisplaySelectByIdCommand;
-import com.dr.framework.common.form.display.command.FormDisplaySelectListCommand;
-import com.dr.framework.common.form.display.command.FormDisplaySelectOneCommand;
+import com.dr.framework.common.config.model.MetaMap;
+import com.dr.framework.common.form.display.command.*;
 import com.dr.framework.common.form.display.service.FormDisplayService;
 import com.dr.framework.common.form.engine.impl.service.AbstractFormService;
 import com.dr.framework.common.form.engine.model.display.FieldDisplay;
 import com.dr.framework.common.form.engine.model.display.FormDisplay;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 显示方案service实现
@@ -22,19 +22,30 @@ public class FormDisplayServiceImpl extends AbstractFormService implements FormD
     }
 
     @Override
+    public MetaMap setMeta(String formDisplayId, Map<String, String> metas) {
+        return execute(new FormDisplayAddMetaCommand(formDisplayId, metas));
+    }
+
+    @Override
     public FormDisplay update(FormDisplay formDisplay, boolean modifyAllVersion) {
         return null;
     }
 
     @Override
     public long deleteFormDisplay(String formDisplayId, boolean modifyAllVersion) {
-        return 0;
+        return execute(new FormDisplayRemoveCommand(formDisplayId, modifyAllVersion));
     }
 
     @Override
     public FieldDisplay insertField(FieldDisplay fieldDisplay, boolean modifyAllVersion) {
         return null;
     }
+
+    @Override
+    public MetaMap setFieldMeta(String displayId, String fieldCode, Map<String, String> metas) {
+        return null;
+    }
+
 
     @Override
     public FieldDisplay updateField(FieldDisplay fieldDisplay, boolean modifyAllVersion) {

@@ -1,29 +1,21 @@
 package com.dr.framework.common.form.display.command;
 
-import com.dr.framework.common.form.display.entity.FieldDisplayScheme;
-import com.dr.framework.common.form.display.entity.FieldDisplaySchemeInfo;
-import com.dr.framework.common.form.display.entity.FormDisplayScheme;
-import com.dr.framework.common.form.display.entity.FormDisplaySchemeInfo;
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
-import com.dr.framework.core.orm.sql.support.SqlQuery;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.Assert;
 
 /**
+ * 删除显示方案
  *
  * @author dr
  */
-public class FormDisplayRemoveCommand extends AbstractFormDisplayWithFormDefinitionCommand implements Command<Long> {
+public class FormDisplayRemoveCommand extends AbstractFormDisplayCommand implements Command<Long> {
 
     private String formDisplayId;
+    private boolean allVersion;
 
-    public FormDisplayRemoveCommand(String formDefinitionId) {
-        super(formDefinitionId);
-    }
-
-    public void FormDisplayRemoveCommand(String formDisplayId) {
+    public FormDisplayRemoveCommand(String formDisplayId, boolean allVersion) {
         this.formDisplayId = formDisplayId;
+        this.allVersion = allVersion;
     }
 
     /**
@@ -34,10 +26,6 @@ public class FormDisplayRemoveCommand extends AbstractFormDisplayWithFormDefinit
      */
     @Override
     public Long execute(CommandContext context) {
-        Assert.isTrue(StringUtils.isNotEmpty(formDisplayId), "显示方案主键不能为空");
-        //根据显示方案主键删除各字段显示方案设定的值
-        context.getMapper().deleteByQuery(SqlQuery.from(FieldDisplayScheme.class).equal(FieldDisplaySchemeInfo.FORMDISPLAYID, formDisplayId));
-        //然后删除主表信息
-        return context.getMapper().deleteByQuery(SqlQuery.from(FormDisplayScheme.class).equal(FormDisplaySchemeInfo.ID, formDisplayId));
+        return deleteFormDisplayById(context, formDisplayId, allVersion);
     }
 }

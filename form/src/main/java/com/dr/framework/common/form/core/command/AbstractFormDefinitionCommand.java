@@ -7,7 +7,6 @@ import com.dr.framework.common.entity.StatusEntity;
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormDefinitionInfo;
 import com.dr.framework.common.form.core.entity.FormField;
-import com.dr.framework.common.form.core.entity.FormFieldInfo;
 import com.dr.framework.common.form.core.plugin.CreateWorkFormPlugin;
 import com.dr.framework.common.form.core.service.FormDefinitionService;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
@@ -385,6 +384,7 @@ public abstract class AbstractFormDefinitionCommand extends AbstractCommand {
         }
     }
 
+    //TODO 删除其他关联数据
     protected long removeFormDefinition(CommandContext context, String formDefinitionId, boolean dropTable) {
         FormDefinition formDefinition = getFormDefinitionById(context, formDefinitionId);
         Assert.notNull(formDefinition, "未查询到指定的表单");
@@ -394,10 +394,10 @@ public abstract class AbstractFormDefinitionCommand extends AbstractCommand {
         long count = commonMapper.deleteById(FormDefinition.class, formDefinition.getId());
         CommonMetaService commonMetaService = context.getApplicationContext().getBean(CommonMetaService.class);
         //删除字段定义的数据
-        count += commonMapper.deleteByQuery(
-                SqlQuery.from(FormField.class)
-                        .equal(FormFieldInfo.FORMDEFINITIONID, formDefinition.getId())
-        );
+        count += formDefinition.getFields()
+                .stream()
+                .mapToLong(f -> removeFieldDefinition(commonMapper, commonMetaService, f.getId()))
+                .sum();
         //删除元数据
         count += deleteMeta(commonMetaService, formDefinition.getId(), FormDefinitionService.FORM_DEFINITION_META_TYPE);
         //删除缓存
@@ -409,5 +409,22 @@ public abstract class AbstractFormDefinitionCommand extends AbstractCommand {
         }
         return count;
 
+    }
+
+    /**
+     * 删除字段定义
+     *
+     * @param mapper
+     * @param metaService
+     * @param fieldId
+     * @return
+     */
+    private long removeFieldDefinition(CommonMapper mapper, CommonMetaService metaService, String fieldId) {
+        long count = 0;
+        //删除字段本身
+        count += mapper.deleteById(FormField.class, fieldId);
+        //删除元数据
+        count += deleteMeta(metaService, fieldId, FormDefinitionService.FORM_DEFINITION_FIELD_META_TYPE);
+        return count;
     }
 }

@@ -1,9 +1,13 @@
 package com.dr.framework.common.form.display.service;
 
+import com.dr.framework.common.config.model.CommonMeta;
+import com.dr.framework.common.config.model.MetaMap;
 import com.dr.framework.common.form.engine.model.display.FieldDisplay;
 import com.dr.framework.common.form.engine.model.display.FormDisplay;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 表单显示方案相关的service
@@ -47,6 +51,27 @@ public interface FormDisplayService {
      * @return
      */
     FormDisplay insert(FormDisplay formDisplay, boolean modifyAllVersion);
+
+    /**
+     * 显示方案设置元数据
+     *
+     * @param formDisplayId
+     * @param key
+     * @param value
+     * @return
+     */
+    default CommonMeta setMeta(String formDisplayId, String key, String value) {
+        return setMeta(formDisplayId, Collections.singletonMap(key, value)).getMeta(0);
+    }
+
+    /**
+     * 显示方案设置元数据
+     *
+     * @param formDisplayId
+     * @param metas
+     * @return
+     */
+    MetaMap setMeta(String formDisplayId, Map<String, String> metas);
 
     /**
      * 更新表单显示方案
@@ -105,6 +130,19 @@ public interface FormDisplayService {
      * @return
      */
     FieldDisplay insertField(FieldDisplay fieldDisplay, boolean modifyAllVersion);
+
+    default CommonMeta setFieldMeta(String displayId, String fieldCode, String key, String value) {
+        return setFieldMeta(displayId, fieldCode, Collections.singletonMap(key, value)).getMeta(0);
+    }
+
+    /**
+     * 显示方案设置元数据
+     *
+     * @param fieldId
+     * @param metas
+     * @return
+     */
+    MetaMap setFieldMeta(String displayId, String fieldCode, Map<String, String> metas);
 
     default FieldDisplay updateField(FieldDisplay fieldDisplay) {
         return updateField(fieldDisplay, DEFAULT_MODIFY_ALL_VERSION);

@@ -5,3 +5,4 @@
 /transaction-logs/
 /*/node_modules/
 */yarn.lock
+/form-components/dist

@@ -6,6 +6,7 @@ import com.dr.framework.common.form.engine.model.core.FormModel;
 import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.core.orm.annotations.Column;
 import com.dr.framework.core.orm.annotations.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Collections;
 import java.util.List;
@@ -88,6 +89,7 @@ public class FormDefinition extends BaseStatusEntity<String> implements FormMode
      * @return
      */
     @Override
+    @JsonIgnore
     public FormField getFieldByCode(String code) {
         if (fields != null) {
             for (FormField formField : fields) {
@@ -107,6 +109,7 @@ public class FormDefinition extends BaseStatusEntity<String> implements FormMode
      * @return
      */
     @Override
+    @JsonIgnore
     public FormField getFieldByAlias(String alias) {
         if (fields != null) {
             for (FormField formField : fields) {
@@ -123,6 +126,7 @@ public class FormDefinition extends BaseStatusEntity<String> implements FormMode
      *
      * @return
      */
+    @JsonIgnore
     public Set<String> getFieldNames() {
         return fields == null ? Collections.EMPTY_SET :
                 fields.stream()
@@ -135,6 +139,7 @@ public class FormDefinition extends BaseStatusEntity<String> implements FormMode
      *
      * @return
      */
+    @JsonIgnore
     public Set<String> getFieldAlias() {
         return fields == null ? Collections.EMPTY_SET :
                 fields.stream()

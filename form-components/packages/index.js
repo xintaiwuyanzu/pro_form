@@ -11,3 +11,6 @@ export default function install(vue, option) {
     vue.component('FormRender', FormRender)
     vue.prototype.$form = option
 }
+if (typeof window !== 'undefined' && window.Vue) {
+    window.Vue.use(install)
+}

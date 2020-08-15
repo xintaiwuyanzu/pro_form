@@ -7,8 +7,12 @@ import com.dr.framework.common.form.engine.model.core.FieldType;
 import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.core.orm.annotations.Column;
 import com.dr.framework.core.orm.annotations.Table;
+import org.springframework.util.StringUtils;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 
 /**
  * 表单字段
@@ -94,7 +98,8 @@ public class FormField extends BaseStatusEntity<String> implements FieldModel {
 
     @Override
     public Collection<String> getFieldAlias() {
-        return null;
+        return StringUtils.isEmpty(fieldAliasStr) ? Collections.emptySet() :
+                new HashSet<>(Arrays.asList(fieldAliasStr.split(",")));
     }
 
     @Override

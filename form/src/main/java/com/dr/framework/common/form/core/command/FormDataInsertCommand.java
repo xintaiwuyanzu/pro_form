@@ -23,8 +23,8 @@ public class FormDataInsertCommand extends AbstractFormDataCommand<FormData> imp
         super(null, autoCheck);
         Assert.isTrue(formData != null, "表单数据不能为空!");
         setFormDefinitionId(formData.getFormDefinitionId());
-        setFormCode(formData.getFormCode());
-        setVersion(formData.getFormVersion());
+        setFormCode(formData.getFormDefinitionCode());
+        setVersion(formData.getVersion());
         this.formData = formData;
     }
 
@@ -33,6 +33,8 @@ public class FormDataInsertCommand extends AbstractFormDataCommand<FormData> imp
         if (!StringUtils.isEmpty(formData.getId())) {
             formData.put(FormData.FORM_DATA_ID_KEY, UUID.randomUUID().toString());
         }
+        mapFormData(wrapper, formData);
+
         //TODO  字段映射还有问题
         SqlQuery sqlQuery = SqlQuery.from(wrapper.getRelation());
         sqlQuery.putAll(formData);

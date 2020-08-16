@@ -35,6 +35,7 @@ public class FormDataUpdateCommand extends FormDataInsertCommand {
                 } else {
                     mapper.updateByQuery(sqlQuery);
                 }
+                mapFormData(wrapper, getFormData());
                 return getFormData();
             } else {
                 return super.doModifyData(context, wrapper);

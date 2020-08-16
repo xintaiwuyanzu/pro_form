@@ -21,20 +21,19 @@ public class FormData extends HashMap<String, Serializable> implements FormDataM
     /**
      * 表单定义Id
      */
-    private final String formDefinitionId;
-    /**
-     * 表单数据Id
-     */
-    private final String formDataId;
+    private String formDefinitionId;
 
     /**
-     * 编码
+     * 表单定义编码
      */
-    private final String formCode;
+    private String formCode;
     /**
-     * 版本
+     * 表单定义版本
      */
-    private final Integer formVersion;
+    private Integer formVersion;
+
+    private String formDefinitionName;
+
 
     public FormData(String formDefinitionId, String formDataId) {
         this(formDefinitionId, null, null, formDataId);
@@ -48,13 +47,17 @@ public class FormData extends HashMap<String, Serializable> implements FormDataM
         this.formDefinitionId = formDefinitionId;
         this.formCode = formCode;
         this.formVersion = version;
-        this.formDataId = formDataId;
+        //表单数据Id
         put(FORM_DATA_ID_KEY, formDataId);
+    }
+
+    public void setFormDefinitionName(String formDefinitionName) {
+        this.formDefinitionName = formDefinitionName;
     }
 
     @Override
     public String getFormDefinitionName() {
-        return null;
+        return formDefinitionName;
     }
 
     @Override
@@ -62,24 +65,28 @@ public class FormData extends HashMap<String, Serializable> implements FormDataM
         return formDefinitionId;
     }
 
+    public void setFormDefinitionId(String formDefinitionId) {
+        this.formDefinitionId = formDefinitionId;
+    }
+
+    public void setFormDefinitionCode(String formDefinitionCode) {
+        this.formCode = formDefinitionCode;
+    }
+
+
     @Override
     public String getFormDefinitionCode() {
-        return null;
+        return formCode;
     }
 
     @Override
     public Integer getVersion() {
-        return null;
-    }
-
-    public String getFormCode() {
-        return formCode;
-    }
-
-    public Integer getFormVersion() {
         return formVersion;
     }
 
+    public void setVersion(Integer formVersion) {
+        this.formVersion = formVersion;
+    }
 
     @Override
     public <T> T getFieldValue(FieldModel field) {
@@ -106,6 +113,10 @@ public class FormData extends HashMap<String, Serializable> implements FormDataM
     @Override
     public String getId() {
         return getString(FORM_DATA_ID_KEY);
+    }
+
+    public void setId(String id) {
+        put(FORM_DATA_ID_KEY, id);
     }
 
     @Override

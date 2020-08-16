@@ -137,7 +137,7 @@ public abstract class AbstractFormDefinitionCommand extends AbstractCommand {
         ConfigedRelation relation = new ConfigedRelation(true);
         relation.setId(formDefinition.getId());
         relation.setModule(Constants.MODULE_NAME);
-        relation.setRemark(formDefinition.getRemarks());
+        relation.setRemark(formDefinition.getRemarks() == null ? "" : formDefinition.getRemarks());
         relation.setName(formNameGenerator.genTableName(formDefinition));
 
         formDefinition.getFields().forEach(field -> newColumn(relation, formDefinition, field, formNameGenerator));

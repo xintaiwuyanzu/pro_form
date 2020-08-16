@@ -85,6 +85,13 @@ public abstract class AbstractFormDataCommand<T> extends AbstractFormDefinitionI
                 (String) data.get(FormData.FORM_DATA_ID_KEY)
         );
         formData.putAll(data);
+
+        FormModel formModel = wrapper.getForm();
+        if (formModel != null) {
+            formData.setFormDefinitionName(formModel.getFormName());
+            formData.setFormDefinitionCode(formModel.getFormCode());
+            formData.setVersion(formModel.getVersion());
+        }
         return formData;
     }
 

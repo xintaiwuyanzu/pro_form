@@ -18,7 +18,7 @@ import java.util.Map;
 public class FormDisplayServiceImpl extends AbstractFormService implements FormDisplayService {
     @Override
     public FormDisplay insert(FormDisplay formDisplay, boolean modifyAllVersion) {
-        return null;
+        return execute(new FormDisplayAddCommand(formDisplay, modifyAllVersion));
     }
 
     @Override
@@ -28,7 +28,7 @@ public class FormDisplayServiceImpl extends AbstractFormService implements FormD
 
     @Override
     public FormDisplay update(FormDisplay formDisplay, boolean modifyAllVersion) {
-        return null;
+        return execute(new FormDisplayUpdateCommand(formDisplay, modifyAllVersion));
     }
 
     @Override

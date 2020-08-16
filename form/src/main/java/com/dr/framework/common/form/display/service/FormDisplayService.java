@@ -138,7 +138,8 @@ public interface FormDisplayService {
     /**
      * 显示方案设置元数据
      *
-     * @param fieldId
+     * @param displayId
+     * @param fieldCode
      * @param metas
      * @return
      */

@@ -4,13 +4,16 @@ import com.dr.framework.common.config.service.CommonMetaService;
 import com.dr.framework.common.dao.CommonMapper;
 import com.dr.framework.common.form.display.entity.FieldDisplayScheme;
 import com.dr.framework.common.form.display.entity.FormDisplayScheme;
+import com.dr.framework.common.form.display.entity.FormDisplaySchemeInfo;
 import com.dr.framework.common.form.display.service.FormDisplayService;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.engine.impl.command.AbstractCommand;
 import com.dr.framework.common.form.engine.model.core.FormModel;
 import com.dr.framework.common.form.engine.model.display.FormDisplay;
 import com.dr.framework.common.form.util.CacheUtil;
+import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 /**
  * 根据显示方案Id查询的命令
@@ -109,4 +112,48 @@ public class AbstractFormDisplayCommand extends AbstractCommand {
                 .selectFormDefinitionByCodeAndVersion(formCode, version);
     }
 
+    /**
+     * 根据显示方案查找表单定义
+     *
+     * @param context
+     * @param display
+     * @return
+     */
+    protected FormModel getFormDefinitionByFormDisplay(CommandContext context, FormDisplay display) {
+        if (!StringUtils.isEmpty(display.getFormDefinitionId())) {
+            return getFormDefinitionById(context, display.getFormDefinitionId());
+        } else {
+            return getFormDefinitionByCodeAndVersion(context, display.getFormDefinitionCode(), display.getVersion());
+        }
+    }
+
+    /**
+     * 校验表单显示方案
+     *
+     * @param context
+     * @param formDisplay
+     */
+    protected void validateFormDisplay(CommandContext context, FormDisplay formDisplay, boolean insert) {
+        if (!StringUtils.isEmpty(formDisplay.getFormDefinitionId())) {
+            //表单定义Id为空，则从code和版本查询表单定义
+        } else {
+            Assert.isTrue(!StringUtils.isEmpty(formDisplay.getFormDefinitionCode()), "表单定义Id和编码不能同时为空！");
+        }
+
+        FormModel formModel = getFormDefinitionByFormDisplay(context, formDisplay);
+        Assert.notNull(formModel, "未找到指定的表单定义！");
+        Assert.isTrue(!StringUtils.isEmpty(formDisplay.getCode()), "显示方案编码不能为空！");
+        Assert.isTrue(!StringUtils.isEmpty(formDisplay.getType()), "显示方案类型不能为空！");
+        if (insert) {
+            //判断重复
+            Assert.isTrue(
+                    !context.getMapper().existsByQuery(
+                            SqlQuery.from(FormDisplayScheme.class)
+                                    .equal(FormDisplaySchemeInfo.FORMDEFINITIONID, formDisplay.getFormDefinitionId())
+                                    .equal(FormDisplaySchemeInfo.CODE, formDisplay.getCode())
+                                    .equal(FormDisplaySchemeInfo.TYPE, formDisplay.getType())
+                    ), "同一个表单的相同类型的显示方案编码不能相同！");
+
+        }
+    }
 }

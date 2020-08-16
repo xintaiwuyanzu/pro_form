@@ -30,7 +30,7 @@ public class DefaultFormNameGenerator implements FormNameGenerator {
         String tableName = formModel instanceof FormDefinition ? ((FormDefinition) formModel).getFormTable() : generateShortUuid();
         //根据数据库驱动不同，转换不同表名的大小写
         tableName = dialect.convertObjectName(tableName);
-        String[] params = versionEnable ? new String[]{"f", tableName} : new String[]{"f", tableName, String.valueOf(formModel.getVersion())};
+        String[] params = versionEnable ? new String[]{"f", tableName, String.valueOf(formModel.getVersion())} : new String[]{"f", tableName};
         return String.join("_", params);
     }
 

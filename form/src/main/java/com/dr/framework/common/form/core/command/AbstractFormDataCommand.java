@@ -1,13 +1,13 @@
 package com.dr.framework.common.form.core.command;
 
 import com.dr.framework.common.form.core.entity.FormDefinition;
-import com.dr.framework.common.form.engine.model.core.FieldModel;
-import com.dr.framework.common.form.engine.model.core.FormModel;
 import com.dr.framework.common.form.core.model.FormData;
 import com.dr.framework.common.form.core.model.FormRelationWrapper;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
+import com.dr.framework.common.form.engine.model.core.FieldModel;
+import com.dr.framework.common.form.engine.model.core.FormModel;
 import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.common.service.DataBaseService;
 import com.dr.framework.core.orm.jdbc.Column;
@@ -57,7 +57,7 @@ public abstract class AbstractFormDataCommand<T> extends AbstractFormDefinitionI
      * @param formDefinition
      */
     protected boolean checkAndGen(CommandContext context, FormDefinition formDefinition) {
-        if (!tableExist(context, formDefinition) || !context.getConfig().multiTableEnable(formDefinition.getFormCode())) {
+        if (!tableExist(context, formDefinition)) {
             if (autoCheck) {
                 createTable(context, formDefinition);
                 return true;

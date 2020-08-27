@@ -46,6 +46,8 @@ public class JsonSchemaSerializer extends JsonSerializer<JsonSchema> {
                 gen.writeNumberField(config.getLabelWidthKey(), value.getFormDisplay().getLabelWidth());
             }
             gen.writeStringField("type", "object");
+            gen.writeStringField("id", value.getFormDisplay().getId());
+            gen.writeStringField("definitionId", value.getFormModel().getId());
             //序列化属性
             serialProperties(value, gen, serializers);
             //结束

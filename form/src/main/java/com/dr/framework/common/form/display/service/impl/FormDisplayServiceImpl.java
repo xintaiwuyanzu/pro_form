@@ -38,7 +38,7 @@ public class FormDisplayServiceImpl extends AbstractFormService implements FormD
 
     @Override
     public FieldDisplay insertField(FieldDisplay fieldDisplay, boolean modifyAllVersion) {
-        return null;
+        return execute(new FormDisplayFieldAddCommand(fieldDisplay, modifyAllVersion));
     }
 
     @Override

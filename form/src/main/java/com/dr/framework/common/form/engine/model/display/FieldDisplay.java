@@ -11,6 +11,13 @@ import com.dr.framework.common.form.engine.model.MetaGetterModel;
  */
 public interface FieldDisplay extends CodeNameModel, MetaGetterModel {
     /**
+     * 获取表单显示方案Id
+     *
+     * @return
+     */
+    String getFormDisplayId();
+
+    /**
      * 获取label宽度
      *
      * @return

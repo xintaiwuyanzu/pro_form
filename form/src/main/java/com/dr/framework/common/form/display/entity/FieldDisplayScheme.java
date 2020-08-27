@@ -22,6 +22,25 @@ public class FieldDisplayScheme extends FormDefinitionRelation implements FieldD
     @Column(comment = "备注", length = 800)
     private String remarks;
 
+    public FieldDisplayScheme() {
+    }
+
+    public FieldDisplayScheme(FieldDisplay display) {
+        if (display != null) {
+            setId(display.getId());
+            setLabelWidth(display.getLabelWidth());
+            setFormDisplayId(display.getFormDisplayId());
+            setRemarks(display.getRemarks());
+            setRemarks(display.getRemarks());
+            setCode(display.getCode());
+            setName(display.getName());
+            setType(display.getType());
+            setDescription(display.getDescription());
+
+            setMeta(display.getMeta());
+        }
+    }
+
     @Override
     public Integer getLabelWidth() {
         return labelWidth;
@@ -40,6 +59,7 @@ public class FieldDisplayScheme extends FormDefinitionRelation implements FieldD
         this.remarks = remarks;
     }
 
+    @Override
     public String getFormDisplayId() {
         return formDisplayId;
     }

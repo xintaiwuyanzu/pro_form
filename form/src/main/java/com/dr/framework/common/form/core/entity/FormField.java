@@ -130,6 +130,7 @@ public class FormField extends BaseStatusEntity<String> implements FieldModel {
 
     public void setFieldTypeStr(String fieldTypeStr) {
         this.fieldTypeStr = fieldTypeStr;
+        this.setFieldTypeStrEnum(FieldType.valueOf(fieldTypeStr));
     }
 
     @Override

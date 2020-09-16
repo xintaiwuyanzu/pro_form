@@ -34,6 +34,9 @@ public class FormData extends HashMap<String, Serializable> implements FormDataM
 
     private String formDefinitionName;
 
+    public FormData(String formDefinitionId) {
+        this(formDefinitionId, null);
+    }
 
     public FormData(String formDefinitionId, String formDataId) {
         this(formDefinitionId, null, null, formDataId);

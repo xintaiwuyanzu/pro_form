@@ -18,6 +18,7 @@ import com.dr.framework.common.service.DataBaseService;
 import com.dr.framework.core.orm.database.Dialect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -93,5 +94,10 @@ class CoreFormAutoConfig {
         return new FormDataServiceImpl();
     }
 
+    @Bean
+    @ConditionalOnWebApplication
+    protected FormDataArgumentResolver formDataArgumentResolver() {
+        return new FormDataArgumentResolver();
+    }
 
 }

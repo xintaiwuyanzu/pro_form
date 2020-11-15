@@ -21,10 +21,12 @@
         <dependency>
             <groupId>com.dr</groupId>
             <artifactId>orm</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.dr</groupId>
             <artifactId>framework</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.dr</groupId>
@@ -54,6 +56,7 @@
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -64,6 +67,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -34,7 +34,7 @@ public class AbstractFormDisplayCommand extends AbstractCommand {
             FormDisplay formDisplay = getFormDisplayById(context, formDisplayId);
             Assert.notNull(formDisplay, "未找到指定的显示方案");
             //TODO 删除所有版本的显示方案
-            return 0;
+            return deleteFormDisplayById(context, formDisplayId);
         } else {
             return deleteFormDisplayById(context, formDisplayId);
         }

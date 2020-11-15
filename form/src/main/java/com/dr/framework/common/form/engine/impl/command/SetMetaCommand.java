@@ -15,9 +15,22 @@ import java.util.Map;
 public interface SetMetaCommand extends Command<MetaMap> {
     @Override
     default MetaMap execute(CommandContext context) {
-        return context.getApplicationContext()
+        //保存数据
+        MetaMap metaMap = context.getApplicationContext()
                 .getBean(CommonMetaService.class)
                 .setMetaData(getRefId(context), getRefType(context), getMetaMap());
+        //清空缓存
+        clearCache(context);
+        return metaMap;
+    }
+
+    /**
+     * 清空缓存
+     *
+     * @param context
+     */
+    default void clearCache(CommandContext context) {
+
     }
 
     /**

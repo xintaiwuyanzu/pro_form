@@ -3,6 +3,7 @@ package com.dr.framework.common.form.core.command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.engine.impl.command.SetMetaCommand;
 import com.dr.framework.common.form.engine.model.core.FormModel;
+import com.dr.framework.common.form.util.CacheUtil;
 import org.springframework.util.Assert;
 
 import java.util.Map;
@@ -42,5 +43,10 @@ public class FormDefinitionAddMetaCommand extends AbstractFormDefinitionIdComman
     @Override
     public String getRefType(CommandContext context) {
         return FORM_DEFINITION_META_TYPE;
+    }
+
+    @Override
+    public void clearCache(CommandContext context) {
+        CacheUtil.removeFormDefinitionCache(context, getFormDefinitionId());
     }
 }

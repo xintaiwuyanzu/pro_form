@@ -43,18 +43,18 @@ public class FormDisplayServiceImpl extends AbstractFormService implements FormD
 
     @Override
     public MetaMap setFieldMeta(String displayId, String fieldCode, Map<String, String> metas) {
-        return null;
+        return execute(new FormDisplayFieldAddMetaCommand(displayId, fieldCode, metas));
     }
 
 
     @Override
     public FieldDisplay updateField(FieldDisplay fieldDisplay, boolean modifyAllVersion) {
-        return null;
+        return execute(new FormDisplayFieldUpdateCommand(fieldDisplay, modifyAllVersion));
     }
 
     @Override
     public long deleteField(String fieldId, boolean modifyAllVersion) {
-        return 0;
+        return execute(new FormDisplayFieldRemoveCommand(fieldId, modifyAllVersion));
     }
 
     @Override

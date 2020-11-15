@@ -106,6 +106,7 @@ public class CacheUtil {
                         commonMapper.selectByQuery(
                                 SqlQuery.from(FieldDisplayScheme.class)
                                         .equal(FieldDisplaySchemeInfo.FORMDISPLAYID, formDisplayId)
+                                        .orderBy(FieldDisplaySchemeInfo.ORDERBY)
                         ).stream()
                                 .peek(f -> {
                                     f.setMeta(getMeta(metaService, f.getId(), FormDisplayService.FORM_DISPLAY_FIELD_META_TYPE));

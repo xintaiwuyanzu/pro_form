@@ -30,7 +30,7 @@ public class FormDataInsertCommand extends AbstractFormDataCommand<FormData> imp
 
     @Override
     protected FormData doModifyData(CommandContext context, FormRelationWrapper wrapper) {
-        if (!StringUtils.isEmpty(formData.getId())) {
+        if (StringUtils.isEmpty(formData.getId())) {
             formData.put(FormData.FORM_DATA_ID_KEY, UUID.randomUUID().toString());
         }
         mapFormData(wrapper, formData);

@@ -73,6 +73,7 @@ public abstract class AbstractFormDisplayQueryCommand extends AbstractFormDispla
         if (!StringUtils.isEmpty(displayType)) {
             sqlQuery.equal(FormDisplaySchemeInfo.TYPE, displayType);
         }
+        sqlQuery.orderBy(FormDisplaySchemeInfo.ORDERBY);
         return sqlQuery;
     }
 

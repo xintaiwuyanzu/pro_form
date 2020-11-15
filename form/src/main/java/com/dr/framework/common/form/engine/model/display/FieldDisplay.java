@@ -23,5 +23,4 @@ public interface FieldDisplay extends CodeNameModel, MetaGetterModel {
      * @return
      */
     Integer getLabelWidth();
-
 }

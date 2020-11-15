@@ -16,7 +16,6 @@ public class FieldDisplayScheme extends FormDefinitionRelation implements FieldD
 
     @Column(comment = "主表外键", length = 100)
     private String formDisplayId;
-
     @Column(comment = "label显示宽度", length = 10)
     private Integer labelWidth;
     @Column(comment = "备注", length = 800)
@@ -36,7 +35,7 @@ public class FieldDisplayScheme extends FormDefinitionRelation implements FieldD
             setName(display.getName());
             setType(display.getType());
             setDescription(display.getDescription());
-
+            setOrder(display.getOrder());
             setMeta(display.getMeta());
         }
     }

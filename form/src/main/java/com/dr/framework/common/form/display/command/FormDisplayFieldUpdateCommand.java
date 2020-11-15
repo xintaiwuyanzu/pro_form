@@ -8,14 +8,16 @@ import com.dr.framework.common.form.engine.model.display.FieldDisplay;
  *
  * @author dr
  */
-public class FormDisplayFieldAddCommand extends FormDisplayFieldModifyCommand implements Command<FieldDisplay> {
+public class FormDisplayFieldUpdateCommand extends FormDisplayFieldModifyCommand implements Command<FieldDisplay> {
 
-    public FormDisplayFieldAddCommand(FieldDisplay fieldDisplay, boolean modifyAllVersion) {
+    public FormDisplayFieldUpdateCommand(FieldDisplay fieldDisplay, boolean modifyAllVersion) {
         super(fieldDisplay, modifyAllVersion);
     }
 
     @Override
     protected boolean isInsert() {
-        return true;
+        return false;
     }
+
+
 }

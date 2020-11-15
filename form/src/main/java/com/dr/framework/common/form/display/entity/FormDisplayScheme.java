@@ -71,6 +71,16 @@ public class FormDisplayScheme extends FormDefinitionRelation implements FormDis
         return fields;
     }
 
+    @Override
+    public FieldDisplay getFieldByCode(String fieldCode) {
+        for (FieldDisplay fieldDisplay : fields) {
+            if (fieldDisplay.getCode().equalsIgnoreCase(fieldCode)) {
+                return fieldDisplay;
+            }
+        }
+        return null;
+    }
+
     public void setFields(List<? extends FieldDisplay> fields) {
         this.fields = fields;
     }

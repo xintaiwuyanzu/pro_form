@@ -3,7 +3,9 @@ package com.dr.framework.common.form.display.command;
 import com.dr.framework.common.form.display.service.FormDisplayService;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.engine.impl.command.SetMetaCommand;
+import com.dr.framework.common.form.engine.model.display.FieldDisplay;
 import com.dr.framework.common.form.engine.model.display.FormDisplay;
+import com.dr.framework.common.form.util.CacheUtil;
 import org.springframework.util.Assert;
 
 import java.util.Map;
@@ -14,12 +16,14 @@ import java.util.Map;
  * @author dr
  */
 public class FormDisplayFieldAddMetaCommand extends AbstractFormDisplayCommand implements SetMetaCommand {
+    private String displayId;
+    private String fieldCode;
     private Map<String, String> metas;
-    private String formDisplayId;
 
-    public FormDisplayFieldAddMetaCommand(Map<String, String> metas, String formDisplayId) {
+    public FormDisplayFieldAddMetaCommand(String displayId, String fieldCode, Map<String, String> metas) {
+        this.displayId = displayId;
+        this.fieldCode = fieldCode;
         this.metas = metas;
-        this.formDisplayId = formDisplayId;
     }
 
     @Override
@@ -29,13 +33,19 @@ public class FormDisplayFieldAddMetaCommand extends AbstractFormDisplayCommand i
 
     @Override
     public String getRefId(CommandContext context) {
-        FormDisplay formDisplay = getFormDisplayById(context, formDisplayId);
+        FormDisplay formDisplay = getFormDisplayById(context, displayId);
         Assert.notNull(formDisplay, "未查询到指定的显示方案！");
-        return formDisplay.getId();
+        FieldDisplay fieldDisplay = formDisplay.getFieldByCode(fieldCode);
+        return fieldDisplay.getId();
     }
 
     @Override
     public String getRefType(CommandContext context) {
         return FormDisplayService.FORM_DISPLAY_META_TYPE;
+    }
+
+    @Override
+    public void clearCache(CommandContext context) {
+        CacheUtil.removeFormDisplayCache(context, displayId);
     }
 }

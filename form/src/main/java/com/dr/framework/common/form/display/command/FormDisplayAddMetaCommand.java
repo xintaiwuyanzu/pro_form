@@ -4,6 +4,7 @@ import com.dr.framework.common.form.display.service.FormDisplayService;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.engine.impl.command.SetMetaCommand;
 import com.dr.framework.common.form.engine.model.display.FormDisplay;
+import com.dr.framework.common.form.util.CacheUtil;
 import org.springframework.util.Assert;
 
 import java.util.Map;
@@ -37,5 +38,10 @@ public class FormDisplayAddMetaCommand extends AbstractFormDisplayCommand implem
     @Override
     public String getRefType(CommandContext context) {
         return FormDisplayService.FORM_DISPLAY_META_TYPE;
+    }
+
+    @Override
+    public void clearCache(CommandContext context) {
+        CacheUtil.removeFormDisplayCache(context, getRefId(context));
     }
 }

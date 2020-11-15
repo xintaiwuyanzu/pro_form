@@ -28,4 +28,13 @@ public interface FormDisplay extends CodeNameModel, FormRelationModel, MetaGette
      */
     Collection<? extends FieldDisplay> getFields();
 
+    /**
+     * 根据字段编码查询字段
+     *
+     * @param fieldCode
+     * @return
+     */
+    FieldDisplay getFieldByCode(String fieldCode);
+
+
 }

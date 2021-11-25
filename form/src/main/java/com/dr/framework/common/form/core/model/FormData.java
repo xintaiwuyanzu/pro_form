@@ -283,5 +283,21 @@ public class FormData extends HashMap<String, Serializable> implements FormDataM
         return new Date(v);
     }
 
+    @Override
+    public boolean containsKey(Object key) {
+        boolean con = super.containsKey(key);
+        if (!con) {
+            return super.containsKey(((String) key).toUpperCase());
+        }
+        return true;
+    }
 
+    @Override
+    public Serializable get(Object key) {
+        Serializable get = super.get(key);
+        if (get == null) {
+            return super.get(((String) key).toUpperCase());
+        }
+        return get;
+    }
 }

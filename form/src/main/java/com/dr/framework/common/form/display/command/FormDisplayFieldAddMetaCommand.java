@@ -41,7 +41,7 @@ public class FormDisplayFieldAddMetaCommand extends AbstractFormDisplayCommand i
 
     @Override
     public String getRefType(CommandContext context) {
-        return FormDisplayService.FORM_DISPLAY_META_TYPE;
+        return FormDisplayService.FORM_DISPLAY_FIELD_META_TYPE;
     }
 
     @Override

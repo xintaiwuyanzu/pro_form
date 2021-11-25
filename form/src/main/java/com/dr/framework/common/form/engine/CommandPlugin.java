@@ -22,6 +22,22 @@ public interface CommandPlugin extends Plugin {
      * @param command
      * @return
      */
-    Command handle(CommandContext context, Command command) throws Exception;
+    default Command handle(CommandContext context, Command command) throws Exception {
+        return command;
+    }
+
+    /**
+     * 拦截命令返回结果
+     *
+     * @param context
+     * @param command
+     * @param returnValue
+     * @param <T>
+     * @return
+     * @throws Exception
+     */
+    default <T> T postExecute(CommandContext context, Command<T> command, T returnValue) throws Exception {
+        return returnValue;
+    }
 
 }

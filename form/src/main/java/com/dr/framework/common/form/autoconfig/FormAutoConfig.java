@@ -15,6 +15,7 @@ import java.util.List;
 @Configuration
 @Import({
         CoreFormAutoConfig.class,
+        FormDefinitionAutoConfig.class,
         FormDisplayAutoConfig.class,
         FormJsonSchemaAutoConfig.class,
         InitFormAutoConfig.class,

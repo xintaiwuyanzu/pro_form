@@ -5,17 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.dr.framework.common</groupId>
     <artifactId>form</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
     <properties>
-        <framework.version>0.0.5-SNAPSHOT</framework.version>
+        <framework.version>0.0.7-SNAPSHOT</framework.version>
         <file.version>0.0.1-SNAPSHOT</file.version>
         <jsonschema.generator.version>4.14.0</jsonschema.generator.version>
-        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
-        <java.version>8</java.version>
     </properties>
     <dependencies>
         <dependency>

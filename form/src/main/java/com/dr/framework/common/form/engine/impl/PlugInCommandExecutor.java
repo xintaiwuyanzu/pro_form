@@ -3,10 +3,7 @@ package com.dr.framework.common.form.engine.impl;
 import com.dr.framework.common.form.engine.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -40,17 +37,26 @@ public class PlugInCommandExecutor implements CommandExecutor {
     @Override
     public <T> T execute(Command<T> command) {
         CommandContext commandContext = commandContextFactory.createCommandContext();
-        //遍历所有的插件，依次修改命令的行为
-        for (CommandPlugin plugin : plugins) {
-            if (plugin.accept(commandContext, command)) {
-                try {
-                    command = plugin.handle(commandContext, command);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+
+        Collection<CommandPlugin> filterPlugins = filterPlugins(commandContext, command);
+        try {
+            //遍历所有的插件，依次修改命令的行为
+            for (CommandPlugin plugin : filterPlugins) {
+                command = plugin.handle(commandContext, command);
             }
+            T result = getDelegate().execute(command);
+            //遍历所有的插件，依次修改命令的行为
+            for (CommandPlugin plugin : filterPlugins) {
+                result = plugin.postExecute(commandContext, command, result);
+            }
+            return result;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        return delegate.execute(command);
+    }
+
+    private <T> Collection<CommandPlugin> filterPlugins(CommandContext commandContext, Command<T> command) {
+        return getPlugins().stream().filter(p -> p.accept(commandContext, command)).collect(Collectors.toList());
     }
 
     @Autowired

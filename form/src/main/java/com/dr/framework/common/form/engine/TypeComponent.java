@@ -18,7 +18,9 @@ public interface TypeComponent {
      *
      * @return
      */
-    String description();
+    default String description() {
+        return "";
+    }
 
     /**
      * 执行排序
@@ -28,4 +30,50 @@ public interface TypeComponent {
     default int order() {
         return 0;
     }
+
+    /**
+     * 返回前端的工具类
+     */
+    class TypeComponentVo implements TypeComponent {
+        private transient TypeComponent delegate;
+        private String type;
+        private String description;
+        private int order;
+
+
+        public TypeComponentVo(TypeComponent delegate) {
+            this.delegate = delegate;
+            type = delegate.type();
+            description = delegate.description();
+            order = delegate.order();
+        }
+
+        @Override
+        public String type() {
+            return type;
+        }
+
+        @Override
+        public String description() {
+            return description;
+        }
+
+        @Override
+        public int order() {
+            return order;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public int getOrder() {
+            return order;
+        }
+    }
+
 }

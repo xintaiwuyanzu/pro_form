@@ -9,12 +9,12 @@ import com.dr.framework.core.orm.sql.support.SqlQuery;
  * @author lc
  */
 @FunctionalInterface
-public interface SqlBuilder {
+public interface SqlBuilder<T> {
     /**
      * 构建sql语句
      *
      * @param sqlQuery
      * @param formRelationWrapper 表单表结构对象
      */
-    void buildSql(SqlQuery sqlQuery, FormRelationWrapper formRelationWrapper);
+    void buildSql(SqlQuery<T> sqlQuery, FormRelationWrapper formRelationWrapper);
 }

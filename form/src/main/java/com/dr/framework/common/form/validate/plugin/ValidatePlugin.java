@@ -9,6 +9,11 @@ import com.dr.framework.common.form.validate.model.ValidateException;
 import com.dr.framework.common.form.validate.model.ValidateResults;
 import com.dr.framework.common.form.validate.service.ValidateService;
 
+/**
+ * 保存数据时做数据校验
+ *
+ * @author dr
+ */
 public class ValidatePlugin implements CommandPlugin {
 
     ValidateService validateService;

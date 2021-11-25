@@ -6,6 +6,10 @@ import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.engine.CommandPlugin;
 
+/**
+ * 搜索数据时添加默认的查询条件
+ * @author dr
+ */
 public class DefaultSelectDataCondationPlugin implements CommandPlugin {
     @Override
     public String type() {

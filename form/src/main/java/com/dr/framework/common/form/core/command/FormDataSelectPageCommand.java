@@ -9,6 +9,7 @@ import com.dr.framework.core.orm.sql.support.SqlQuery;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -38,16 +39,17 @@ public class FormDataSelectPageCommand extends AbstractFormDataSqlBuilderCommand
         SqlQuery<HashMap<String, Serializable>> sqlQuery = SqlQuery.from(wrapper.getRelation());
         sqlQuery.setReturnClass(HashMap.class);
         getSqlBuilder().buildSql(sqlQuery, wrapper);
-        Page<HashMap<String, Serializable>> page = context.getMapper().selectPageByQuery(sqlQuery, pageIndex * pageSize, (pageIndex + 1) * pageSize);
+        long count = context.getMapper().countByIdWithQuery(sqlQuery);
+        int start = pageIndex * pageSize;
+        int end = (pageIndex + 1) * pageSize;
+        List<HashMap<String, Serializable>> data =
+                context.getMapper().selectLimitByQuery(sqlQuery, start, end);
         return new Page<>(
-                page.getStart(),
-                page.getSize(),
-                page.getTotal(),
-                page.getData()
-                        .stream()
-                        .map(d ->
-                                mapFormData(wrapper, d)
-                        )
+                start,
+                pageSize,
+                count,
+                data.stream()
+                        .map(d -> mapFormData(wrapper, d))
                         .collect(Collectors.toList())
         );
     }

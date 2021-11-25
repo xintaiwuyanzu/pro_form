@@ -96,4 +96,24 @@ public class FormDataServiceImpl extends AbstractFormService implements FormData
     public Long removeFormDataByFormCode(String formCode, Integer version, SqlBuilder sqlBuilder) {
         return execute(new FormDataRemoveBySqlCommand(formCode, version, false, sqlBuilder));
     }
+
+    @Override
+    public Long countId(String formDefinitionId, SqlBuilder sqlBuilder) {
+        return execute(new FormDataCountIdBySqlCommand(formDefinitionId, false, sqlBuilder));
+    }
+
+    @Override
+    public Long countId(String formCode, Integer version, SqlBuilder sqlBuilder) {
+        return execute(new FormDataCountIdBySqlCommand(formCode, version, false, sqlBuilder));
+    }
+
+    @Override
+    public <T> List<T> countSelf(String formDefinitionId, SqlBuilder<T> sqlBuilder) {
+        return (List<T>) execute(new FormDataCountSelfBySqlCommand(formDefinitionId, false, sqlBuilder));
+    }
+
+    @Override
+    public <T> List<T> countSelf(String formCode, Integer version, SqlBuilder<T> sqlBuilder) {
+        return (List<T>) execute(new FormDataCountSelfBySqlCommand(formCode, version, false, sqlBuilder));
+    }
 }

@@ -4,10 +4,10 @@ import com.dr.framework.common.dao.CommonMapper;
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormDefinitionInfo;
 import com.dr.framework.common.form.core.entity.FormField;
-import com.dr.framework.common.form.engine.model.core.FieldModel;
-import com.dr.framework.common.form.engine.model.core.FormModel;
 import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
+import com.dr.framework.common.form.engine.model.core.FieldModel;
+import com.dr.framework.common.form.engine.model.core.FormModel;
 import com.dr.framework.core.orm.sql.support.SqlQuery;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -39,13 +39,13 @@ public class FormDefinitionInsertCommand extends AbstractFormDefinitionCommand i
     /**
      * 创建表单
      *
-     * @param formModel     表单对象
-     * @param fieldModels   表单字段
-     * @param genTable 是否创建表结构
+     * @param formModel   表单对象
+     * @param fieldModels 表单字段
+     * @param genTable    是否创建表结构
      */
     public FormDefinitionInsertCommand(FormModel formModel, Collection<FieldModel> fieldModels, boolean genTable) {
         this.formModel = formModel;
-        this.fieldModels = fieldModels;
+        this.fieldModels = fieldModels == null ? new ArrayList<>() : fieldModels;
         this.genTable = genTable;
     }
 

@@ -8,6 +8,7 @@ import java.util.Collection;
 
 /**
  * 表单字段抽象定义
+ * TODO 添加是否默认生成的字段
  *
  * @author caor
  * @author dr

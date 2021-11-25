@@ -300,4 +300,54 @@ public interface FormDataService {
      */
     Long removeFormDataByFormCode(String formCode, Integer version, SqlBuilder sqlBuilder);
 
+
+
+    /*
+     * ======================================================
+     * 统计语句
+     * ======================================================
+     */
+
+    /**
+     * 根据查询条件计算满足条件的数据条数，这里是计算id的
+     *
+     * @param formDefinitionId
+     * @param sqlBuilder
+     * @return
+     */
+    Long countId(String formDefinitionId, SqlBuilder sqlBuilder);
+
+    /**
+     * 根据查询条件计算满足条件的数据条数，这里是计算id的
+     *
+     * @param formCode
+     * @param version
+     * @param sqlBuilder
+     * @return
+     */
+    Long countId(String formCode, Integer version, SqlBuilder sqlBuilder);
+
+    /**
+     * 根据自定义查询执行统计操作
+     * <p>
+     * 这里的泛型需要使用sqlquery手动的设置返回类型
+     *
+     * @param formDefinitionId
+     * @param sqlBuilder
+     * @param <T>
+     * @return
+     * @see com.dr.framework.core.orm.sql.support.SqlQuery#setReturnClass(Class)
+     */
+    <T> List<T> countSelf(String formDefinitionId, SqlBuilder<T> sqlBuilder);
+
+    /**
+     * 与{@link #countSelf(String, Integer, SqlBuilder)}功能类似
+     *
+     * @param formCode
+     * @param version
+     * @param sqlBuilder
+     * @param <T>
+     * @return
+     */
+    <T> List<T> countSelf(String formCode, Integer version, SqlBuilder<T> sqlBuilder);
 }

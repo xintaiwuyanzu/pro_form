@@ -5,6 +5,10 @@ import com.dr.framework.common.form.engine.CommandContext;
 import com.dr.framework.common.form.engine.CommandPlugin;
 import com.dr.framework.common.form.validate.model.ValidateException;
 
+/**
+ * 用来处理默认值
+ * @author dr
+ */
 public class InitPlugin implements CommandPlugin {
 
     @Override

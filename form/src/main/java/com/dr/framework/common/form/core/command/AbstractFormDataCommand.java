@@ -1,6 +1,8 @@
 package com.dr.framework.common.form.core.command;
 
+import com.dr.framework.common.entity.IdEntity;
 import com.dr.framework.common.form.core.entity.FormDefinition;
+import com.dr.framework.common.form.core.entity.FormField;
 import com.dr.framework.common.form.core.model.FormData;
 import com.dr.framework.common.form.core.model.FormRelationWrapper;
 import com.dr.framework.common.form.core.service.FormNameGenerator;
@@ -12,11 +14,14 @@ import com.dr.framework.common.form.util.Constants;
 import com.dr.framework.common.service.DataBaseService;
 import com.dr.framework.core.orm.jdbc.Column;
 import com.dr.framework.core.orm.jdbc.Relation;
+import com.dr.framework.core.orm.jdbc.TrueOrFalse;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 表单数据命令抽象类
@@ -28,6 +33,9 @@ public abstract class AbstractFormDataCommand<T> extends AbstractFormDefinitionI
      * 是否自动检测并创建表结构
      */
     private final boolean autoCheck;
+
+    private Map<String, FormRelation> formRelationMap = Collections.synchronizedMap(new HashMap<>());
+
 
     public AbstractFormDataCommand(String formDefinitionId, boolean autoCheck) {
         super(formDefinitionId);
@@ -104,12 +112,144 @@ public abstract class AbstractFormDataCommand<T> extends AbstractFormDefinitionI
      */
     protected FormRelationWrapper getFormRelation(CommandContext context, FormDefinition formDefinition) {
         Assert.isTrue(formDefinition != null, FORM_CAN_NOT_BE_NULL_ERROR);
-        DataBaseService dataBaseService = context.getDataBaseService();
-        FormNameGenerator generator = context.getFormNameGenerator();
-
-        Relation relation = dataBaseService.getTableInfo(generator.genTableName(formDefinition), Constants.MODULE_NAME);
+        Relation relation = getRelation(context, formDefinition);
         Assert.isTrue(relation != null, "未生成实体表！");
         return new DefaultFormRelationWrapper(context, formDefinition, relation);
+    }
+
+    protected Relation getRelation(CommandContext context, FormDefinition formDefinition) {
+        FormNameGenerator generator = context.getFormNameGenerator();
+        String tableName = generator.genTableName(formDefinition);
+        if (formRelationMap.containsKey(tableName)) {
+            return formRelationMap.get(tableName);
+        } else {
+            FormRelation relation = doGetRelation(context, tableName, formDefinition);
+            formRelationMap.put(tableName, relation);
+            return relation;
+        }
+    }
+
+    protected synchronized FormRelation doGetRelation(CommandContext context, String tableName, FormDefinition formDefinition) {
+        DataBaseService dataBaseService = context.getDataBaseService();
+        Relation relation = dataBaseService.getTableInfo(tableName, Constants.MODULE_NAME);
+        return new FormRelation(formDefinition, relation, context.getFormNameGenerator());
+    }
+
+
+    static class FormRelation extends Relation {
+        FormDefinition formModel;
+        Relation tableRelation;
+
+        public FormRelation(FormDefinition formModel, Relation tableRelation, FormNameGenerator formNameGenerator) {
+            super(true);
+            this.formModel = formModel;
+            this.tableRelation = tableRelation;
+            for (FormField field : formModel.getFields()) {
+                String columnName = formNameGenerator.genFieldName(formModel, field);
+                Column column = tableRelation.getColumn(columnName);
+                if (column != null) {
+                    addColumn(new FormColumn(column, columnName, this));
+                }
+            }
+            //主键
+            Column idColumn = tableRelation.getColumn(IdEntity.ID_COLUMN_NAME);
+            if (idColumn != null) {
+                FormColumn formColumn = new FormColumn(idColumn, IdEntity.ID_COLUMN_NAME, this);
+                addColumn(formColumn);
+                addPrimaryKey("", formColumn.getName(), 0);
+            }
+        }
+
+        @Override
+        public String getCreateSql() {
+            return tableRelation.getCreateSql();
+        }
+
+        @Override
+        public String getRemark() {
+            return tableRelation.getRemark();
+        }
+
+        @Override
+        public String getModule() {
+            return tableRelation.getModule();
+        }
+
+        @Override
+        public String getName() {
+            return tableRelation.getName();
+        }
+    }
+
+    static class FormColumn extends Column {
+        Column column;
+        FormRelation formRelation;
+
+        public FormColumn(Column column, String columnName, FormRelation formRelation) {
+            super(column.getTableName(), column.getName(), columnName);
+            this.column = column;
+            this.formRelation = formRelation;
+        }
+
+        @Override
+        public int getDecimalDigits() {
+            return column.getDecimalDigits();
+        }
+
+        @Override
+        public int getPosition() {
+            return column.getPosition();
+        }
+
+        @Override
+        public int getSize() {
+            return column.getSize();
+        }
+
+        @Override
+        public int getType() {
+            return column.getType();
+        }
+
+        @Override
+        public String getTypeName() {
+            return column.getTypeName();
+        }
+
+        @Override
+        public String getRemark() {
+            return column.getRemark();
+        }
+
+        @Override
+        public TrueOrFalse getNullAble() {
+            return column.getNullAble();
+        }
+
+        @Override
+        public String getDefaultValue() {
+            return column.getDefaultValue();
+        }
+
+        @Override
+        public TrueOrFalse getAutoIncrement() {
+            return column.getAutoIncrement();
+        }
+
+        @Override
+        public String getName() {
+            return column.getName();
+        }
+
+        @Override
+        public String getTableName() {
+            return column.getTableName();
+        }
+
+        @Override
+        public Relation getRelation() {
+            return formRelation;
+        }
     }
 
     static class DefaultFormRelationWrapper implements FormRelationWrapper {

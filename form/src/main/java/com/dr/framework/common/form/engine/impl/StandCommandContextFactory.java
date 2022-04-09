@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.util.Assert;
 
 /**
@@ -31,6 +32,8 @@ public class StandCommandContextFactory implements CommandContextFactory, Applic
 
     @Autowired
     private CommonMapper mapper;
+
+    @Lazy
     @Autowired
     private CommandExecutor executor;
 

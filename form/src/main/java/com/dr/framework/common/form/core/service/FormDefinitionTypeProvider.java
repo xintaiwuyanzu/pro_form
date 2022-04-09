@@ -1,6 +1,5 @@
 package com.dr.framework.common.form.core.service;
 
-import com.dr.framework.common.form.core.entity.FormField;
 import com.dr.framework.common.form.engine.TypeComponent;
 import com.dr.framework.common.form.engine.model.core.FieldModel;
 

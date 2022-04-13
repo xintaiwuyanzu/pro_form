@@ -234,6 +234,17 @@ public interface FormDefinitionService {
     }
 
     /**
+     * 批量添加字段
+     *
+     * @param formDefinitionId
+     * @param fieldModel
+     * @return
+     */
+    default Collection<? extends FieldModel> addFields(String formDefinitionId, Collection<FieldModel> fieldModel) {
+        return addFields(formDefinitionId, fieldModel, DEFAULT_TABLE_OR_FIELD_CREATE);
+    }
+
+    /**
      * 添加表单字段
      *
      * @param formDefinitionId 表单定义ID
@@ -246,6 +257,18 @@ public interface FormDefinitionService {
     }
 
     /**
+     * 批量添加字段
+     *
+     * @param formDefinitionId
+     * @param fieldModel
+     * @param updateTable
+     * @return
+     */
+    default Collection<? extends FieldModel> addFields(String formDefinitionId, Collection<FieldModel> fieldModel, boolean updateTable) {
+        return addFields(formDefinitionId, fieldModel, updateTable, updateTable);
+    }
+
+    /**
      * 添加表单字段
      *
      * @param formDefinitionId
@@ -254,7 +277,35 @@ public interface FormDefinitionService {
      * @param copyData
      * @return
      */
-    FieldModel addField(String formDefinitionId, FieldModel fieldModel, boolean updateTable, boolean copyData);
+    default FieldModel addField(String formDefinitionId, FieldModel fieldModel, boolean updateTable, boolean copyData) {
+        Collection<? extends FieldModel> fieldModels = addFields(formDefinitionId, Collections.singletonList(fieldModel), updateTable, copyData);
+        if (fieldModels.isEmpty()) {
+            return null;
+        } else {
+            return fieldModels.iterator().next();
+        }
+    }
+
+    /**
+     * 批量添加字段
+     *
+     * @param formDefinitionId
+     * @param fieldModel
+     * @param updateTable
+     * @param copyData
+     * @return
+     */
+    Collection<? extends FieldModel> addFields(String formDefinitionId, Collection<FieldModel> fieldModel, boolean updateTable, boolean copyData);
+
+    /**
+     * 批量添加字段，但是不更新版本号
+     *
+     * @param formDefinitionId
+     * @param fieldModel
+     * @param updateTable
+     * @return
+     */
+    Collection<? extends FieldModel> addFieldsWithOutUpdateVersion(String formDefinitionId, Collection<FieldModel> fieldModel, boolean updateTable);
 
     /**
      * 根据Id设置元数据
@@ -308,16 +359,76 @@ public interface FormDefinitionService {
      */
     MetaMap setMetaByFormCode(String formCode, Integer version, Map<String, String> metas);
 
+    /**
+     * 根据表单编码添加字段
+     *
+     * @param formCode
+     * @param fieldModel
+     * @return
+     */
     default FieldModel addFieldByFormCode(String formCode, FieldModel fieldModel) {
         return addFieldByFormCode(formCode, fieldModel, DEFAULT_TABLE_OR_FIELD_CREATE);
     }
 
+    /**
+     * 根据表单字段批量添加字段
+     *
+     * @param formCode
+     * @param fieldModel
+     * @return
+     */
+    default Collection<? extends FieldModel> addFieldsByFormCode(String formCode, Collection<FieldModel> fieldModel) {
+        return addFieldsByFormCode(formCode, fieldModel, DEFAULT_TABLE_OR_FIELD_CREATE);
+    }
+
+    /**
+     * 根据表单编码添加字段
+     *
+     * @param formCode
+     * @param fieldModel
+     * @param updateTable
+     * @return
+     */
     default FieldModel addFieldByFormCode(String formCode, FieldModel fieldModel, boolean updateTable) {
         return addFieldByFormCode(formCode, fieldModel, updateTable, updateTable);
     }
 
+    /**
+     * 根据表单编码批量添加字段
+     *
+     * @param formCode
+     * @param fieldModel
+     * @param updateTable
+     * @return
+     */
+    default Collection<? extends FieldModel> addFieldsByFormCode(String formCode, Collection<FieldModel> fieldModel, boolean updateTable) {
+        return addFieldsByFormCode(formCode, fieldModel, updateTable, updateTable);
+    }
+
+    /**
+     * 根据表单编码添加字段
+     *
+     * @param formCode
+     * @param fieldModel
+     * @param updateTable
+     * @param copyData
+     * @return
+     */
     default FieldModel addFieldByFormCode(String formCode, FieldModel fieldModel, boolean updateTable, boolean copyData) {
         return addFieldByFormCode(formCode, null, fieldModel, updateTable, copyData);
+    }
+
+    /**
+     * 根据表单编码批量添加字段
+     *
+     * @param formCode
+     * @param fieldModel
+     * @param updateTable
+     * @param copyData
+     * @return
+     */
+    default Collection<? extends FieldModel> addFieldsByFormCode(String formCode, Collection<FieldModel> fieldModel, boolean updateTable, boolean copyData) {
+        return addFieldsByFormCode(formCode, null, fieldModel, updateTable, copyData);
     }
 
     default FieldModel addFieldByFormCode(String formCode, Integer version, FieldModel fieldModel) {
@@ -338,7 +449,26 @@ public interface FormDefinitionService {
      * @param copyData    是否复制数据
      * @return
      */
-    FieldModel addFieldByFormCode(String formCode, Integer version, FieldModel fieldModel, boolean updateTable, boolean copyData);
+    default FieldModel addFieldByFormCode(String formCode, Integer version, FieldModel fieldModel, boolean updateTable, boolean copyData) {
+        Collection<? extends FieldModel> fieldModels = addFieldsByFormCode(formCode, version, Collections.singletonList(fieldModel), updateTable, copyData);
+        if (fieldModels.isEmpty()) {
+            return null;
+        } else {
+            return fieldModels.iterator().next();
+        }
+    }
+
+    /**
+     * 根据表单编码批量添加字段
+     *
+     * @param formCode
+     * @param version
+     * @param fieldModel
+     * @param updateTable
+     * @param copyData
+     * @return
+     */
+    Collection<? extends FieldModel> addFieldsByFormCode(String formCode, Integer version, Collection<? extends FieldModel> fieldModel, boolean updateTable, boolean copyData);
 
     /**
      * 添加表单字段
@@ -371,7 +501,25 @@ public interface FormDefinitionService {
      * @param updateTable      更新表结构
      * @return
      */
-    FieldModel changeField(String formDefinitionId, FieldModel fieldModel, boolean updateTable, boolean copyData);
+    default FieldModel changeField(String formDefinitionId, FieldModel fieldModel, boolean updateTable, boolean copyData) {
+        Collection<? extends FieldModel> fieldModels = changeFields(formDefinitionId, Collections.singletonList(fieldModel), updateTable, copyData);
+        if (fieldModels.isEmpty()) {
+            return null;
+        } else {
+            return fieldModels.iterator().next();
+        }
+    }
+
+    /**
+     * 批量更新字段，也可以有添加字段的场景
+     *
+     * @param formDefinitionId
+     * @param fieldModel
+     * @param updateTable
+     * @param copyData
+     * @return
+     */
+    Collection<? extends FieldModel> changeFields(String formDefinitionId, Collection<? extends FieldModel> fieldModel, boolean updateTable, boolean copyData);
 
     default FieldModel changeFieldByFormCode(String formCode, FieldModel fieldModel) {
         return changeFieldByFormCode(formCode, fieldModel, DEFAULT_TABLE_OR_FIELD_CREATE);
@@ -404,7 +552,26 @@ public interface FormDefinitionService {
      * @param copyData    是否复制数据
      * @return
      */
-    FieldModel changeFieldByFormCode(String formCode, Integer version, FieldModel fieldModel, boolean updateTable, boolean copyData);
+    default FieldModel changeFieldByFormCode(String formCode, Integer version, FieldModel fieldModel, boolean updateTable, boolean copyData) {
+        Collection<? extends FieldModel> fieldModels = changeFieldsByFormCode(formCode, version, Collections.singletonList(fieldModel), updateTable, copyData);
+        if (fieldModels.isEmpty()) {
+            return null;
+        } else {
+            return fieldModels.iterator().next();
+        }
+    }
+
+    /**
+     * 批量更新字段，也可以有添加字段的场景
+     *
+     * @param formCode
+     * @param version
+     * @param fieldModel
+     * @param updateTable
+     * @param copyData
+     * @return
+     */
+    Collection<? extends FieldModel> changeFieldsByFormCode(String formCode, Integer version, Collection<? extends FieldModel> fieldModel, boolean updateTable, boolean copyData);
 
     /**
      * 删除字段Id

@@ -43,7 +43,11 @@ public abstract class AbstractFormDefinitionCommand extends AbstractCommand {
     protected void saveFormDefinition(CommandContext context, FormDefinition formDefinition) {
         CommonMapper mapper = context.getMapper();
         //保存字段定义
-        formDefinition.getFields().forEach(mapper::insert);
+        for (FormField field : formDefinition.getFields()) {
+            field.setVersion(formDefinition.getVersion());
+            field.setFormDefinitionId(formDefinition.getId());
+            mapper.insert(field);
+        }
         //保存定义数据
         mapper.insert(formDefinition);
         //更新其他的默认表单为非默认

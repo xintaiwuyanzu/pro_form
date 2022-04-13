@@ -86,8 +86,15 @@ public class DefaultFormDefinitionServiceImpl extends AbstractFormService implem
     }
 
     @Override
-    public FieldModel addField(String formDefinitionId, FieldModel fieldModel, boolean updateTable, boolean copyData) {
-        return execute(new FormDefinitionFieldAddCommand(formDefinitionId, updateTable, copyData, fieldModel));
+    public Collection<? extends FieldModel> addFields(String formDefinitionId, Collection<FieldModel> fieldModel, boolean updateTable, boolean copyData) {
+        return execute(new FormDefinitionFieldAddCommand(formDefinitionId, updateTable, copyData, fieldModel.toArray(fieldModel.toArray(new FieldModel[0]))));
+    }
+
+    @Override
+    public Collection<? extends FieldModel> addFieldsWithOutUpdateVersion(String formDefinitionId, Collection<FieldModel> fieldModel, boolean updateTable) {
+        FormDefinitionFieldAddCommand command = new FormDefinitionFieldAddCommand(formDefinitionId, updateTable, false, fieldModel.toArray(fieldModel.toArray(new FieldModel[0])));
+        command.setUpdateVersion(false);
+        return execute(command);
     }
 
     @Override
@@ -101,18 +108,18 @@ public class DefaultFormDefinitionServiceImpl extends AbstractFormService implem
     }
 
     @Override
-    public FieldModel addFieldByFormCode(String formCode, Integer version, FieldModel fieldModel, boolean updateTable, boolean copyData) {
-        return execute(new FormDefinitionFieldAddCommand(formCode, version, updateTable, copyData, fieldModel));
+    public Collection<? extends FieldModel> addFieldsByFormCode(String formCode, Integer version, Collection<? extends FieldModel> fieldModel, boolean updateTable, boolean copyData) {
+        return execute(new FormDefinitionFieldAddCommand(formCode, version, updateTable, copyData, fieldModel.toArray(fieldModel.toArray(new FieldModel[0]))));
     }
 
     @Override
-    public FieldModel changeField(String formDefinitionId, FieldModel fieldModel, boolean updateTable, boolean copyData) {
-        return execute(new FormDefinitionFieldChangeCommand(formDefinitionId, updateTable, copyData, fieldModel));
+    public Collection<? extends FieldModel> changeFields(String formDefinitionId, Collection<? extends FieldModel> fieldModel, boolean updateTable, boolean copyData) {
+        return execute(new FormDefinitionFieldChangeCommand(formDefinitionId, updateTable, copyData, fieldModel.toArray(fieldModel.toArray(new FieldModel[0]))));
     }
 
     @Override
-    public FieldModel changeFieldByFormCode(String formCode, Integer version, FieldModel fieldModel, boolean updateTable, boolean copyData) {
-        return execute(new FormDefinitionFieldChangeCommand(formCode, version, updateTable, copyData, fieldModel));
+    public Collection<? extends FieldModel> changeFieldsByFormCode(String formCode, Integer version, Collection<? extends FieldModel> fieldModel, boolean updateTable, boolean copyData) {
+        return execute(new FormDefinitionFieldChangeCommand(formCode, version, updateTable, copyData, fieldModel.toArray(fieldModel.toArray(new FieldModel[0]))));
     }
 
     @Override

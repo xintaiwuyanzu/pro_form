@@ -3,63 +3,140 @@ package com.dr.framework.common.form.core.command;
 import com.dr.framework.common.dao.CommonMapper;
 import com.dr.framework.common.form.core.entity.FormDefinition;
 import com.dr.framework.common.form.core.entity.FormField;
-import com.dr.framework.common.form.engine.model.core.FieldModel;
+import com.dr.framework.common.form.engine.Command;
 import com.dr.framework.common.form.engine.CommandContext;
-import org.springframework.util.Assert;
+import com.dr.framework.common.form.engine.model.core.FieldModel;
+import com.dr.framework.common.form.util.CacheUtil;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 /**
+ * TODO 判断别名
  * 修改表单定义
  *
  * @author dr
  */
-public class FormDefinitionFieldChangeCommand extends FormDefinitionFieldAddCommand {
+public class FormDefinitionFieldChangeCommand extends AbstractFormDefinitionChangeCommand implements Command<Collection<FormField>> {
 
-    public FormDefinitionFieldChangeCommand(String formDefinitionId, boolean updateTable, boolean copyData, FieldModel fieldModel) {
+    public FormDefinitionFieldChangeCommand(String formDefinitionId, boolean updateTable, boolean copyData, FieldModel... fieldModel) {
         super(formDefinitionId, updateTable, copyData, fieldModel);
     }
 
-    public FormDefinitionFieldChangeCommand(String formCode, Integer version, boolean updateTable, boolean copyData, FieldModel fieldModel) {
+    public FormDefinitionFieldChangeCommand(String formCode, Integer version, boolean updateTable, boolean copyData, FieldModel... fieldModel) {
         super(formCode, version, updateTable, copyData, fieldModel);
     }
 
     @Override
-    public FormField execute(CommandContext context) {
-        //获取老的表单定义
-        FormDefinition old = getFormDefinition(context);
-        Assert.isTrue(getField() != null, "更新的字段不能为空");
-        FormField oldField = old.getFieldByCode(getField().getFieldCode());
+    protected Collection<FormField> executeWithUpdateVersion(CommandContext context, FormDefinition old) {
 
-        Assert.isTrue(oldField != null, "字段编码不能修改！");
-        //判断表结构是否有变化
-        if (isFieldChange(oldField, getField())) {
-            //有变化则创建新版本
-            return super.execute(context);
+        FormDefinition newFormDefinition = copyFormDefinition(context, old);
+
+        List<FormField> formFieldList = new ArrayList<>();
+        boolean change = false;
+
+        //转换添加的字段
+        for (FieldModel fieldModel : getField()) {
+            FormField oldField = old.getFieldByCode(fieldModel.getFieldCode());
+            if (oldField == null || isFieldChange(oldField, fieldModel)) {
+                //添加字段的场景
+                change = true;
+                //转换添加的字段
+                oldField = newField(fieldModel);
+            } else {
+                //值更新字段其他定义的情况
+                //复制新属性
+                oldField.setLabel(fieldModel.getLabel());
+                oldField.setDescription(fieldModel.getDescription());
+                oldField.setRemarks(fieldModel.getRemarks());
+
+                oldField.setFieldAliasStr(String.join(",", fieldModel.getFieldAlias()));
+                oldField.setLabel(fieldModel.getLabel());
+            }
+            //校验字段定义格式正确
+            validateFieldBaseInfo(newFormDefinition, oldField);
+            newFormDefinition.getFields().add(oldField);
+            formFieldList.add(oldField);
+        }
+        if (change) {
+            newFormDefinition.setDefault(true);
+            //保存字段定义到数据库
+            saveFormDefinition(context, newFormDefinition);
+            if (isUpdateTable()) {
+                //更新表结构了创建表结构
+                createTable(context, newFormDefinition);
+                if (isCopyData()) {
+                    copyTable(context, old, newFormDefinition);
+                }
+            }
         } else {
-            if (getField().getFieldAlias() != null && !getField().getFieldAlias().isEmpty()) {
-                //TODO 判断别名
-                Set<String> fieldNames = old.getFieldNames();
-                Set<String> fieldAlias = old.getFieldAlias();
-                getField().getFieldAlias()
-                        .forEach(s -> {
+            //只是其他非关键字段更新
+            CommonMapper commonMapper = context.getMapper();
+            for (FormField formField : formFieldList) {
+                FormField oldField = old.getFieldByCode(formField.getFieldCode());
+                formField.setId(oldField.getId());
+                commonMapper.updateIgnoreNullById(formField);
+            }
+            CacheUtil.removeFormDefinitionCache(context, old.getId());
+        }
+        return formFieldList;
+    }
 
-                        });
+    @Override
+    protected List<FormField> executeWithOutUpdateVersion(CommandContext context, FormDefinition old) {
+        //创建临时表单定义，不然会污染表单定义
+        FormDefinition newFormDefinition = copyFormDefinition(context, old);
+
+        List<FormField> formFieldList = new ArrayList<>();
+        boolean change = false;
+
+        //转换添加的字段
+        for (FieldModel fieldModel : getField()) {
+            FormField oldField = old.getFieldByCode(fieldModel.getFieldCode());
+            if (oldField == null || isFieldChange(oldField, fieldModel)) {
+                //添加字段的场景
+                change = true;
+                //转换添加的字段
+                FormField formField = newField(fieldModel);
+
+                //校验字段定义格式正确
+                validateFieldBaseInfo(newFormDefinition, fieldModel);
+
+                newFormDefinition.getFields().add(formField);
+                formFieldList.add(formField);
+            } else {
+                //值更新字段其他定义的情况
+                //复制新属性
+                oldField.setLabel(fieldModel.getLabel());
+                oldField.setDescription(fieldModel.getDescription());
+                oldField.setRemarks(fieldModel.getRemarks());
+
+                oldField.setFieldAliasStr(String.join(",", fieldModel.getFieldAlias()));
+                oldField.setLabel(fieldModel.getLabel());
+                formFieldList.add(oldField);
+                newFormDefinition.getFields().add(oldField);
             }
 
-            CommonMapper mapper = context.getMapper();
-            //复制新属性
-            oldField.setLabel(getField().getLabel());
-            oldField.setDescription(getField().getDescription());
-            oldField.setRemarks(getField().getRemarks());
 
-            oldField.setFieldAliasStr(String.join(",", getField().getFieldAlias()));
-            oldField.setLabel(getField().getLabel());
-
-            mapper.updateById(oldField);
         }
-        return oldField;
+        if (change) {
+            //保存字段定义到数据库
+            for (FormField formField : formFieldList) {
+
+
+            }
+        } else {
+            //只是其他非关键字段更新
+            CommonMapper commonMapper = context.getMapper();
+            for (FormField formField : formFieldList) {
+                commonMapper.updateIgnoreNullById(formField);
+            }
+        }
+        //清空缓存
+        CacheUtil.removeFormDefinitionCache(context, old.getId());
+        return formFieldList;
     }
 
     /**
@@ -72,9 +149,14 @@ public class FormDefinitionFieldChangeCommand extends FormDefinitionFieldAddComm
     @Override
     protected FormDefinition copyFormDefinition(CommandContext context, FormDefinition old) {
         FormDefinition formDefinition = super.copyFormDefinition(context, old);
-        FormField oldField = formDefinition.getFieldByCode(getField().getFieldCode());
-        formDefinition.getFields()
-                .removeIf(f -> f.getId().equalsIgnoreCase(oldField.getId()));
+        List<String> oldIds = new ArrayList<>();
+        for (FieldModel fieldModel : getField()) {
+            FormField oldField = formDefinition.getFieldByCode(fieldModel.getFieldCode());
+            if (oldField != null) {
+                oldIds.add(oldField.getId().toLowerCase());
+            }
+        }
+        formDefinition.getFields().removeIf(f -> oldIds.contains(f.getId().toLowerCase()));
         return formDefinition;
     }
 

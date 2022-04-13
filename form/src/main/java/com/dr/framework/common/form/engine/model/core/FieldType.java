@@ -11,9 +11,19 @@ public enum FieldType {
 
 
     /**
-     * 字符串，长度超过4000自动变成clob
+     * 字符串，长度过长会变成clob
+     * 数据库类型不同，转换逻辑不同，
+     * 具体转换逻辑参考
+     * {@link  com.dr.framework.core.orm.database.Dialect#getColumnType(Class, int, int)}
+     * <p>
+     * {@link  com.dr.framework.core.orm.database.Dialect#registerClass(Class[])}
+     * {@link  com.dr.framework.core.orm.database.Dialect#registerClass(int, Class[])}
      */
     STRING(Types.VARCHAR),
+    /**
+     * 手动声明clob类型
+     */
+    CLOB(Types.CLOB),
     /**
      * 无精度，没有小数点数字
      */

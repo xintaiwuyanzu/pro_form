@@ -53,6 +53,8 @@ public class FormDefinitionFieldAddCommand extends AbstractFormDefinitionChangeC
         //直接插入数据
         for (FormField formField : formFieldList) {
             CommonMapper mapper = context.getMapper();
+            formField.setVersion(newFormDefinition.getVersion());
+            formField.setFormDefinitionId(newFormDefinition.getId());
             mapper.insert(formField);
         }
         //数据库保存成功之后再保存到内存中

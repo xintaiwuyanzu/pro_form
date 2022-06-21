@@ -109,7 +109,6 @@ public class FormDefinitionInsertCommand extends AbstractFormDefinitionCommand i
 
     private FormField newField(FormDefinition formDefinition, FieldModel fieldModel) {
         FormField formField = newField(fieldModel);
-        formField.setFormDefinitionId(formDefinition.getId());
 
         if (StringUtils.isEmpty(fieldModel.getFieldCode())) {
             formField.setFieldCode(com.dr.framework.common.form.util.StringUtils.generateShortUuid());

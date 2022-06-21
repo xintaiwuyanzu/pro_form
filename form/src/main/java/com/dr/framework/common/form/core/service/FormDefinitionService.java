@@ -240,7 +240,7 @@ public interface FormDefinitionService {
      * @param fieldModel
      * @return
      */
-    default Collection<? extends FieldModel> addFields(String formDefinitionId, Collection<FieldModel> fieldModel) {
+    default Collection<? extends FieldModel> addFields(String formDefinitionId, Collection<? extends FieldModel> fieldModel) {
         return addFields(formDefinitionId, fieldModel, DEFAULT_TABLE_OR_FIELD_CREATE);
     }
 
@@ -264,7 +264,7 @@ public interface FormDefinitionService {
      * @param updateTable
      * @return
      */
-    default Collection<? extends FieldModel> addFields(String formDefinitionId, Collection<FieldModel> fieldModel, boolean updateTable) {
+    default Collection<? extends FieldModel> addFields(String formDefinitionId, Collection<? extends FieldModel> fieldModel, boolean updateTable) {
         return addFields(formDefinitionId, fieldModel, updateTable, updateTable);
     }
 
@@ -295,7 +295,7 @@ public interface FormDefinitionService {
      * @param copyData
      * @return
      */
-    Collection<? extends FieldModel> addFields(String formDefinitionId, Collection<FieldModel> fieldModel, boolean updateTable, boolean copyData);
+    Collection<? extends FieldModel> addFields(String formDefinitionId, Collection<? extends FieldModel> fieldModel, boolean updateTable, boolean copyData);
 
     /**
      * 批量添加字段，但是不更新版本号
@@ -305,7 +305,7 @@ public interface FormDefinitionService {
      * @param updateTable
      * @return
      */
-    Collection<? extends FieldModel> addFieldsWithOutUpdateVersion(String formDefinitionId, Collection<FieldModel> fieldModel, boolean updateTable);
+    Collection<? extends FieldModel> addFieldsWithOutUpdateVersion(String formDefinitionId, Collection<? extends FieldModel> fieldModel, boolean updateTable);
 
     /**
      * 根据Id设置元数据
@@ -377,7 +377,7 @@ public interface FormDefinitionService {
      * @param fieldModel
      * @return
      */
-    default Collection<? extends FieldModel> addFieldsByFormCode(String formCode, Collection<FieldModel> fieldModel) {
+    default Collection<? extends FieldModel> addFieldsByFormCode(String formCode, Collection<? extends FieldModel> fieldModel) {
         return addFieldsByFormCode(formCode, fieldModel, DEFAULT_TABLE_OR_FIELD_CREATE);
     }
 
@@ -401,7 +401,7 @@ public interface FormDefinitionService {
      * @param updateTable
      * @return
      */
-    default Collection<? extends FieldModel> addFieldsByFormCode(String formCode, Collection<FieldModel> fieldModel, boolean updateTable) {
+    default Collection<? extends FieldModel> addFieldsByFormCode(String formCode, Collection<? extends FieldModel> fieldModel, boolean updateTable) {
         return addFieldsByFormCode(formCode, fieldModel, updateTable, updateTable);
     }
 
@@ -427,7 +427,7 @@ public interface FormDefinitionService {
      * @param copyData
      * @return
      */
-    default Collection<? extends FieldModel> addFieldsByFormCode(String formCode, Collection<FieldModel> fieldModel, boolean updateTable, boolean copyData) {
+    default Collection<? extends FieldModel> addFieldsByFormCode(String formCode, Collection<? extends FieldModel> fieldModel, boolean updateTable, boolean copyData) {
         return addFieldsByFormCode(formCode, null, fieldModel, updateTable, copyData);
     }
 

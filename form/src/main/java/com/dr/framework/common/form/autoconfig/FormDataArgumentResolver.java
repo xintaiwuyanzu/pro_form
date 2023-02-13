@@ -31,6 +31,9 @@ public class FormDataArgumentResolver implements HandlerMethodArgumentResolver {
             logger.warn("表单请求路径{}的请求定义为空，可能造成逻辑问题", mavContainer.getViewName());
         }
         String formDataId = webRequest.getParameter(FormData.FORM_DATA_ID_KEY);
+        if (StringUtils.isEmpty(formDataId)) {
+            formDataId = webRequest.getParameter(FormData.FORM_DATA_ID_KEY.toUpperCase());
+        }
         FormData formData = new FormData(formDefinitionId, formDataId);
         Iterator<String> iterator = webRequest.getParameterNames();
         while (iterator.hasNext()) {

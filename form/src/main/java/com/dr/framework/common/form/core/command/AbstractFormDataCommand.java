@@ -87,11 +87,12 @@ public abstract class AbstractFormDataCommand<T> extends AbstractFormDefinitionI
 
 
     protected FormData mapFormData(FormRelationWrapper wrapper, HashMap<String, Serializable> data) {
+        String id = (String) data.get(FormData.FORM_DATA_ID_KEY);
+        if (StringUtils.isEmpty(id)) {
+            id = (String) data.get(FormData.FORM_DATA_ID_KEY);
+        }
         //TODO
-        FormData formData = new FormData(
-                wrapper.getForm().getId(),
-                (String) data.get(FormData.FORM_DATA_ID_KEY)
-        );
+        FormData formData = new FormData(wrapper.getForm().getId(), id);
         formData.putAll(data);
 
         FormModel formModel = wrapper.getForm();

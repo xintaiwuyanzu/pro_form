@@ -85,6 +85,11 @@ public class FormDefinition extends BaseStatusEntity<String> implements FormMode
             setDataObjectId(formModel.getDataObjectId());
             setVersion(formModel.getVersion());
             setBuildIn(formModel.isBuildIn());
+            setExt1(formModel.getExt1());
+            setExt2(formModel.getExt2());
+            setExt3(formModel.getExt3());
+            setExt4(formModel.getExt4());
+            setExt5(formModel.getExt5());
             if (formModel instanceof FormDefinition) {
                 setFormTable(((FormDefinition) formModel).getFormTable());
             }

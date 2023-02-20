@@ -47,6 +47,21 @@ public class FormDefinitionUpdateBaseInfoCommand extends AbstractFormDefinitionI
         if (formModel.getFormOrder() != null) {
             sqlQuery.set(FormDefinitionInfo.ORDERBY, formModel.getFormOrder());
         }
+        if (!StringUtils.isEmpty(formModel.getExt1())) {
+            sqlQuery.set(FormDefinitionInfo.EXT1, formModel.getExt1());
+        }
+        if (!StringUtils.isEmpty(formModel.getExt2())) {
+            sqlQuery.set(FormDefinitionInfo.EXT2, formModel.getExt2());
+        }
+        if (!StringUtils.isEmpty(formModel.getExt3())) {
+            sqlQuery.set(FormDefinitionInfo.EXT3, formModel.getExt3());
+        }
+        if (!StringUtils.isEmpty(formModel.getExt4())) {
+            sqlQuery.set(FormDefinitionInfo.EXT4, formModel.getExt4());
+        }
+        if (!StringUtils.isEmpty(formModel.getExt5())) {
+            sqlQuery.set(FormDefinitionInfo.EXT5, formModel.getExt5());
+        }
         context.getMapper().updateIgnoreNullByQuery(sqlQuery);
         //更新成功后更新缓存
         if (!StringUtils.isEmpty(formModel.getFormName())) {
@@ -63,6 +78,21 @@ public class FormDefinitionUpdateBaseInfoCommand extends AbstractFormDefinitionI
         }
         if (formModel.getFormOrder() != null) {
             formDefinition.setOrder(formModel.getFormOrder());
+        }
+        if (!StringUtils.isEmpty(formModel.getExt1())) {
+            formDefinition.setExt1(formModel.getExt1());
+        }
+        if (!StringUtils.isEmpty(formModel.getExt2())) {
+            formDefinition.setExt2(formModel.getExt2());
+        }
+        if (!StringUtils.isEmpty(formModel.getExt3())) {
+            formDefinition.setExt3(formModel.getExt3());
+        }
+        if (!StringUtils.isEmpty(formModel.getExt4())) {
+            formDefinition.setExt4(formModel.getExt4());
+        }
+        if (!StringUtils.isEmpty(formModel.getExt5())) {
+            formDefinition.setExt5(formModel.getExt5());
         }
         return formDefinition;
     }

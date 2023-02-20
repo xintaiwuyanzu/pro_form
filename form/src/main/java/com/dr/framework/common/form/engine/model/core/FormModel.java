@@ -63,6 +63,16 @@ public interface FormModel extends BaseModel, PermissionModel, MetaGetterModel {
      */
     boolean isBuildIn();
 
+    String getExt1();
+
+    String getExt2();
+
+    String getExt3();
+
+    String getExt4();
+
+    String getExt5();
+
     /**
      * 获取字段
      *

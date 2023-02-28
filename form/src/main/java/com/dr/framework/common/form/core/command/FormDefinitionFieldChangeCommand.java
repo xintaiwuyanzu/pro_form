@@ -53,7 +53,9 @@ public class FormDefinitionFieldChangeCommand extends AbstractFormDefinitionChan
                 oldField.setRemarks(fieldModel.getRemarks());
 
                 oldField.setFieldAliasStr(String.join(",", fieldModel.getFieldAlias()));
-                oldField.setLabel(fieldModel.getLabel());
+                oldField.setExt1(fieldModel.getExt1());
+                oldField.setExt2(fieldModel.getExt2());
+                oldField.setExt3(fieldModel.getExt3());
             }
             //校验字段定义格式正确
             validateFieldBaseInfo(newFormDefinition, oldField);
@@ -114,7 +116,9 @@ public class FormDefinitionFieldChangeCommand extends AbstractFormDefinitionChan
                 oldField.setRemarks(fieldModel.getRemarks());
 
                 oldField.setFieldAliasStr(String.join(",", fieldModel.getFieldAlias()));
-                oldField.setLabel(fieldModel.getLabel());
+                oldField.setExt1(fieldModel.getExt1());
+                oldField.setExt2(fieldModel.getExt2());
+                oldField.setExt3(fieldModel.getExt3());
                 formFieldList.add(oldField);
                 newFormDefinition.getFields().add(oldField);
             }

@@ -70,4 +70,31 @@ public interface FieldModel extends BaseModel, FormRelationModel, MetaGetterMode
      * @return
      */
     String getLabel();
+
+    /**
+     * 备用字段1
+     *
+     * @return
+     */
+    default String getExt1() {
+        return "";
+    }
+
+    /**
+     * 备用字段2
+     *
+     * @return
+     */
+    default String getExt2() {
+        return "";
+    }
+
+    /**
+     * 备用字段3
+     *
+     * @return
+     */
+    default String getExt3() {
+        return "";
+    }
 }

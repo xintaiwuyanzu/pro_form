@@ -53,6 +53,15 @@ public class FormField extends BaseStatusEntity<String> implements FieldModel {
     @Column(name = "version", comment = "版本号")
     private Integer version;
 
+    @Column(name = "ext1", comment = "备用字段1")
+    private String ext1;
+
+    @Column(name = "ext2", comment = "备用字段2")
+    private String ext2;
+
+    @Column(name = "ext3", comment = "备用字段3")
+    private String ext3;
+
     private MetaMap meta;
 
     public FormField() {
@@ -79,6 +88,9 @@ public class FormField extends BaseStatusEntity<String> implements FieldModel {
             setFieldTypeStr(fieldModel.getFieldType().name());
             setFieldLength(fieldModel.getFieldLength());
             setFieldScale(fieldModel.getFieldScale());
+            setExt1(fieldModel.getExt1());
+            setExt2(fieldModel.getExt2());
+            setExt3(fieldModel.getExt3());
         }
     }
 
@@ -222,5 +234,29 @@ public class FormField extends BaseStatusEntity<String> implements FieldModel {
 
     public void setFormDefinitionCode(String formDefinitionCode) {
         this.formDefinitionCode = formDefinitionCode;
+    }
+
+    public String getExt1() {
+        return ext1;
+    }
+
+    public void setExt1(String ext1) {
+        this.ext1 = ext1;
+    }
+
+    public String getExt2() {
+        return ext2;
+    }
+
+    public void setExt2(String ext2) {
+        this.ext2 = ext2;
+    }
+
+    public String getExt3() {
+        return ext3;
+    }
+
+    public void setExt3(String ext3) {
+        this.ext3 = ext3;
     }
 }

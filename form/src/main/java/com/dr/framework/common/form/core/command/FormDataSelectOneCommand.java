@@ -48,7 +48,9 @@ public class FormDataSelectOneCommand extends AbstractFormDataCommand<FormData> 
                                         .equal(wrapper.idColumn(), formDataId)
                                         .setReturnClass(HashMap.class)
                         );
-        return mapFormData(wrapper, data);
+        if (null == data) {
+            return null;
+        } else return mapFormData(wrapper, data);
     }
 
     public String getFormDataId() {

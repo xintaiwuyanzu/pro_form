@@ -43,13 +43,15 @@ public class FormDefinitionTest {
 
     FormDefinition doCreateFormDefinition(boolean createTable) {
         FormDefinition formDefinition = new FormDefinition();
-        formDefinition.setFormCode("ee");
+        formDefinition.setFormCode("cesg");
         formDefinition.setFormName("文书档案");
         formDefinition.setFormType("gongwen");
+        formDefinition.setExt1("wewweerwerwer");
         Collection<FieldModel> list = new ArrayList<>();
         FormField formField = new FormField();
         formField.setFieldCode("quanzong");
         formField.setLabel("全宗");
+        formField.setExt1("扩展1");
         formField.setFieldTypeStrEnum(FieldType.STRING);
         formField.setFieldLength(200);
 //        formField.setFieldAliasStr("quanzong");
@@ -63,7 +65,7 @@ public class FormDefinitionTest {
         formField1.setOrder(2);
 //        formField1.setFieldAliasStr("niandu");
         list.add(formField1);
-        FormDefinition form = (FormDefinition) formDefinitionService.addFormDefinition(formDefinition, null, true);
+        FormDefinition form = (FormDefinition) formDefinitionService.addFormDefinition(formDefinition, list, true);
 
         Assert.assertTrue("表单定义创建失败！", form != null);
         return form;

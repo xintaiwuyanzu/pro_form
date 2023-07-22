@@ -38,7 +38,7 @@ public class FormDataUpdateCommand extends FormDataInsertCommand {
                             Column column = (Column) c;
                             String name = column.getName();
                             if (formData.containsKey(name)) {
-                                sqlQuery.set(column, (Serializable) formData.get(name));
+                                sqlQuery.set(column, (Serializable) formData.get(null == column.getAlias() ? name : column.getAlias().replace("\"", "")));
                             }
                         });
                 if (ignoreNull) {
